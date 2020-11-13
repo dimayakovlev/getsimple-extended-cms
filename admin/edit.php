@@ -39,6 +39,7 @@ $title = '';
 $url = '';
 $metak = '';
 $metad = '';
+$creDate = '';
 
 if ($id){
 	// get saved page data
@@ -63,6 +64,11 @@ if ($id){
 	$menuStatus = $data_edit->menuStatus;
 	$menuOrder = $data_edit->menuOrder;
 	$buttonname = i18n_r('BTN_SAVEUPDATES');
+  if (!$data_edit->creDate) {
+    $creDate = $pubDate;
+  } else {
+    $creDate = $data_edit->creDate;
+  }
 } else {
 	// prefill fields is provided
 	$title      =  isset( $_GET['title']      ) ? var_out( $_GET['title']      ) : '';
@@ -141,6 +147,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8" >
 			<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce("edit", "edit.php"); ?>" />			
 			<input id="author" name="post-author" type="hidden" value="<?php echo $USR; ?>" />	
+			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>" />
 
 			<!-- page title toggle screen -->
 			<p id="edit_window">
