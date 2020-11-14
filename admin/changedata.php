@@ -181,6 +181,9 @@ if (isset($_POST['submitted'])) {
 		
 		$note = $xml->addChild('author');
 		$note->addCData($author);
+    
+    $note = $xml->addChild('lastAuthor');
+    $note->addCData($USR);
 
 		exec_action('changedata-save');
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true' && $autoSaveDraft == true) {

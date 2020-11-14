@@ -34,7 +34,8 @@ $menuStatus = '';
 $private = ''; 
 $menu = ''; 
 $content = '';
-$author = '';
+$author = $USR;
+$lastAuthor = '';
 $title = '';
 $url = '';
 $metak = '';
@@ -68,6 +69,11 @@ if ($id){
     $creDate = $pubDate;
   } else {
     $creDate = $data_edit->creDate;
+  }
+  if ($data_edit->lastAuthor) {
+    $lastAuthor = $data_edit->lastAuthor;
+  } else {
+    $lastAuthor = $author;
   }
 } else {
 	// prefill fields is provided
@@ -146,7 +152,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			
 		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8" >
 			<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce("edit", "edit.php"); ?>" />			
-			<input id="author" name="post-author" type="hidden" value="<?php echo $USR; ?>" />	
+			<input id="author" name="post-author" type="hidden" value="<?php echo $author; ?>" />
 			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>" />
 
 			<!-- page title toggle screen -->
@@ -296,7 +302,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<?php if($url != '') { ?>
 				<p class="backuplink" ><?php 
 					if (isset($pubDate)) { 
-						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.$author.'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
+						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.$lastAuthor.'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
 					}
 					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {	
 						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank" >'.i18n_r('BACKUP_AVAILABLE').'</a>';
