@@ -6,3 +6,6 @@
     * Added `lastAuthor` page field to store author of last page editing
     * Added `SITEDESC` website field to store website description
     * Added `get_site_description()` theme function to get value from `SITEDESC` website field
+
+1. [](#improved)
+    * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

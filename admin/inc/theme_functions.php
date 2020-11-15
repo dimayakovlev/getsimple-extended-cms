@@ -573,15 +573,16 @@ function get_component($id) {
  * Get Main Navigation
  *
  * This will return unordered list of main navigation
- * This function uses the menu opitions listed within the 'Edit Page' control panel screen
+ * This function uses the menu options listed within the 'Edit Page' control panel screen
  *
  * @since 1.0
  * @uses GSDATAOTHERPATH
  * @uses getXML
  * @uses subval_sort
  * @uses find_url
- * @uses strip_quotes 
- * @uses exec_filter 
+ * @uses strip_quotes
+ * @uses exec_filter
+ * @modified Dmitry Yakovlev 15/11/2020
  *
  * @param string $currentpage This is the ID of the current page the visitor is on
  * @param string $classPrefix Prefix that gets added to the parent and slug classnames
@@ -603,10 +604,14 @@ function get_navigation($currentpage = "",$classPrefix = "") {
 			if ($page['menuStatus'] == 'Y') { 
 				$parentClass = !empty($page['parent']) ? $classPrefix.$page['parent'] . " " : "";
 				$classes = trim( $parentClass.$classPrefix.$url_nav);
-				if ($currentpage == $url_nav) $classes .= " current active";
+        $ariaRole = '';
+				if ($currentpage == $url_nav) {
+          $classes .= " current active";
+          $ariaRole = ' aria-current="page"';
+        }
 				if ($page['menu'] == '') { $page['menu'] = $page['title']; }
 				if ($page['title'] == '') { $page['title'] = $page['menu']; }
-				$menu .= '<li class="'. $classes .'"><a href="'. find_url($page['url'],$page['parent']) . '" title="'. encode_quotes(cl($page['title'])) .'">'.strip_decode($page['menu']).'</a></li>'."\n";
+				$menu .= '<li class="'. $classes .'"><a'.$ariaRole.' href="'. find_url($page['url'],$page['parent']) . '" title="'. encode_quotes(cl($page['title'])) .'">'.strip_decode($page['menu']).'</a></li>'."\n";
 			}
 		}
 		
