@@ -4,3 +4,5 @@
 1. [](#new)
     * Added `creDate` page field to store date of page creation
     * Added `lastAuthor` page field to store author of last page editing
+    * Added `SITEDESC` website field to store website description
+    * Added `get_site_description()` theme function to get value from `SITEDESC` website field

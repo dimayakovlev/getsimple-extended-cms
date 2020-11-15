@@ -1167,8 +1167,13 @@ input.submit:focus, input.submit:hover, .button:hover {
 	width: 92%;
 }	
 
-.widesec input.text, .rightsec select.text, .leftsec select.text {
+.widesec input.text, .widesec textarea, .rightsec select.text, .leftsec select.text {
 	width: 96%;
+}
+
+.widesec textarea {
+	height: 62px;
+	resize: vertical;
 }
 
 /* edit css */

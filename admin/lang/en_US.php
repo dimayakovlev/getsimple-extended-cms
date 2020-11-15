@@ -37,6 +37,7 @@ $i18n = array(
 "NOTE_PASSWORD"			=>	"and your password is",
 "INSTALLATION"			=>	"Installation",
 "LABEL_WEBSITE"			=>	"Website Name",
+"LABEL_WEBSITEDESC"	=>	"Website Description",
 "LABEL_BASEURL"			=>	"Website URL",
 "LABEL_SUGGESTION"	=>	"Our suggestion is",
 "LABEL_USERNAME"		=>	"Username",

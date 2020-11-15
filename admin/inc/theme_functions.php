@@ -384,6 +384,28 @@ function get_site_name($echo=true) {
 }
 
 /**
+ * Get Site's Description
+ *
+ * This will return the value set in the control panel
+ *
+ * @since 3.3.17
+ * @uses $SITEDESC
+ *
+ * @param bool $echo Optional, default is true. False will 'return' value
+ * @return string Echos or returns based on param $echo
+ */
+function get_site_description($echo=true) {
+	global $SITEDESC;
+	$myVar = cl($SITEDESC);
+	
+	if ($echo) {
+		echo $myVar;
+	} else {
+		return $myVar;
+	}
+}
+
+/**
  * Get Administrator's Email Address
  * 
  * This will return the value set in the control panel

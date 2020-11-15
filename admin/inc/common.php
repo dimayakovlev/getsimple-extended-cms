@@ -165,6 +165,7 @@ $thisfilew = GSDATAOTHERPATH .'website.xml';
 if (file_exists($thisfilew)) {
 	$dataw = getXML($thisfilew);
 	$SITENAME = stripslashes($dataw->SITENAME);
+  $SITEDESC = stripslashes($dataw->SITEDESC);
 	$SITEURL = $dataw->SITEURL;
 	$TEMPLATE = $dataw->TEMPLATE;
 	$PRETTYURLS = $dataw->PRETTYURLS;
@@ -258,7 +259,7 @@ if(isset($TIMEZONE) && function_exists('date_default_timezone_set') && ($TIMEZON
 /**
  * Variable Globalization
  */
-global $SITENAME, $SITEURL, $TEMPLATE, $TIMEZONE, $LANG, $SALT, $i18n, $USR, $PERMALINK, $GSADMIN, $components, $EDTOOL, $EDOPTIONS, $EDLANG, $EDHEIGHT;
+global $SITENAME, $SITEDESC, $SITEURL, $TEMPLATE, $TIMEZONE, $LANG, $SALT, $i18n, $USR, $PERMALINK, $GSADMIN, $components, $EDTOOL, $EDOPTIONS, $EDLANG, $EDHEIGHT;
 
 /** grab authorization and security data */
 if (defined('GSUSECUSTOMSALT')) {
