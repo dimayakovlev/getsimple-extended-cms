@@ -185,6 +185,7 @@ if (isset($_COOKIE['GS_ADMIN_USERNAME'])) {
 		$HTMLEDITOR = $datau->HTMLEDITOR;
 		$TIMEZONE = $datau->TIMEZONE;
 		$LANG = $datau->LANG;
+    	$USRDESC = stripslashes($datau->DESC);
 	} else {
 		$USR = null;
 	}
@@ -259,7 +260,7 @@ if(isset($TIMEZONE) && function_exists('date_default_timezone_set') && ($TIMEZON
 /**
  * Variable Globalization
  */
-global $SITENAME, $SITEDESC, $SITEURL, $TEMPLATE, $TIMEZONE, $LANG, $SALT, $i18n, $USR, $PERMALINK, $GSADMIN, $components, $EDTOOL, $EDOPTIONS, $EDLANG, $EDHEIGHT;
+global $SITENAME, $SITEDESC, $SITEURL, $TEMPLATE, $TIMEZONE, $LANG, $SALT, $i18n, $USR, $USRDESC, $PERMALINK, $GSADMIN, $components, $EDTOOL, $EDOPTIONS, $EDLANG, $EDHEIGHT;
 
 /** grab authorization and security data */
 if (defined('GSUSECUSTOMSALT')) {

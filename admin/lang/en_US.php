@@ -232,6 +232,8 @@ $i18n = array(
 "FLUSHCACHE"        =>  "Flush All Caches",
 "FLUSHCACHE-SUCCESS"=>  "Caches Flushed Successfully",
 "DISPLAY_NAME"			=>  "A name for public display that is not your username",
+"LABEL_USERDESC"		=>  "Description",
+"DISPLAY_USERDESC"	=>  "A personal information for public display",
 
 /* 
  * For: health-check.php

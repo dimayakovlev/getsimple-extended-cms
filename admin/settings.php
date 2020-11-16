@@ -22,6 +22,7 @@ $USR 			= stripslashes($data->USR);
 $PASSWD 	= $data->PWD;
 $EMAIL 		= $data->EMAIL;
 $NAME			= $data->NAME;
+$USRDESC	=$data->DESC;
 
 $lang_array = getFiles(GSLANGPATH);
 
@@ -97,6 +98,9 @@ if(isset($_POST['submitted'])) {
 	if(isset($_POST['user'])) { 
 		$USR = strtolower($_POST['user']); 
 	}
+	if(isset($_POST['userdesc'])) { 
+		$USRDESC = htmlentities($_POST['userdesc'], ENT_QUOTES, 'UTF-8');
+	}
  	if(isset($_POST['name'])) { 
 		$NAME = $_POST['name']; 
 	} 
@@ -137,6 +141,7 @@ if(isset($_POST['submitted'])) {
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');		
 		$xml->addChild('USR', $USR);
 		$xml->addChild('NAME', var_out($NAME));
+		$xml->addChild('DESC', var_out($USRDESC));
 		$xml->addChild('PWD', $PASSWD);
 		$xml->addChild('EMAIL', var_out($EMAIL,'email'));
 		$xml->addChild('HTMLEDITOR', $HTMLEDITOR);
@@ -252,10 +257,17 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		<div class="clear"></div>
 		<div class="leftsec">
 			<p><label for="name" ><?php i18n('LABEL_DISPNAME');?>:</label>
-			<span style="margin:0px 0 5px 0;font-size:12px;color:#999;" ><?php i18n('DISPLAY_NAME');?></span>			
+			<span style="margin:0px 0 5px 0;font-size:12px;color:#999;"><?php i18n('DISPLAY_NAME');?></span>			
 			<input class="text" id="name" name="name" type="text" value="<?php if(isset($NAME1)) { echo $NAME1; } else { echo var_out($NAME); } ?>" /></p>
 		</div>		
-		<div class="clear"></div>		
+		<div class="clear"></div>
+		<div class="widesec">
+			<p>
+				<label for="userdesc"><?php i18n('LABEL_USERDESC'); ?>:</label>
+				<span style="margin:0px 0 5px 0;font-size:12px;color:#999;"><?php i18n('DISPLAY_USERDESC'); ?></span>
+				<textarea class="text" id="userdesc" name="userdesc"><?php echo $USRDESC; ?></textarea>
+			</p>
+		</div>
 		<div class="leftsec">
 			<p><label for="timezone" ><?php i18n('LOCAL_TIMEZONE');?>:</label>
 			<!-- <?php if( (isset($_POST['timezone'])) ) { $TIMEZONE = $_POST['timezone']; } ?> -->
