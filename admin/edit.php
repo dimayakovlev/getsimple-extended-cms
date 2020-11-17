@@ -301,8 +301,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			
 			<?php if($url != '') { ?>
 				<p class="backuplink" ><?php 
-					if (isset($pubDate)) { 
-						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.$lastAuthor.'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
+					if (isset($pubDate)) {
+						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.($lastAuthor ? $lastAuthor : '-').'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
 					}
 					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {	
 						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank" >'.i18n_r('BACKUP_AVAILABLE').'</a>';
