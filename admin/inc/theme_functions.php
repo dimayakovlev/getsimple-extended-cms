@@ -53,6 +53,28 @@ function get_page_excerpt($len=200, $striphtml=true, $ellipsis = '...') {
 	echo getExcerpt($content_e, $len, $striphtml, $ellipsis);
 }
 
+/**
+ * Get Page Field
+ *
+ * This will return requested field value of a particular page
+ *
+ * @since 3.3.17
+ * @uses $data_index
+ * @uses strip_decode
+ *
+ * @param string $field Page field name
+ * @param bool $echo Optional, default is true. False will 'return' value
+ * @return string Echos or returns based on param $echo
+ */
+function get_page_field($field, $echo = true) {
+	global $data_index;
+	$myVar = strip_decode($data_index->$field);
+	if ($echo) {
+	  echo $myVar;
+	} else {
+	  return $myVar;
+	}
+}
 
 /**
  * Get Page Meta Keywords

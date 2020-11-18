@@ -8,6 +8,7 @@
     * Added `get_site_description()` theme function to get value from `SITEDESC` website field
     * Added `DESC` user field to store user description (e.g. user biography) for public display
     * Added code highlight to components
+    * Added `get_page_field()` theme function to get value from requested field for current page
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
