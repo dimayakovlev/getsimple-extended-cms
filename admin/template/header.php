@@ -36,6 +36,13 @@ if(get_filename_id()!='index') exec_action('admin-pre-header');
 		if($GSSTYLE_sbfixed) queue_script('scrolltofixed', GSBACK);
 		get_scripts_backend();
 	?>
+	<script type="text/javascript">
+		// init gs namespace and i18n
+		var GS = {};
+		GS.i18n = new Array();
+		GS.i18n['PLUGIN_UPDATED'] = '<?php i18n("PLUGIN_UPDATED"); ?>';
+		GS.i18n['ERROR'] = '<?php i18n("ERROR"); ?>';
+	</script>
 	<script type="text/javascript" src="template/js/jquery.getsimple.js?v=<?php echo GSVERSION; ?>"></script>
 
 	<!--[if lt IE 9]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js" ></script><![endif]-->
@@ -47,7 +54,7 @@ if(get_filename_id()!='index') exec_action('admin-pre-header');
 	<link rel="stylesheet" type="text/css" href="template/js/jcrop/jquery.Jcrop.css" media="screen" />
 	<?php } ?>
 
-    <?php 
+  <?php 
 	# Plugin hook to allow insertion of stuff into the header
 	if(!isAuthPage()) exec_action('header'); 
 	
@@ -55,7 +62,7 @@ if(get_filename_id()!='index') exec_action('admin-pre-header');
 		return !isAuthPage() && !getDef('GSNOVERCHECK');
 	}
 
-    if( doVerCheck() ) { ?>
+  if( doVerCheck() ) { ?>
 	<script type="text/javascript">		
 		// check to see if core update is needed
 		jQuery(document).ready(function() { 
@@ -77,18 +84,9 @@ if(get_filename_id()!='index') exec_action('admin-pre-header');
 		});
 	</script>
 	<?php } ?>
-
-	<script type="text/javascript">		
-		// init gs namespace and i18n
-		var GS = {};
-		GS.i18n = new Array();
-		GS.i18n['PLUGIN_UPDATED'] = '<?php i18n("PLUGIN_UPDATED"); ?>';
-		GS.i18n['ERROR'] = '<?php i18n("ERROR"); ?>';
-	</script>
-
 </head>
 
-<body <?php filename_id(); echo ' '.$bodyclass; ?> >	
+<body <?php filename_id(); echo ' '.$bodyclass; ?> >
 	<div class="header" id="header" >
 		<div class="wrapper clearfix">
  <?php exec_action('header-body'); ?>
