@@ -124,6 +124,34 @@ jQuery(document).ready(function () {
 			loadingAjaxIndicator.fadeOut(500);
 		});
 	}
+  /* Add CodeMirror to textarea */
+  function addCodeMirror(textarea, mode) {
+    if (mode === undefined) {
+      mode = 'application/x-httpd-php';
+    }
+    var cm = CodeMirror.fromTextArea(textarea, {
+      autoRefresh: true,
+      lineNumbers: true,
+      matchBrackets: true,
+      indentUnit: 4,
+      indentWithTabs: true,
+      enterMode: "keep",
+      mode: mode,
+      tabMode: "shift",
+      theme:'default',
+      onCursorActivity: function() {
+        cm.setLineClass(cm.getCursor().line, "activeline");
+      }
+    });
+    return cm;
+  }
+  
+  // Add CodeMirror to all textareas on page except textareas with nohighlight class
+  if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
+    $('textarea').not('.nohighlight').each(function() {
+      addCodeMirror(this, GS.CodeMirror['mode']);
+    })
+  }
  
 	//upload.php
 	attachFilterChangeEvent();
@@ -189,13 +217,17 @@ jQuery(document).ready(function () {
 		$e.preventDefault();
 		loadingAjaxIndicator.show();
 		var id = $("#id").val();
-		$("#divTxt").prepend('<div style="display:none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>Title: </b><input type="text" class="text newtitle" name="title[]" value="" /></td><td class="delete"><a href="#" title="Delete Component:?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr></table><textarea name="val[]"></textarea><input type="hidden" name="slug[]" value="" /><input type="hidden" name="id[]" value="' + id + '" /><div>');
+    var component = $('<div style="display:none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>Title: </b><input type="text" class="text newtitle" name="title[]" value="" /></td><td class="delete"><a href="#" title="Delete Component:?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr></table><textarea name="val[]"></textarea><input type="hidden" name="slug[]" value="" /><input type="hidden" name="id[]" value="' + id + '" /><div>')
+		$("#divTxt").prepend(component);
 		$("#section-" + id).slideToggle('fast');
 		id = (id - 1) + 2;
 		$("#id").val(id);
 		loadingAjaxIndicator.fadeOut(500);
 		$('#submit_line').fadeIn();
-		$("#divTxt").find('input').get(0).focus();		
+		$("#divTxt").find('input').get(0).focus();
+    if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
+      addCodeMirror(component.find('textarea')[0], GS.CodeMirror['mode']);
+    }
 	});
 	$('.delcomponent').live("click", function ($e) {
 		$e.preventDefault();
