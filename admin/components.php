@@ -140,6 +140,12 @@ if (!getDef('GSNOHIGHLIGHT',true)){
   add_action('header', 'set_gs_codemirror');
 }
 
+function set_gs_i18n() {
+	echo "<script>GS.i18n['TITLE'] = '".i18n_r('TITLE')."'; GS.i18n['DELETE_COMPONENT'] = '".i18n_r('DELETE_COMPONENT')."';</script>".PHP_EOL;
+}
+  
+add_action('header', 'set_gs_i18n');
+
 get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS')); 
 
 ?>

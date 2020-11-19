@@ -587,7 +587,11 @@ $i18n = array(
 /*
  * Additions for 3.1
  */
-"DEBUG_CONSOLE" => 'Debug Console'
+"DEBUG_CONSOLE" => 'Debug Console',
+
+# new to 3.3.17
+
+'TITLE' => 'Title', // common string, components.php
 
 );
 
