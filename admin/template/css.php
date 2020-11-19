@@ -1702,6 +1702,18 @@ table.simple td.title {
 	cursor: pointer;
 }
 
+/* image.php */
+
+#img-info {
+  width: 50%;
+}
+#img-code-select, #jcrop_open .instruction {
+  color:#666;
+  font-size:11px;
+}
+#img-code-select {
+  margin:-10px 0 0 0;
+}
 
 /* Image Editor Styles */
 textarea.copykit {

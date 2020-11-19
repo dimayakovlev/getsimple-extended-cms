@@ -69,17 +69,19 @@ include('template/include-nav.php'); ?>
 			<?php echo '<p><a href="'.$src_folder . $subPath .rawurlencode($src).'" rel="facybox_i" >'.i18n_r('ORIGINAL_IMG').'</a> <code>'.$imgwidth.'x'.$imgheight .'</code>'. $thumb_exists .'</p>'; ?>
 
 			<form>
-				<select class="text" id="img-info" style="width:50%" >
-					<option selected value="code-img-link" ><?php i18n('LINK_ORIG_IMG');?></option>
-					<option value="code-img-html" ><?php i18n('HTML_ORIG_IMG');?></option>
-					<?php if(!empty($thumb_exists)) { ?>
-					<option value="code-thumb-html" ><?php i18n('HTML_THUMBNAIL');?></option>
-					<option value="code-thumb-link" ><?php i18n('LINK_THUMBNAIL');?></option>
-					<option value="code-imgthumb-html" ><?php i18n('HTML_THUMB_ORIG');?></option>
-					<?php } ?>
-				</select>
-				<textarea class="copykit" ><?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?></textarea>
-				<p style="color:#666;font-size:11px;margin:-10px 0 0 0"><a href="#" class="select-all" ><?php i18n('CLIPBOARD_INSTR');?></a></p>
+        <p>
+          <select class="text" id="img-info">
+            <option selected value="code-img-link" ><?php i18n('LINK_ORIG_IMG');?></option>
+            <option value="code-img-html" ><?php i18n('HTML_ORIG_IMG');?></option>
+            <?php if(!empty($thumb_exists)) { ?>
+            <option value="code-thumb-html" ><?php i18n('HTML_THUMBNAIL');?></option>
+            <option value="code-thumb-link" ><?php i18n('LINK_THUMBNAIL');?></option>
+            <option value="code-imgthumb-html" ><?php i18n('HTML_THUMB_ORIG');?></option>
+            <?php } ?>
+          </select>
+        </p>
+				<textarea class="copykit text" readonly><?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?></textarea>
+				<p id="img-code-select"><a href="#" class="select-all" ><?php i18n('CLIPBOARD_INSTR');?></a></p>
 			</form>
 			<div class="toggle">
 				<p id="code-img-html">&lt;img src="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" class="gs_image" height="<?php echo $imgheight; ?>" width="<?php echo $imgwidth; ?>" alt=""></p>
@@ -104,7 +106,7 @@ if($jcrop){ ?>
 	      <input type="hidden" id="y" name="y" />
 	      <input type="hidden" id="w" name="w" />
 	      <input type="hidden" id="h" name="h" />
-	      <input type="submit" class="submit" value="<?php i18n('CREATE_THUMBNAIL');?>" /> &nbsp; <span style="color:#666;font-size:11px;"><?php i18n('CROP_INSTR_NEW');?></span>
+	      <input type="submit" class="submit" value="<?php i18n('CREATE_THUMBNAIL');?>" /> &nbsp; <span class="instruction"><?php i18n('CROP_INSTR_NEW');?></span>
 
 	    </form>
 	</div>
