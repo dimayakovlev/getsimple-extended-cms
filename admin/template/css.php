@@ -835,8 +835,9 @@ form textarea {
 	font-size: 12px;
 	border-radius: 2px;
 	tab-size:4; 
-	 -moz-tab-size:4; 
-	 -o-tab-size:4; 
+	-moz-tab-size:4; 
+	-o-tab-size:4; 
+	resize: vertical;
 }
 
 form input.text:disabled,
@@ -1173,7 +1174,6 @@ input.submit:focus, input.submit:hover, .button:hover {
 
 .widesec textarea {
 	height: 62px;
-	resize: vertical;
 }
 
 /* edit css */
