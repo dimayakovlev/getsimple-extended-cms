@@ -102,7 +102,7 @@ if (count($componentsec) != 0) {
 		$table .= '<div class="compdiv" id="section-'.$count.'"><table class="comptable" ><tr><td><b title="'.i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">'. stripslashes($component->title) .'</b></td>';
 		$table .= '<td style="text-align:right;" ><code>&lt;?php get_component(<span class="compslugcode">\''.$component->slug.'\'</span>); ?&gt;</code></td><td class="delete" >';
 		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT').': '. cl($component->title).'?" class="delcomponent" rel="'.$count.'" >&times;</a></td></tr></table>';
-		$table .= '<textarea name="val[]">'. stripslashes($component->value) .'</textarea>';
+		$table .= '<textarea class="text" name="val[]">'. stripslashes($component->value) .'</textarea>';
 		$table .= '<input type="hidden" class="compslug" name="slug[]" value="'. $component->slug .'" />';
 		$table .= '<input type="hidden" class="comptitle" name="title[]" value="'. stripslashes($component->title) .'" />';
 		$table .= '<input type="hidden" name="id[]" value="'. $count .'" />';

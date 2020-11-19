@@ -12,3 +12,4 @@
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
+    * Minor GUI elements changes
