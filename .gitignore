@@ -2,6 +2,7 @@
 *.project
 *.settings
 *.sublime-*
+.vscode
 lib/*
 
 thumbs.db
