@@ -131,7 +131,8 @@ jQuery(document).ready(function () {
     }
     var cm = CodeMirror.fromTextArea(textarea, {
       autoRefresh: true,
-      lineNumbers: true,
+			lineNumbers: true,
+			lineWrapping: true,
       matchBrackets: true,
       indentUnit: 4,
       indentWithTabs: true,
