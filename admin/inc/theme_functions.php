@@ -10,6 +10,26 @@
  * @subpackage Theme-Functions
  */
 
+ /**
+ * Get Page Author
+ *
+ * @since 3.3.17
+ * @uses $data_index
+ * @uses strip_decode
+ *
+ * @param bool $echo	Optional, default is true. False will 'return' value
+ * @return string Echos or returns page author based on param $echo
+ */
+function get_page_author($echo = true) {
+	global $data_index;
+	$author = strip_decode($data_index->author);
+	if ($echo) {
+		echo $author;
+	} else {
+		return $author;
+	}
+}
+
 /**
  * Get Page Content
  *
