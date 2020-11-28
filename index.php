@@ -48,43 +48,56 @@ exec_action('index-header');
 
 # get page id (url slug) that is being passed via .htaccess mod_rewrite
 if (isset($_GET['id'])){ 
-	$id = str_replace ('..','',$_GET['id']);
-	$id = str_replace ('/','',$id);
+	$id = str_replace ('..', '', $_GET['id']);
+	$id = str_replace ('/', '', $id);
 	$id = lowercase($id);
 } else {
 	$id = "index";
 }
 
 // filter to modify page id request
-$id = exec_filter('indexid',$id);
+$id = exec_filter('indexid', $id);
  // $_GET['id'] = $id; // support for plugins that are checking get?
 
-# define page, spit out 404 if it doesn't exist
-$file_404 = GSDATAOTHERPATH . '404.xml';
-$user_created_404 = GSDATAPAGESPATH . '404.xml';
+# define page
 $data_index = null;
 
 // apply page data if page id exists
 if (isset($pagesArray[$id])) {
-	$data_index = getXml(GSDATAPAGESPATH . $id . '.xml');
-} 
+	$data_index = getXml(GSDATAPAGESPATH.$id.'.xml');
+}
 
 // filter to modify data_index obj
-$data_index = exec_filter('data_index',$data_index);
+$data_index = exec_filter('data_index', $data_index);
 
 // page not found handling
-if(!$data_index) {	
+if(!$data_index) {
 	if (isset($pagesArray['404'])) {
 		// use user created 404 page
-		$data_index = getXml($user_created_404);		
-	} elseif (file_exists($file_404))	{
+		$data_index = getXml(GSDATAPAGESPATH.'404.xml');
+	} elseif (file_exists(GSDATAOTHERPATH.'404.xml')) {
 		// default 404
-		$data_index = getXml($file_404);
+		$data_index = getXml(GSDATAOTHERPATH.'404.xml');
 	} else {
 		// fail over
 		redirect('404');
-	} 	
+	}
 	exec_action('error-404');
+}
+
+// if page is private, check user
+if ($data_index->private == 'Y' && !is_logged_in()) {
+	if (isset($pagesArray['403'])) {
+		// use user created 403 page
+		$data_index = getXml(GSDATAPAGESPATH.'403.xml');
+	} elseif (file_exists(GSDATAOTHERPATH.'403.xml')) {
+		// default 403
+		$data_index = getXml(GSDATAOTHERPATH.'403.xml');
+	} else {
+		// fail over
+		redirect('403');
+	}
+	exec_action('error-403');
 }
 
 $title         = $data_index->title;
@@ -95,42 +108,38 @@ $url           = $data_index->url;
 $content       = $data_index->content;
 $parent        = $data_index->parent;
 $template_file = $data_index->template;
-$private       = $data_index->private;	
+$private       = $data_index->private;
 
 // after fields from dataindex, can modify globals here or do whatever by checking them
 exec_action('index-post-dataindex');
 
-# if page is private, check user
-if ($private == 'Y') {
-	if (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME')) {
-		//ok, allow the person to see it then
-	} else {
-		redirect('404');
-	}
-}
-
-# if page does not exist, throw 404 error
-if ($url == '404') {
-	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+# set headers for error pages
+switch ($url) {
+	case '403':
+		header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden");
+		break;
+	case '404':
+		header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+		break;
 }
 
 # check for correctly formed url
-if (getDef('GSCANONICAL',true)) {
+if (getDef('GSCANONICAL', true)) {
 	if ($_SERVER['REQUEST_URI'] != find_url($url, $parent, 'relative')) {
 		redirect(find_url($url, $parent));
 	}
 }
 
 # include the functions.php page if it exists within the theme
-if ( file_exists(GSTHEMESPATH .$TEMPLATE."/functions.php") ) {
-	include(GSTHEMESPATH .$TEMPLATE."/functions.php");	
+if (file_exists(GSTHEMESPATH .$TEMPLATE."/functions.php")) {
+	include(GSTHEMESPATH .$TEMPLATE."/functions.php");
 }
 
 # call pretemplate Hook
 exec_action('index-pretemplate');
 
 # include the template and template file set within theme.php and each page
-if ( (!file_exists(GSTHEMESPATH .$TEMPLATE."/".$template_file)) || ($template_file == '') ) { $template_file = "template.php"; }
+if ((!file_exists(GSTHEMESPATH.$TEMPLATE."/".$template_file)) || ($template_file == '')) { $template_file = "template.php"; }
 include(GSTHEMESPATH .$TEMPLATE."/".$template_file);
 
 # call posttemplate Hook
