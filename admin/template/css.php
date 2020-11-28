@@ -1164,15 +1164,15 @@ input.submit:focus, input.submit:hover, .button:hover {
 	padding-bottom: 5px;
 }
 
-.widesec input.text, .rightsec input.text, .leftsec input.text {
+.widesec input.text, .rightsec input.text, .leftsec input.text, .leftsec textarea.text, .rightsec textarea.text {
 	width: 92%;
 }	
 
-.widesec input.text, .widesec textarea, .rightsec select.text, .leftsec select.text {
+.widesec input.text, .widesec textarea.text, .rightsec select.text, .leftsec select.text {
 	width: 96%;
 }
 
-.widesec textarea {
+.leftsec textarea.text, .rightsec textarea.text, .widesec textarea.text {
 	height: 62px;
 }
 
