@@ -10,6 +10,7 @@
     * Added code highlight to components
     * Added `get_page_field()` theme function to get value from requested field for current page
     * Added `get_page_author()` theme function to get value from `author` field for current page
+    * Added handling private pages respond with status code `403 Forbidden`
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
