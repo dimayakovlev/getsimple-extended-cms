@@ -71,11 +71,8 @@ if (isset($pagesArray[$id])) {
 $data_index = exec_filter('data_index', $data_index);
 
 // page not found handling
-if(!$data_index) {
-	if (isset($pagesArray['404'])) {
-		// use user created 404 page
-		$data_index = getXml(GSDATAPAGESPATH.'404.xml');
-	} elseif (file_exists(GSDATAOTHERPATH.'404.xml')) {
+if (!$data_index) {
+	if (file_exists(GSDATAOTHERPATH.'404.xml')) {
 		// default 404
 		$data_index = getXml(GSDATAOTHERPATH.'404.xml');
 	} else {
@@ -83,14 +80,12 @@ if(!$data_index) {
 		redirect('404');
 	}
 	exec_action('error-404');
+	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 }
 
 // if page is private, check user
 if ($data_index->private == 'Y' && !is_logged_in()) {
-	if (isset($pagesArray['403'])) {
-		// use user created 403 page
-		$data_index = getXml(GSDATAPAGESPATH.'403.xml');
-	} elseif (file_exists(GSDATAOTHERPATH.'403.xml')) {
+	if (file_exists(GSDATAOTHERPATH.'403.xml')) {
 		// default 403
 		$data_index = getXml(GSDATAOTHERPATH.'403.xml');
 	} else {
@@ -98,6 +93,7 @@ if ($data_index->private == 'Y' && !is_logged_in()) {
 		redirect('403');
 	}
 	exec_action('error-403');
+	header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden");
 }
 
 $title         = $data_index->title;
@@ -112,16 +108,6 @@ $private       = $data_index->private;
 
 // after fields from dataindex, can modify globals here or do whatever by checking them
 exec_action('index-post-dataindex');
-
-# set headers for error pages
-switch ($url) {
-	case '403':
-		header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden");
-		break;
-	case '404':
-		header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-		break;
-}
 
 # check for correctly formed url
 if (getDef('GSCANONICAL', true)) {

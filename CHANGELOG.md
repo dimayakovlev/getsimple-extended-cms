@@ -16,5 +16,6 @@
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
     * Minor GUI elements changes and i18n
     * Russian transliteration based on [Yandex scheme](https://yandex.ru/support/nmaps/app_transliteration.html)
+    * Freed `404` slug for usual page
 
 1. [](#bugfix)
