@@ -1079,7 +1079,7 @@ function get_gs_version() {
  */
 function generate_sitemap() {
 	
-	if(getDef('GSNOSITEMAP',true)) return;
+	if (getDef('GSNOSITEMAP', true)) return;
 
 	// Variable settings
 	global $SITEURL;
@@ -1087,20 +1087,15 @@ function generate_sitemap() {
 	
 	global $pagesArray;
 	getPagesXmlValues(false);
-	$pagesSorted = subval_sort($pagesArray,'menuStatus');
+	$pagesSorted = subval_sort($pagesArray, 'menuStatus');
 	
-	if (count($pagesSorted) != 0)
-	{ 
+	if (count($pagesSorted) != 0) {
 		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset></urlset>');
 		$xml->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd', 'http://www.w3.org/2001/XMLSchema-instance');
 		$xml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 		
-		foreach ($pagesSorted as $page)
-		{	
-			if ($page['url'] != '404')
-			{		
-			if ($page['private'] != 'Y')
-			{
+		foreach ($pagesSorted as $page) {
+			if ($page['private'] != 'Y') {
 				// set <loc>
 				$pageLoc = find_url($page['url'], $page['parent']);
 				
@@ -1126,7 +1121,6 @@ function generate_sitemap() {
 				$url_item->addChild('priority', $pagePriority);
 			}
 		}
-		}
 		
 		//create xml file
 		$file = GSROOTPATH .'sitemap.xml';
@@ -1136,8 +1130,8 @@ function generate_sitemap() {
 	}
 	
 	if (!defined('GSDONOTPING')) {
-		if (file_exists(GSROOTPATH .'sitemap.xml')){
-			if( 200 === ($status=pingGoogleSitemaps($SITEURL.'sitemap.xml')))	{
+		if (file_exists(GSROOTPATH .'sitemap.xml')) {
+			if (200 === ($status=pingGoogleSitemaps($SITEURL.'sitemap.xml')))	{
 				#sitemap successfully created & pinged
 				return true;
 			} else {
