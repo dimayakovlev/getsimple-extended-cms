@@ -12,6 +12,7 @@
     * Added `get_page_author()` theme function to get value from `author` field for current page
     * Added handling private pages respond with status code `403 Forbidden`
     * Added `DATECREATED` and `DATEMODIFIED` user fields
+    * Added `DATECREATED` and `DATEMODIFIED` website fields
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

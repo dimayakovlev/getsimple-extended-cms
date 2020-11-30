@@ -26,6 +26,9 @@ $USRDESCRIPTION	= $data->DESCRIPTION;
 $USRDATECREATED = $data->DATECREATED;
 $USRDATEMODIFIED = $data->DATEMODIFIED;
 
+$SITEDATECREATED = $dataw->DATECREATED;
+$SITEDATEMODIFIED = $dataw->MODIFIED;
+
 $lang_array = getFiles(GSLANGPATH);
 
 # initialize these all as null
@@ -94,6 +97,11 @@ if(isset($_POST['submitted'])) {
 	  $PRETTYURLS = $_POST['prettyurls'];
 	} else {
 		$PRETTYURLS = '';
+	}
+	if (isset($_POST['sitedatecreated']) && $_POST['sitedatecreated'] != '') {
+		$SITEDATECREATED = var_out($_POST['sitedatecreated']);
+	} else {
+		$SITEDATECREATED = date('r');
 	}
    
 	# user-specific fields
@@ -176,7 +184,10 @@ if(isset($_POST['submitted'])) {
 		$note->addCData($TEMPLATE);
 		$xmls->addChild('PRETTYURLS', $PRETTYURLS);
 		$xmls->addChild('PERMALINK', var_out($PERMALINK));
-		
+		$xmls->addChild('DATECREATED', var_out($SITEDATECREATED));
+		$SITEDATEMODIFIED = date('r'); // need to rework saving data
+		$xmls->addChild('DATEMODIFIED', $SITEDATEMODIFIED);
+
 		exec_action('settings-website');
 		
 		if (! XMLsave($xmls, GSDATAOTHERPATH . $wfile) ) {
@@ -238,7 +249,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		</div>
 		<div class="clear"></div>
 		<div class="widesec">
-			<p><label for="sitedescription"><?php i18n('LABEL_WEBSITEDESCRIPTION'); ?>:</label><textarea class="text" id="sitedescription" name="sitedescription"><?php echo $SITEDESCRIPTION; ?></textarea></p>
+			<p>
+				<label for="sitedescription"><?php i18n('LABEL_WEBSITEDESCRIPTION'); ?>:</label><textarea class="text" id="sitedescription" name="sitedescription"><?php echo $SITEDESCRIPTION; ?></textarea>
+				<input id="sitedatecreated" name="sitedatecreated" type="hidden" value="<?php echo $SITEDATECREATED; ?>" />
+			</p>
 		</div>
 		<p class="inline" ><input name="prettyurls" id="prettyurls" type="checkbox" value="1" <?php echo $prettychck; ?>  /> &nbsp;<label for="prettyurls" ><?php i18n('USE_FANCY_URLS');?></label></p>
 				
