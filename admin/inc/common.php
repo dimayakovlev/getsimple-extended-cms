@@ -185,7 +185,6 @@ if (isset($_COOKIE['GS_ADMIN_USERNAME'])) {
 		$HTMLEDITOR = $datau->HTMLEDITOR;
 		$TIMEZONE = $datau->TIMEZONE;
 		$LANG = $datau->LANG;
-		$USRDESC = stripslashes($datau->DESC);
 	} else {
 		$USR = null;
 	}

@@ -6,7 +6,7 @@
     * Added `lastAuthor` page field to store author of last page editing
     * Added `SITEDESCRIPTION` website field to store website description
     * Added `get_site_description()` theme function to get value from `SITEDESCRIPTION` website field
-    * Added `DESC` user field to store user description (e.g. user biography) for public display
+    * Added `DESCRIPTION` user field to store user description (e.g. user biography) for public display
     * Added code highlight to components
     * Added `get_page_field()` theme function to get value from requested field for current page
     * Added `get_page_author()` theme function to get value from `author` field for current page

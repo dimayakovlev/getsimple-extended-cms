@@ -63,6 +63,7 @@ if(isset($_POST['submitted'])) {
 		createBak($file, GSUSERSPATH, GSBACKUSERSPATH);
 		$xml = new SimpleXMLElement('<item></item>');
 		$xml->addChild('USR', $USR);
+		$xml->addChild('DESCRIPTION', '');
 		$xml->addChild('PWD', $PASSWD);
 		$xml->addChild('EMAIL', $EMAIL);
 		$xml->addChild('HTMLEDITOR', '1');
