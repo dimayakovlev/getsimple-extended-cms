@@ -23,6 +23,8 @@ $PASSWD 	= $data->PWD;
 $EMAIL 		= $data->EMAIL;
 $NAME			= $data->NAME;
 $USRDESCRIPTION	= $data->DESCRIPTION;
+$USRDATECREATED = $data->DATECREATED;
+$USRDATEMODIFIED = $data->DATEMODIFIED;
 
 $lang_array = getFiles(GSLANGPATH);
 
@@ -118,7 +120,11 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$HTMLEDITOR = '';
 	}
-	
+	if (isset($_POST['userdatecreated']) && $_POST['userdatecreated'] != '') {
+		$USRDATECREATED = var_out($_POST['userdatecreated']);
+	} else {
+		$USRDATECREATED = date('r');
+	}
 	
 	# check to see if passwords are changing
 	if(isset($_POST['sitepwd'])) { $pwd1 = $_POST['sitepwd']; }
@@ -147,6 +153,9 @@ if(isset($_POST['submitted'])) {
 		$xml->addChild('HTMLEDITOR', $HTMLEDITOR);
 		$xml->addChild('TIMEZONE', $TIMEZONE);
 		$xml->addChild('LANG', $LANG);
+		$xml->addChild('DATECREATED', var_out($USRDATECREATED));
+		$USRDATEMODIFIED = date('r'); // need to rework saving data
+		$xml->addChild('DATEMODIFIED', $USRDATEMODIFIED);
 		
 		exec_action('settings-user');
 		
@@ -266,6 +275,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 				<label for="userdescription"><?php i18n('LABEL_USERDESCRIPTION'); ?>:</label>
 				<span style="margin:0px 0 5px 0;font-size:12px;color:#999;"><?php i18n('DISPLAY_USERDESCRIPTION'); ?></span>
 				<textarea class="text" id="userdescription" name="userdescription"><?php echo $USRDESCRIPTION; ?></textarea>
+				<input id="userdatecreated" name="userdatecreated" type="hidden" value="<?php echo $USRDATECREATED; ?>" />
 			</p>
 		</div>
 		<div class="leftsec">
