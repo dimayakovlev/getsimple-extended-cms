@@ -83,6 +83,7 @@ if(isset($_POST['submitted'])) {
 		$xmls = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');		
 		$note = $xmls->addChild('SITENAME');
 		$note->addCData($SITENAME);
+		$xmls->addChild('SITEDESCRIPTION', '');
 		$note = $xmls->addChild('SITEURL');
 		$note->addCData($SITEURL);
 		$xmls->addChild('TEMPLATE', 'Innovation');

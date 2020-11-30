@@ -76,8 +76,8 @@ if(isset($_POST['submitted'])) {
 	if(isset($_POST['sitename'])) { 
 		$SITENAME = htmlentities($_POST['sitename'], ENT_QUOTES, 'UTF-8'); 
 	}
-	if(isset($_POST['sitedesc'])) { 
-		$SITEDESC = htmlentities($_POST['sitedesc'], ENT_QUOTES, 'UTF-8'); 
+	if(isset($_POST['sitedescription'])) { 
+		$SITEDESCRIPTION = htmlentities($_POST['sitedescription'], ENT_QUOTES, 'UTF-8'); 
 	}
 	if(isset($_POST['siteurl'])) { 
 		$SITEURL = tsl($_POST['siteurl']); 
@@ -159,8 +159,8 @@ if(isset($_POST['submitted'])) {
 		$xmls = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$note = $xmls->addChild('SITENAME');
 		$note->addCData($SITENAME);
-		$note = $xmls->addChild('SITEDESC');
-		$note->addCData($SITEDESC);
+		$note = $xmls->addChild('SITEDESCRIPTION');
+		$note->addCData($SITEDESCRIPTION);
 		$note = $xmls->addChild('SITEURL');
 		$note->addCData($SITEURL);
 		$note = $xmls->addChild('TEMPLATE');
@@ -229,7 +229,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		</div>
 		<div class="clear"></div>
 		<div class="widesec">
-			<p><label for="sitedesc"><?php i18n('LABEL_WEBSITEDESC'); ?>:</label><textarea class="text" id="sitedesc" name="sitedesc"><?php echo $SITEDESC; ?></textarea></p>
+			<p><label for="sitedescription"><?php i18n('LABEL_WEBSITEDESCRIPTION'); ?>:</label><textarea class="text" id="sitedescription" name="sitedescription"><?php echo $SITEDESCRIPTION; ?></textarea></p>
 		</div>
 		<p class="inline" ><input name="prettyurls" id="prettyurls" type="checkbox" value="1" <?php echo $prettychck; ?>  /> &nbsp;<label for="prettyurls" ><?php i18n('USE_FANCY_URLS');?></label></p>
 				

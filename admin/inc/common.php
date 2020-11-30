@@ -164,12 +164,12 @@ $load['plugin'] = (isset($load['plugin'])) ? $load['plugin'] : '';
 $thisfilew = GSDATAOTHERPATH .'website.xml';
 if (file_exists($thisfilew)) {
 	$dataw = getXML($thisfilew);
-	$SITENAME = stripslashes($dataw->SITENAME);
-  $SITEDESC = stripslashes($dataw->SITEDESC);
-	$SITEURL = $dataw->SITEURL;
-	$TEMPLATE = $dataw->TEMPLATE;
-	$PRETTYURLS = $dataw->PRETTYURLS;
-	$PERMALINK = $dataw->PERMALINK;
+	$SITENAME = 				stripslashes($dataw->SITENAME);
+	$SITEDESCRIPTION = 	stripslashes($dataw->SITEDESCRIPTION);
+	$SITEURL = 					$dataw->SITEURL;
+	$TEMPLATE = 				$dataw->TEMPLATE;
+	$PRETTYURLS = 			$dataw->PRETTYURLS;
+	$PERMALINK = 				$dataw->PERMALINK;
 } else {
 	$SITENAME = '';
 	$SITEURL = '';
@@ -185,7 +185,7 @@ if (isset($_COOKIE['GS_ADMIN_USERNAME'])) {
 		$HTMLEDITOR = $datau->HTMLEDITOR;
 		$TIMEZONE = $datau->TIMEZONE;
 		$LANG = $datau->LANG;
-    	$USRDESC = stripslashes($datau->DESC);
+		$USRDESC = stripslashes($datau->DESC);
 	} else {
 		$USR = null;
 	}
@@ -260,7 +260,7 @@ if(isset($TIMEZONE) && function_exists('date_default_timezone_set') && ($TIMEZON
 /**
  * Variable Globalization
  */
-global $SITENAME, $SITEDESC, $SITEURL, $TEMPLATE, $TIMEZONE, $LANG, $SALT, $i18n, $USR, $USRDESC, $PERMALINK, $GSADMIN, $components, $EDTOOL, $EDOPTIONS, $EDLANG, $EDHEIGHT;
+global $SITENAME, $SITEDESCRIPTION, $SITEURL, $TEMPLATE, $TIMEZONE, $LANG, $SALT, $i18n, $USR, $USRDESC, $PERMALINK, $GSADMIN, $components, $EDTOOL, $EDOPTIONS, $EDLANG, $EDHEIGHT;
 
 /** grab authorization and security data */
 if (defined('GSUSECUSTOMSALT')) {

@@ -431,14 +431,14 @@ function get_site_name($echo=true) {
  * This will return the value set in the control panel
  *
  * @since 3.3.17
- * @uses $SITEDESC
+ * @uses $SITEDESCRIPTION
  *
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
 function get_site_description($echo=true) {
-	global $SITEDESC;
-	$myVar = cl($SITEDESC);
+	global $SITEDESCRIPTION;
+	$myVar = cl($SITEDESCRIPTION);
 	
 	if ($echo) {
 		echo $myVar;
