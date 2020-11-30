@@ -68,6 +68,8 @@ if(isset($_POST['submitted'])) {
 		$xml->addChild('HTMLEDITOR', '1');
 		$xml->addChild('TIMEZONE', $TIMEZONE);
 		$xml->addChild('LANG', $LANG);
+		$xml->addChild('DATECREATED', date('r'));
+		$xml->addChild('DATEMODIFIED', date('r'));
 		if (! XMLsave($xml, GSUSERSPATH . $file) ) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
@@ -86,6 +88,8 @@ if(isset($_POST['submitted'])) {
 		$xmls->addChild('TEMPLATE', 'Innovation');
 		$xmls->addChild('PRETTYURLS', '');
 		$xmls->addChild('PERMALINK', '');
+		$xmls->addChild('DATECREATED', date('r'));
+		$xmls->addChild('DATEMODIFIED', date('r'));
 		if (! XMLsave($xmls, GSDATAOTHERPATH . $file) ) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
