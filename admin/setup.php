@@ -97,6 +97,9 @@ if(isset($_POST['submitted'])) {
 			copy($temp,$init);
 			$xml = simplexml_load_file($init); 
 			$xml->pubDate = date('r');
+			$xml->creDate = date('r');
+			$xml->author = $USR;
+			$xml->lastAuthor = $USR;
 			$xml->asXML($init);
 		}
 
@@ -112,6 +115,12 @@ if(isset($_POST['submitted'])) {
 		$temp = GSADMININCPATH.'tmp/tmp-403.xml'; 
 		if (! file_exists($init)) {
 			copy($temp,$init);
+			$xml = simplexml_load_file($init); 
+			$xml->pubDate = date('r');
+			$xml->creDate = date('r');
+			$xml->author = $USR;
+			$xml->lastAuthor = $USR;
+			$xml->asXML($init);
 		}
 
 		# create default 404.xml page
@@ -119,6 +128,12 @@ if(isset($_POST['submitted'])) {
 		$temp = GSADMININCPATH.'tmp/tmp-404.xml'; 
 		if (! file_exists($init)) {
 			copy($temp,$init);
+			$xml = simplexml_load_file($init); 
+			$xml->pubDate = date('r');
+			$xml->creDate = date('r');
+			$xml->author = $USR;
+			$xml->lastAuthor = $USR;
+			$xml->asXML($init);
 		}
 
 		# create root .htaccess file
