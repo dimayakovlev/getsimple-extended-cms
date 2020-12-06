@@ -13,6 +13,10 @@
     * Added handling private pages respond with status code `403 Forbidden`
     * Added `DATECREATED` and `DATEMODIFIED` user fields
     * Added `DATECREATED` and `DATEMODIFIED` website fields
+    * Added page component feature
+    * Added `get_page_component()` theme function to eval page component code stored in `component` field of the current page
+    * Added `getPageComponent` cache function to eval page component code of the requested page
+    * Added `returnPageComponent` cache function to return component code of the requested page in plain text
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

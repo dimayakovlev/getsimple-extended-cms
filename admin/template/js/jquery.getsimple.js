@@ -443,6 +443,17 @@ jQuery(document).ready(function () {
 		$("#metadata_window").slideToggle('fast');
 		$(this).toggleClass('current');
 	});
+	// Toggle page component window
+	$("#component_toggle").live("click", function ($e) {
+		$e.preventDefault();
+		$('#component_window').slideToggle('fast');
+		if ($('#component_window').is(':visible')) {
+			if ($('#post-component').is(':visible')) {
+				$('#post-component').focus();
+			}
+		}
+		$(this).toggleClass('current');
+	});
  
 	var privateLabel = $("#post-private-wrap label");
 	$("#post-private").change(function () {

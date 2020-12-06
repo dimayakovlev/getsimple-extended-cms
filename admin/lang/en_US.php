@@ -591,6 +591,9 @@ $i18n = array(
 # new to 3.3.17
 
 'TITLE' => 'Title', // common string, components.php
+//"PAGE_COMPONENT" => "Page Optio<em>n</em>s",
+"PAGE_COMPONENT" => "Page Component", // edit.php
+"PAGE_COMPONENT_CODE" => "Component Code", // edit.php
 
 );
 

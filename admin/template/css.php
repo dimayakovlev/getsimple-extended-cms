@@ -617,14 +617,14 @@ h5:hover img {
 	padding: 0;
 }
 
-.edit-nav a#metadata_toggle {
+.edit-nav a#metadata_toggle, .edit-nav a#component_toggle {
 	background-image: url('images/plus.png');
 	padding-right: 20px;
 }
 
-.edit-nav a#metadata_toggle.current {
+.edit-nav a#metadata_toggle.current, .edit-nav a#component_toggle.current {
 	background-image: url('images/minus.png');
-	 padding-right: 20px;
+	padding-right: 20px;
 }
 
 .edit-nav {
@@ -917,7 +917,7 @@ label span.right a:hover {
 }
 
 /* meta dropdown style */
-#metadata_window {
+#metadata_window, #component_window {
 	margin: 0 2px 20px 0;
 	background: #f9f9f9;
 	border: 1px solid #e8e8e8;
@@ -1027,6 +1027,11 @@ label span.right a:hover {
 
 #metadata_window #menu-items select {
 	padding: 2px 3px;
+}
+
+#component_window textarea {
+	width: 612px;
+	height: 200px;
 }
 
 #countdownwrap {

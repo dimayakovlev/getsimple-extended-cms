@@ -17,6 +17,25 @@ add_action('page-restored', 'create_pagesxml',array(true));        // Create pag
 add_action('changedata-aftersave', 'create_pagesxml',array(true));     // Create pages.array if page is updated
 
 /**
+ * Get Page Component
+ *
+ * Retrieve and eval the component code of the requested page. 
+ * As the Component is not cahed the file is read in.
+ *
+ *@since 3.3.17
+ *@param $page	Slug of the page to retrive component code
+ *@return mixed	Return result of processed component code
+ */
+function getPageComponent($page) {
+	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
+	$data = simplexml_load_string($thisfile);
+	$component = stripslashes(htmlspecialchars_decode($data->component, ENT_QUOTES));
+	if ($component) {
+		eval('?>' . strip_decode($component) . '<?php ');
+	}
+}
+
+/**
  * Get Page Content
  *
  * Retrieve and display the content of the requested page. 
@@ -26,7 +45,7 @@ add_action('changedata-aftersave', 'create_pagesxml',array(true));     // Create
  * @param $page - slug of the page to retrieve content
  *
  */
-function getPageContent($page,$field='content'){   
+function getPageContent($page,$field='content'){
 	$thisfile = file_get_contents(GSDATAPAGESPATH.$page.'.xml');
 	$data = simplexml_load_string($thisfile);
 	$content = stripslashes(htmlspecialchars_decode($data->$field, ENT_QUOTES));
@@ -75,6 +94,22 @@ function echoPageField($page,$field){
 	getPageField($page,$field);
 }
 
+/**
+ * Return Page Component
+ *
+ * Retrieve and return the component code of the requested page. 
+ * As the Component is not cahed the file is read in.
+ *
+ *@since 3.3.17
+ *@param $page	Slug of the page to retrive component code
+ *@return string	Return plain text component code
+ */
+function returnPageComponent($page) {
+	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
+	$data = simplexml_load_string($thisfile);
+	$component = stripslashes($data->component);
+	return (string)$component;
+}
 
 /**
  * Return Page Content
@@ -248,7 +283,8 @@ function getPagesXmlValues($chkcount=false){
  * data/pages/pages.array 
  *
  * @since 3.1
- *  
+ * @modified Dmitry Yakovlev 06/12/2020
+ *
  */
 function create_pagesxml($flag){
 global $pagesArray;
@@ -287,22 +323,20 @@ if ((isset($_GET['upd']) && $_GET['upd']=="edit-success") || $flag===true || $fl
         	debugLog("page $file is corrupt");
         	continue;
         }
-        
-        $count++;   
+
+        $count++;
         $id=$data->url;
-        
-    	$pages = $xml->addChild('item');
-        // $pages->addChild('url', $id);
-        // $pagesArray[(string)$id]['url']=(string)$id;            
-                
-        foreach ($data->children() as $item => $itemdata) {
-                if ($item!="content"){
-                        $note = $pages->addChild($item);
-                $note->addCData($itemdata);
-                $pagesArray[(string)$id][$item]=(string)$itemdata;
-                }
-        }
-                
+
+				$pages = $xml->addChild('item');
+
+				foreach ($data->children() as $item => $itemdata) {
+					if ($item != 'content' && $item != 'component'){
+						$note = $pages->addChild($item);
+						$note->addCData($itemdata);
+						$pagesArray[(string)$id][$item]=(string)$itemdata;
+					}
+				}
+
         $note = $pages->addChild('slug');
         $note->addCData($id);
         $pagesArray[(string)$id]['slug']=(string)$id;

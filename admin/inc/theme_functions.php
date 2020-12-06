@@ -52,6 +52,22 @@ function get_page_content() {
 }
 
 /**
+ * Get Page Component
+ *
+ *@since 3.3.17
+ *@uses $data_index
+ *@uses strip_decode
+ *
+ *@return mixed Return result of processed code from page component
+ */
+function get_page_component() {
+	global $data_index;
+	if ($data_index->component) {
+		eval('?>' . strip_decode($data_index->component) . '<?php ');
+	}
+}
+
+/**
  * Get Page Excerpt
  *
  * @since 2.0

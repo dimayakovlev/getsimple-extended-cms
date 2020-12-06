@@ -34,6 +34,7 @@ $menuStatus = '';
 $private = ''; 
 $menu = ''; 
 $content = '';
+$component = '';
 $author = $USR;
 $lastAuthor = '';
 $title = '';
@@ -57,6 +58,7 @@ if ($id){
 	$metad = stripslashes($data_edit->metad);
 	$url = $data_edit->url;
 	$content = stripslashes($data_edit->content);
+	$component = stripslashes($data_edit->component);
 	$template = $data_edit->template;
 	$parent = $data_edit->parent;
 	$author = $data_edit->author;
@@ -93,10 +95,10 @@ if ($template == '') { $template = 'template.php'; }
 
 $themes_path = GSTHEMESPATH . $TEMPLATE;
 $themes_handle = opendir($themes_path) or die("Unable to open ". GSTHEMESPATH);		
-while ($file = readdir($themes_handle))	{		
-	if( isFile($file, $themes_path, 'php') ) {		
+while ($file = readdir($themes_handle))	{
+	if( isFile($file, $themes_path, 'php') ) {
 		if ($file != 'functions.php' && substr(strtolower($file),-8) !='.inc.php' && substr($file,0,1)!=='.') {		
-      $templates[] = $file;		
+      $templates[] = $file;
     }		
 	}		
 }		
@@ -122,7 +124,18 @@ foreach ($templates as $file){
 // SETUP CHECKBOXES
 $sel_m = ($menuStatus != '') ? 'checked' : '' ;
 $sel_p = ($private == 'Y') ? 'selected' : '' ;
-if ($menu == '') { $menu = $title; } 
+if ($menu == '') { $menu = $title; }
+
+# register and queue CodeMirror files
+if (!getDef('GSNOHIGHLIGHT', true)) {
+	register_script('codemirror', $SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', FALSE);
+	register_style('codemirror-css',$SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror.css','screen',FALSE);
+	register_style('codemirror-theme',$SITEURL.$GSADMIN.'/template/js/codemirror/theme/default.css','screen',FALSE);
+
+	queue_script('codemirror', GSBACK);
+	queue_style('codemirror-css', GSBACK);
+	queue_style('codemirror-theme', GSBACK);
+}
 
 get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title); 
 
@@ -146,9 +159,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				echo '<a href="', find_url($url, $parent) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '" >', i18n_r('VIEW'), ' </a>';
 			} 
 			?>
+			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" ><?php i18n('PAGE_COMPONENT'); ?></a>
 			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" ><?php i18n('PAGE_OPTIONS'); ?></a>
 			<div class="clear" ></div>
-		</div>	
+		</div>
 			
 		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8" >
 			<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce("edit", "edit.php"); ?>" />			
@@ -163,7 +177,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				
 
 			<!-- metadata toggle screen -->
-			<div style="display:none;" id="metadata_window" >
+			<div style="display:none;" id="metadata_window">
 			<div class="leftopt">
 				<p class="inline clearfix" id="post-private-wrap" >
 					<label for="post-private" ><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
@@ -208,7 +222,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						echo $ret;
 						?>
 					</select>
-				</p>			
+				</p>
 				<p class="inline clearfix" >
 					<label for="post-template"><?php i18n('TEMPLATE'); ?>:</label>
 					<select class="text autowidth" id="post-template" name="post-template" >
@@ -240,7 +254,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						}
 						?>
 					</select>
-				</div>				
+				</div>
 			</div>
 			
 			<div class="rightopt">
@@ -260,11 +274,21 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 
 			</div>
 			<div class="clear"></div>
-			<?php exec_action('edit-extras'); ?>		
+			<?php exec_action('edit-extras'); ?>
 
-			</div>	<!-- / metadata toggle screen -->
+			</div><!-- / metadata toggle screen -->
 				
-		
+				
+				
+			<!-- component toggle screen -->
+			<div style="display:none;" id="component_window">
+				<p>
+					<label for="post-component"><?php i18n('PAGE_COMPONENT_CODE'); ?>:</label>
+					<textarea class="text" id="post-component" name="post-component"><?php echo $component; ?></textarea>
+				</p>
+			</div><!-- / component toggle screen -->
+			
+			
 			<!-- page body -->
 			<p>
 				<label for="post-content" style="display:none;"><?php i18n('LABEL_PAGEBODY'); ?></label>
@@ -273,9 +297,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			
 			<?php exec_action('edit-content'); ?> 
 			
-			<?php if(isset($data_edit)) { 
+			<?php if(isset($data_edit)) {
 				echo '<input type="hidden" name="existing-url" value="'. $url .'" />'; 
-			} ?>	
+			} ?>
 			
 			<span class="editing"><?php echo i18n_r('EDITPAGE_TITLE') .': ' . $title; ?></span>
 			<div id="submit_line" >
@@ -349,7 +373,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					filebrowserWindowWidth : '730',
 					filebrowserWindowHeight : '500'
 					<?php echo $toolbar; ?>
-					<?php echo $options; ?>					
+					<?php echo $options; ?>
 			});
 
 			CKEDITOR.instances["post-content"].on("instanceReady", InstanceReadyEvent);
@@ -362,8 +386,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					_this.resetDirty();
 				});
 
-			    this.timer = setInterval(function(){trackChanges(_this)},500);
-			}		
+				this.timer = setInterval(function(){trackChanges(_this)},500);
+			}
 
 			/**
 			 * keep track of changes for editor
@@ -373,7 +397,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				// console.log('check changes');
 				if ( editor.checkDirty() ) {
 					$('#editform #post-content').trigger('change');
-					editor.resetDirty();			
+					editor.resetDirty();
 				}
 			};
 
@@ -386,8 +410,6 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			?>
 			
 		<?php } ?>
-		
-		
 		
 		<script type="text/javascript">
 			/* Warning for unsaved Data */
@@ -412,7 +434,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				if($.trim($("#post-title").val()).length == 0){
 					alert("<?php i18n('CANNOT_SAVE_EMPTY'); ?>");
 					return false;
-				}					
+				}
 			}
 
 			jQuery(document).ready(function() { 
@@ -421,14 +443,14 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 
 					$('#pagechangednotify').hide();
 					$('#autosavenotify').show();
-					$('#autosavenotify').html('Autosaving is <b>ON</b> (<?php echo (int)GSAUTOSAVE; ?> s)');   		    	
+					$('#autosavenotify').html('Autosaving is <b>ON</b> (<?php echo (int)GSAUTOSAVE; ?> s)');
 					
 					function autoSaveIntvl(){
 						// console.log('autoSaveIntvl called, isdirty:' + pageisdirty);
 						if(pageisdirty == true){
 							autoSave();
 							pageisdirty = false;
-						}						
+						}
 					}
 					
 					function autoSave() {
@@ -463,16 +485,16 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 								}
 								else {
 									pageisdirty=true;
-									$('#autosavenotify').text("<?php i18n('AUTOSAVE_FAILED'); ?>");                
+									$('#autosavenotify').text("<?php i18n('AUTOSAVE_FAILED'); ?>");
 								}
 							}
-						});	
+						});
 					}
 					
 					// We register title and slug changes with change() which only fires when you lose focus to prevent midchange saves.
 					$('#post-title, #post-id').change(function () {
 							$('#editform #post-content').trigger('change');
-				  });					
+				  });
 					
 					// We register all other form elements to detect changes of any type by using bind
 					$('#editform input,#editform textarea,#editform select').not('#post-title').not('#post-id').bind('change keypress paste textInput input',function(){
@@ -484,7 +506,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				setInterval(autoSaveIntvl, <?php echo (int)GSAUTOSAVE*1000; ?>);
 				
 				<?php } else { /* AUTOSAVE IS NOT TURNED ON */ ?>
-					$('#editform').bind('change keypress paste focus textInput input',function(){					
+					$('#editform').bind('change keypress paste focus textInput input',function(){
 							warnme = true;
 							pageisdirty = false;
 							autoSaveInd();
@@ -492,12 +514,26 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<?php } ?>
 					
 					function autoSaveInd(){
-							$('#pagechangednotify').show();                
-							$('#pagechangednotify').text("<?php i18n('PAGE_UNSAVED')?>");  
-							$('input[type=submit]').css('border-color','#CC0000');              
-							$('#cancel-updates').show();						
+							$('#pagechangednotify').show();
+							$('#pagechangednotify').text("<?php i18n('PAGE_UNSAVED')?>");
+							$('input[type=submit]').css('border-color','#CC0000');
+							$('#cancel-updates').show();
 					}
+				
 			});
+			<?php
+				# register CodeMirror
+				if (!getDef('GSNOHIGHLIGHT',true)) {
+			?>
+			var cm = addCodeMirror(document.getElementById('post-component'), { mode: 'application/x-httpd-php' });
+			document.getElementById('component_toggle').addEventListener('click', function() {
+					setTimeout(function() {
+						cm.refresh();
+					},1)
+			});
+			<?php
+				}
+			?>
 		</script>
 	</div>
 	</div><!-- end maincontent -->
