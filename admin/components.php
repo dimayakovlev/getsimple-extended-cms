@@ -124,20 +124,16 @@ if (count($componentsec) != 0) {
 		
 	}
 # register and queue CodeMirror files
-if (!getDef('GSNOHIGHLIGHT',true)){
-  register_script('codemirror', $SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', FALSE);
-  register_style('codemirror-css',$SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror.css','screen',FALSE);
-  register_style('codemirror-theme',$SITEURL.$GSADMIN.'/template/js/codemirror/theme/default.css','screen',FALSE);
+if (!getDef('GSNOHIGHLIGHT', true)) {
+	register_script('codemirror', $SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', FALSE);
+	register_style('codemirror-css',$SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror.css','screen',FALSE);
+	register_style('codemirror-theme',$SITEURL.$GSADMIN.'/template/js/codemirror/theme/default.css','screen',FALSE);
 
-  queue_script('codemirror', GSBACK);
-  queue_style('codemirror-css', GSBACK);
-  queue_style('codemirror-theme', GSBACK);
+	queue_script('codemirror', GSBACK);
+	queue_style('codemirror-css', GSBACK);
+	queue_style('codemirror-theme', GSBACK);
 
-  function set_gs_codemirror() {
-    echo "<script>GS.CodeMirror = new Array(); GS.CodeMirror['enabled'] = true; GS.CodeMirror['mode'] = 'application/x-httpd-php';</script>".PHP_EOL;
-  }
-
-  add_action('header', 'set_gs_codemirror');
+	add_action('header', 'set_gs_codemirror');
 }
 
 function set_gs_i18n() {
@@ -168,6 +164,18 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS'));
 
 		<div id="divTxt"></div>
 		<?php echo $table; ?>
+		<?php
+			if (!getDef('GSNOHIGHLIGHT', true)) {
+		?>
+		<script>
+			GS.CodeMirror = new Array();
+			GS.CodeMirror['enabled'] = true;
+			GS.CodeMirror['options'] = {mode: 'application/x-httpd-php'};
+			GS.CodeMirror['elements'] = document.querySelectorAll('textarea');
+		</script>
+		<?php
+			}
+		?>
 		<p id="submit_line" class="<?php echo $submitclass; ?>" >
 			<span><input type="submit" class="submit" name="submitted" id="button" value="<?php i18n('SAVE_COMPONENTS');?>" /></span> &nbsp;&nbsp;<?php i18n('OR'); ?>&nbsp;&nbsp; <a class="cancel" href="components.php?cancel"><?php i18n('CANCEL'); ?></a>
 		</p>

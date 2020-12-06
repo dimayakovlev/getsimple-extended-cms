@@ -99,7 +99,30 @@ function checkCoords() {
 	alert('Please select a crop region then press submit.');
 	return false;
 };
-		 
+/* Add CodeMirror to textarea */
+function addCodeMirror(textarea, options) {
+	var cm = CodeMirror.fromTextArea(textarea, {
+		autoRefresh: true,
+		lineNumbers: true,
+		lineWrapping: true,
+		matchBrackets: true,
+		indentUnit: 4,
+		indentWithTabs: true,
+		enterMode: 'keep',
+		mode: 'application/x-httpd-php',
+		tabMode: 'shift',
+		theme:'default',
+		onCursorActivity: function() {
+			cm.setLineClass(cm.getCursor().line, 'activeline');
+		}
+	});
+	if (typeof options === 'object') {
+		for (var option in options) {
+			cm.setOption(option, options[option]);
+		}
+	}
+	return cm;
+}
 jQuery(document).ready(function () {
  
 	var loadingAjaxIndicator = $('#loader');
@@ -124,36 +147,18 @@ jQuery(document).ready(function () {
 			loadingAjaxIndicator.fadeOut(500);
 		});
 	}
-  /* Add CodeMirror to textarea */
-  function addCodeMirror(textarea, mode) {
-    if (mode === undefined) {
-      mode = 'application/x-httpd-php';
-    }
-    var cm = CodeMirror.fromTextArea(textarea, {
-      autoRefresh: true,
-			lineNumbers: true,
-			lineWrapping: true,
-      matchBrackets: true,
-      indentUnit: 4,
-      indentWithTabs: true,
-      enterMode: "keep",
-      mode: mode,
-      tabMode: "shift",
-      theme:'default',
-      onCursorActivity: function() {
-        cm.setLineClass(cm.getCursor().line, "activeline");
-      }
-    });
-    return cm;
-  }
-  
-  // Add CodeMirror to all textareas on page except textareas with nohighlight class
-  if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
-    $('textarea').not('.nohighlight').each(function() {
-      addCodeMirror(this, GS.CodeMirror['mode']);
-    })
-  }
- 
+	
+
+
+	// Add CodeMirror to textareas in GS.CodeMirror['elements']
+	if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
+		if (GS.CodeMirror['elements'] && GS.CodeMirror['elements'].length > 0) {
+			GS.CodeMirror['elements'].forEach(function(element) {
+				addCodeMirror(element, GS.CodeMirror['options']);
+			})
+		}
+	}
+
 	//upload.php
 	attachFilterChangeEvent();
  
@@ -227,7 +232,7 @@ jQuery(document).ready(function () {
 		$('#submit_line').fadeIn();
 		$("#divTxt").find('input').get(0).focus();
     if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
-      addCodeMirror(component.find('textarea')[0], GS.CodeMirror['mode']);
+      addCodeMirror(component.find('textarea')[0], GS.CodeMirror['options']);
     }
 	});
 	$('.delcomponent').live("click", function ($e) {
