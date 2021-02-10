@@ -81,6 +81,7 @@ define('GSDONOTPING', 1);
 #define("GSNOCDN",true);
 
 # Disable Codemirror theme editor
+# Deprecated setting. Control code editor usage per user from settings page
 #define("GSNOHIGHLIGHT",true);
 
 # Forces suppression of php errors when GSDEBUG is false, despite php ini settings

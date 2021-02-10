@@ -25,6 +25,7 @@ $NAME			= $data->NAME;
 $USRDESCRIPTION	= $data->DESCRIPTION;
 $USRDATECREATED = $data->DATECREATED;
 $USRDATEMODIFIED = $data->DATEMODIFIED;
+$CODEEDITOR = $data->CODEEDITOR;
 
 $SITEDATECREATED = $dataw->DATECREATED;
 $SITEDATEMODIFIED = $dataw->MODIFIED;
@@ -32,7 +33,7 @@ $SITEDATEMODIFIED = $dataw->MODIFIED;
 $lang_array = getFiles(GSLANGPATH);
 
 # initialize these all as null
-$pwd1 = $error = $success = $pwd2 = $editorchck = $prettychck = null;
+$pwd1 = $error = $success = $pwd2 = null;
 
 # if the flush cache command was invoked
 if (isset($_GET['flushcache'])) { 
@@ -128,6 +129,11 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$HTMLEDITOR = '';
 	}
+	if (isset($_POST['show_codeeditor'])) {
+		$CODEEDITOR = var_out($_POST['show_codeeditor']); 
+	} else {
+		$CODEEDITOR = '';
+	}
 	if (isset($_POST['userdatecreated']) && $_POST['userdatecreated'] != '') {
 		$USRDATECREATED = var_out($_POST['userdatecreated']);
 	} else {
@@ -137,28 +143,29 @@ if(isset($_POST['submitted'])) {
 	# check to see if passwords are changing
 	if(isset($_POST['sitepwd'])) { $pwd1 = $_POST['sitepwd']; }
 	if(isset($_POST['sitepwd_confirm'])) { $pwd2 = $_POST['sitepwd_confirm']; }
-	if ($pwd1 != $pwd2 && $pwd2 != '')	{
+	if ($pwd1 != $pwd2 && $pwd2 != '') {
 		#passwords do not match 
 		$error = i18n_r('PASSWORD_NO_MATCH');
 	} else {
 		# password cannot be null
 		if ( $pwd1 != '' && $pwd2 != '') { 
 			$PASSWD = passhash($pwd1); 
-		}	
+		}
 		
 		// check valid lang files
 		if(!in_array($LANG.'.php', $lang_array) and !in_array($LANG.'.PHP', $lang_array)) die(); 
 
 		# create user xml file
 		createBak($file, GSUSERSPATH, GSBACKUSERSPATH);
-		if (file_exists(GSUSERSPATH . _id($USR).'.xml.reset')) { unlink(GSUSERSPATH . _id($USR).'.xml.reset'); }	
-		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');		
+		if (file_exists(GSUSERSPATH . _id($USR).'.xml.reset')) { unlink(GSUSERSPATH . _id($USR).'.xml.reset'); }
+		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('USR', $USR);
 		$xml->addChild('NAME', var_out($NAME));
 		$xml->addChild('DESCRIPTION', var_out($USRDESCRIPTION));
 		$xml->addChild('PWD', $PASSWD);
 		$xml->addChild('EMAIL', var_out($EMAIL,'email'));
 		$xml->addChild('HTMLEDITOR', $HTMLEDITOR);
+		$xml->addChild('CODEEDITOR', $CODEEDITOR);
 		$xml->addChild('TIMEZONE', $TIMEZONE);
 		$xml->addChild('LANG', $LANG);
 		$xml->addChild('DATECREATED', var_out($USRDATECREATED));
@@ -204,10 +211,6 @@ if(isset($_POST['submitted'])) {
 		
 	}
 }
-
-# are any of the control panel checkboxes checked?
-if ($HTMLEDITOR != '' ) { $editorchck = 'checked'; }
-if ($PRETTYURLS != '' ) { $prettychck = 'checked'; }
 
 # get all available language files
 if ($LANG == ''){ $LANG = 'en_US'; }
@@ -280,7 +283,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		<div class="clear"></div>
 		<div class="leftsec">
 			<p><label for="name" ><?php i18n('LABEL_DISPNAME');?>:</label>
-			<span style="margin:0px 0 5px 0;font-size:12px;color:#999;"><?php i18n('DISPLAY_NAME');?></span>			
+			<span style="margin:0px 0 5px 0;font-size:12px;color:#999;"><?php i18n('DISPLAY_NAME');?></span>
 			<input class="text" id="name" name="name" type="text" value="<?php if(isset($NAME1)) { echo $NAME1; } else { echo var_out($NAME); } ?>" /></p>
 		</div>		
 		<div class="clear"></div>
@@ -310,8 +313,11 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 			</p>
 		</div>
 		<div class="clear"></div>
-		<p class="inline" ><input name="show_htmleditor" id="show_htmleditor" type="checkbox" value="1" <?php echo $editorchck; ?> /> &nbsp;<label for="show_htmleditor" ><?php i18n('ENABLE_HTML_ED');?></label></p>
-		
+		<div class="widesec">
+			<p class="inline" ><input name="show_htmleditor" id="show_htmleditor" type="checkbox" value="1" <?php if ($HTMLEDITOR == 1) { echo 'checked'; } ?> /> &nbsp;<label for="show_htmleditor" ><?php i18n('ENABLE_HTML_ED');?></label></p>
+			<p class="inline" ><input name="show_codeeditor" id="show_codeeditor" type="checkbox" value="1" <?php if ($CODEEDITOR == 1) { echo 'checked'; } ?> /> &nbsp;<label for="show_codeeditor" ><?php i18n('ENABLE_CODE_ED');?></label></p>
+		</div>
+		<div class="clear"></div>
 		<?php exec_action('settings-user-extras'); ?>
 		
 		<p style="margin:0px 0 5px 0;font-size:12px;color:#999;" ><?php i18n('ONLY_NEW_PASSWORD');?>:</p>
@@ -334,7 +340,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 	</div>
 	
 	<div id="sidebar" >
-		<?php include('template/sidebar-settings.php'); ?>		
+		<?php include('template/sidebar-settings.php'); ?>
 	</div>
 
 </div>

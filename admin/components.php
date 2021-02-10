@@ -124,7 +124,7 @@ if (count($componentsec) != 0) {
 		
 	}
 # register and queue CodeMirror files
-if (!getDef('GSNOHIGHLIGHT', true)) {
+if ($datau->CODEEDITOR == 1) {
 	register_script('codemirror', $SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', FALSE);
 	register_style('codemirror-css',$SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror.css','screen',FALSE);
 	register_style('codemirror-theme',$SITEURL.$GSADMIN.'/template/js/codemirror/theme/default.css','screen',FALSE);
@@ -135,12 +135,6 @@ if (!getDef('GSNOHIGHLIGHT', true)) {
 
 	add_action('header', 'set_gs_codemirror');
 }
-
-function set_gs_i18n() {
-	echo "<script>GS.i18n['TITLE'] = '".i18n_r('TITLE')."'; GS.i18n['DELETE_COMPONENT'] = '".i18n_r('DELETE_COMPONENT')."';</script>".PHP_EOL;
-}
-  
-add_action('header', 'set_gs_i18n');
 
 get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS')); 
 
@@ -165,17 +159,29 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS'));
 		<div id="divTxt"></div>
 		<?php echo $table; ?>
 		<?php
-			if (!getDef('GSNOHIGHLIGHT', true)) {
+			if ($datau->CODEEDITOR == 1) {
 		?>
+		<style>
+			.compdiv .CodeMirror, .compdiv .CodeMirror-scroll {
+				height: <?php echo $EDHEIGHT; ?>;
+			}
+		</style>
 		<script>
 			GS.CodeMirror = new Array();
 			GS.CodeMirror['enabled'] = true;
 			GS.CodeMirror['options'] = {mode: 'application/x-httpd-php'};
-			GS.CodeMirror['elements'] = document.querySelectorAll('textarea');
+			// Add Codemirror to all existed components
+			document.querySelectorAll('.compdiv textarea').forEach(function(elem) {
+				addCodeMirror(elem, GS.CodeMirror['options']);
+			});
 		</script>
 		<?php
 			}
 		?>
+		<script>
+			GS.i18n['TITLE'] = "<?php i18n('TITLE'); ?>";
+			GS.i18n['DELETE_COMPONENT'] = "<?php i18n('DELETE_COMPONENT'); ?>";
+		</script>
 		<p id="submit_line" class="<?php echo $submitclass; ?>" >
 			<span><input type="submit" class="submit" name="submitted" id="button" value="<?php i18n('SAVE_COMPONENTS');?>" /></span> &nbsp;&nbsp;<?php i18n('OR'); ?>&nbsp;&nbsp; <a class="cancel" href="components.php?cancel"><?php i18n('CANCEL'); ?></a>
 		</p>

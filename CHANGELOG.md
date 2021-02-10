@@ -17,11 +17,13 @@
     * Added `get_page_component()` theme function to eval page component code stored in `component` field of the current page
     * Added `getPageComponent` cache function to eval page component code of the requested page
     * Added `returnPageComponent` cache function to return component code of the requested page in plain text
+    * Added option to enable/disable code editor from settings page
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
     * Minor GUI elements changes and i18n
     * Russian transliteration based on [Yandex scheme](https://yandex.ru/support/nmaps/app_transliteration.html)
     * Freed `404` slug for usual page
+    * `GSNOHIGHLIGHT` option is outdated. Option stored in user field `CODEEDITOR`
 
 1. [](#bugfix)

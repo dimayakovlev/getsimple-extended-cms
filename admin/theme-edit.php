@@ -126,7 +126,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('THEME_MANAGEMENT'));
 
 <?php include('template/include-nav.php');
 
-if (!getDef('GSNOHIGHLIGHT',true)){
+if ($datau->CODEEDITOR == 1) {
 
 	switch (pathinfo($template_file,PATHINFO_EXTENSION)) {
 		case 'css':

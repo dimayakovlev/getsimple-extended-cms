@@ -521,19 +521,28 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					}
 				
 			});
-			<?php
-				# register CodeMirror
-				if (!getDef('GSNOHIGHLIGHT',true)) {
-			?>
-			var cm = addCodeMirror(document.getElementById('post-component'), { mode: 'application/x-httpd-php' });
-			document.getElementById('component_toggle').addEventListener('click', function() {
-					setTimeout(function() {
-						cm.refresh();
-					},1)
-			});
-			<?php
-				}
-			?>
+		</script>
+		<?php
+			# register CodeMirror
+			if ($datau->CODEEDITOR == 1) {
+		?>
+		<style>
+			.CodeMirror, .CodeMirror-scroll {
+				height: <?php echo $EDHEIGHT; ?>
+			}
+		</style>
+		<script>
+		var cm = addCodeMirror(document.getElementById('post-component'), { mode: 'application/x-httpd-php' });
+		document.getElementById('component_toggle').addEventListener('click', function() {
+				setTimeout(function() {
+					cm.refresh();
+				},1)
+		});
+		console.log(cm);
+		</script>
+		<?php
+			}
+		?>
 		</script>
 	</div>
 	</div><!-- end maincontent -->

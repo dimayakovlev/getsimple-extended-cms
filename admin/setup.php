@@ -67,6 +67,7 @@ if(isset($_POST['submitted'])) {
 		$xml->addChild('PWD', $PASSWD);
 		$xml->addChild('EMAIL', $EMAIL);
 		$xml->addChild('HTMLEDITOR', '1');
+		$xml->addChild('CODEEDITOR', '1');
 		$xml->addChild('TIMEZONE', $TIMEZONE);
 		$xml->addChild('LANG', $LANG);
 		$xml->addChild('DATECREATED', date('r'));
