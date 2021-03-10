@@ -132,8 +132,6 @@ if ($datau->CODEEDITOR == 1) {
 	queue_script('codemirror', GSBACK);
 	queue_style('codemirror-css', GSBACK);
 	queue_style('codemirror-theme', GSBACK);
-
-	add_action('header', 'set_gs_codemirror');
 }
 
 get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS')); 
