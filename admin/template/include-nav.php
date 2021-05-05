@@ -12,7 +12,13 @@ if (cookie_check()) {
 	if (isDebug()) {
 		echo '<li class="debug"><a href="'.$debugInfoUrl.'" target="_blank">'.i18n_r('DEBUG_MODE').'</a></li>';
 	}
-	echo '<li class="rightnav" ><a href="settings.php#profile">'.i18n_r('WELCOME').' <strong>'.$USR.'</strong>!</a></li></ul>';
+	echo '<li class="rightnav" ><a href="settings.php#profile">' . i18n_r('WELCOME') . ', <strong>';
+	if ($datau->NAME != '') {
+		echo cl($datau->NAME) . ' <span>[' . $USR . ']</span>';
+	} else {
+		echo $USR;
+	}
+	echo '</strong>!</a></li></ul>';
 } 
 
 //determine page type if plugin is being shown
