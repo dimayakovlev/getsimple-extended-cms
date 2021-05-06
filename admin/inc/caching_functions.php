@@ -269,7 +269,7 @@ function getParent($page) {
 /**
  * Get Parents Pages
  * 
- * Return an array of of pages that are parents of the requested page
+ * Return an array of pages that are parents of the requested page
  * 
  * @since 3.3.17
  * 
@@ -459,4 +459,31 @@ function create_pagesxml($flag) {
 			return $success;
 		}
 	}
+}
+
+/**
+ * Private Page
+ * 
+ * Check if requested page is private
+ * 
+ * @since 3.3.17
+ * 
+ * @global $pagesArray
+ * 
+ * @uses getPagesXmlValues
+ * 
+ * @param string $page Slug of the page
+ * 
+ * @return bool Return true if page is private
+ */
+function isPagePrivate($page) {
+	global $pagesArray;
+	$private = false;
+	$page = trim($page);
+	if (!$page) return $private;
+	if (!$pagesArray) getPagesXmlValues();
+	if (isset($pagesArray[$page])) {
+		$private = ($pagesArray[$page]['private'] == 'Y');
+	}
+	return $private;
 }
