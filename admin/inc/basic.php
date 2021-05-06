@@ -686,7 +686,7 @@ function i18n_merge_impl($plugin, $lang, &$globali18n) {
  * @return string
  */
 function safe_slash_html($text) {
-	if (get_magic_quotes_gpc()==0) {
+	if (!function_exists('get_magic_quotes_gpc') || get_magic_quotes_gpc() == 0) {
 		$text = addslashes(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'));
 	} else {
 		$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
@@ -749,7 +749,7 @@ function getRegexUnicode($id = null){
  * @return string
  */
 function safe_strip_decode($text) {
-	if (get_magic_quotes_gpc()==0) {
+	if (!function_exists('get_magic_quotes_gpc') || get_magic_quotes_gpc() == 0) {
 		$text = htmlspecialchars_decode($text, ENT_QUOTES);
 	} else {
 		$text = stripslashes(htmlspecialchars_decode($text, ENT_QUOTES));
