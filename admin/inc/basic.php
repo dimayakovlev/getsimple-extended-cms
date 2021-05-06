@@ -177,28 +177,27 @@ function sendmail($to,$subject,$message) {
  * @param bool $natural - sort using a "natural order" algorithm
  * @return array
  */
-function subval_sort($a,$subkey, $order='asc',$natural = true) {
-	if (count($a) != 0 || (!empty($a))) { 
-		foreach($a as $k=>$v) {
-			if(isset($v[$subkey])) $b[$k] = lowercase($v[$subkey]);
-		}
+function subval_sort(array $a, $subkey, $order = 'asc', $natural = true) {
+	if (empty($a)) return array();
 
-		if(!isset($b)) return $a;
-
-		if($natural){
-			natsort($b);
-			if($order=='desc') $b = array_reverse($b,true);	
-		} 
-		else {
-			($order=='asc')? asort($b) : arsort($b);
-		}
-		
-		foreach($b as $key=>$val) {
-			$c[] = $a[$key];
-		}
-
-		return $c;
+	foreach($a as $k => $v) {
+		if (isset($v[$subkey])) $b[$k] = lowercase($v[$subkey]);
 	}
+
+	if (!isset($b)) return $a;
+
+	if ($natural) {
+		natsort($b);
+		if ($order == 'desc') $b = array_reverse($b,true);
+	} else {
+		($order == 'asc') ? asort($b) : arsort($b);
+	}
+	
+	foreach($b as $key => $val) {
+		$c[] = $a[$key];
+	}
+
+	return $c;
 }
 
 /**
