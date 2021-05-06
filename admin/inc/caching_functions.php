@@ -240,6 +240,33 @@ function getChildrenMulti($page, $options = array()) {
 }
 
 /**
+ * Get Parent Page
+ * 
+ * Return slug of the parent page of the requested page
+ * 
+ * @since 3.3.17
+ * 
+ * @global $pagesArray
+ * 
+ * @uses getPagesXmlValues
+ * 
+ * @param string $page Slug of the page retrieve parent page slug
+ * 
+ * @return string Slug of the parent page. If page has no parent returns empty string
+ */
+function getParent($page) {
+	global $pagesArray;
+	$parent = '';
+	$page = trim($page);
+	if (!$page) return $parent;
+	if (!$pagesArray) getPagesXmlValues();
+	if (isset($pagesArray[$page])) {
+		$parent = (string)$pagesArray[$page]['parent'];
+	}
+	return $parent;
+}
+
+/**
  * Get Cached Pages XML Values
  *
  * Loads the Cached XML data into the Array $pagesArray
