@@ -267,6 +267,39 @@ function getParent($page) {
 }
 
 /**
+ * Get Parents Pages
+ * 
+ * Return an array of of pages that are parents of the requested page
+ * 
+ * @since 3.3.17
+ * 
+ * @global $pagesArray
+ * 
+ * @uses getPagesXmlValues
+ * 
+ * @param string $page Slug of the page retrive parents pages slugs
+ * 
+ * @return array Array of slug names
+ */
+function getParents($page) {
+	global $pagesArray;
+	$parent = '';
+	$parents = array();
+	$page = trim($page);
+	if (!$page) return $parents;
+	if (!$pagesArray) getPagesXmlValues();
+	do {
+		if (!isset($pagesArray[$page])) break;
+		$parent = (string)$pagesArray[$page]['parent'];
+		if ($parent) {
+			$parents[] = $parent;
+			$page = $parent;
+		}
+	}	while ($parent);
+	return $parents;
+}
+
+/**
  * Get Cached Pages XML Values
  *
  * Loads the Cached XML data into the Array $pagesArray
