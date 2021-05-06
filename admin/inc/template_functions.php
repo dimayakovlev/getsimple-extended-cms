@@ -783,47 +783,47 @@ function ckeditor_add_page_link(){
  * @param string $menu
  * @param int $level
  * 
- * @returns string
+ * @return string
  */
-function get_pages_menu($parent, $menu,$level) {
+function get_pages_menu($parent, $menu, $level) {
 	global $pagesSorted;
-	
-	$items=array();
+
+	$items = array();
 	foreach ($pagesSorted as $page) {
-		if ($page['parent']==$parent){
-			$items[(string)$page['url']]=$page;
-		}	
-	}	
-	if (count($items)>0){
+		if ($page['parent'] == $parent) {
+			$items[(string)$page['url']] = $page;
+		}
+	}
+	if (!empty($items)) {
 		foreach ($items as $page) {
-		  	$dash="";
-		  	if ($page['parent'] != '') {
-	  			$page['parent'] = $page['parent']."/";
-	  		}
-			for ($i=0;$i<=$level-1;$i++){
-				if ($i!=$level-1){
-	  				$dash .= '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+			$dash = '';
+			if ($page['parent'] != '') {
+				$page['parent'] = $page['parent'] . "/";
+			}
+			for ($i = 0; $i <= $level - 1; $i++) {
+				if ($i != $level - 1) {
+					$dash .= '<span>&nbsp;&nbsp;</span>';
 				} else {
-					$dash .= '<span>&nbsp;&nbsp;&ndash;&nbsp;&nbsp;&nbsp;</span>';
+					$dash .= '<span>&nbsp;&nbsp;&ndash;&nbsp;</span>';
 				}
-			} 
-			$menu .= '<tr id="tr-'.$page['url'] .'" >';
-			if ($page['title'] == '' ) { $page['title'] = '[No Title] &nbsp;&raquo;&nbsp; <em>'. $page['url'] .'</em>'; }
-			if ($page['menuStatus'] != '' ) { $page['menuStatus'] = ' <sup>['.i18n_r('MENUITEM_SUBTITLE').']</sup>'; } else { $page['menuStatus'] = ''; }
-			if ($page['private'] != '' ) { $page['private'] = ' <sup>['.i18n_r('PRIVATE_SUBTITLE').']</sup>'; } else { $page['private'] = ''; }
-			if ($page['url'] == 'index' ) { $homepage = ' <sup>['.i18n_r('HOMEPAGE_SUBTITLE').']</sup>'; } else { $homepage = ''; }
-			$menu .= '<td class="pagetitle">'. $dash .'<a title="'.i18n_r('EDITPAGE_TITLE').': '. var_out($page['title']) .'" href="edit.php?id='. $page['url'] .'" >'. cl($page['title']) .'</a><span class="showstatus toggle" >'. $homepage . $page['menuStatus'] . $page['private'] .'</span></td>';
-			$menu .= '<td style="width:80px;text-align:right;" ><span>'. shtDate($page['pubDate']) .'</span></td>';
+			}
+			$menu .= '<tr id="tr-' . $page['url'] . '">';
+			if ($page['title'] == '') { $page['title'] = '[' . i18n_r('NO_PAGE_TITLE') . '] &nbsp;&raquo;&nbsp; <em>' . $page['url'] . '</em>'; }
+			if ($page['menuStatus'] != '') { $page['menuStatus'] = ' <sup>[' . i18n_r('MENUITEM_SUBTITLE') . ']</sup>'; } else { $page['menuStatus'] = ''; }
+			if ($page['private'] != '') { $page['private'] = ' <sup>[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
+			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
+			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . '</span></td>';
+			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink" >';
-			$menu .= '<a title="'.i18n_r('VIEWPAGE_TITLE').': '. var_out($page['title']) .'" target="_blank" href="'. find_url($page['url'],$page['parent']) .'">#</a>';
+			$menu .= '<a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . find_url($page['url'], $page['parent']) . '">#</a>';
 			$menu .= '</td>';
-			if ($page['url'] != 'index' ) {
-				$menu .= '<td class="delete" ><a class="delconfirm" href="deletefile.php?id='. $page['url'] .'&amp;nonce='.get_nonce("delete", "deletefile.php").'" title="'.i18n_r('DELETEPAGE_TITLE').': '. var_out($page['title']) .'" >&times;</a></td>';
+			if ($page['url'] != 'index') {
+				$menu .= '<td class="delete"><a class="delconfirm" href="deletefile.php?id=' . $page['url'] . '&amp;nonce=' . get_nonce("delete", "deletefile.php") . '" title="' . i18n_r('DELETEPAGE_TITLE') . ': ' . var_out($page['title']) . '">&times;</a></td>';
 			} else {
-				$menu .= '<td class="delete" ></td>';
+				$menu .= '<td class="delete"></td>';
 			}
 			$menu .= '</tr>';
-			$menu = get_pages_menu((string)$page['url'], $menu,$level+1);	  	
+			$menu = get_pages_menu((string)$page['url'], $menu, $level + 1);
 		}
 	}
 	return $menu;
@@ -843,35 +843,35 @@ function get_pages_menu($parent, $menu,$level) {
  * @param string $menu
  * @param int $level
  * 
- * @returns string
+ * @return string
  */
-function get_pages_menu_dropdown($parentitem, $menu,$level) {
+function get_pages_menu_dropdown($parentitem, $menu, $level) {
 	
 	global $pagesSorted;
-	global $parent; 
+	global $parent;
 	
-	$items=array();
+	$items = array();
 	foreach ($pagesSorted as $page) {
-		if ($page['parent']==$parentitem){
-			$items[(string)$page['url']]=$page;
-		}	
-	}	
-	if (count($items)>0){
+		if ($page['parent'] == $parentitem) {
+			$items[(string)$page['url']] = $page;
+		}
+	}
+	if (!empty($items)) {
 		foreach ($items as $page) {
-		  	$dash="";
-		  	if ($page['parent'] != '') {
-	  			$page['parent'] = $page['parent']."/";
-	  		}
-			for ($i=0;$i<=$level-1;$i++){
-				if ($i!=$level-1){
-	  				$dash .= '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+			$dash = '';
+			if ($page['parent'] != '') {
+				$page['parent'] = $page['parent'] . "/";
+			}
+			for ($i = 0; $i <= $level - 1; $i++) {
+				if ($i != $level - 1) {
+					$dash .= '<span>&nbsp;&nbsp;</span>';
 				} else {
-					$dash .= '<span>&nbsp;&nbsp;&ndash;&nbsp;&nbsp;&nbsp;</span>';
+					$dash .= '<span>&nbsp;&nbsp;&ndash;&nbsp;</span>';
 				}
 			} 
-			if ($parent == (string)$page['url']) { $sel="selected"; } else { $sel=""; }
-			$menu .= '<option '.$sel.' value="'.$page['url'] .'" >'.$dash.$page['url'].'</option>';
-			$menu = get_pages_menu_dropdown((string)$page['url'], $menu,$level+1);	  	
+			if ($parent == (string)$page['url']) { $sel = 'selected'; } else { $sel = ''; }
+			$menu .= '<option ' . $sel . ' value="' . $page['url'] . '">' . $dash . $page['url'] . '</option>';
+			$menu = get_pages_menu_dropdown((string)$page['url'], $menu, $level + 1);
 		}
 	}
 	return $menu;

@@ -63,6 +63,7 @@ $i18n = array(
 "TOGGLE_STATUS"			=>	"Toggle Stat<em>u</em>s",
 "TOTAL_PAGES"				=>	"total pages",
 "ALL_PAGES"					=>	"Pages",
+"NO_PAGE_TITLE"     =>  "No Title",
 
 /* 
  * For: edit.php
