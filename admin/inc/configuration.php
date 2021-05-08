@@ -6,14 +6,15 @@
  * @subpackage Config
  */
 
-$site_full_name     = 'GetSimple';
+$site_full_name     = 'GetSimple CMS';
 $site_version_no    = '3.3.16';
-$name_url_clean     = lowercase(str_replace(' ','-',$site_full_name));
-$ver_no_clean       = str_replace('.','',$site_version_no);
+// $name_url_clean     = lowercase(str_replace(' ' , '-', $site_full_name));
+// $ver_no_clean       = str_replace('.', '', $site_version_no);
 $site_link_back_url = 'http://get-simple.info/';
 
 // cookie config
-$cookie_name        = lowercase($name_url_clean) .'_cookie_'. $ver_no_clean; // non-hashed name of cookie
+//$cookie_name        = lowercase($name_url_clean) . '_cookie_' . $ver_no_clean; // non-hashed name of cookie
+$cookie_name        = lowercase(lowercase(str_replace(' ' , '-', $site_full_name))) . '_cookie_' . str_replace('.', '', $site_version_no); // non-hashed name of cookie
 $cookie_login       = 'index.php'; // login redirect
 $cookie_time        = '10800';     // in seconds, 3 hours
 $cookie_path        = '/';         // cookie path
@@ -28,5 +29,3 @@ $api_url            = 'http://get-simple.info/api/start/v3.php';
 $cookie_redirect = 'pages.php';
 
 if (!defined('GSVERSION')) define('GSVERSION', $site_version_no);
-
-?>
