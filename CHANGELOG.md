@@ -25,5 +25,6 @@
     * Russian transliteration based on [Yandex scheme](https://yandex.ru/support/nmaps/app_transliteration.html)
     * Freed `404` slug for usual page
     * `GSNOHIGHLIGHT` option is outdated. Option stored in user field `CODEEDITOR`
+    * Disable caching of the admin stylesheet in debug mode
 
 1. [](#bugfix)

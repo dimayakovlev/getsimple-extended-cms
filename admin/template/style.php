@@ -11,14 +11,16 @@ $offset = 30000;
 #header ('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
 
 # check to see if cache is available for this
-$cacheme = true;
+$cacheme = !isset($_GET['nocache']);
 $cachefile = '../../data/cache/stylesheet.txt';
 if (file_exists($cachefile) && time() - 600 < filemtime($cachefile) && $cacheme) {
 	echo file_get_contents($cachefile);
-	echo "/* Cached copy, generated " . date('H:i', filemtime($cachefile)) . " '" . $cachefile . "' */\n";
 	exit;
-} 
-ob_start();
+}
+
+if ($cacheme) {
+	ob_start();
+}
 
 function compress($buffer) {
   $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer); /* remove comments */
@@ -57,6 +59,8 @@ if (isset($_GET['s']) && in_array('wide', explode(',', $_GET['s']))) {
 	include('css-wide.php');
 }
 
-file_put_contents($cachefile, compress(ob_get_contents()));
-chmod($cachefile, 0644);
-ob_end_flush();
+if ($cacheme) {
+	file_put_contents($cachefile, compress(ob_get_contents()) . '/* Cached copy, generated ' . date('H:i') . " '" . $cachefile . "' */\n");
+	chmod($cachefile, 0644);
+	ob_end_flush();
+}
