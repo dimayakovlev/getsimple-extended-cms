@@ -84,12 +84,12 @@ include('template/include-nav.php'); ?>
 				<p id="img-code-select"><a href="#" class="select-all" ><?php i18n('CLIPBOARD_INSTR');?></a></p>
 			</form>
 			<div class="toggle">
-				<p id="code-img-html">&lt;img src="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" class="gs_image" height="<?php echo $imgheight; ?>" width="<?php echo $imgwidth; ?>" alt=""></p>
+				<p id="code-img-html">&lt;img src="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" loading="lazy" class="gs_image" height="<?php echo $imgheight; ?>" width="<?php echo $imgwidth; ?>" alt=""></p>
 				<p id="code-img-link"><?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?></p>
 				<?php if(!empty($thumb_exists)) { ?>
-				<p id="code-thumb-html">&lt;img src="<?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'. rawurlencode($src); ?>" class="gs_image gs_thumb" height="<?php echo $thheight; ?>" width="<?php echo $thwidth; ?>" alt=""></p>
+				<p id="code-thumb-html">&lt;img src="<?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'. rawurlencode($src); ?>" loading="lazy" class="gs_image gs_thumb" height="<?php echo $thheight; ?>" width="<?php echo $thwidth; ?>" alt=""></p>
 				<p id="code-thumb-link"><?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'.rawurlencode($src); ?></p>
-				<p id="code-imgthumb-html">&lt;a href="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" class="gs_image_link" >&lt;img src="<?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'.rawurlencode($src); ?>" class="gs_thumb" height="<?php echo $thheight; ?>" width="<?php echo $thwidth; ?>" alt="" />&lt;/a></p>
+				<p id="code-imgthumb-html">&lt;a href="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" class="gs_image_link" >&lt;img src="<?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'.rawurlencode($src); ?>" loading="lazy" class="gs_thumb" height="<?php echo $thheight; ?>" width="<?php echo $thwidth; ?>" alt="">&lt;/a></p>
 				<?php } ?>
 			</div>
 	</div>
