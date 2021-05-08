@@ -1213,7 +1213,7 @@ function filter_queryString($allowed = array()){
  * @param bool $cleanhtml attempt to clean up html IF strip tags is false, default: true
  * @return string
  */
-function getExcerpt($str, $len = 200, $striphtml = true, $ellipsis = '...', $break = false, $cleanhtml = true){
+function getExcerpt($str, $len = 200, $striphtml = true, $ellipsis = '…', $break = false, $cleanhtml = true){
 	$str = $striphtml ? trim(strip_tags($str)) : $str;
 	$len = $len++; // zero index bump
 

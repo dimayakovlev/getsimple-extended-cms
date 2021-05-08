@@ -77,10 +77,10 @@ function get_page_component() {
  *
  * @param string $n Optional, default is 200.
  * @param bool $striphtml Optional, default false, true will strip html from $content
- * @param string $ellipsis Optional, Default '...', specify an ellipsis
+ * @param string $ellipsis Optional, Default '…', specify an ellipsis
  * @return string Echos.
  */
-function get_page_excerpt($len=200, $striphtml=true, $ellipsis = '...') {
+function get_page_excerpt($len=200, $striphtml=true, $ellipsis = '…') {
 	GLOBAL $content;
 	if ($len<1) return '';
 	$content_e = strip_decode($content);
