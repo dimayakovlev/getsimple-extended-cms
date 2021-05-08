@@ -15,7 +15,7 @@ $cacheme = true;
 $cachefile = '../../data/cache/stylesheet.txt';
 if (file_exists($cachefile) && time() - 600 < filemtime($cachefile) && $cacheme) {
 	echo file_get_contents($cachefile);
-	echo "/* Cached copy, generated ".date('H:i', filemtime($cachefile))." '".$cachefile."' */\n";
+	echo "/* Cached copy, generated " . date('H:i', filemtime($cachefile)) . " '" . $cachefile . "' */\n";
 	exit;
 } 
 ob_start();
@@ -26,15 +26,9 @@ function compress($buffer) {
   return $buffer;
 }
 
-function getXML($file) {
-	$xml = file_get_contents($file);
-	$data = simplexml_load_string($xml);
-	return $data;
-}
-
 if (file_exists('../../theme/admin.xml')) {
 	#load admin theme xml file
-	$theme = getXML('../../theme/admin.xml');
+	$theme = simplexml_load_string(file_get_contents('../../theme/admin.xml'));
 	$primary_0 = trim($theme->primary->darkest);
 	$primary_1 = trim($theme->primary->darker);
 	$primary_2 = trim($theme->primary->dark);
@@ -52,14 +46,16 @@ if (file_exists('../../theme/admin.xml')) {
 	$primary_3 = '#415A66';
 	$primary_4 = '#618899';
 	$primary_5 = '#E8EDF0';
-	$primary_6 = '#AFC5CF'; # lightest
-	
+	$primary_6 = '#AFC5CF'; # lightest	
 	$secondary_0 = '#9F2C04'; # darkest
 	$secondary_1 = '#CF3805'; # lightest
 }
 
 include('css.php');
-if( isset($_GET['s']) and in_array('wide',explode(',',$_GET['s'])) ) include('css-wide.php');
+
+if (isset($_GET['s']) && in_array('wide', explode(',', $_GET['s']))) {
+	include('css-wide.php');
+}
 
 file_put_contents($cachefile, compress(ob_get_contents()));
 chmod($cachefile, 0644);
