@@ -54,11 +54,11 @@ function get_page_content() {
 /**
  * Get Page Component
  *
- *@since 3.3.17
- *@uses $data_index
- *@uses strip_decode
+ * @since 3.3.17
+ * @global $data_index
+ * @uses strip_decode
  *
- *@return mixed Return result of processed code from page component
+ * @return mixed Return result of processed code from page component
  */
 function get_page_component() {
 	global $data_index;
@@ -684,16 +684,15 @@ function get_navigation($currentpage = "",$classPrefix = "") {
  * This will return true if user is logged in
  *
  * @since 3.2
+ * 
+ * @global $USR
  * @uses get_cookie();
- * @uses $USR
  *
- * @return bool
+ * @return bool Return true if user is logged in
  */	
-function is_logged_in(){
+function is_logged_in() {
   global $USR;
-  if (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME')) {
-    return true;
-  }
+  return (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME'));
 }	
 	
 
@@ -730,4 +729,3 @@ if(!function_exists('set_contact_page')) {
 		#removed functionality	
 	}
 }
-?>
