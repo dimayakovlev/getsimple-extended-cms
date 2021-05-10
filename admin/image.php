@@ -73,6 +73,7 @@ include('template/include-nav.php'); ?>
           <select class="text" id="img-info">
             <option selected value="code-img-link" ><?php i18n('LINK_ORIG_IMG');?></option>
             <option value="code-img-html" ><?php i18n('HTML_ORIG_IMG');?></option>
+			<option value="code-img-figure" ><?php i18n('FIGURE_ORIG_IMG');?></option>
             <?php if(!empty($thumb_exists)) { ?>
             <option value="code-thumb-html" ><?php i18n('HTML_THUMBNAIL');?></option>
             <option value="code-thumb-link" ><?php i18n('LINK_THUMBNAIL');?></option>
@@ -86,6 +87,7 @@ include('template/include-nav.php'); ?>
 			<div class="toggle">
 				<p id="code-img-html">&lt;img src="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" loading="lazy" class="gs_image" height="<?php echo $imgheight; ?>" width="<?php echo $imgwidth; ?>" alt=""></p>
 				<p id="code-img-link"><?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?></p>
+				<p id="code-img-figure">&lt;figure>&lt;img src="<?php echo tsl($SITEURL) .'data/uploads/'. $subPath. rawurlencode($src); ?>" loading="lazy" class="gs_image" height="<?php echo $imgheight; ?>" width="<?php echo $imgwidth; ?>" alt="">&lt;figcaption>&lt;/figcaption>&lt;/figure></p>
 				<?php if(!empty($thumb_exists)) { ?>
 				<p id="code-thumb-html">&lt;img src="<?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'. rawurlencode($src); ?>" loading="lazy" class="gs_image gs_thumb" height="<?php echo $thheight; ?>" width="<?php echo $thwidth; ?>" alt=""></p>
 				<p id="code-thumb-link"><?php echo tsl($SITEURL) .'data/thumbs/'.$subPath.'thumbnail.'.rawurlencode($src); ?></p>

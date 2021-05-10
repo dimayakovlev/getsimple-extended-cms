@@ -419,6 +419,7 @@ $i18n = array(
 "SELECT_DIMENTIONS" => "Selection Dimentions",
 "HTML_ORIG_IMG" 		=> "Original Image HTML",
 "LINK_ORIG_IMG" 		=> "Original Image Link",
+"FIGURE_ORIG_IMG"   => "Original Image with Caption",
 "HTML_THUMBNAIL" 		=> "Thumbnail HTML",
 "LINK_THUMBNAIL" 		=> "Thumbnail Link",
 "HTML_THUMB_ORIG" 	=> "Thumbnail-to-Image HTML",
