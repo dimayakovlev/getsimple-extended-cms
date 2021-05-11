@@ -26,11 +26,14 @@ add_action('changedata-aftersave', 'create_pagesxml', array(true));     // Creat
  * 
  * @uses GSDATAPAGESPATH
  * @uses strip_decode
+ * @uses returnPageField
  *
- * @param $page Slug of the page to retrive component code
+ * @param string $page Slug of the page to retrive component code
+ * @param bool $check Check if page component enabled
  * @return mixed Return result of evaluation of page component code or null
  */
-function getPageComponent($page) {
+function getPageComponent($page, $check = true) {
+	if ($check && (bool)returnPageField($page, 'componentEnable') == false) return null;
 	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
 	$data = simplexml_load_string($thisfile);
 	if (!$data) return;

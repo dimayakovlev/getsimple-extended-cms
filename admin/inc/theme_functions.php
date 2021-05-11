@@ -57,11 +57,14 @@ function get_page_content() {
  * @since 3.3.17
  * @global $data_index
  * @uses strip_decode
+ * 
+ * @param bool $check Check if page component enabled
  *
  * @return mixed Return result of processed code from page component
  */
-function get_page_component() {
+function get_page_component($check = true) {
 	global $data_index;
+	if ($check && $data_index->componentEnable != '1') return null;
 	if ($data_index->component) {
 		eval('?>' . strip_decode($data_index->component) . '<?php ');
 	}
