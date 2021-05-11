@@ -812,7 +812,8 @@ function get_pages_menu($parent, $menu, $level) {
 			if ($page['menuStatus'] != '') { $page['menuStatus'] = ' <sup>[' . i18n_r('MENUITEM_SUBTITLE') . ']</sup>'; } else { $page['menuStatus'] = ''; }
 			if ($page['private'] != '') { $page['private'] = ' <sup>[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
-			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . '</span></td>';
+			if (isset($page['componentEnable']) && $page['componentEnable'] == '1') { $page['componentEnable'] = ' <sup>[' . i18n_r('COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnable'] = ''; }
+			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnable'] . '</span></td>';
 			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink" >';
 			$menu .= '<a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . find_url($page['url'], $page['parent']) . '">#</a>';

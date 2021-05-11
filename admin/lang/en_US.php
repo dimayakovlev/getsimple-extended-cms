@@ -56,6 +56,7 @@ $i18n = array(
 "MENUITEM_SUBTITLE"	=>	"menu item",
 "HOMEPAGE_SUBTITLE"	=>	"homepage",
 "PRIVATE_SUBTITLE"	=>	"private",
+"COMPONENT_SUBTITLE" => "component enable",
 "EDITPAGE_TITLE"		=>	"Edit Page",
 "VIEWPAGE_TITLE"		=>	"View Page",
 "DELETEPAGE_TITLE"	=>	"Delete Page",
