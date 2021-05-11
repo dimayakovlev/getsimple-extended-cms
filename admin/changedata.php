@@ -106,6 +106,7 @@ if (isset($_POST['submitted'])) {
 		if(isset($_POST['post-menu-enable'])) { $menuStatus = "Y"; } else { $menuStatus = ""; }
 		if(isset($_POST['post-private']) ) 		{ $private = safe_slash_html($_POST['post-private']); }
 		if(isset($_POST['post-content'])) 		{	$content = safe_slash_html($_POST['post-content']);	}
+		if (isset($_POST['post-component']))	{ $component = safe_slash_html($_POST['post-component']); }
 		if(isset($_POST['post-menu-order'])) 	{ 
 			if (is_numeric($_POST['post-menu-order'])) 
 			{
@@ -175,6 +176,9 @@ if (isset($_POST['submitted'])) {
 		
 		$note = $xml->addChild('content');
 		$note->addCData($content);
+
+		$note = $xml->addChild('component');
+		$note->addCData($component);
 		
 		$note = $xml->addChild('private');
 		$note->addCData($private);
