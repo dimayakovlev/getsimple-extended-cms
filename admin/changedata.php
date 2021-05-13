@@ -146,52 +146,22 @@ if (isset($_POST['submitted'])) {
 		
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('pubDate', date('r'));
-    $xml->addChild('creDate', $creDate);
-
-		$note = $xml->addChild('title');
-		$note->addCData($title);
-		
-		$note = $xml->addChild('url');
-		$note->addCData($url);
-		
-		$note = $xml->addChild('meta');
-		$note->addCData($metak);
-		
-		$note = $xml->addChild('metad');
-		$note->addCData($metad);
-		
-		$note = $xml->addChild('menu');
-		$note->addCData($menu);
-		
-		$note = $xml->addChild('menuOrder');
-		$note->addCData($menuOrder);
-		
-		$note = $xml->addChild('menuStatus');
-		$note->addCData($menuStatus);
-		
-		$note = $xml->addChild('template');
-		$note->addCData($template);
-		
-		$note = $xml->addChild('parent');
-		$note->addCData($parent);
-		
-		$note = $xml->addChild('content');
-		$note->addCData($content);
-
-		$note = $xml->addChild('component');
-		$note->addCData($component);
-
-		$note = $xml->addChild('componentEnable');
-		$note->addCData($componentEnable);
-		
-		$note = $xml->addChild('private');
-		$note->addCData($private);
-		
-		$note = $xml->addChild('author');
-		$note->addCData($author);
-    
-    $note = $xml->addChild('lastAuthor');
-    $note->addCData($USR);
+		$xml->addChild('creDate', $creDate);
+		$xml->addChild('title')->addCData($title);
+		$xml->addChild('url', $url);
+		$xml->addChild('meta')->addCData($metak);
+		$xml->addChild('metad')->addCData($metad);
+		$xml->addChild('menu')->addCData($menu);
+		$xml->addChild('menuOrder', $menuOrder);
+		$xml->addChild('menuStatus', $menuStatus);
+		$xml->addChild('template', $template);
+		$xml->addChild('parent', $parent);
+		$xml->addChild('content')->addCData($content);
+		$xml->addChild('component')->addCData($component);
+		$xml->addChild('componentEnable', $componentEnable);
+		$xml->addChild('private', $private);
+		$xml->addChild('author', $author);
+		$xml->addChild('lastAuthor', $USR);
 
 		exec_action('changedata-save');
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true' && $autoSaveDraft == true) {

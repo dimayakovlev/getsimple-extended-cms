@@ -23,7 +23,7 @@ if (isset($_POST['menuOrder'])) {
 			$data = getXML($file);
 			if ($priority != (int) $data->menuOrder) {
 				unset($data->menuOrder);
-				$data->addChild('menuOrder')->addCData($priority);
+				$data->addChild('menuOrder', $priority);
 				XMLsave($data,$file);
 			}
 		}
