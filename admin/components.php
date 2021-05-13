@@ -2,7 +2,7 @@
 /**
  * Components
  *
- * Displays and creates static components 	
+ * Displays and creates static components
  *
  * @package GetSimple
  * @subpackage Components
@@ -15,79 +15,76 @@ include('inc/common.php');
 
 # variable settings
 $userid 	= login_cookie_check();
-$file 		= "components.xml";
+$file 		= 'components.xml';
 $path 		= GSDATAOTHERPATH;
-$bakpath 	= GSBACKUPSPATH .'other/';
+$bakpath 	= GSBACKUPSPATH . 'other/';
 $update 	= ''; $table = ''; $list='';
 
 # check to see if form was submitted
-if (isset($_POST['submitted'])){
-	$value = $_POST['val'];
-	$slug = $_POST['slug'];
-	$title = $_POST['title'];
-	$ids = $_POST['id'];
-	
+if (isset($_POST['submitted'])) {
+
 	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
-		$nonce = $_POST['nonce'];	
-		if(!check_nonce($nonce, "modify_components")) {
-			die("CSRF detected!");
+	if (!defined('GSNOCSRF') || (GSNOCSRF == false) ) {
+		$nonce = $_POST['nonce'];
+		if(!check_nonce($nonce, 'modify_components')) {
+			die('CSRF detected!');
 		}
 	}
 
-	# create backup file for undo           
+	# create backup file for undo
 	createBak($file, $path, $bakpath);
-	
+
 	# start creation of top of components.xml file
 	$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><channel></channel>');
-	if (count($ids) != 0) { 
-		
-		$ct = 0; $coArray = array();
-		foreach ($ids as $id)		{
-			if ($title[$ct] != null) {
-				if ( $slug[$ct] == null )	{
-					$slug_tmp = to7bit($title[$ct], 'UTF-8');
-					$slug[$ct] = clean_url($slug_tmp); 
-					$slug_tmp = '';
-				}
-				
-				$coArray[$ct]['id'] = $ids[$ct];
-				$coArray[$ct]['slug'] = $slug[$ct];
-				$coArray[$ct]['title'] = safe_slash_html($title[$ct]);
-				$coArray[$ct]['value'] = safe_slash_html($value[$ct]);
-				
+	$components = array();
+	if (isset($_POST['components'])) {
+		foreach($_POST['components'] as $component) {
+			if (!isset($component['title']) || trim($component['title']) == '') {
+				$component['title'] = uniqid('Component ');
+			} else {
+				$component['title'] = safe_slash_html(trim($component['title']));
 			}
-			$ct++;
-		}
-		
-		$ids = subval_sort($coArray,'title');
-		
-		$count = 0;
-		foreach ($ids as $comp)	{
-			# create the body of components.xml file
-			$components = $xml->addChild('item');
-			$c_note = $components->addChild('title');
-			$c_note->addCData($comp['title']);
-			$components->addChild('slug', $comp['slug']);
-			$c_note = $components->addChild('value');
-			$c_note->addCData($comp['value']);
-			$count++;
+			if (!isset($component['slug']) || trim($component['slug']) == '') {
+				$slug = clean_url(to7bit(trim($component['title'])), 'UTF-8');
+				if ($slug) {
+					$component['slug'] = $slug;
+				} else {
+					$component['slug'] = uniqid('component-');
+				}
+			}
+			if (isset($component['value'])) {
+				$component['value'] = safe_slash_html($component['value']);
+			} else {
+				$component['value'] = '';
+			}
+			$component['enable'] = isset($component['enable']) ? $component['enable'] : '';
+			$components[] = $component;
 		}
 	}
+
+	if ($components) {
+		$components = subval_sort($components, 'title');
+		foreach ($components as $component) {
+			$item = $xml->addChild('item');
+			$item->addChild('title')->addCData($component['title']);
+			$item->addChild('slug', $component['slug']);
+			$item->addChild('enable', $component['enable']);
+			$item->addChild('value')->addCData($component['value']);
+		}
+	}
+
 	exec_action('component-save');
 	XMLsave($xml, $path . $file);
 	redirect('components.php?upd=comp-success');
 }
 
 # if undo was invoked
-if (isset($_GET['undo'])) { 
-	
+if (isset($_GET['undo'])) {
 	# check for csrf
-	$nonce = $_GET['nonce'];	
+	$nonce = $_GET['nonce'];
 	if(!check_nonce($nonce, "undo")) {
 		die("CSRF detected!");
 	}
-	
 	# perform the undo
 	undo($file, $path, $bakpath);
 	redirect('components.php?upd=comp-restored');
@@ -95,17 +92,18 @@ if (isset($_GET['undo'])) {
 
 # create components form html
 $data = getXML($path . $file);
-$componentsec = $data->item;
+$components = $data->item;
 $count= 0;
-if (count($componentsec) != 0) {
-	foreach ($componentsec as $component) {
-		$table .= '<div class="compdiv" id="section-'.$count.'"><table class="comptable" ><tr><td><b title="'.i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">'. stripslashes($component->title) .'</b></td>';
-		$table .= '<td style="text-align:right;" ><code>&lt;?php get_component(<span class="compslugcode">\''.$component->slug.'\'</span>); ?&gt;</code></td><td class="delete" >';
-		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT').': '. cl($component->title).'?" class="delcomponent" rel="'.$count.'" >&times;</a></td></tr></table>';
-		$table .= '<textarea class="text" name="val[]">'. stripslashes($component->value) .'</textarea>';
-		$table .= '<input type="hidden" class="compslug" name="slug[]" value="'. $component->slug .'" />';
-		$table .= '<input type="hidden" class="comptitle" name="title[]" value="'. stripslashes($component->title) .'" />';
-		$table .= '<input type="hidden" name="id[]" value="'. $count .'" />';
+if (count($components) != 0) {
+	foreach ($components as $component) {
+		$checked = (isset($component->enable) && $component->enable == '1') ? ' checked ' : '';
+		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable" ><tr><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
+		$table .= '<td style="text-align:right;" ><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
+		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title). '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enable]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enable]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
+		$table .= '<textarea class="text" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
+		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '" />';
+		$table .= '<input type="hidden" class="comptitle" name="components[' . $count . '][title]" value="' . stripslashes($component->title) . '" />';
+		$table .= '<input type="hidden" name="components[' . $count . '][id]" value="' . $count . '" />';
 		exec_action('component-extras');
 		$table .= '</div>';
 		$count++;
@@ -115,33 +113,32 @@ if (count($componentsec) != 0) {
 	$listc = ''; $submitclass = '';
 	if($count > 1) {
 		$item = 0;
-		foreach($componentsec as $component) {
+		foreach($components as $component) {
 			$listc .= '<a id="divlist-' . $item . '" href="#section-' . $item . '" class="component">' . $component->title . '</a>';
 			$item++;
 		}
 	} elseif ($count == 0) {
 		$submitclass = 'hidden';
-		
 	}
 # register and queue CodeMirror files
 if ($datau->CODEEDITOR == 1) {
-	register_script('codemirror', $SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', FALSE);
-	register_style('codemirror-css',$SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror.css','screen',FALSE);
-	register_style('codemirror-theme',$SITEURL.$GSADMIN.'/template/js/codemirror/theme/default.css','screen',FALSE);
+	register_script('codemirror', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', false);
+	register_style('codemirror-css', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror.css','screen', false);
+	register_style('codemirror-theme', $SITEURL . $GSADMIN . '/template/js/codemirror/theme/default.css','screen', false);
 
 	queue_script('codemirror', GSBACK);
 	queue_style('codemirror-css', GSBACK);
 	queue_style('codemirror-theme', GSBACK);
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 
 ?>
-	
+
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent clearfix">
-	
+
 	<div id="maincontent">
 	<div class="main">
 	<h3 class="floated"><?php echo i18n('EDIT_COMPONENTS');?></h3>
@@ -149,7 +146,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS'));
 		<a href="#" id="addcomponent" accesskey="<?php echo find_accesskey(i18n_r('ADD_COMPONENT'));?>" ><?php i18n('ADD_COMPONENT');?></a>
 		<div class="clear"></div>
 	</div>
-	
+
 	<form class="manyinputs" action="<?php myself(); ?>" method="post" accept-charset="utf-8" >
 		<input type="hidden" id="id" value="<?php echo $count; ?>" />
 		<input type="hidden" id="nonce" name="nonce" value="<?php echo get_nonce("modify_components"); ?>" />
@@ -160,9 +157,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS'));
 			if ($datau->CODEEDITOR == 1) {
 		?>
 		<style>
-			.compdiv .CodeMirror, .compdiv .CodeMirror-scroll {
-				height: <?php echo $EDHEIGHT; ?>;
-			}
+			.compdiv .CodeMirror, .compdiv .CodeMirror-scroll { height: <?php echo $EDHEIGHT; ?>; }
 		</style>
 		<script>
 			GS.CodeMirror = new Array();
@@ -179,8 +174,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS'));
 		<script>
 			GS.i18n['TITLE'] = "<?php i18n('TITLE'); ?>";
 			GS.i18n['DELETE_COMPONENT'] = "<?php i18n('DELETE_COMPONENT'); ?>";
+			GS.i18n['ENABLE_COMPONENT'] = "<?php i18n('ENABLE_COMPONENT'); ?>";
 		</script>
-		<p id="submit_line" class="<?php echo $submitclass; ?>" >
+		<p id="submit_line" class="<?php echo $submitclass; ?>">
 			<span><input type="submit" class="submit" name="submitted" id="button" value="<?php i18n('SAVE_COMPONENTS');?>" /></span> &nbsp;&nbsp;<?php i18n('OR'); ?>&nbsp;&nbsp; <a class="cancel" href="components.php?cancel"><?php i18n('CANCEL'); ?></a>
 		</p>
 	</form>
@@ -189,7 +185,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('COMPONENTS'));
 	
 	<div id="sidebar">
 		<?php include('template/sidebar-theme.php'); ?>
-		<?php if ($listc != '') { echo '<div class="compdivlist">'.$listc .'</div>'; } ?>
+		<?php if ($listc != '') { echo '<div class="compdivlist">' . $listc . '</div>'; } ?>
 	</div>
 
 </div>

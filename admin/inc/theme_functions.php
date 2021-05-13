@@ -598,36 +598,40 @@ function menu_data($id = null,$xml=false) {
  * Components are parsed for PHP within them.
  *
  * @since 1.0
+ * 
+ * @global $components
+ * 
  * @uses GSDATAOTHERPATH
  * @uses getXML
  * @modified mvlcek 6/12/2011
+ * @modified Dmitry Yakovlev 13/05/2021
  *
  * @param string $id This is the ID of the component you want to display
- *				True will return value in XML format. False will return an array
- * @return string 
+ * @param bool $check Check if component enabled
+ * @return mixed Return result of evaluation of component code or null
  */
-function get_component($id) {
-    global $components;
+function get_component($id, $check = true) {
+	global $components;
 
-    // normalize id
-    $id = to7bit($id, 'UTF-8');
-	$id = clean_url($id);
+	if (!$components) {
+		if (file_exists(GSDATAOTHERPATH . 'components.xml')) {
+			$data = getXML(GSDATAOTHERPATH . 'components.xml');
+			$components = $data->item;
+		} else {
+			$components = array();
+		}
+	}
 
-    if (!$components) {
-         if (file_exists(GSDATAOTHERPATH.'components.xml')) {
-            $data = getXML(GSDATAOTHERPATH.'components.xml');
-            $components = $data->item;
-        } else {
-            $components = array();
-        }
-    }
-    if (count($components) > 0) {
-        foreach ($components as $component) {
-            if ($id == $component->slug) { 
-                eval("?>" . strip_decode($component->value) . "<?php "); 
-            }
-        }
-    }
+	if (count($components) > 0) {
+		foreach ($components as $component) {
+			if ($id == $component->slug) {
+				if ($check == true && $component->enable == '1') {
+					eval('?>' . strip_decode($component->value) . '<?php ');
+				}
+				break;
+			}
+		}
+	}
 }
 
 /**

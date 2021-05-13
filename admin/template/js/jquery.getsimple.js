@@ -223,7 +223,7 @@ jQuery(document).ready(function () {
 		$e.preventDefault();
 		loadingAjaxIndicator.show();
 		var id = $("#id").val();
-    var component = $('<div style="display:none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>' + GS.i18n['TITLE'] + ': </b><input type="text" class="text newtitle" name="title[]" value="" /></td><td class="delete"><a href="#" title="' + GS.i18n['DELETE_COMPONENT'] + '?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr></table><textarea class="text" name="val[]"></textarea><input type="hidden" name="slug[]" value="" /><input type="hidden" name="id[]" value="' + id + '" /><div>')
+    var component = $('<div style="display:none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>' + GS.i18n['TITLE'] + ': </b><input type="text" class="text newtitle" name="components[' + id + '][title]" value="" /></td><td class="delete"><a href="#" title="' + GS.i18n['DELETE_COMPONENT'] + '?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' + id + '][enable]" value="1">&nbsp;<label for="components[' + id + '][enable]">' + GS.i18n['ENABLE_COMPONENT'] + '</label></td></tr></table><textarea class="text" name="components[' + id + '][value]"></textarea><input type="hidden" name="components[' + id + '][slug]" value="" /><input type="hidden" name="components[' + id + '][id]" value="' + id + '" /><div>')
 		$("#divTxt").prepend(component);
 		$("#section-" + id).slideToggle('fast');
 		id = (id - 1) + 2;
@@ -263,11 +263,15 @@ jQuery(document).ready(function () {
 	});
 	$("input.titlesaver").live("keyup", function () {
 		var myval = $(this).val();
-		$(this).parents('.compdiv').find(".compslugcode").html("'" + myval.toLowerCase() + "'");
+		var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
+		$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
+		$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
 		$(this).parents('.compdiv').find("b.editable").html(myval);
 	}).live("focusout", function () {
 		var myval = $(this).val();
-		$(this).parents('.compdiv').find(".compslugcode").html("'" + myval.toLowerCase() + "'");
+		var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
+		$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
+		$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
 		$(this).parents('.compdiv').find("b.editable").html(myval);
 		$(this).parents('.compdiv').find("input.comptitle").val(myval);
 		$("b.editable").show();

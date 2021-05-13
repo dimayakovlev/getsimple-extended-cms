@@ -18,6 +18,7 @@
     * Added `getPageComponent` cache function to eval page component code of the requested page
     * Added `returnPageComponent` cache function to return component code of the requested page in plain text
     * Added option to enable/disable code editor from settings page
+    * Added option to enable/disable components
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
