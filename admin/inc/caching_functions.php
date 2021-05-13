@@ -431,19 +431,19 @@ function create_pagesxml($flag) {
 
 					foreach ($data->children() as $item => $itemdata) {
 						if ($item != 'content' && $item != 'component') {
-							$note = $pages->addChild($item);
-							$note->addCData($itemdata);
+							if ($item == 'title' || $item == 'meta' || $item == 'metad' || $item == 'menu') {
+								$pages->addChild($item)->addCData($itemdata);
+							} else {
+								$pages->addChild($item, $itemdata);
+							}							
 							$pagesArray[(string)$id][$item]=(string)$itemdata;
 						}
 					}
 
-					$note = $pages->addChild('slug');
-					$note->addCData($id);
+					$pages->addChild('slug', $id);
 					$pagesArray[(string)$id]['slug'] = (string)$id;
-									
+					$pages->addChild('filename', $file);
 					$pagesArray[(string)$id]['filename'] = $file;
-					$note = $pages->addChild('filename'); 
-					$note->addCData($file);
 					
 				} // else
 			} // end foreach
