@@ -70,6 +70,7 @@ if(isset($_POST['submitted'])) {
 		$xml->addChild('CODEEDITOR', '1');
 		$xml->addChild('TIMEZONE', $TIMEZONE);
 		$xml->addChild('LANG', $LANG);
+		$xml->addChild('accessInMaintenance', '1');
 		$xml->addChild('DATECREATED', date('r'));
 		$xml->addChild('DATEMODIFIED', date('r'));
 		if (! XMLsave($xml, GSUSERSPATH . $file) ) {
@@ -91,6 +92,7 @@ if(isset($_POST['submitted'])) {
 		$xmls->addChild('TEMPLATE', 'Innovation');
 		$xmls->addChild('PRETTYURLS', '');
 		$xmls->addChild('PERMALINK', '');
+		$xmls->addChild('maintenance', '1');
 		$xmls->addChild('DATECREATED', date('r'));
 		$xmls->addChild('DATEMODIFIED', date('r'));
 		if (! XMLsave($xmls, GSDATAOTHERPATH . $file) ) {
@@ -115,6 +117,19 @@ if(isset($_POST['submitted'])) {
 		$temp = GSADMININCPATH.'tmp/tmp-components.xml'; 
 		if (! file_exists($init)) {
 			copy($temp,$init);
+		}
+
+		# create default 503.xml page
+		$init = GSDATAOTHERPATH.'503.xml';
+		$temp = GSADMININCPATH.'tmp/tmp-503.xml'; 
+		if (! file_exists($init)) {
+			copy($temp,$init);
+			$xml = simplexml_load_file($init); 
+			$xml->pubDate = date('r');
+			$xml->creDate = date('r');
+			$xml->author = $USR;
+			$xml->lastAuthor = $USR;
+			$xml->asXML($init);
 		}
 
 		# create default 403.xml page

@@ -237,6 +237,7 @@ $i18n = array(
 "DISPLAY_NAME"			=>  "A name for public display that is not your username",
 "LABEL_USERDESCRIPTION" =>  "Description",
 "DISPLAY_USERDESCRIPTION" =>  "A personal information for public display",
+"MAINTENANCE_ENABLE"  => "Enable Maintenance Mode - <b style=\"font-weight:100\">allows you to display a user-friendly notice to your visitors during website maintenance</b>",
 
 /* 
  * For: health-check.php
@@ -599,6 +600,8 @@ $i18n = array(
 "PAGE_COMPONENT_CODE" => "Component Code", // edit.php
 "PAGE_COMPONENT_ENABLE" => 'Enable page component', // edit.php
 "ENABLE_CODE_ED"		=>	"Enable the code editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
+"MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",
+"ALLOW_ACCESS_IN_MAINTENANCE" => "Access to website in Maintenance Mode - <b style=\"font-weight:100\">Allow access to website while Maintenance Mode is enable</b>",
 );
 
 ?>

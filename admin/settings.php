@@ -26,7 +26,9 @@ $USRDESCRIPTION	= $data->DESCRIPTION;
 $USRDATECREATED = $data->DATECREATED;
 $USRDATEMODIFIED = $data->DATEMODIFIED;
 $CODEEDITOR = $data->CODEEDITOR;
+$ACCESS_IN_MAINTENANCE = $data->accessInMaintenance;
 
+$SITEMAINTENANCE = $dataw->maintenance;
 $SITEDATECREATED = $dataw->DATECREATED;
 $SITEDATEMODIFIED = $dataw->MODIFIED;
 
@@ -99,6 +101,11 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$PRETTYURLS = '';
 	}
+	if (isset($_POST['sitemaintenance'])) {
+		$SITEMAINTENANCE = '1';
+	} else {
+		$SITEMAINTENANCE = '';
+	}
 	if (isset($_POST['sitedatecreated']) && $_POST['sitedatecreated'] != '') {
 		$SITEDATECREATED = var_out($_POST['sitedatecreated']);
 	} else {
@@ -134,6 +141,11 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$CODEEDITOR = '';
 	}
+	if (isset($_POST['allow_access_in_maintenance'])) {
+		$ACCESS_IN_MAINTENANCE = '1';
+	} else {
+		$ACCESS_IN_MAINTENANCE = '';
+	}
 	if (isset($_POST['userdatecreated']) && $_POST['userdatecreated'] != '') {
 		$USRDATECREATED = var_out($_POST['userdatecreated']);
 	} else {
@@ -168,6 +180,7 @@ if(isset($_POST['submitted'])) {
 		$xml->addChild('CODEEDITOR', $CODEEDITOR);
 		$xml->addChild('TIMEZONE', $TIMEZONE);
 		$xml->addChild('LANG', $LANG);
+		$xml->addChild('accessInMaintenance', $ACCESS_IN_MAINTENANCE);
 		$xml->addChild('DATECREATED', var_out($USRDATECREATED));
 		$USRDATEMODIFIED = date('r'); // need to rework saving data
 		$xml->addChild('DATEMODIFIED', $USRDATEMODIFIED);
@@ -191,6 +204,7 @@ if(isset($_POST['submitted'])) {
 		$note->addCData($TEMPLATE);
 		$xmls->addChild('PRETTYURLS', $PRETTYURLS);
 		$xmls->addChild('PERMALINK', var_out($PERMALINK));
+		$xmls->addChild('maintenance', $SITEMAINTENANCE);
 		$xmls->addChild('DATECREATED', var_out($SITEDATECREATED));
 		$SITEDATEMODIFIED = date('r'); // need to rework saving data
 		$xmls->addChild('DATEMODIFIED', $SITEDATEMODIFIED);
@@ -257,7 +271,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 				<input id="sitedatecreated" name="sitedatecreated" type="hidden" value="<?php echo $SITEDATECREATED; ?>" />
 			</p>
 		</div>
-		<p class="inline" ><input name="prettyurls" id="prettyurls" type="checkbox" value="1" <?php if ($PRETTYURLS == 1) { echo 'checked'; } ?> /> &nbsp;<label for="prettyurls" ><?php i18n('USE_FANCY_URLS');?></label></p>
+		<p class="inline" ><input name="sitemaintenance" id="sitemainenance" type="checkbox" value="1"<?php if ($SITEMAINTENANCE == 1) { echo ' checked '; }?> />&nbsp;<label for="sitemaintenance" ><?php i18n('MAINTENANCE_ENABLE');?></label></p>
+		<p class="inline" ><input name="prettyurls" id="prettyurls" type="checkbox" value="1" <?php if ($PRETTYURLS == 1) { echo 'checked'; } ?> />&nbsp;<label for="prettyurls" ><?php i18n('USE_FANCY_URLS');?></label></p>
 				
 		<div class="leftsec">
 			<p><label for="permalink"  class="clearfix"><?php i18n('PERMALINK');?>: <span class="right"><a href="http://get-simple.info/docs/pretty_urls" target="_blank" ><?php i18n('MORE');?></a></span></label><input class="text" name="permalink" id="permalink" type="text" placeholder="%parent%/%slug%/" value="<?php if(isset($PERMALINK)) { echo var_out($PERMALINK); } ?>" /></p>
@@ -314,8 +329,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		</div>
 		<div class="clear"></div>
 		<div class="widesec">
-			<p class="inline" ><input name="show_htmleditor" id="show_htmleditor" type="checkbox" value="1" <?php if ($HTMLEDITOR == 1) { echo 'checked'; } ?> /> &nbsp;<label for="show_htmleditor" ><?php i18n('ENABLE_HTML_ED');?></label></p>
-			<p class="inline" ><input name="show_codeeditor" id="show_codeeditor" type="checkbox" value="1" <?php if ($CODEEDITOR == 1) { echo 'checked'; } ?> /> &nbsp;<label for="show_codeeditor" ><?php i18n('ENABLE_CODE_ED');?></label></p>
+			<p class="inline" ><input name="show_htmleditor" id="show_htmleditor" type="checkbox" value="1"<?php if ($HTMLEDITOR == 1) { echo ' checked '; } ?>/>&nbsp;<label for="show_htmleditor" ><?php i18n('ENABLE_HTML_ED');?></label></p>
+			<p class="inline" ><input name="show_codeeditor" id="show_codeeditor" type="checkbox" value="1"<?php if ($CODEEDITOR == 1) { echo ' checked '; } ?>/>&nbsp;<label for="show_codeeditor" ><?php i18n('ENABLE_CODE_ED');?></label></p>
+			<p class="inline" ><input name="allow_access_in_maintenance" id="allow_access_in_maintenance" type="checkbox" value="1"<?php if ($ACCESS_IN_MAINTENANCE == 1) { echo ' checked '; } ?>/>&nbsp;<label for="allow_access_in_maintenance" ><?php i18n('ALLOW_ACCESS_IN_MAINTENANCE');?></label></p>
 		</div>
 		<div class="clear"></div>
 		<?php exec_action('settings-user-extras'); ?>

@@ -58,8 +58,16 @@ $id = exec_filter('indexid', $id);
  // $_GET['id'] = $id; // support for plugins that are checking get?
 
 // define page
-// apply page data if page id exists
-if (isset($pagesArray[$id])) {
+if ($dataw->maintenance == '1' && (!is_logged_in() || $datau->accessInMaintenance != '1')) {
+	// apply page data if maintance mode enabled
+	$data_index = getXml(GSDATAOTHERPATH . '503.xml');
+	if ($data_index) {
+		header($_SERVER['SERVER_PROTOCOL'] . ' 503 Service Unavailable');
+	} else {
+		redirect('503');
+	}
+} elseif (isset($pagesArray[$id])) {
+	// apply page data if page id exists
 	$data_index = getXml(GSDATAPAGESPATH . $id . '.xml');
 } else {
 	$data_index = null;
@@ -78,7 +86,7 @@ if (!$data_index) {
 		redirect('404');
 	}
 	exec_action('error-404');
-	header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+	header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
 }
 
 // if page is private, check user
@@ -91,7 +99,7 @@ if ($data_index->private == 'Y' && !is_logged_in()) {
 		redirect('403');
 	}
 	exec_action('error-403');
-	header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
 }
 
 $title         = $data_index->title;
