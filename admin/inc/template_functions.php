@@ -7,7 +7,24 @@
  * @package GetSimple
  * @subpackage Zip
  */ 
-	
+
+/**
+ * Get GetSimple Language
+ *
+ * @since 3.3.17
+ * @uses $LANG
+ *
+ * @param string
+ */
+function get_admin_lang($short=false) {
+	global $LANG;
+	if ($short) {
+		$LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);
+		return $LANG_header;
+	} else {
+		return $LANG;
+	}
+}
 	
 /**
  * Get Template

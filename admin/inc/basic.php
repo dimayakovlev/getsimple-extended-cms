@@ -1162,25 +1162,6 @@ function get_site_version($echo=true) {
 	}
 }
 
-
-/**
- * Get GetSimple Language
- *
- * @since 3.1
- * @uses $LANG
- *
- * @param string
- */
-function get_site_lang($short=false) {
-	global $LANG;
-	if ($short) {
-		$LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);
-		return $LANG_header;
-	} else {
-		return $LANG;
-	}
-}
-
 /**
  * Convert to Bytes
  *

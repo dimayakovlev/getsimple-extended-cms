@@ -21,6 +21,9 @@
     * Added option to enable/disable components
     * Added support for special templates for `403` and `404` errors handling pages
     * Added **Maintenance Mode** to preventing visitors from using the site. This mode is enabled by default after installation of CMS
+    * Added settings for website content default language and per page content language
+    * Added `get_site_lang()` theme function to echo or return website language
+    * Added `get_page_lang()` theme function to echo or return page language
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
@@ -29,5 +32,6 @@
     * Freed `404` slug for usual page
     * `GSNOHIGHLIGHT` option is outdated. Option stored in user field `CODEEDITOR`
     * Disable caching of the admin stylesheet in debug mode
+    * Basic `get_site_lang()` function renamed to `get_admin_lang()` and moved to template_functions.php
 
 1. [](#bugfix)

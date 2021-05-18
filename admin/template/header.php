@@ -19,7 +19,7 @@ $bodyclass .= '"';
 if (get_filename_id() != 'index') exec_action('admin-pre-header');
 
 ?><!DOCTYPE html>
-<html lang="<?php echo get_site_lang(true); ?>">
+<html lang="<?php echo get_admin_lang(true); ?>">
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title ?></title>

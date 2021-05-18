@@ -29,6 +29,7 @@ $CODEEDITOR = $data->CODEEDITOR;
 $ACCESS_IN_MAINTENANCE = $data->accessInMaintenance;
 
 $SITEMAINTENANCE = $dataw->maintenance;
+$SITELANG = $dataw->lang;
 $SITEDATECREATED = $dataw->DATECREATED;
 $SITEDATEMODIFIED = $dataw->MODIFIED;
 
@@ -111,7 +112,9 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$SITEDATECREATED = date('r');
 	}
-   
+	if (isset($_POST['sitelang'])) {
+		$SITELANG = htmlentities($_POST['sitelang'], ENT_QUOTES, 'UTF-8');
+	}
 	# user-specific fields
 	if(isset($_POST['user'])) { 
 		$USR = strtolower($_POST['user']); 
@@ -208,6 +211,7 @@ if(isset($_POST['submitted'])) {
 		$xmls->addChild('DATECREATED', var_out($SITEDATECREATED));
 		$SITEDATEMODIFIED = date('r'); // need to rework saving data
 		$xmls->addChild('DATEMODIFIED', $SITEDATEMODIFIED);
+		$xmls->addChild('lang', $SITELANG);
 
 		exec_action('settings-website');
 		
@@ -266,6 +270,11 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		</div>
 		<div class="clear"></div>
 		<div class="widesec">
+			<p>
+				<label for="sitelang" ><?php i18n('LABEL_WEBSITELANG');?>:</label>
+				<span style="margin:0px 0 5px 0;font-size:12px;color:#999;"><?php i18n('DISPLAY_WEBSITELANG');?></span>
+				<input class="text" id="sitelang" name="sitelang" type="text" placeholder="<?php i18n('PLACEHOLDER_LANG'); ?>" value="<?php echo stripslashes($SITELANG); ?>">
+			</p>
 			<p>
 				<label for="sitedescription"><?php i18n('LABEL_WEBSITEDESCRIPTION'); ?>:</label><textarea class="text" id="sitedescription" name="sitedescription"><?php echo $SITEDESCRIPTION; ?></textarea>
 				<input id="sitedatecreated" name="sitedatecreated" type="hidden" value="<?php echo $SITEDATECREATED; ?>" />

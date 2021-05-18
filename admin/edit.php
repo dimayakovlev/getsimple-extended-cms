@@ -20,7 +20,7 @@ $userid = login_cookie_check();
 // Get passed variables
 $id    = isset($_GET['id'])    ? var_out( $_GET['id']    ): null;
 $uri   = isset($_GET['uri'])   ? var_out( $_GET['uri']   ): null; 
-$ptype = isset($_GET['type'])  ? var_out( $_GET['type']  ): null;    
+$ptype = isset($_GET['type'])  ? var_out( $_GET['type']  ): null;
 $nonce = isset($_GET['nonce']) ? var_out( $_GET['nonce'] ): null;
 $path  = GSDATAPAGESPATH;
 
@@ -43,6 +43,7 @@ $url = '';
 $metak = '';
 $metad = '';
 $creDate = '';
+$lang = '';
 
 if ($id){
 	// get saved page data
@@ -68,6 +69,7 @@ if ($id){
 	$private = $data_edit->private;
 	$menuStatus = $data_edit->menuStatus;
 	$menuOrder = $data_edit->menuOrder;
+	$lang = stripslashes($data_edit->lang);
 	$buttonname = i18n_r('BTN_SAVEUPDATES');
   if (!$data_edit->creDate) {
     $creDate = $pubDate;
@@ -88,6 +90,7 @@ if ($id){
 	$private    =  isset( $_GET['private']    ) ? var_out( $_GET['private']    ) : '';
 	$menuStatus =  isset( $_GET['menuStatus'] ) ? var_out( $_GET['menuStatus'] ) : '';
 	$menuOrder  =  isset( $_GET['menuOrder']  ) ? var_out( $_GET['menuOrder']  ) : '';
+	$lang = isset($_GET['lang']) ? var_out($_GET['lang']) : '';
 	$buttonname =  i18n_r('BTN_SAVEPAGE');
 }
 
@@ -269,6 +272,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<input class="text short" id="post-metak" name="post-metak" type="text" value="<?php echo $metak; ?>" />
 				</p>
 				<p>
+					<label for="post-lang"><?php i18n('LABEL_PAGELANG'); ?>:</label>
+					<input class="text short" id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ($dataw->lang != '') { echo $dataw->lang; } else { i18n('PLACEHOLDER_LANG'); } ?>">
+				</p>
+				<p>
 					<label for="post-metad" class="clearfix"><?php i18n('META_DESC'); ?>: <span id="countdownwrap"><strong id="countdown" ></strong> <?php i18n('REMAINING'); ?></span></label>
 					<textarea class="text" id="post-metad" name="post-metad" ><?php echo $metad; ?></textarea>
 				</p>
@@ -283,9 +290,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				
 				
 			<!-- component toggle screen -->
-			<div style="display: none;" id="component_window">
+			<div style="display:none;" id="component_window">
 				<p class="inline post-component-enable clearfix">
-					<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnable) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('PAGE_COMPONENT_ENABLE'); ?></label>
+				<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnable) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('PAGE_COMPONENT_ENABLE'); ?></label>
 				</p>
 				<p>
 					<label for="post-component"><?php i18n('PAGE_COMPONENT_CODE'); ?>:</label>

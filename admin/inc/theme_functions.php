@@ -116,6 +116,29 @@ function get_page_field($field, $echo = true) {
 }
 
 /**
+ * Get Page Language
+ * 
+ * This will return or echo the page language
+ * 
+ * @since 3.3.17
+ * 
+ * @global $data_index
+ * @uses strip_decode
+ * 
+ * @param $echo Optional, default is true. False will return value
+ * @return mixed string|null Echos or return based on param $echo
+ */
+function get_page_lang($echo = true) {
+	global $data_index;
+	$myVar = strip_decode($data_index->lang);
+	if ($echo) {
+		echo $myVar;
+	} else {
+		return $myVar;
+	}
+}
+
+/**
  * Get Page Meta Keywords
  *
  * @since 2.0
@@ -395,6 +418,27 @@ function get_site_url($echo=true) {
 		echo $SITEURL;
 	} else {
 		return $SITEURL;
+	}
+}
+
+/**
+ * Get Site Language
+ * 
+ * This will return or echo the site language
+ * This is the value set in the control panel
+ * 
+ * @since 3.3.17
+ * 
+ * @global $dataw
+ * @param $echo Optional, default is true. False will return value
+ * @return mixed string|null Echos or return based on param $echo
+ */
+function get_site_lang($echo = true) {
+	global $dataw;
+	if ($echo) {
+		echo $dataw->lang;
+	} else {
+		return (string)$dataw->lang;
 	}
 }
 
