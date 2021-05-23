@@ -156,9 +156,9 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 	text-shadow: 1px 1px 0px rgba(0,0,0,.3);
 }
 
-.wrapper #pill li.debug a:link,
-.wrapper #pill li.debug a:visited,
-.wrapper #pill li.debug a:hover {
+.wrapper #pill li.mode a:link,
+.wrapper #pill li.mode a:visited,
+.wrapper #pill li.mode a:hover {
 	color: #fff;
 	background: #cc0000;
 	padding: 4px 10px;

@@ -600,6 +600,7 @@ $i18n = array(
 "PAGE_COMPONENT_CODE" => "Component Code", // edit.php
 "PAGE_COMPONENT_ENABLE" => 'Enable page component', // edit.php
 "ENABLE_CODE_ED"		=>	"Enable the code editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
+"MAINTENANCE_MODE" => "MAINTENANCE MODE",
 "MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",
 "ALLOW_ACCESS_IN_MAINTENANCE" => "Access to website in Maintenance Mode - <b style=\"font-weight:100\">Allow access to website while Maintenance Mode is enable</b>",
 "LABEL_WEBSITELANG" => "Website Language",

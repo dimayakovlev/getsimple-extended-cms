@@ -9,8 +9,11 @@ $debugInfoUrl = 'http://get-simple.info/docs/debugging';
 
 if (cookie_check()) { 
 	echo '<ul id="pill"><li class="leftnav"><a href="logout.php" accesskey="'. find_accesskey(i18n_r('TAB_LOGOUT')).'" >'.i18n_r('TAB_LOGOUT').'</a></li>';
+	if ($dataw->maintenance == '1') {
+		echo '<li class="mode maintenance"><a href="settings.php#sitemaintenance">' . i18n_r('MAINTENANCE_MODE') . '</a></li>';
+	}
 	if (isDebug()) {
-		echo '<li class="debug"><a href="'.$debugInfoUrl.'" target="_blank">'.i18n_r('DEBUG_MODE').'</a></li>';
+		echo '<li class="mode debug"><a href="'.$debugInfoUrl.'" target="_blank">'.i18n_r('DEBUG_MODE').'</a></li>';
 	}
 	echo '<li class="rightnav" ><a href="settings.php#profile">' . i18n_r('WELCOME') . ', <strong>';
 	if ($datau->NAME != '') {
