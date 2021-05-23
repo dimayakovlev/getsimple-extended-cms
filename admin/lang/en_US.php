@@ -237,7 +237,7 @@ $i18n = array(
 "DISPLAY_NAME"			=>  "A name for public display that is not your username",
 "LABEL_USERDESCRIPTION" =>  "Description",
 "DISPLAY_USERDESCRIPTION" =>  "A personal information for public display",
-"MAINTENANCE_ENABLE"  => "Enable Maintenance Mode - <b style=\"font-weight:100\">allows you to display a user-friendly notice to your visitors during website maintenance</b>",
+"MAINTENANCE_ENABLE"  => "Enable Maintenance Mode - <b style=\"font-weight:100\">Allows you to display a user-friendly notice to your visitors during website maintenance</b>",
 
 /* 
  * For: health-check.php
