@@ -280,7 +280,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 				<input id="sitedatecreated" name="sitedatecreated" type="hidden" value="<?php echo $SITEDATECREATED; ?>" />
 			</p>
 		</div>
-		<p class="inline" ><input name="sitemaintenance" id="sitemainenance" type="checkbox" value="1"<?php if ($SITEMAINTENANCE == 1) { echo ' checked '; }?> />&nbsp;<label for="sitemaintenance" ><?php i18n('MAINTENANCE_ENABLE');?></label></p>
+		<p class="inline" ><input name="sitemaintenance" id="sitemaintenance" type="checkbox" value="1"<?php if ($SITEMAINTENANCE == 1) { echo ' checked '; }?> />&nbsp;<label for="sitemaintenance" ><?php i18n('MAINTENANCE_ENABLE');?></label></p>
 		<p class="inline" ><input name="prettyurls" id="prettyurls" type="checkbox" value="1" <?php if ($PRETTYURLS == 1) { echo 'checked'; } ?> />&nbsp;<label for="prettyurls" ><?php i18n('USE_FANCY_URLS');?></label></p>
 				
 		<div class="leftsec">
