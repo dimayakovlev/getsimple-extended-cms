@@ -995,14 +995,10 @@ label span.right a:hover {
 #metadata_window #menu-items {
 	height: 50px;
 	background: #222;
-	padding: 5px 10px 0 10px;
+	clip-path: polygon(15px 5px, 100% 5px, 100% 100%, 0px 100%, 0px 5px, 5px 5px, 10px 0px);
+	padding: 10px 10px 0 10px;
 	position: relative;
-}
-
-#metadata_window #menu-items #tick {
-	margin-top: -10px;
-	left: 5px;
-	position: absolute;
+	margin-top: -5px;	
 }
 
 #metadata_window #menu-items input, 
