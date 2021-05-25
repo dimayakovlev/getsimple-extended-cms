@@ -533,10 +533,11 @@ h5:hover img {
 	margin-left: 0px;
 	cursor: default;
 	color: #FFF;
-	background: <?php echo $secondary_1; ?> url('images/active.png') center left no-repeat !important;
+	background: <?php echo $secondary_1; ?>; /* url('images/active.png') center left no-repeat !important; */
 	text-shadow: 1px 1px 0px <?php echo $secondary_0; ?>;
 	padding-left: 28px;
 	border-radius: 0 3px 3px 0;
+	clip-path: polygon(100% 0%, 100% 100%, 14px 100%, 0% 50%, 14px 0%);
 }
 
 #sidebar .snav li a.current:hover {
@@ -544,7 +545,7 @@ h5:hover img {
 	margin-left: 0px;
 	cursor: default;
 	color: #FFF;
-	background: <?php echo $secondary_1; ?> url('images/active.png') center left no-repeat !important;
+	background: <?php echo $secondary_1; ?>; /* url('images/active.png') center left no-repeat !important; */
 	padding-left: 28px;
 }
 
