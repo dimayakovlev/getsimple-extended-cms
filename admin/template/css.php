@@ -576,6 +576,7 @@ h5:hover img {
 
 .edit-nav {
 	margin: 0 0 15px 0;
+	height: 1%;
 }
 
 .edit-nav a {
@@ -588,8 +589,6 @@ h5:hover img {
 	border-radius: 3px;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
-	background-repeat: no-repeat;
-	background-position: 94% center;
 }
 
 .edit-nav select {
@@ -618,18 +617,15 @@ h5:hover img {
 	padding: 0;
 }
 
-.edit-nav a#metadata_toggle, .edit-nav a#component_toggle {
-	background-image: url('images/plus.png');
-	padding-right: 20px;
+.edit-nav a#metadata_toggle::after, .edit-nav a#component_toggle::after {
+	display: inline-block;
+	width: 1ch;
+	margin-left: 1ch;
+	content: '+';
 }
 
-.edit-nav a#metadata_toggle.current, .edit-nav a#component_toggle.current {
-	background-image: url('images/minus.png');
-	padding-right: 20px;
-}
-
-.edit-nav {
-	height: 1%;
+.edit-nav a#metadata_toggle.current::after, .edit-nav a#component_toggle.current::after {
+	content: '-';
 }
 
 .edit-nav a:link, 
