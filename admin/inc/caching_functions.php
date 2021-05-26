@@ -22,7 +22,7 @@ add_action('changedata-aftersave', 'create_pagesxml', array(true));     // Creat
  * Retrieve and eval the component code of the requested page. 
  * As the Page component is not cached the page file is readed.
  *
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @uses GSDATAPAGESPATH
  * @uses strip_decode
@@ -108,7 +108,7 @@ function echoPageField($page, $field) {
  * Retrieve and return the component code of the requested page as text. 
  * As the Page component is not cached the page file is readed.
  *
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @uses GSDATAPAGESPATH
  *
@@ -247,7 +247,7 @@ function getChildrenMulti($page, $options = array()) {
  * 
  * Return slug of the parent page of the requested page
  * 
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @global $pagesArray
  * 
@@ -274,7 +274,7 @@ function getParent($page) {
  * 
  * Return an array of pages that are parents of the requested page
  * 
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @global $pagesArray
  * 
@@ -469,7 +469,7 @@ function create_pagesxml($flag) {
  * 
  * Check if requested page is private
  * 
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @global $pagesArray
  * 

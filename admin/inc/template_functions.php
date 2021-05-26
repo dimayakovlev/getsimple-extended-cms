@@ -9,14 +9,15 @@
  */ 
 
 /**
- * Get GetSimple Language
+ * Get Language for administration panel
  *
- * @since 3.3.17
+ * @since 3.5.0
  * @uses $LANG
  *
- * @param string
+ * @param bool $short It true then truncate language code to two symbols
+ * @return string
  */
-function get_admin_lang($short=false) {
+function get_admin_lang($short = false) {
 	global $LANG;
 	if ($short) {
 		$LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);

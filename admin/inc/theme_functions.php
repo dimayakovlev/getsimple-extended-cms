@@ -13,7 +13,7 @@
  /**
  * Get Page Author
  *
- * @since 3.3.17
+ * @since 3.5.0
  * @uses $data_index
  * @uses strip_decode
  *
@@ -54,7 +54,7 @@ function get_page_content() {
 /**
  * Get Page Component
  *
- * @since 3.3.17
+ * @since 3.5.0
  * @global $data_index
  * @uses strip_decode
  * 
@@ -97,7 +97,7 @@ function get_page_excerpt($len=200, $striphtml=true, $ellipsis = '…') {
  *
  * This will return requested field value of a particular page
  *
- * @since 3.3.17
+ * @since 3.5.0
  * @uses $data_index
  * @uses strip_decode
  *
@@ -120,7 +120,7 @@ function get_page_field($field, $echo = true) {
  * 
  * This will return or echo the page language
  * 
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @global $data_index
  * @uses strip_decode
@@ -427,7 +427,7 @@ function get_site_url($echo=true) {
  * This will return or echo the site language
  * This is the value set in the control panel
  * 
- * @since 3.3.17
+ * @since 3.5.0
  * 
  * @global $dataw
  * @param $echo Optional, default is true. False will return value
@@ -493,7 +493,7 @@ function get_site_name($echo=true) {
  *
  * This will return the value set in the control panel
  *
- * @since 3.3.17
+ * @since 3.5.0
  * @uses $SITEDESCRIPTION
  *
  * @param bool $echo Optional, default is true. False will 'return' value
@@ -780,3 +780,4 @@ if(!function_exists('set_contact_page')) {
 		#removed functionality	
 	}
 }
+ 

@@ -593,7 +593,7 @@ $i18n = array(
  */
 "DEBUG_CONSOLE" => 'Debug Console',
 
-# new to 3.3.17
+# new to 3.5.0
 
 'TITLE' => 'Title', // common string, components.php
 "PAGE_COMPONENT" => "Page Component", // edit.php
