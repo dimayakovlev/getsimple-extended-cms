@@ -20,6 +20,12 @@
   Forum Handle: shawn_a
   Site: http://shawnalverson.com/
   Location: Tennessee, USA
+  
+  Developer: Dmitry Yakovlev
+  Site: http://dimayakovlev.ru/
+  Telegram: @dimayakovlev
+  Twitter: @_dimayakovlev
+  Location: Saint-Petersburg, Russia
 
 /* THANKS */
   Carlos Navarro (cnb)
