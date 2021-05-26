@@ -281,10 +281,11 @@ function getParent($page) {
  * @uses getPagesXmlValues
  * 
  * @param string $page Slug of the page retrive parents pages slugs
+ * @param bool $reverse Reverse order of parents. By default direct parent is the first
  * 
  * @return array Array of slug names
  */
-function getParents($page) {
+function getParents($page, $reverse = false) {
 	global $pagesArray;
 	$parent = '';
 	$parents = array();
@@ -299,6 +300,9 @@ function getParents($page) {
 			$page = $parent;
 		}
 	}	while ($parent);
+	if ($parents && $reverse == true) {
+		$parents = array_reverse($parents);
+	}
 	return $parents;
 }
 
