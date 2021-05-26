@@ -15,10 +15,10 @@
 	  		}
       		
       		if (!isAuthPage()) { ?>
-	      		<p>&copy; 2009-<?php echo date('Y'); ?> <a href="http://get-simple.info/" target="_blank"><?php echo $site_full_name; ?></a><?php echo ' &ndash; ' . i18n_r('VERSION') . ' ' . $site_version_no;  ?></p> 
+	      		<p>&copy; 2009-<?php echo date('Y'); ?> <a href="<?php echo $site_link_back_url; ?>" target="_blank"><?php echo $site_full_name; ?></a><?php echo ' &ndash; ' . i18n_r('VERSION') . ' ' . $site_version_no;  ?></p> 
       		</div> <!-- end .footer-left -->
-	      	<div class="gslogo" >
-		      	<a href="http://get-simple.info/" target="_blank" ><img src="template/images/getsimple_logo.gif" alt="GetSimple Content Management System" /></a>
+	      	<div class="gslogo">
+		      	<a href="<?php echo $site_link_back_url; ?>" target="_blank"><img src="template/images/getsimple_logo.gif" alt="<?php echo htmlspecialchars($site_full_name); ?>" /></a>
 		    </div>
 	      	<div class="clear"></div>
 	      	<?php
