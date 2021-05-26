@@ -1,16 +1,14 @@
-GetSimple Content Management System
+GetSimple Extended Content Management System
 =========================================
 
  DESCRIPTION:
 -----------------------------------
 
-GetSimple CMS is a flatfile CMS that works fast and efficient and has 
-the best UI around.
+**GetSimple Extended CMS** is a fork of well known **GetSimple CMS** with additional features and fixes. As original it is a flatfile CMS that works fast and efficient and has the best UI around.
 
-Official Website - http://get-simple.info/
+Original **GetSimple CMS** was developed by [Chris Cagle](http://chriscagle.me) and is now passionately supported and developed by a loving community. Official Website of GetSimple CMS - http://get-simple.info/
 
-GetSimple CMS was developed by Chris Cagle [ http://chriscagle.me ] and 
-is now passionately supported and developed by a loving community.
+**GetSimple Extended CMS** developed by [Dmitry Yakovlev](http://dimayakovlev.ru).
 
 
  LICENSE:
@@ -40,11 +38,9 @@ SimpleXML
 Javascript Enabled
 
 ### Server ###
-*Apache ( required for out of the box security using .htaccess )
+*Apache (required for out of the box security using .htaccess)
 
-*If not using Apache you will get a non-apache warning, 
-this warning is to alert you that your data files will not be secure 
-and you must take proper precautions to secure your site.
+*If not using Apache you will get a non-apache warning, this warning is to alert you that your data files will not be secure and you must take proper precautions to secure your site.
 To disable this warning see gsconfig definition GSNOAPACHECHECK
 
 
@@ -63,12 +59,11 @@ Please see: http://get-simple.info/docs/upgrading
 DISCLAIMER:
 -----------------------------------
 
-While GetSimple strives to be a secure and stable application, we simply cannot 
+While **GetSimple Extended** strives to be a secure and stable application, we simply cannot 
 be held liable for any information loss, corruption or anything else that may 
 happen to your site while it is using the our software. If you find a bug 
-or security hole, please contact someone in the forums at 
-http://get-simple.info/forum
+or security hole, please create an issue or contact me via website http://dimayakovlev.ru
 
 
 ______________________________________________
-GetSimple CMS - http://get-simple.info/
+Original GetSimple CMS - http://get-simple.info/
