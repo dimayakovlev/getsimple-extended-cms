@@ -443,6 +443,36 @@ function get_site_lang($echo = true) {
 }
 
 /**
+ * Get Language
+ * 
+ * This will return or echo language
+ * 
+ * @since 3.5.0
+ * 
+ * @global $data_index
+ * @global $dataw
+ * @param bool $echo Optional, default is true. False will return value
+ * @param string $lang Optional, default is en. Fallback language code, used if language for page or website was not setted
+ * @return string|null 
+ */
+function get_lang($echo = true, $lang = 'en') {
+	global $data_index;
+	global $dataw;
+	$value = (string)$data_index->lang;
+	if ($value == '') {
+		$value = (string)$dataw->lang;
+		if ($value == '') {
+			$value = (string)$lang;
+		}
+	}
+	if ($echo) {
+		echo $value;
+	} else {
+		return $value;
+	}
+}
+
+/**
  * Get Theme URL
  *
  * This will return the current active theme's full URL 

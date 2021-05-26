@@ -24,6 +24,7 @@
     * Added settings for website content default language and per page content language
     * Added `get_site_lang()` theme function to echo or return website language
     * Added `get_page_lang()` theme function to echo or return page language
+    * Added `get_lang()` theme function to echo or return language of current page based on values setted for page, website or in fallback parameter. Use this function to set value of HTML lang attribute
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
