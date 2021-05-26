@@ -282,12 +282,13 @@ function get_execution_time($reset=false)
  * @since 1.0
  *
  * @param string $file
- * @return object
+ * @param int $options Options parameter for funcion simplexml_load_string()
+ * @return object|null
  */
-function getXML($file) {
+function getXML($file, $options = LIBXML_NOCDATA) {
 	$xml = @file_get_contents($file);
-	if($xml){
-		$data = simplexml_load_string($xml, 'SimpleXMLExtended', LIBXML_NOCDATA); 
+	if ($xml) {
+		$data = simplexml_load_string($xml, 'SimpleXMLExtended', $options);
 		return $data;
 	}	
 }

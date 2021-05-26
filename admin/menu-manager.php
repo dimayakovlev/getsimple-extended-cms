@@ -15,16 +15,15 @@ login_cookie_check();
 
 # save page priority order
 if (isset($_POST['menuOrder'])) {
-	$menuOrder = explode(',',$_POST['menuOrder']);
+	$menuOrder = explode(',', $_POST['menuOrder']);
 	$priority = 0;
 	foreach ($menuOrder as $slug) {
 		$file = GSDATAPAGESPATH . $slug . '.xml';
 		if (file_exists($file)) {
-			$data = getXML($file);
-			if ($priority != (int) $data->menuOrder) {
-				unset($data->menuOrder);
-				$data->addChild('menuOrder', $priority);
-				XMLsave($data,$file);
+			$data = getXML($file, 0);
+			if ($priority != (int)$data->menuOrder) {
+				$data->menuOrder = $priority;
+				XMLsave($data, $file);
 			}
 		}
 		$priority++;
@@ -52,7 +51,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT').' &ra
 			<?php
 				if (count($pagesSorted) != 0) { 
 					echo '<form method="post" action="menu-manager.php">';
-					echo '<ul id="menu-order" >';
+					echo '<ul id="menu-order">';
 					foreach ($pagesSorted as $page) {
 						$sel = '';
 						if ($page['menuStatus'] != '') { 
