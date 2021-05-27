@@ -57,12 +57,15 @@ if (isset($_GET['id'])) {
 $id = exec_filter('indexid', $id);
  // $_GET['id'] = $id; // support for plugins that are checking get?
 
+ $GSCANONICAL = getDef('GSCANONICAL', true);
+
 // define page
 if ($dataw->maintenance == '1' && (!is_logged_in() || $datau->accessInMaintenance != '1')) {
 	// apply page data if maintance mode enabled
 	$data_index = getXml(GSDATAOTHERPATH . '503.xml');
 	if ($data_index) {
 		header($_SERVER['SERVER_PROTOCOL'] . ' 503 Service Unavailable');
+		$GSCANONICAL = false;
 	} else {
 		redirect('503');
 	}
@@ -81,6 +84,7 @@ if (!$data_index) {
 	if (file_exists(GSDATAOTHERPATH . '404.xml')) {
 		// default 404
 		$data_index = getXml(GSDATAOTHERPATH . '404.xml');
+		$GSCANONICAL = false;
 	} else {
 		// fail over
 		redirect('404');
@@ -94,6 +98,7 @@ if ($data_index->private == 'Y' && !is_logged_in()) {
 	if (file_exists(GSDATAOTHERPATH . '403.xml')) {
 		// default 403
 		$data_index = getXml(GSDATAOTHERPATH . '403.xml');
+		$GSCANONICAL = false;
 	} else {
 		// fail over
 		redirect('403');
@@ -116,8 +121,8 @@ $private       = $data_index->private;
 exec_action('index-post-dataindex');
 
 # check for correctly formed url
-if (getDef('GSCANONICAL', true)) {
-	if ($_SERVER['REQUEST_URI'] != find_url($url, $parent, 'relative')) {
+if ($GSCANONICAL == true) {
+	if (strpos($_SERVER['REQUEST_URI'], find_url($url, $parent, 'relative')) !== 0) {
 		redirect(find_url($url, $parent));
 	}
 }
