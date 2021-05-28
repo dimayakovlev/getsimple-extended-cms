@@ -144,5 +144,3 @@ $img->image_type   = $image_type;
 
 // generate thumbnail
 $img->GenerateThumbFile($images_folder . $from_name, $thumbs_folder . $to_name);
-
-?>

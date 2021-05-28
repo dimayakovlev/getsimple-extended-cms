@@ -361,5 +361,6 @@ if(isset($load['plugin']) && $load['plugin']){
 	exec_action('common');
 	
 }
-if(isset($load['login']) && $load['login']){ 	include_once(GSADMININCPATH.'login_functions.php'); }
-?>
+if(isset($load['login']) && $load['login']) {
+	include_once(GSADMININCPATH.'login_functions.php');
+}

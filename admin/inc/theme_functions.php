@@ -302,7 +302,7 @@ function get_page_date($i = "l, F jS, Y - g:i A", $echo=true) {
  * This will return the full url
  *
  * @since 1.0
- * @uses $parent
+ * @sinde 3.5.0 Use updated function find_url()
  * @uses $url
  * @uses $SITEURL
  * @uses $PRETTYURLS
@@ -315,12 +315,11 @@ function get_page_url($echo=false) {
 	global $url;
 	global $SITEURL;
 	global $PRETTYURLS;
-	global $parent;
 
 	if (!$echo) {
-		echo find_url($url, $parent);
+		echo find_url($url);
 	} else {
-		return find_url($url, $parent);
+		return find_url($url);
 	}
 }
 
@@ -594,6 +593,7 @@ function get_site_credits($text ='Powered by ') {
  * This will return data to be used in custom navigation functions
  *
  * @since 2.0
+ * @since 3.5.0 Used updated function find_url()
  * @uses GSDATAPAGESPATH
  * @uses find_url
  * @uses getXML
@@ -621,7 +621,7 @@ function menu_data($id = null,$xml=false) {
           $private = (string)$page['private'];
 					$pubDate = (string)$page['pubDate'];
           
-          $url = find_url($slug,$parent);
+          $url = find_url($slug);
           
           $specific = array("slug"=>$slug,"url"=>$url,"parent_slug"=>$parent,"title"=>$title,"menu_priority"=>$pri,"menu_text"=>$text,"menu_status"=>$menuStatus,"private"=>$private,"pub_date"=>$pubDate);
           
@@ -645,7 +645,7 @@ function menu_data($id = null,$xml=false) {
             $menuStatus = $page['menuStatus'];
             $private = $page['private'];
            	
-            $url = find_url($slug,$parent);
+            $url = find_url($slug);
             
             $xml.="<item>";
             $xml.="<slug><![CDATA[".$slug."]]></slug>";
@@ -750,7 +750,7 @@ function get_navigation($currentpage = "",$classPrefix = "") {
         }
 				if ($page['menu'] == '') { $page['menu'] = $page['title']; }
 				if ($page['title'] == '') { $page['title'] = $page['menu']; }
-				$menu .= '<li class="'. $classes .'"><a'.$ariaRole.' href="'. find_url($page['url'],$page['parent']) . '" title="'. encode_quotes(cl($page['title'])) .'">'.strip_decode($page['menu']).'</a></li>'."\n";
+				$menu .= '<li class="'. $classes .'"><a'.$ariaRole.' href="'. find_url($page['url']) . '" title="'. encode_quotes(cl($page['title'])) .'">'.strip_decode($page['menu']).'</a></li>'."\n";
 			}
 		}
 		

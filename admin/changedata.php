@@ -120,10 +120,11 @@ if (isset($_POST['submitted'])) {
 			}
 		}
 		if (isset($_POST['post-creDate']) && $_POST['post-creDate']) {
-      $creDate = $_POST['post-creDate'];
-    } else {
-      $creDate = date('r');
-    }
+			$creDate = $_POST['post-creDate'];
+		} else {
+			$creDate = date('r');
+		}
+		if (isset($_POST['post-permalink']))	{ $permalink = safe_slash_html($_POST['post-permalink']); }
 		// If saving a new file do not overwrite existing, get next incremental filename, file-count.xml
 		// @todo this is a mess, new file existing file should all be determined at beginning of block and defined
 		if ( (file_exists($file) && $url != $existingurl) ||  in_array($url,$reservedSlugs) ) {
@@ -164,6 +165,7 @@ if (isset($_POST['submitted'])) {
 		$xml->addChild('author', $author);
 		$xml->addChild('lastAuthor', $USR);
 		$xml->addChild('lang', $lang);
+		$xml->addChild('permalink', $permalink);
 
 		exec_action('changedata-save');
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true' && $autoSaveDraft == true) {

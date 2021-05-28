@@ -280,6 +280,7 @@ function get_execution_time($reset=false)
  * Turns the XML file into an object 
  *
  * @since 1.0
+ * @since 3.5.0 Use parameter $options to set options for function simplexml_load_string()
  *
  * @param string $file
  * @param int $options Options parameter for funcion simplexml_load_string()
@@ -388,7 +389,7 @@ function cl($data){
  * @return string
  */
 function tsl($path) {
-	if( substr($path, strlen($path) - 1) != '/' ) {
+	if(substr($path, strlen($path) - 1) != '/') {
 		$path .= '/';
 	}
 	return $path;
@@ -416,54 +417,58 @@ if(!function_exists('in_arrayi')) {
  * Default function to create the correct url structure for each front-end page
  *
  * @since 2.0
- * @uses $PRETTYURLS
- * @uses $SITEURL
- * @uses $PERMALINK
- * @uses tsl
+ * @since 3.5.0 Changed signature. Function use cached data to get page fields
+ * @global $PRETTYURLS
+ * @global $SITEURL
+ * @global $PERMALINK
+ * @global $pagesArray
+ * @uses getParents()
  *
- * @param string $slug
- * @param string $parent
- * @param string $type Default is 'full', alternative is 'relative'
+ * @param string $slug Slug of the page
+ * @param bool $absolute Absolute or relative URL. Default is true, if false function create relative URL
+ * @param array $query Query data
  * @return string
  */
-function find_url($slug, $parent, $type='full') {
+function find_url(string $slug, $absolute = true, $query = array()) {
 	global $PRETTYURLS;
 	global $SITEURL;
 	global $PERMALINK;
-				
-	if ($type == 'full') {
-		$full = $SITEURL;
-	} elseif($type == 'relative') {
-		$s = pathinfo(htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES));
-		$full = $s['dirname'] .'/';
-		$full = str_replace('//', '/', $full);
-	} else {
-		$full = '/';
-	}
-	
-	if ($parent != '') {
-		$parent = tsl($parent); 
-	}	
+	global $pagesArray;
 
-  if ($PRETTYURLS == '1') {      
-    if ($slug != 'index'){  
-    	$url = $full . $parent . $slug . '/';
-    } else {
-    	$url = $full;
-    }   
-  } else {
-		if ($slug != 'index'){ 
-    	$url = $full .'index.php?id='.$slug;
-    } else {
-    	$url = $full;
-    }
-  }
-  
-	if (trim($PERMALINK) != '' && $slug != 'index'){
-		$plink = str_replace('%parent%/', $parent, $PERMALINK);
-		$plink = str_replace('%parent%', $parent, $plink);
-		$plink = str_replace('%slug%', $slug, $plink);
-		$url = $full . $plink;
+	if ($absolute == true) {
+		$full = $SITEURL;
+	} else {
+		$s = pathinfo(htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES));
+		$full = str_replace('//', '/', $s['dirname'] . '/');
+	}
+
+	if ($PRETTYURLS == '1') {
+		$permalink = !empty($pagesArray[$slug]['permalink']) ? $pagesArray[$slug]['permalink'] : $PERMALINK;
+		$author = isset($pagesArray[$slug]['author']) ? $pagesArray[$slug]['author'] : '';
+		$parent = isset($pagesArray[$slug]['parent']) ? $pagesArray[$slug]['parent'] : '';
+		$parents = $parent ? (implode('/', getParents($parent, true)) . '/' . $parent) : '';
+		$lang = isset($pagesArray[$slug]['lang']) ? $pagesArray[$slug]['lang'] : '';
+		$date = isset($pagesArray[$slug]['creDate']) ? $pagesArray[$slug]['creDate'] : '';
+		if ($date) {
+			$year = date('Y', strtotime($date));
+			$month = date('m', strtotime($date));
+			$day = date('d', strtotime($date));
+		} else {
+			$year = $month = $day = '';
+		}
+		$permalink = str_replace(array('%author%', '%slug%', '%parent%', '%parents%', '%lang%', '%year%', '%month%', '%day%'), array($author, $slug, $parent, $parents, $lang, $year, $month, $day), $permalink);
+		$permalink = ltrim(preg_replace('/(\/+)/', '/', $permalink), '/');
+		$url = $full . $permalink;
+	} else {
+		if ($slug != 'index') {
+			$url = $full . 'index.php?id=' . $slug;
+		} else {
+			$url = $full;
+		}
+	}
+
+	if ($query) {
+		$url = $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . http_build_query($query);
 	}
 
 	return (string)$url;
@@ -494,7 +499,7 @@ function strippath($path) {
  * @param string $text
  * @return string
  */
-function strip_quotes($text)  { 
+function strip_quotes($text) {
 	$text = strip_tags($text); 
 	$code_entities_match = array('"','\'','&quot;'); 
 	$text = str_replace($code_entities_match, '', $text); 
@@ -509,9 +514,9 @@ function strip_quotes($text)  {
  * @param string $text
  * @return string
  */
-function encode_quotes($text)  { 
+function encode_quotes($text) {
 	$text = strip_tags($text);
-	if (version_compare(PHP_VERSION, "5.2.3")  >= 0) {	
+	if (version_compare(PHP_VERSION, "5.2.3")  >= 0) {
 		$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8', false);
 	} else {	
 		$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
@@ -531,11 +536,11 @@ function redirect($url) {
 	global $i18n;
 
 	// handle expired sessions for ajax requests
-	if(requestIsAjax() && !cookie_check()){
+	if (requestIsAjax() && !cookie_check()) {
 		header('HTTP/1.1 401 Unauthorized', true, 401);
 		header('WWW-Authenticate: FormBased');
 		die();
-	}	
+	}
 
 	if (!headers_sent($filename, $linenum)) {
     header('Location: '.var_out($url,"url"));
@@ -1388,5 +1393,3 @@ function doTransliteration($str){
 function getTransliteration(){
 	return i18n_r("TRANSLITERATION");
 }
-
-?>

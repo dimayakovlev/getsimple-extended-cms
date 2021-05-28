@@ -1,4 +1,4 @@
-# v
+# v3.5.0
 ## mm/dd/yyyy
 
 1. [](#new)
@@ -25,6 +25,8 @@
     * Added `get_site_lang()` theme function to echo or return website language
     * Added `get_page_lang()` theme function to echo or return page language
     * Added `get_lang()` theme function to echo or return language of current page based on values setted for page, website or in fallback parameter. Use this function to set value of HTML lang attribute
+    * Added new tokens for **Pretty URLs**: `%author%`, `%parents%`, `%lang%`, `%year%`, `%month%`, `%day%`
+    * Added per page permalink structure
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
@@ -34,5 +36,8 @@
     * `GSNOHIGHLIGHT` option is outdated. Option stored in user field `CODEEDITOR`
     * Disable caching of the admin stylesheet in debug mode
     * Basic `get_site_lang()` function renamed to `get_admin_lang()` and moved to template_functions.php
+    * **Fancy URLs** renamed to **Pretty URLs**
+    * Signature or function `find_url()` changed. Second `parent` parameter not used anymore. Function can build query string from array passed as third parameter
 
 1. [](#bugfix)
+    * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `\`

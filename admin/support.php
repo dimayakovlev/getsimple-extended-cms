@@ -25,14 +25,15 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT') );
 			<h3><?php i18n('GETTING_STARTED');?></h3>
 			
 			<ul>
-				<li><a href="http://get-simple.info/docs/" target="_blank" ><?php i18n('SIDE_DOCUMENTATION'); ?></a></li>
-				<li><a href="http://get-simple.info/forum/" target="_blank" ><?php i18n('SUPPORT_FORUM'); ?></a></li>
-				<li><a href="http://get-simple.info/extend/" target="_blank" ><?php echo str_replace(array('<em>','</em>'), '', i18n_r('GET_PLUGINS_LINK')); ?></a></li>
-				<li><a href="share.php?term=<?php i18n('SHARE'); ?>" rel="facybox" ><?php i18n('SHARE'); ?> GetSimple</a></li>
-				<li><a href="https://github.com/GetSimpleCMS" target="_blank">Github SVN</a></li>
+				<li><a href="https://github.com/dimayakovlev/getsimple-extended-cms/wiki" target="_blank" ><?php i18n('SIDE_DOCUMENTATION'); ?></a></li>
+				<!-- <li><a href="http://get-simple.info/forum/" target="_blank" ><?php i18n('SUPPORT_FORUM'); ?></a></li> -->
+				<!-- <li><a href="http://get-simple.info/extend/" target="_blank" ><?php echo str_replace(array('<em>','</em>'), '', i18n_r('GET_PLUGINS_LINK')); ?></a></li> -->
+				<!-- <li><a href="share.php?term=<?php i18n('SHARE'); ?>" rel="facybox" ><?php i18n('SHARE'); ?> GetSimple</a></li> -->
+				<li><a href="https://github.com/dimayakovlev/getsimple-extended-cms" target="_blank">Github SVN</a></li>
 			</ul>
 			
-			<p><?php i18n('WELCOME_MSG'); ?> <?php i18n('WELCOME_P'); ?></p>
+			<p><?php i18n('WELCOME_MSG'); ?></p>
+			<p><?php i18n('WELCOME_P'); ?></p>
 			
 			<ul>
 				<li><a href="health-check.php"><?php i18n('WEB_HEALTH_CHECK'); ?></a></li>

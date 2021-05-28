@@ -126,5 +126,3 @@ function get_cookie($cookie_name) {
 		return $_COOKIE[$cookie_name];
 	}
 }
-	
-?>

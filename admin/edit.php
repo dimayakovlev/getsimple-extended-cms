@@ -44,43 +44,45 @@ $metak = '';
 $metad = '';
 $creDate = '';
 $lang = '';
+$permalink = '';
 
-if ($id){
+if ($id) {
 	// get saved page data
 	$file = $id .'.xml';
 	
-	if (!file_exists($path . $file)){ 
-		redirect('pages.php?error='.urlencode(i18n_r('PAGE_NOTEXIST')));
+	if (!file_exists($path . $file)) { 
+		redirect('pages.php?error=' . urlencode(i18n_r('PAGE_NOTEXIST')));
 	}
 
 	$data_edit = getXML($path . $file);
 	$title = stripslashes($data_edit->title);
-	$pubDate = $data_edit->pubDate;
+	$pubDate = (string)$data_edit->pubDate;
 	$metak = stripslashes($data_edit->meta);
 	$metad = stripslashes($data_edit->metad);
-	$url = $data_edit->url;
+	$url = (string)$data_edit->url;
 	$content = stripslashes($data_edit->content);
 	$component = stripslashes($data_edit->component);
 	$componentEnable = stripslashes($data_edit->componentEnable);
-	$template = $data_edit->template;
-	$parent = $data_edit->parent;
-	$author = $data_edit->author;
+	$template = (string)$data_edit->template;
+	$parent = (string)$data_edit->parent;
+	$author = (string)$data_edit->author;
 	$menu = stripslashes($data_edit->menu);
-	$private = $data_edit->private;
-	$menuStatus = $data_edit->menuStatus;
-	$menuOrder = $data_edit->menuOrder;
+	$private = (string)$data_edit->private;
+	$menuStatus = (string)$data_edit->menuStatus;
+	$menuOrder = (string)$data_edit->menuOrder;
 	$lang = stripslashes($data_edit->lang);
 	$buttonname = i18n_r('BTN_SAVEUPDATES');
-  if (!$data_edit->creDate) {
-    $creDate = $pubDate;
-  } else {
-    $creDate = $data_edit->creDate;
-  }
-  if ($data_edit->lastAuthor) {
-    $lastAuthor = $data_edit->lastAuthor;
-  } else {
-    $lastAuthor = $author;
-  }
+	if (!$data_edit->creDate) {
+		$creDate = $pubDate;
+	} else {
+		$creDate = (string)$data_edit->creDate;
+	}
+	if ($data_edit->lastAuthor) {
+		$lastAuthor = (string)$data_edit->lastAuthor;
+	} else {
+		$lastAuthor = $author;
+	}
+	$permalink = (string)$data_edit->permalink;
 } else {
 	// prefill fields is provided
 	$title      =  isset( $_GET['title']      ) ? var_out( $_GET['title']      ) : '';
@@ -99,7 +101,7 @@ if ($id){
 if ($template == '') { $template = 'template.php'; }
 
 $themes_path = GSTHEMESPATH . $TEMPLATE;
-$themes_handle = opendir($themes_path) or die("Unable to open ". GSTHEMESPATH);		
+$themes_handle = opendir($themes_path) or die("Unable to open ". GSTHEMESPATH);
 while ($file = readdir($themes_handle))	{
 	if( isFile($file, $themes_path, 'php') ) {
 		if ($file != 'functions.php' && substr(strtolower($file),-8) !='.inc.php' && substr($file,0,1)!=='.') {		
@@ -161,7 +163,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		<div class="edit-nav" >
 			<?php 
 			if(isset($id)) {
-				echo '<a href="', find_url($url, $parent) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '" >', i18n_r('VIEW'), ' </a>';
+				echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
 			} 
 			?>
 			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" ><?php i18n('PAGE_COMPONENT'); ?></a>
@@ -265,6 +267,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				<p>
 					<label for="post-id"><?php i18n('SLUG_URL'); ?>:</label>
 					<input class="text short" type="text" id="post-id" name="post-id" value="<?php echo $url; ?>" <?php echo ($url=='index'?'readonly="readonly" ':''); ?>/>
+				</p>
+				<p>
+					<label for="post-permalink"><?php i18n('PERMALINK');?>:</label>
+					<input class="text short" type="text" id="post-permalink" name="post-permalink" value="<?php echo $permalink; ?>" placeholder="<?php if ($PERMALINK) { echo htmlspecialchars($PERMALINK); } else { echo '%parent%/%slug%/'; } ?>">
 				</p>
 				<p>
 					<label for="post-metak"><?php i18n('TAG_KEYWORDS'); ?>:</label>

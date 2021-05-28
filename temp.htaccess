@@ -1,5 +1,5 @@
 #
-# GetSimple CMS htaccess ROOT file
+# GetSimple Extended CMS htaccess ROOT file
 # apache 2.4 
 #
 
@@ -47,7 +47,7 @@ DirectoryIndex index.php
 	</IfModule>	
 </Files>
 
-# handle rewrites for fancy urls
+# handle rewrites for pretty urls
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 

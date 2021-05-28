@@ -670,4 +670,3 @@ function get_styles_backend(){
 		}
 	}
 }
-?>

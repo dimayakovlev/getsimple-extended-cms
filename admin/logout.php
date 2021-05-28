@@ -21,5 +21,3 @@ exec_action('logout');
 # send back to login screen
 redirect('index.php?logout');
 ob_end_flush();
-
-?>

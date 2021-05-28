@@ -14,7 +14,7 @@
  * @since 3.5.0
  * @uses $LANG
  *
- * @param bool $short It true then truncate language code to two symbols
+ * @param bool $short If true then truncate language code to two symbols
  * @return string
  */
 function get_admin_lang($short = false) {
@@ -621,6 +621,7 @@ function passhash($p) {
  * Lists all available pages for plugin/api use
  *
  * @since 2.0
+ * @since 3.5.0 Use updated functon find_url()
  * @uses GSDATAPAGESPATH
  * @uses find_url
  * @uses getXML
@@ -647,7 +648,7 @@ function get_available_pages() {
         $private = (string)$page['private'];
 				$pubDate = (string)$page['pubDate'];
         
-        $url = find_url($slug,$parent);
+        $url = find_url($slug);
         
         $specific = array("slug"=>$slug,"url"=>$url,"parent_slug"=>$parent,"title"=>$title,"menu_priority"=>$pri,"menu_text"=>$text,"menu_status"=>$menuStatus,"private"=>$private,"pub_date"=>$pubDate);
         
@@ -728,7 +729,7 @@ function get_link_menu_array($parent='', $array=array(), $level=0) {
 					$dash .= '- '; // inner level
             }   
           } 
-			array_push($array, array( $dash . $page['title'], find_url($page['url'], $page['parent'])));
+			array_push($array, array( $dash . $page['title'], find_url($page['url'])));
 			// recurse submenus
 			$array=get_link_menu_array((string)$page['url'], $array,$level+1);	 
         }
@@ -831,10 +832,11 @@ function get_pages_menu($parent, $menu, $level) {
 			if ($page['private'] != '') { $page['private'] = ' <sup>[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
 			if (isset($page['componentEnable']) && $page['componentEnable'] == '1') { $page['componentEnable'] = ' <sup>[' . i18n_r('COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnable'] = ''; }
-			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnable'] . '</span></td>';
+			if (isset($page['permalink']) && $page['permalink'] != '') { $page['permalink'] = ' <sup>[' . i18n_r('PERMALINK_SUBTITLE') . ']</sup>'; } else { $page['permalink'] = ''; }
+			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnable'] . $page['permalink'] . '</span></td>';
 			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink" >';
-			$menu .= '<a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . find_url($page['url'], $page['parent']) . '">#</a>';
+			$menu .= '<a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . find_url($page['url']) . '">#</a>';
 			$menu .= '</td>';
 			if ($page['url'] != 'index') {
 				$menu .= '<td class="delete"><a class="delconfirm" href="deletefile.php?id=' . $page['url'] . '&amp;nonce=' . get_nonce("delete", "deletefile.php") . '" title="' . i18n_r('DELETEPAGE_TITLE') . ': ' . var_out($page['title']) . '">&times;</a></td>';
@@ -1116,7 +1118,7 @@ function generate_sitemap() {
 		foreach ($pagesSorted as $page) {
 			if ($page['private'] != 'Y') {
 				// set <loc>
-				$pageLoc = find_url($page['url'], $page['parent']);
+				$pageLoc = find_url($page['url']);
 				
 				// set <lastmod>
 					$tmpDate = date("Y-m-d H:i:s", strtotime($page['pubDate']));
@@ -1304,6 +1306,3 @@ function cleanHtml($str,$strip_tags = array()){
 	$html_fragment = preg_replace('/^<!DOCTYPE.+?>|<head.*?>(.*)?<\/head>/', '', str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), @$dom_document->saveHTML()));	
 	return $html_fragment;
 }	
-
-
-?>

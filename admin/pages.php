@@ -17,7 +17,7 @@ include('inc/common.php');
 // Variable settings
 login_cookie_check();
 $id      =  isset($_GET['id']) ? $_GET['id'] : null;
-$ptype   = isset($_GET['type']) ? $_GET['type'] : null; 
+$ptype   = isset($_GET['type']) ? $_GET['type'] : null;
 $path    = GSDATAPAGESPATH;
 $counter = '0';
 $table   = '';
@@ -72,7 +72,7 @@ $count = 0;
 foreach ($pagesArray as $page) {
 	if ($page['parent'] != '') { 
 		$parentTitle = returnPageField($page['parent'], "title");
-		$sort = $parentTitle .' '. $page['title'];		
+		$sort = $parentTitle .' '. $page['title'];
 		$sort = $parentTitle .' '. $page['title'];
 	} else {
 		$sort = $page['title'];
@@ -82,8 +82,8 @@ foreach ($pagesArray as $page) {
 	$count++;
 }
 // $pagesArray = $pagesArray_tmp;
-$pagesSorted = subval_sort($pagesArray_tmp,'sort');
-$table = get_pages_menu('','',0);
+$pagesSorted = subval_sort($pagesArray_tmp, 'sort');
+$table = get_pages_menu('', '', 0);
 
 get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT')); 
 

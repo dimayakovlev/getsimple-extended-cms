@@ -9,7 +9,7 @@
 $MSG = null;
 # if the login cookie is already set, redirect user to control panel
 if(cookie_check()) {
-	redirect($cookie_redirect);                                             
+	redirect($cookie_redirect);
 }
 
 # was the form submitted?
@@ -80,4 +80,3 @@ if(isset($_POST['submitted'])) {
 	} # end error check
 	
 } # end submission check
-?>

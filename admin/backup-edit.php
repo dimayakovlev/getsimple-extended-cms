@@ -112,8 +112,9 @@ get_template('header', cl($SITENAME).' &raquo; '. i18n_r('BAK_MANAGEMENT').' &ra
 		<tr><td class="title" ><?php i18n('PAGE_TITLE');?>:</td><td><b><?php echo cl($title); ?></b> <?php echo $private; ?></td></tr>
 		<tr><td class="title" ><?php i18n('BACKUP_OF');?>:</td><td>
 			<?php 
-			if(isset($id)) {
-					echo '<a target="_blank" href="'. find_url($url, $parent) .'">'. find_url($url, $parent) .'</a>'; 
+			if (isset($id)) {
+				$link = find_url($url);
+				echo '<a target="_blank" href="'. $link .'">'. $link .'</a>';
 			} 
 			?>
 		</td></tr>
