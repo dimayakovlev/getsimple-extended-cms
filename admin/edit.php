@@ -36,6 +36,7 @@ $menu = '';
 $content = '';
 $component = '';
 $componentEnabled = '';
+$componentContent = '';
 $author = $USR;
 $lastAuthor = '';
 $title = '';
@@ -63,6 +64,7 @@ if ($id) {
 	$content = stripslashes($data_edit->content);
 	$component = stripslashes($data_edit->component);
 	$componentEnabled = stripslashes($data_edit->componentEnabled);
+	$componentContent = stripslashes($data_edit->componentContent);
 	$template = (string)$data_edit->template;
 	$parent = (string)$data_edit->parent;
 	$author = (string)$data_edit->author;
@@ -93,6 +95,7 @@ if ($id) {
 	$menuStatus =  isset( $_GET['menuStatus'] ) ? var_out( $_GET['menuStatus'] ) : '';
 	$menuOrder  =  isset( $_GET['menuOrder']  ) ? var_out( $_GET['menuOrder']  ) : '';
 	$lang = isset($_GET['lang']) ? var_out($_GET['lang']) : '';
+	$permalink = isset($_GET['permalink']) ? var_out($_GET['permalink']) : '';
 	$buttonname =  i18n_r('BTN_SAVEPAGE');
 }
 
@@ -102,30 +105,20 @@ if ($template == '') { $template = 'template.php'; }
 
 $themes_path = GSTHEMESPATH . $TEMPLATE;
 $themes_handle = opendir($themes_path) or die("Unable to open ". GSTHEMESPATH);
-while ($file = readdir($themes_handle))	{
-	if( isFile($file, $themes_path, 'php') ) {
-		if ($file != 'functions.php' && substr(strtolower($file),-8) !='.inc.php' && substr($file,0,1)!=='.') {		
-      $templates[] = $file;
-    }		
-	}		
-}		
-		
+while ($file = readdir($themes_handle)) {
+	if (isFile($file, $themes_path, 'php')) {
+		if ($file != 'functions.php' && substr(strtolower($file), -8) != '.inc.php' && substr($file, 0, 1) !== '.') {
+			$templates[] = $file;
+		}
+	}
+}
+
 sort($templates);
 
-foreach ($templates as $file){
-	if ($template == $file)	{ 
-		$sel="selected"; 
-	} else{ 
-		$sel=""; 
-	}
-	
-	if ($file == 'template.php'){ 
-		$templatename=i18n_r('DEFAULT_TEMPLATE'); 
-	} else { 
-		$templatename=$file;
-	}
-	
-	$theme_templates .= '<option '.$sel.' value="'.$file.'" >'.$templatename.'</option>';
+foreach ($templates as $file) {
+	$sel = ($template == $file) ? 'selected' : '';
+	$templatename = ($file == 'template.php') ? i18n_r('DEFAULT_TEMPLATE') : $file;
+	$theme_templates .= '<option ' . $sel.' value="' . $file . '" >' . $templatename . '</option>';
 }
 
 // SETUP CHECKBOXES
@@ -162,7 +155,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		<!-- pill edit navigation -->
 		<div class="edit-nav" >
 			<?php 
-			if(isset($id)) {
+			if (isset($id)) {
 				echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
 			} 
 			?>
@@ -172,7 +165,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		</div>
 			
 		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8" >
-			<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce("edit", "edit.php"); ?>" />			
+			<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce("edit", "edit.php"); ?>" />
 			<input id="author" name="post-author" type="hidden" value="<?php echo $author; ?>" />
 			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>" />
 
@@ -297,10 +290,12 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<!-- component toggle screen -->
 			<div style="display:none;" id="component_window">
 				<p class="inline post-component-enable clearfix">
-				<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnabled) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('PAGE_COMPONENT_ENABLE'); ?></label>
+					<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnabled) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('ENABLE_COMPONENT'); ?></label>
+				</p>
+				<p class="inline post-component-content clearfix">
+					<input type="checkbox" id="post-component-content" name="post-component-content" value="1"<?php if ($componentContent) echo ' checked '; ?>/>&nbsp;<label for="post-component-content"><?php i18n('PAGE_COMPONENT_REPLACE_CONTENT'); ?></label>
 				</p>
 				<p>
-					<label for="post-component"><?php i18n('PAGE_COMPONENT_CODE'); ?>:</label>
 					<textarea class="text" id="post-component" name="post-component"><?php echo $component; ?></textarea>
 				</p>
 			</div><!-- / component toggle screen -->

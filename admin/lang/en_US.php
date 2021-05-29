@@ -53,11 +53,12 @@ $i18n = array(
 /* 
  * For: pages.php
 */
-"MENUITEM_SUBTITLE"	=>	"menu item",
+"MENUITEM_SUBTITLE"	=>	"menu",
 "HOMEPAGE_SUBTITLE"	=>	"homepage",
 "PRIVATE_SUBTITLE"	=>	"private",
-"COMPONENT_SUBTITLE" => "component enabled",
-"PERMALINK_SUBTITLE" => 'custom permalink',
+"PAGE_COMPONENT_SUBTITLE" => "component",
+"PAGE_COMPONENT_CONTENT_SUBTITLE" => "dynamic",
+"PERMALINK_SUBTITLE" => 'permalink',
 "EDITPAGE_TITLE"		=>	"Edit Page",
 "VIEWPAGE_TITLE"		=>	"View Page",
 "DELETEPAGE_TITLE"	=>	"Delete Page",
@@ -333,7 +334,7 @@ $i18n = array(
 /* 
  * For: sidebar-pages.php
 */
-"SIDE_CREATE_NEW"		=>	"<em>C</em>reate New Page",
+"SIDE_CREATE_NEW"		=>	"Create Ne<em>w</em> Page",
 "SIDE_VIEW_PAGES"		=>	"View All <em>P</em>ages",
 
 /* 
@@ -597,9 +598,8 @@ $i18n = array(
 # new to 3.5.0
 
 'TITLE' => 'Title', // common string, components.php
-"PAGE_COMPONENT" => "Page Component", // edit.php
-"PAGE_COMPONENT_CODE" => "Component Code", // edit.php
-"PAGE_COMPONENT_ENABLE" => 'Enable page component', // edit.php
+"PAGE_COMPONENT" => "Page <em>C</em>omponent", // edit.php
+"PAGE_COMPONENT_REPLACE_CONTENT"   =>  'Replace content - <span style="font-weight:100">Make the page dynamic by replacing content with component output</span>',
 "ENABLE_CODE_ED"		=>	"Enable the code editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
 "MAINTENANCE_MODE" => "MAINTENANCE MODE",
 "MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",

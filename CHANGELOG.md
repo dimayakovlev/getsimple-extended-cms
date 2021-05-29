@@ -29,6 +29,7 @@
     * Added per page permalink structure
     * Added `getParents()` cache function to get parents of page
     * Added `getParentsMulti()` cache function to get parents of page with optional data
+    * Added option to replace page content with page component output
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
@@ -39,7 +40,8 @@
     * Disable caching of the admin stylesheet in debug mode
     * Basic `get_site_lang()` function renamed to `get_admin_lang()` and moved to template_functions.php
     * **Fancy URLs** renamed to **Pretty URLs**
-    * Signature or function `find_url()` changed. Second `parent` parameter not used anymore. Function can build query string from array passed as third parameter
+    * Signature of function `find_url()` changed. Second `parent` parameter not used anymore. Function can build query string from array passed as third parameter
+    * Signature of functon `get_page_content()` changed. Added parameter to disable replacing page content with page component output
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `\`

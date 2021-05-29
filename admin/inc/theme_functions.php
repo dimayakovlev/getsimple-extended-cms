@@ -34,21 +34,31 @@ function get_page_author($echo = true) {
  * Get Page Content
  *
  * @since 1.0
- * @uses $content 
- * @uses exec_action
- * @uses exec_filter
- * @uses strip_decode
+ * @since 3.5.0 Use page component to generate dynamic content
+ * @global $content
+ * @global $data_index
+ * @uses exec_action()
+ * @uses exec_filter()
+ * @uses strip_decode()
+ * @uses get_page_component()
+ * 
+ * @param bool $component If false disable page component. Default is true
  *
- * @return string Echos.
+ * @return null Echo page content
  */
-function get_page_content() {
+function get_page_content($component = true) {
 	global $content;
-	exec_action('content-top');
-	$content = strip_decode($content);
-	$content = exec_filter('content',$content);
-	if(getDef('GSCONTENTSTRIP',true)) $content = strip_content($content);
-	echo $content;
-	exec_action('content-bottom');
+	global $data_index;
+	if ($component && $data_index->componentContent == '1' && $data_index->componentEnabled == '1') {
+		get_page_component();
+	} else {
+		exec_action('content-top');
+		$content = strip_decode($content);
+		$content = exec_filter('content', $content);
+		if(getDef('GSCONTENTSTRIP',true)) $content = strip_content($content);
+		echo $content;
+		exec_action('content-bottom');
+	}
 }
 
 /**

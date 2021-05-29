@@ -831,9 +831,10 @@ function get_pages_menu($parent, $menu, $level) {
 			if ($page['menuStatus'] != '') { $page['menuStatus'] = ' <sup>[' . i18n_r('MENUITEM_SUBTITLE') . ']</sup>'; } else { $page['menuStatus'] = ''; }
 			if ($page['private'] != '') { $page['private'] = ' <sup>[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
-			if (isset($page['componentEnabled']) && $page['componentEnabled'] == '1') { $page['componentEnabled'] = ' <sup>[' . i18n_r('COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnabled'] = ''; }
+			if (isset($page['componentEnabled']) && $page['componentEnabled'] == '1') { $page['componentEnabled'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnabled'] = ''; }
+			if ($page['componentEnabled'] != '' && isset($page['componentContent']) && $page['componentContent'] == '1') { $page['componentContent'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_CONTENT_SUBTITLE') . ']</sup>'; } else { $page['componentContent'] = ''; }
 			if (isset($page['permalink']) && $page['permalink'] != '') { $page['permalink'] = ' <sup>[' . i18n_r('PERMALINK_SUBTITLE') . ']</sup>'; } else { $page['permalink'] = ''; }
-			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnabled'] . $page['permalink'] . '</span></td>';
+			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '" >' . cl($page['title']) . '</a><span class="showstatus toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnabled'] . $page['componentContent'] . $page['permalink'] . '</span></td>';
 			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink" >';
 			$menu .= '<a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . find_url($page['url']) . '">#</a>';
