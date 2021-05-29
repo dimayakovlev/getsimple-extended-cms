@@ -13,10 +13,10 @@
     * Added handling private pages respond with status code `403 Forbidden`
     * Added `DATECREATED` and `DATEMODIFIED` user fields
     * Added `DATECREATED` and `DATEMODIFIED` website fields
-    * Added page component feature
+    * Added **Page Component** feature
     * Added `get_page_component()` theme function to eval page component code stored in `component` field of the current page
-    * Added `getPageComponent` cache function to eval page component code of the requested page
-    * Added `returnPageComponent` cache function to return component code of the requested page in plain text
+    * Added `getPageComponent()` cache function to eval page component code of the requested page
+    * Added `returnPageComponent()` cache function to return component code of the requested page in plain text
     * Added option to enable/disable code editor from settings page
     * Added option to enable/disable components
     * Added support for special templates for `403` and `404` errors handling pages
@@ -27,6 +27,8 @@
     * Added `get_lang()` theme function to echo or return language of current page based on values setted for page, website or in fallback parameter. Use this function to set value of HTML lang attribute
     * Added new tokens for **Pretty URLs**: `%author%`, `%parents%`, `%lang%`, `%year%`, `%month%`, `%day%`
     * Added per page permalink structure
+    * Added `getParents()` cache function to get parents of page
+    * Added `getParentsMulti()` cache function to get parents of page with optional data
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
