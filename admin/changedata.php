@@ -107,7 +107,7 @@ if (isset($_POST['submitted'])) {
 		if(isset($_POST['post-private']) ) 		{ $private = safe_slash_html($_POST['post-private']); }
 		if(isset($_POST['post-content'])) 		{	$content = safe_slash_html($_POST['post-content']);	}
 		if (isset($_POST['post-component']))	{ $component = safe_slash_html($_POST['post-component']); }
-		if (isset($_POST['post-component-enable']))	{ $componentEnable = safe_slash_html($_POST['post-component-enable']); }
+		if (isset($_POST['post-component-enable']))	{ $componentEnabled = safe_slash_html($_POST['post-component-enable']); }
 		if (isset($_POST['post-lang'])) 			{ $lang = var_out(xss_clean($_POST['post-lang'])); }
 		if(isset($_POST['post-menu-order'])) 	{ 
 			if (is_numeric($_POST['post-menu-order'])) 
@@ -160,7 +160,7 @@ if (isset($_POST['submitted'])) {
 		$xml->addChild('parent', $parent);
 		$xml->addChild('content')->addCData($content);
 		$xml->addChild('component')->addCData($component);
-		$xml->addChild('componentEnable', $componentEnable);
+		$xml->addChild('componentEnabled', $componentEnabled);
 		$xml->addChild('private', $private);
 		$xml->addChild('author', $author);
 		$xml->addChild('lastAuthor', $USR);

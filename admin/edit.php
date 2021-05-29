@@ -62,7 +62,7 @@ if ($id) {
 	$url = (string)$data_edit->url;
 	$content = stripslashes($data_edit->content);
 	$component = stripslashes($data_edit->component);
-	$componentEnable = stripslashes($data_edit->componentEnable);
+	$componentEnabled = stripslashes($data_edit->componentEnabled);
 	$template = (string)$data_edit->template;
 	$parent = (string)$data_edit->parent;
 	$author = (string)$data_edit->author;
@@ -297,7 +297,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<!-- component toggle screen -->
 			<div style="display:none;" id="component_window">
 				<p class="inline post-component-enable clearfix">
-				<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnable) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('PAGE_COMPONENT_ENABLE'); ?></label>
+				<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnabled) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('PAGE_COMPONENT_ENABLE'); ?></label>
 				</p>
 				<p>
 					<label for="post-component"><?php i18n('PAGE_COMPONENT_CODE'); ?>:</label>

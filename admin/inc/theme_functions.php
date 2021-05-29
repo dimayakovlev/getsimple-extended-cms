@@ -64,7 +64,7 @@ function get_page_content() {
  */
 function get_page_component($check = true) {
 	global $data_index;
-	if ($check && $data_index->componentEnable != '1') return null;
+	if ($check && $data_index->componentEnabled != '1') return null;
 	if ($data_index->component) {
 		eval('?>' . strip_decode($data_index->component) . '<?php ');
 	}
@@ -699,7 +699,7 @@ function get_component($id, $check = true) {
 	if (count($components) > 0) {
 		foreach ($components as $component) {
 			if ($id == $component->slug) {
-				if ($check == true && $component->enable == '1') {
+				if ($check == true && $component->enabled == '1') {
 					eval('?>' . strip_decode($component->value) . '<?php ');
 				}
 				break;
@@ -770,14 +770,13 @@ function get_navigation($currentpage = "",$classPrefix = "") {
  * @uses get_cookie();
  *
  * @return bool Return true if user is logged in
- */	
+ */
 function is_logged_in() {
   global $USR;
   return (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME'));
-}	
-	
+}
 
-	
+
 /**
  * @depreciated as of 2.04
  */
@@ -810,4 +809,3 @@ if(!function_exists('set_contact_page')) {
 		#removed functionality	
 	}
 }
- 

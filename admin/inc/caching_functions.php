@@ -33,11 +33,12 @@ add_action('changedata-aftersave', 'create_pagesxml', array(true));     // Creat
  * @return mixed Return result of evaluation of page component code or null
  */
 function getPageComponent($page, $check = true) {
-	if ($check && (bool)returnPageField($page, 'componentEnable') == false) return null;
-	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
-	$data = simplexml_load_string($thisfile);
-	if (!$data) return;
-	$component = stripslashes(htmlspecialchars_decode($data->component, ENT_QUOTES));
+	if ($check && (bool)returnPageField($page, 'componentEnabled') == false) return null;
+	$file = GSDATAPAGESPATH . $page . '.xml';
+	if (!file_exists($file)) return null;
+	$xml = simplexml_load_file($file);
+	if (!$xml) return null;
+	$component = stripslashes(htmlspecialchars_decode($xml->component, ENT_QUOTES));
 	if ($component) {
 		eval('?>' . strip_decode($component) . '<?php ');
 	}
@@ -68,18 +69,17 @@ function getPageContent($page, $field = 'content') {
  * Retrieve and display the requested field from the given page. 
  *
  * @since 3.1
+ * @since 3.5.0 Removed check for global variable $pagesArray
  * @param $page - slug of the page to retrieve content
  * @param $field - the Field to display
  */
 function getPageField($page, $field) {
 	global $pagesArray;
-	if (!$pagesArray) getPagesXmlValues();	
-	
 	if ($field == 'content') {
-	  getPageContent($page);  
+	  getPageContent($page);
 	} else {
 		if (array_key_exists($field, $pagesArray[(string)$page])){
-	  		echo strip_decode($pagesArray[(string)$page][(string)$field]);
+			echo strip_decode($pagesArray[(string)$page][(string)$field]);
 		} else {
 			getPageContent($page,$field);
 		}
@@ -130,13 +130,14 @@ function returnPageComponent($page) {
  * As the Content is not cahed the file is read in.
  *
  * @since 3.1
- * @param $page - slug of the page to retrieve content
- * @param $raw false - if true return raw xml
- * @param $nofilter false - if true skip content filter execution
+ * @param string $page Slug of the page to retrieve content
+ * @param string $field Name of field. Default is content
+ * @param bool $raw If true return raw xml. Default is false
+ * @param bool $nofilter If true skip content filter execution. Default is false
  * 
  * @return string Content of the requested page
  */
-function returnPageContent($page, $field = 'content', $raw = false, $nofilter = false) {   
+function returnPageContent(string $page, $field = 'content', $raw = false, $nofilter = false) {
 	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
 	$data = simplexml_load_string($thisfile);
 	if (!$data) return '';
@@ -155,29 +156,20 @@ function returnPageContent($page, $field = 'content', $raw = false, $nofilter = 
  * If the field is "content" it will call returnPageContent()
  *
  * @since 3.1
+ * @since 3.5.0 Removed check for global variable $pagesArray
  * 
  * @global $pagesArray
  * 
  * @uses returnPageContent
  * @uses getPagesXmlValues
  * 
- * @param $page Slug of the page to retrieve content
- * @param $field The Field to display
+ * @param string $page Slug of the page to retrieve field
+ * @param string $field Field name to return value
  */
-function returnPageField($page, $field) {
+function returnPageField(string $page, string $field) {
 	global $pagesArray;
-	if (!$pagesArray) getPagesXmlValues();
-
-	if ($field == 'content') {
-	  $ret = returnPageContent($page); 
-	} else {
-		if (isset($pagesArray[(string)$page]) && array_key_exists($field, $pagesArray[(string)$page])) {
-			$ret = strip_decode(@$pagesArray[(string)$page][(string)$field]);
-		} else {
-			$ret = returnPageContent($page,$field);
-		}
-	}
-	return $ret;
+	if ($field == 'content') return returnPageContent($page);
+	return isset($pagesArray[$page][$field]) ? strip_decode($pagesArray[$page][$field]) : '';
 }
 
 /**
@@ -186,10 +178,9 @@ function returnPageField($page, $field) {
  * Return an Array of pages that are children of the requested page/slug
  *
  * @since 3.1
+ * @since 3.5.0 Removed check for global variable $pagesArray
  * 
  * @global $pagesArray
- * 
- * @uses getPagesXmlValues
  * 
  * @param $page Slug of the page to retrieve content
  * 
@@ -197,7 +188,6 @@ function returnPageField($page, $field) {
  */
 function getChildren($page) {
 	global $pagesArray;
-	if (!$pagesArray) getPagesXmlValues();
 	$returnArray = array();
 	foreach ($pagesArray as $key => $value) {
 		if ($pagesArray[$key]['parent'] == $page) {
@@ -208,35 +198,29 @@ function getChildren($page) {
 }
 
 /**
- * Get Page Children - returns multi fields
+ * Get Page Children with Multi Fields
  *
- * Return an Array of pages that are children of the requested page/slug with optional fields.
+ * Return an array of pages that are children of the requested page with optional fields
  *
  * @since 3.1
+ * @since 3.5.0 Return associative array with children slugs as keys
  * 
  * @global $pagesArray
  * 
- * @uses getPagesXmlValues
- * @uses returnPageField
+ * @param string $page Slug of the page to retrieve children
+ * @param array $options Array of optional fields to return
  * 
- * @param $page - slug of the page to retrieve content
- * @param options - array of optional fields to return
- * 
- * @return array Array of slug names and optional fields.
+ * @return array Array of children slugs as keys and values as array of values of optional fields
  */
-function getChildrenMulti($page, $options = array()) {
+function getChildrenMulti(string $page, $options = array()) {
 	global $pagesArray;
-	if (!$pagesArray) getPagesXmlValues();		
-	$count = 0;
 	$returnArray = array();
 	foreach ($pagesArray as $key => $value) {
-		if ($pagesArray[$key]['parent'] == $page) {
-			$returnArray[$count] = array();
-			$returnArray[$count]['url'] = $key;
+		if ($value['parent'] == $page) {
+			$returnArray[$key] = array();
 			foreach ($options as $option) {
-				$returnArray[$count][$option] = returnPageField($key, $option);
+				$returnArray[$key][$option] = isset($value[$option]) ? $value[$option] : '';
 			}
-			$count++;
 		}
 	}
 	return $returnArray;
@@ -251,22 +235,16 @@ function getChildrenMulti($page, $options = array()) {
  * 
  * @global $pagesArray
  * 
- * @uses getPagesXmlValues
- * 
  * @param string $page Slug of the page retrieve parent page slug
  * 
  * @return string Slug of the parent page. If page has no parent returns empty string
  */
-function getParent($page) {
+function getParent(string $page) {
 	global $pagesArray;
-	$parent = '';
-	$page = trim($page);
-	if (!$page) return $parent;
-	if (!$pagesArray) getPagesXmlValues();
 	if (isset($pagesArray[$page])) {
-		$parent = (string)$pagesArray[$page]['parent'];
+		return (string)$pagesArray[$page]['parent'];
 	}
-	return $parent;
+	return '';
 }
 
 /**
@@ -278,34 +256,62 @@ function getParent($page) {
  * 
  * @global $pagesArray
  * 
- * @uses getPagesXmlValues
- * 
  * @param string $page Slug of the page retrive parents pages slugs
  * @param bool $reverse Reverse order of parents. By default direct parent is the first
  * 
  * @return array Array of slug names
  */
-function getParents($page, $reverse = false) {
+function getParents(string $page, $reverse = false) {
 	global $pagesArray;
 	$parent = '';
 	$parents = array();
-	$page = trim($page);
-	if (!$page) return $parents;
-	if (!$pagesArray) getPagesXmlValues();
 	do {
 		if (!isset($pagesArray[$page])) break;
-		$parent = (string)$pagesArray[$page]['parent'];
+		$parent = $pagesArray[$page]['parent'];
 		if ($parent) {
 			$parents[] = $parent;
 			$page = $parent;
 		}
-	}	while ($parent);
+	} while ($parent);
 	if ($parents && $reverse == true) {
 		$parents = array_reverse($parents);
 	}
 	return $parents;
 }
 
+/**
+ * Get Parents Pages with Multi Fields
+ * 
+ * Return an array of pages that are parents of the requested page with optional fields
+ * 
+ * @since 3.5.0
+ * 
+ * @global $pagesArray
+ * 
+ * @param string $page Slug of the page retrive parents pages slugs
+ * @param array $options Array of optional fields to return
+ * @param $bool $reverse Reverse order of parents. By default direct parent is the first
+ */
+function getParentsMulti(string $page, $options = array(), $reverse = false) {
+	global $pagesArray;
+	$parent = '';
+	$parents = array();
+	do {
+		if (!isset($pagesArray[$page])) break;
+		$parent = $pagesArray[$page]['parent'];
+		if ($parent) {
+			$parents[$parent] = array();
+			foreach ($options as $option) {
+				$parents[$parent][$option] = isset($pagesArray[$parent][$option]) ? $pagesArray[$parent][$option] : '';
+			}
+			$page = $parent;
+		}
+	} while ($parent);
+	if ($parents && $reverse == true) {
+		$parents = array_reverse($parents);
+	}
+	return $parents;
+}
 /**
  * Get Cached Pages XML Values
  *
@@ -477,20 +483,11 @@ function create_pagesxml($flag) {
  * 
  * @global $pagesArray
  * 
- * @uses getPagesXmlValues
- * 
  * @param string $page Slug of the page
  * 
  * @return bool Return true if page is private
  */
-function isPagePrivate($page) {
+function isPagePrivate(string $page) {
 	global $pagesArray;
-	$private = false;
-	$page = trim($page);
-	if (!$page) return $private;
-	if (!$pagesArray) getPagesXmlValues();
-	if (isset($pagesArray[$page])) {
-		$private = ($pagesArray[$page]['private'] == 'Y');
-	}
-	return $private;
+	return (isset($pagesArray[$page]) && $pagesArray[$page]['private'] == 'Y') ? true : false;
 }

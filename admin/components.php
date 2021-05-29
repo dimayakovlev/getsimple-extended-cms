@@ -57,7 +57,7 @@ if (isset($_POST['submitted'])) {
 			} else {
 				$component['value'] = '';
 			}
-			$component['enable'] = isset($component['enable']) ? $component['enable'] : '';
+			$component['enabled'] = isset($component['enabled']) ? $component['enabled'] : '';
 			$components[] = $component;
 		}
 	}
@@ -68,7 +68,7 @@ if (isset($_POST['submitted'])) {
 			$item = $xml->addChild('item');
 			$item->addChild('title')->addCData($component['title']);
 			$item->addChild('slug', $component['slug']);
-			$item->addChild('enable', $component['enable']);
+			$item->addChild('enabled', $component['enabled']);
 			$item->addChild('value')->addCData($component['value']);
 		}
 	}
@@ -96,10 +96,10 @@ $components = $data->item;
 $count= 0;
 if (count($components) != 0) {
 	foreach ($components as $component) {
-		$checked = (isset($component->enable) && $component->enable == '1') ? ' checked ' : '';
+		$checked = (isset($component->enabled) && $component->enabled == '1') ? ' checked ' : '';
 		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable" ><tr><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
 		$table .= '<td style="text-align:right;" ><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
-		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title). '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enable]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enable]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
+		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title). '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enabled]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
 		$table .= '<textarea class="text" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
 		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '" />';
 		$table .= '<input type="hidden" class="comptitle" name="components[' . $count . '][title]" value="' . stripslashes($component->title) . '" />';
