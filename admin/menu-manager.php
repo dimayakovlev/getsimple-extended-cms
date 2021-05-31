@@ -29,6 +29,7 @@ if (isset($_POST['menuOrder'])) {
 		$priority++;
 	}
 	create_pagesxml('true');
+	set_site_last_update();
 	$success = i18n_r('MENU_MANAGER_SUCCESS');
 }
 

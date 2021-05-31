@@ -174,6 +174,7 @@ if (isset($_POST['submitted'])) {
 			$status = XMLsave($xml, GSAUTOSAVEPATH.$url);
 		} else {
 			$status = XMLsave($xml, $file);
+			if ($status) set_site_last_update();
 		}
 		
 		//ending actions

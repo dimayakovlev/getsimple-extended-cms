@@ -13,6 +13,7 @@
     * Added handling private pages respond with status code `403 Forbidden`
     * Added `DATECREATED` and `DATEMODIFIED` user fields
     * Added `DATECREATED` and `DATEMODIFIED` website fields
+    * Added handling of the time of the last website update
     * Added **Page Component** feature
     * Added `get_page_component()` theme function to eval page component code stored in `component` field of the current page
     * Added `getPageComponent()` cache function to eval page component code of the requested page

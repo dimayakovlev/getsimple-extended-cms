@@ -1306,4 +1306,27 @@ function cleanHtml($str,$strip_tags = array()){
 	// strip doctype, head, html, body tags
 	$html_fragment = preg_replace('/^<!DOCTYPE.+?>|<head.*?>(.*)?<\/head>/', '', str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), @$dom_document->saveHTML()));	
 	return $html_fragment;
-}	
+}
+
+/**
+ * Set time of last website update
+ * 
+ * @since 3.5.0
+ * 
+ * @global GSBACKUPSPATH
+ * @global GSDATAOTHERPATH
+ * 
+ * @uses createBak()
+ * @uses getXML()
+ * @uses XMLsave()
+ * 
+ * @return bool 
+ */
+function set_site_last_update() {
+	$file = GSDATAOTHERPATH .'website.xml';
+	if (!file_exists($file)) return false;
+	$data = getXML($file, 0);
+	$data->DATEMODIFIED = date('r');
+	createBak('website.xml', GSDATAOTHERPATH, GSBACKUPSPATH . 'other/');
+	return XMLsave($data, $file);
+}

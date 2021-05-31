@@ -76,9 +76,11 @@ elseif ($p == 'restore') {
 		if(!filepath_is_safe($existing,GSDATAPAGESPATH)) die();
 		copy($existing, $bakfile);
 		unlink($existing);
+		set_site_last_update();
 		redirect("edit.php?id=". $id ."&old=".$_GET['new']."&upd=edit-success&type=restore");
 	} else {
 		restore_bak($id);
+		set_site_last_update();
 		redirect("edit.php?id=". $id ."&upd=edit-success&type=restore");
 	}
 	

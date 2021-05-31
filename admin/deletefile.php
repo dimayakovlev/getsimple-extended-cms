@@ -31,11 +31,12 @@ if (isset($_GET['id'])) {
 	
 	if ($id == 'index') {
 		redirect('pages.php?upd=edit-error&type='.urlencode(i18n_r('HOMEPAGE_DELETE_ERROR')));
-	} else {	
+	} else {
 		updateSlugs($id);
 		$status = delete_file($id);
 		generate_sitemap();
 		exec_action('page-delete');
+		set_site_last_update();
 		redirect("pages.php?upd=edit-".$status."&id=". $id ."&type=delete");
 	}
 } 
