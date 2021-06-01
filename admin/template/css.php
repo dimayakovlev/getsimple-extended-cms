@@ -385,7 +385,7 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 }
 
 h3 {
-	font-size: 19px;
+	font-size: 18px;
 	font-family: Georgia, Times, Times New Roman, serif;
 	font-weight: normal;
 	font-style: italic;
@@ -395,13 +395,8 @@ h3 {
 }
 
 h3.floated {
-	font-size: 18px;
-	font-weight: normal;
-	font-family: Georgia, Times, Times New Roman, serif ;
 	padding: 2px 0 0 0;
-	color: <?php echo $secondary_1; ?>;
 	float: left;
-	display: block;
 	margin: 0 0 5px 0;
 }
 
@@ -1176,9 +1171,9 @@ input.submit:focus, input.submit:hover, .button:hover {
 
 /* edit css */
 form input.title {
-	font-size: 19px;
+	font-size: 18px;
 	border-color: #999;
-	width: 635px;
+	width: 638px;
 	padding: 3px 4px;
 }
 
@@ -2094,7 +2089,7 @@ h5 .crumbs, div.h5 .crumbs {
 	border: 1px solid #FF9933;
 	padding: 5px;
 	background: white;
-	height: 500px;
+	height: 200px;
 	overflow: scroll;
 	margin-bottom: 20px;
 }
