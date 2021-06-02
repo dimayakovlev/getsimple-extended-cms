@@ -1,12 +1,10 @@
 <?php 
 /**
- * Page Edit Action
+ * Save submitted data
  *
- * Code to either create or edit a page. This is the action page  
- * for the form on edit.php	
+ * This is the action page to save submitted data
  *
- * @package GetSimple
- * @subpackage Page-Edit
+ * @package GetSimple Extended
  */
 
 // Setup inclusions
@@ -15,35 +13,48 @@ $load['plugin'] = true;
 // Include common.php
 include('inc/common.php');
 
-$autoSaveDraft = false; // auto save to autosave drafts
+if (!isset($_SERVER['HTTP_REFERER'])) {
+	die('No Referer');
+}
 
-// check form referrer - needs siteurl and edit.php in it. 
-if (isset($_SERVER['HTTP_REFERER'])) {
-	if ( !(strpos(str_replace('http://www.', '', $SITEURL), $_SERVER['HTTP_REFERER']) === false) || !(strpos("edit.php", $_SERVER['HTTP_REFERER']) === false)) {
-		echo "<b>Invalid Referer</b><br />-------<br />"; 
-		echo 'Invalid Referer: ' . htmlentities($_SERVER['HTTP_REFERER'], ENT_QUOTES);
-		die('Invalid Referer');
+// check referer domain
+if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != parse_url($SITEURL, PHP_URL_HOST)) {
+	die('Invalid Referer Domain');
+}
+
+$referer = basename(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));
+$actions = array('edit.php' => array('save'));
+
+// check referer page
+if (!isset($actions[$referer])) {
+	die('Wrong Referer Page');
+}
+
+$action = isset($_POST['action']) ? trim($_POST['action']) : '';
+
+// check action
+if ($action == '' || !in_array($action, $actions[$referer])) {
+	die('Wrong action');
+}
+
+// check for csrf
+if (!defined('GSNOCSRF') || GSNOCSRF == false) {
+	$nonce = isset($_POST['nonce']) ? trim($_POST['nonce']) : '';
+	if ($nonce == '' || !check_nonce($nonce, $action, $referer)) {
+		die('CSRF detected');
 	}
 }
 
 login_cookie_check();
-	
-if (isset($_POST['submitted'])) {
+
+if ($referer == 'edit.php' && $action == 'save') {
 
 	$existingurl = isset($_POST['existing-url']) ? $_POST['existing-url'] : null;
 	
-	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
-		$nonce = $_POST['nonce'];
-		if(!check_nonce($nonce, "edit", "edit.php")) {
-			die("CSRF detected!");	
-		}
-	}
-	
-	if ( trim($_POST['post-title']) == '' )	{
+	if (trim($_POST['post-title']) == '') {
 		redirect("edit.php?upd=edit-error&type=".urlencode(i18n_r('CANNOT_SAVE_EMPTY')));
-	}	else {
-		
+	} else {
+		$autoSaveDraft = false; // auto save to autosave drafts
 		$url="";$title="";$metad=""; $metak="";	$cont="";
 		
 		// is a slug provided?
@@ -209,6 +220,6 @@ if (isset($_POST['submitted'])) {
 			}
 		}
 	}
-} else {
-	redirect('pages.php');
 }
+
+redirect('pages.php');
