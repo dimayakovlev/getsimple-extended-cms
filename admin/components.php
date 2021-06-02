@@ -100,7 +100,7 @@ if (count($components) != 0) {
 		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable" ><tr><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
 		$table .= '<td style="text-align:right;" ><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
 		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title). '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enabled]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
-		$table .= '<textarea class="text" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
+		$table .= '<label for="components[' . $count . '][value]" style="display: none;">' . i18n_r('COMPONENT_CODE') . ':</label><textarea class="text" id="components[' . $count . '][value]" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
 		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '" />';
 		$table .= '<input type="hidden" class="comptitle" name="components[' . $count . '][title]" value="' . stripslashes($component->title) . '" />';
 		$table .= '<input type="hidden" name="components[' . $count . '][id]" value="' . $count . '" />';
@@ -154,7 +154,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 		<div id="divTxt"></div>
 		<?php echo $table; ?>
 		<?php
-			if ($datau->CODEEDITOR == 1) {
+			if ($datau->CODEEDITOR == '1') {
 		?>
 		<style>
 			.compdiv .CodeMirror, .compdiv .CodeMirror-scroll { height: <?php echo $EDHEIGHT; ?>; }
@@ -175,6 +175,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 			GS.i18n['TITLE'] = "<?php i18n('TITLE'); ?>";
 			GS.i18n['DELETE_COMPONENT'] = "<?php i18n('DELETE_COMPONENT'); ?>";
 			GS.i18n['ENABLE_COMPONENT'] = "<?php i18n('ENABLE_COMPONENT'); ?>";
+			GS.i18n['COMPONENT_CODE'] = "<?php i18n('COMPONENT_CODE'); ?>";
 		</script>
 		<p id="submit_line" class="<?php echo $submitclass; ?>">
 			<span><input type="submit" class="submit" name="submitted" id="button" value="<?php i18n('SAVE_COMPONENTS');?>" /></span> &nbsp;&nbsp;<?php i18n('OR'); ?>&nbsp;&nbsp; <a class="cancel" href="components.php?cancel"><?php i18n('CANCEL'); ?></a>

@@ -186,6 +186,7 @@ $i18n = array(
 "ADD_COMPONENT"			=>	"<em>A</em>dd Component", // 'a' is the accesskey identifier
 "SAVE_COMPONENTS"		=>	"Save Components",
 "ENABLE_COMPONENT"  => "Enable component",
+'COMPONENT_CODE'  => 'Component code',
 
 /* 
  * For: sitemap.php
@@ -597,7 +598,7 @@ $i18n = array(
 
 'TITLE' => 'Title', // common string, components.php
 "PAGE_COMPONENT" => "Page <em>C</em>omponent", // edit.php
-"PAGE_COMPONENT_REPLACE_CONTENT"   =>  'Replace content - <span style="font-weight:100">Make the page dynamic by replacing content with component output</span>',
+"PAGE_COMPONENT_REPLACE_CONTENT" => 'Replace content - <span style="font-weight:100">Make the page dynamic by replacing content with component output</span>',
 "ENABLE_CODE_ED"		=>	"Enable the code editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
 "MAINTENANCE_MODE" => "MAINTENANCE MODE",
 "MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",

@@ -297,6 +297,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<input type="checkbox" id="post-component-content" name="post-component-content" value="1"<?php if ($componentContent) echo ' checked '; ?>/>&nbsp;<label for="post-component-content"><?php i18n('PAGE_COMPONENT_REPLACE_CONTENT'); ?></label>
 				</p>
 				<p>
+					<label for="post-component" style="display: none;"><?php i18n('COMPONENT_CODE'); ?>:</label>
 					<textarea class="text" id="post-component" name="post-component"><?php echo $component; ?></textarea>
 				</p>
 			</div><!-- / component toggle screen -->
