@@ -2,12 +2,9 @@
 /**
  * English Language File
  *
- * Date:			6 December 2011
- * Revision:		Dec 2013
- * Version:			GetSimple 3.3.0
- * Traductors: 		Chris Cagle 
+ * Version: GetSimple 3.5.0
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Language
  */
 
@@ -521,6 +518,7 @@ $i18n = array(
 "SAVE_MENU_ORDER" => "Save Menu Order", //menu-manager.php
 "MENU_MANAGER_DESC" => "Drag-and-drop the menu items around until you have the order you want, then click the <strong>'Save Menu Order'</strong> button.", //menu-manager.php
 "MENU_MANAGER_SUCCESS" => "The new menu order has been saved", //menu-manager.php
+'MENU_MANAGER_ERROR' => 'The new menu order has not been saved',
 
 
 /* 

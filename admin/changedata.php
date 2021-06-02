@@ -23,7 +23,10 @@ if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != parse_url($SITEURL, PHP
 }
 
 $referer = basename(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));
-$actions = array('edit.php' => array('save'));
+$actions = array(
+	'edit.php' => array('save'),
+	'menu-manager.php' => array('save'),
+);
 
 // check referer page
 if (!isset($actions[$referer])) {
@@ -219,6 +222,31 @@ if ($referer == 'edit.php' && $action == 'save') {
 				redirect($redirect_url."?id=". $url ."&upd=edit-success&type=new"); 
 			}
 		}
+	}
+}
+
+if ($referer == 'menu-manager.php' && $action == 'save') {
+	# save page priority order
+	if (isset($_POST['menuOrder'])) {
+		$menuOrder = explode(',', $_POST['menuOrder']);
+		$priority = 0;
+		foreach ($menuOrder as $slug) {
+			$file = GSDATAPAGESPATH . $slug . '.xml';
+			if (file_exists($file)) {
+				$data = getXML($file, 0);
+				if ($priority != (int)$data->menuOrder) {
+					$data->menuOrder = $priority;
+					$data->pubDate = date('r');
+					XMLsave($data, $file);
+				}
+			}
+			$priority++;
+		}
+		create_pagesxml('true');
+		set_site_last_update();
+		redirect($referer . '?success=' . rawurlencode(i18n_r('MENU_MANAGER_SUCCESS')));
+	} else {
+		redirect($referer . '?error=' . rawurlencode(i18n_r('MENU_MANAGER_ERROR')));
 	}
 }
 
