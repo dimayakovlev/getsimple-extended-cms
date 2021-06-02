@@ -51,7 +51,7 @@ include('template/include-nav.php');
 					echo '<input type="hidden" name="action" value="save">';
 					echo '<input type="hidden" name="nonce" value="' . get_nonce('save', 'menu-manager.php') . '">';
 					echo '<input type="hidden" name="menuOrder" value="">';
-					echo '<input class="submit" type="submit" value="' . i18n_r("SAVE_MENU_ORDER") . '">';
+					echo '<p id="submit_line" ><span><input class="submit" type="submit" value="' . i18n_r('SAVE_MENU_ORDER') . '"></span> &nbsp;&nbsp;' . i18n_r('OR') . '&nbsp;&nbsp; <a class="cancel" href="menu-manager.php?cancel">' . i18n_r('CANCEL') . '</a></p>';
 					echo '</form>';
 				} else {
 					echo '<p>'.i18n_r('NO_MENU_PAGES').'.</p>';	
