@@ -446,6 +446,8 @@ jQuery(document).ready(function () {
 		$e.preventDefault();
 		$("#metadata_window").slideToggle('fast');
 		$(this).toggleClass('current');
+		var val = document.getElementById('autoopen[metadata]').value;
+		document.getElementById('autoopen[metadata]').value = (val == 1 ? 0 : 1);
 	});
 	// Toggle page component window
 	$("#component_toggle").live("click", function ($e) {
@@ -457,6 +459,8 @@ jQuery(document).ready(function () {
 			}
 		}
 		$(this).toggleClass('current');
+		var val = document.getElementById('autoopen[component]').value;
+		document.getElementById('autoopen[component]').value = (val == 1 ? 0 : 1);
 	});
  
 	var privateLabel = $("#post-private-wrap label");

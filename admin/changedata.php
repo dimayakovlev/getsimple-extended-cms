@@ -189,12 +189,36 @@ if ($referer == 'edit.php' && $action == 'save') {
 		} else {
 			$status = XMLsave($xml, $file);
 			if ($status) set_site_last_update();
+
+			foreach(array('metadata', 'component') as $item) {
+				if (isset($_POST['autoopen'][$item]) && $_POST['autoopen'][$item] == '1') {
+					if (isset($_COOKIE['autoopen'][$item])) {
+						$pages = explode(',', $_COOKIE['autoopen'][$item]);
+						if (!in_array($url, $pages)) {
+							$pages[] = $url;
+							setcookie("autoopen[$item]", implode(',', $pages), time() + 365 * 24 * 3600);
+						}
+					} else {
+						setcookie("autoopen[$item]", $url, time() + 365 * 24 * 3600);
+					}
+				} else {
+					if (isset($_COOKIE['autoopen'][$item])) {
+						$pages = explode(',', $_COOKIE['autoopen'][$item]);
+						$key = array_search($url, $pages);
+						if ($key !== false) {
+							unset($pages[$key]);
+							setcookie("autoopen[$item]", implode(',', $pages), time() + 365 * 24 * 3600);
+						}
+					}
+				}
+			}
+
 		}
-		
+
 		//ending actions
 		exec_action('changedata-aftersave');
 		generate_sitemap();
-		
+
 		// redirect user back to edit page 
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true') {
 			echo $status ? 'OK' : 'ERROR';

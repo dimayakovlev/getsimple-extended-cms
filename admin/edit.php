@@ -85,6 +85,15 @@ if ($id) {
 		$lastAuthor = $author;
 	}
 	$permalink = (string)$data_edit->permalink;
+
+	foreach(array('metadata', 'component') as $item) {
+		if (isset($_COOKIE['autoopen'][$item])) {
+			$autoopen[$item] = in_array($id, explode(',', $_COOKIE['autoopen'][$item]));
+		} else {
+			$autoopen[$item] = false;
+		}
+	}
+
 } else {
 	// prefill fields is provided
 	$title      =  isset( $_GET['title']      ) ? var_out( $_GET['title']      ) : '';
@@ -98,7 +107,6 @@ if ($id) {
 	$permalink = isset($_GET['permalink']) ? var_out($_GET['permalink']) : '';
 	$buttonname =  i18n_r('BTN_SAVEPAGE');
 }
-
 
 // MAKE SELECT BOX OF AVAILABLE TEMPLATES
 if ($template == '') { $template = 'template.php'; }
@@ -159,8 +167,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
 			} 
 			?>
-			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" ><?php i18n('PAGE_COMPONENT'); ?></a>
-			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" ><?php i18n('PAGE_OPTIONS'); ?></a>
+			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" class="<?php if ($autoopen['component'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_COMPONENT'); ?></a>
+			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($autoopen['metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
 			<div class="clear" ></div>
 		</div>
 			
@@ -169,16 +177,18 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<input id="author" name="post-author" type="hidden" value="<?php echo $author; ?>">
 			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>">
 			<input id="action" name="action" type="hidden" value="save">
+			<input id="autoopen[metadata]" name="autoopen[metadata]" type="hidden" value="<?php if ($autoopen['metadata']) echo '1'; ?>">
+			<input id="autoopen[component]" name="autoopen[component]" type="hidden" value="<?php if ($autoopen['component']) echo '1'; ?>">
 
 			<!-- page title toggle screen -->
 			<p id="edit_window">
 				<label for="post-title" style="display:none;"><?php i18n('PAGE_TITLE'); ?></label>
-				<input class="text title" id="post-title" name="post-title" type="text" value="<?php echo $title; ?>" placeholder="<?php i18n('PAGE_TITLE'); ?>" />
+				<input class="text title" id="post-title" name="post-title" type="text" value="<?php echo $title; ?>" placeholder="<?php i18n('PAGE_TITLE'); ?>">
 			</p>
 				
 
 			<!-- metadata toggle screen -->
-			<div style="display:none;" id="metadata_window">
+			<div style="display: <?php echo ($autoopen['metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
 			<div class="leftopt">
 				<p class="inline clearfix" id="post-private-wrap" >
 					<label for="post-private" ><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
@@ -289,7 +299,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				
 				
 			<!-- component toggle screen -->
-			<div style="display:none;" id="component_window">
+			<div style="display: <?php echo ($autoopen['component'] == true) ? 'block' : 'none' ?>;" id="component_window">
 				<p class="inline post-component-enable clearfix">
 					<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnabled) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('ENABLE_COMPONENT'); ?></label>
 				</p>
