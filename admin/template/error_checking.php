@@ -2,28 +2,24 @@
 /**
  * Error Checking
  *
- * Displays error and success messages	
+ * Displays error and success messages
  *
- * @package GetSimple
- *  
- * Modified by Jorge H. [ http://www.jorgehoya.es ] on 07/09/2011
+ * @package GetSimple Extended
  *
- * Modified by Shawn_a 8/01/2012
  * You can pass $update(global) directly if not using a redirrect and querystring
- *
  */
  
-	if ( file_exists(GSUSERSPATH._id($USR).".xml.reset") && get_filename_id()!='index' && get_filename_id()!='resetpassword' ) {
-		echo '<div class="error"><p>'.i18n_r('ER_PWD_CHANGE').'</p></div>';
-	}
+if (file_exists(GSUSERSPATH . _id($USR) . '.xml.reset') && get_filename_id() != 'index' && get_filename_id() != 'resetpassword') {
+	echo '<div class="error"><p>' . i18n_r('ER_PWD_CHANGE') . '</p></div>';
+}
 
-  if ((!defined('GSNOAPACHECHECK') || GSNOAPACHECHECK == false) and !server_is_apache()) {
-      echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> <a href="health-check.php">' . i18n_r('SERVER_SETUP') . ' non-Apache</a></div>';
-  }
+if ((!defined('GSNOAPACHECHECK') || GSNOAPACHECHECK == false) and !server_is_apache()) {
+	echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> <a href="health-check.php">' . i18n_r('SERVER_SETUP') . ' non-Apache</a></div>';
+}
 
-  if ($dataw->maintenance == '1') {
-	  echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> ' . i18n_r('MAINTENANCE_WARNING') . '</div>';
-  }
+if ($dataw->maintenance == '1') {
+	echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> ' . i18n_r('MAINTENANCE_WARNING') . '</div>';
+}
 
 	if(!isset($update)) $update = '';
 	$err = '';
@@ -84,6 +80,12 @@
 		break;
 		case 'comp-restored':
 			echo '<div class="updated"><p>'.i18n_r('ER_COMPONENT_REST').'. <a href="components.php?undo&nonce='.get_nonce("undo").'">'.i18n_r('UNDO').'</a></p></div>';
+		break;
+		case 'menu-success':
+			echo '<div class="updated"><p>' . i18n_r('MENU_MANAGER_SUCCESS') . '</p></div>';
+		break;
+		case 'menu-error':
+			echo '<div class="error"><p>' . i18n_r('MENU_MANAGER_ERROR'). '</p></div>';
 		break;
 		
 		/**/

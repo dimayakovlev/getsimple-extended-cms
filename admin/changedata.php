@@ -237,6 +237,7 @@ if ($referer == 'menu-manager.php' && $action == 'save') {
 				if ($priority != (int)$data->menuOrder) {
 					$data->menuOrder = $priority;
 					$data->pubDate = date('r');
+					copy($file, GSBACKUPSPATH . 'pages/' . $slug. '.bak.xml');
 					XMLsave($data, $file);
 				}
 			}
@@ -244,9 +245,9 @@ if ($referer == 'menu-manager.php' && $action == 'save') {
 		}
 		create_pagesxml('true');
 		set_site_last_update();
-		redirect($referer . '?success=' . rawurlencode(i18n_r('MENU_MANAGER_SUCCESS')));
+		redirect($referer . '?upd=menu-success');
 	} else {
-		redirect($referer . '?error=' . rawurlencode(i18n_r('MENU_MANAGER_ERROR')));
+		redirect($referer . '?upd=menu-error');
 	}
 }
 
