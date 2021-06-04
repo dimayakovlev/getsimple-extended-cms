@@ -439,7 +439,7 @@ function find_url(string $slug, $absolute = true, $query = array()) {
 		$full = $SITEURL;
 	} else {
 		$s = pathinfo(htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES));
-		$full = str_replace('//', '/', $s['dirname'] . '/');
+		$full = str_replace(array('\\', '//'), '/', $s['dirname'] . '/');
 	}
 
 	if ($PRETTYURLS == '1') {
