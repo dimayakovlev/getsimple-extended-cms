@@ -446,6 +446,8 @@ jQuery(document).ready(function () {
 		$e.preventDefault();
 		$("#metadata_window").slideToggle('fast');
 		$(this).toggleClass('current');
+		var autoopen = document.getElementById('autoopen-metadata');
+		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
 	// Toggle page component window
 	$("#component_toggle").live("click", function ($e) {
@@ -457,6 +459,8 @@ jQuery(document).ready(function () {
 			}
 		}
 		$(this).toggleClass('current');
+		var autoopen = document.getElementById('autoopen-component');
+		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
  
 	var privateLabel = $("#post-private-wrap label");

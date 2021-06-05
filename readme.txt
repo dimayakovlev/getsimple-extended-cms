@@ -29,7 +29,7 @@ http://get-simple.info/docs/requirements
 
 ### Build Requirements ###
 
-PHP 5.2+
+PHP 5.3+
 
 ### Module Requirements ###
 

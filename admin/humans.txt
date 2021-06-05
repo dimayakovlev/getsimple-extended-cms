@@ -25,7 +25,7 @@
   Site: http://dimayakovlev.ru/
   Telegram: @dimayakovlev
   Twitter: @_dimayakovlev
-  Location: Saint-Petersburg, Russia
+  Location: Saint Petersburg, Russia
 
 /* THANKS */
   Carlos Navarro (cnb)
@@ -34,4 +34,4 @@
   Thorsten Panknin (polyfragmented)
   Mike Henken (MikeH)
   Martijn van der Ven (Zegnåt)
-  ...and the countless others on the forums and SVN that help us make this amazing product possible.
+  ...and the countless others on the forums and GitHub that help us make this amazing product possible.

@@ -4,7 +4,7 @@
  *
  * Edit or create new pages for the website.	
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Page-Edit
  */
 
@@ -25,12 +25,12 @@ $nonce = isset($_GET['nonce']) ? var_out( $_GET['nonce'] ): null;
 $path  = GSDATAPAGESPATH;
 
 // Page variables reset
-$theme_templates = ''; 
+$theme_templates = '';
 $parents_list = ''; 
 $keytags = '';
 $parent = '';
 $template = '';
-$menuStatus = ''; 
+$menuStatus = '';
 $private = ''; 
 $menu = ''; 
 $content = '';
@@ -49,11 +49,9 @@ $permalink = '';
 
 if ($id) {
 	// get saved page data
-	$file = $id .'.xml';
+	$file = $id . '.xml';
 	
-	if (!file_exists($path . $file)) { 
-		redirect('pages.php?error=' . urlencode(i18n_r('PAGE_NOTEXIST')));
-	}
+	if (!file_exists($path . $file)) redirect('pages.php?error=' . urlencode(i18n_r('PAGE_NOTEXIST')));
 
 	$data_edit = getXML($path . $file);
 	$title = stripslashes($data_edit->title);
@@ -74,17 +72,12 @@ if ($id) {
 	$menuOrder = (string)$data_edit->menuOrder;
 	$lang = stripslashes($data_edit->lang);
 	$buttonname = i18n_r('BTN_SAVEUPDATES');
-	if (!$data_edit->creDate) {
-		$creDate = $pubDate;
-	} else {
-		$creDate = (string)$data_edit->creDate;
-	}
-	if ($data_edit->lastAuthor) {
-		$lastAuthor = (string)$data_edit->lastAuthor;
-	} else {
-		$lastAuthor = $author;
-	}
+	$creDate = ((string)$data_edit->creDate) ?: $pubDate;
+	$lastAuthor = ((string)$data_edit->lastAuthor) ?: $author;
 	$permalink = (string)$data_edit->permalink;
+	$autoopen['metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
+	$autoopen['component'] = ($data_edit->attributes()->autoOpenComponent == '1');
+
 } else {
 	// prefill fields is provided
 	$title      =  isset( $_GET['title']      ) ? var_out( $_GET['title']      ) : '';
@@ -97,8 +90,9 @@ if ($id) {
 	$lang = isset($_GET['lang']) ? var_out($_GET['lang']) : '';
 	$permalink = isset($_GET['permalink']) ? var_out($_GET['permalink']) : '';
 	$buttonname =  i18n_r('BTN_SAVEPAGE');
+	$autoopen['metadata'] = false;
+	$autoopen['component'] = false;
 }
-
 
 // MAKE SELECT BOX OF AVAILABLE TEMPLATES
 if ($template == '') { $template = 'template.php'; }
@@ -118,13 +112,13 @@ sort($templates);
 foreach ($templates as $file) {
 	$sel = ($template == $file) ? 'selected' : '';
 	$templatename = ($file == 'template.php') ? i18n_r('DEFAULT_TEMPLATE') : $file;
-	$theme_templates .= '<option ' . $sel.' value="' . $file . '" >' . $templatename . '</option>';
+	$theme_templates .= '<option ' . $sel.' value="' . $file . '">' . $templatename . '</option>';
 }
 
 // SETUP CHECKBOXES
-$sel_m = ($menuStatus != '') ? 'checked' : '' ;
-$sel_p = ($private == 'Y') ? 'selected' : '' ;
-if ($menu == '') { $menu = $title; }
+$sel_m = ($menuStatus != '') ? 'checked' : '';
+$sel_p = ($private == 'Y') ? 'selected' : '';
+if ($menu == '') $menu = $title;
 
 # register and queue CodeMirror files
 if (!getDef('GSNOHIGHLIGHT', true)) {
@@ -141,53 +135,54 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 
 ?>
 
-<noscript><style>#metadata_window {display:block !important} </style></noscript>
+<noscript><style>#metadata_window {display:block !important}</style></noscript>
 
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent clearfix">
-	
+
 	<div id="maincontent">
 		<div class="main">
 		
-		<h3 class="floated"><?php if(isset($data_edit)) { i18n('PAGE_EDIT_MODE'); } else { i18n('CREATE_NEW_PAGE'); } ?></h3>	
+		<h3 class="floated"><?php if(isset($data_edit)) { i18n('PAGE_EDIT_MODE'); } else { i18n('CREATE_NEW_PAGE'); } ?></h3>
 
 		<!-- pill edit navigation -->
-		<div class="edit-nav" >
-			<?php 
+		<div class="edit-nav">
+			<?php
 			if (isset($id)) {
 				echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
-			} 
+			}
 			?>
-			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" ><?php i18n('PAGE_COMPONENT'); ?></a>
-			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" ><?php i18n('PAGE_OPTIONS'); ?></a>
-			<div class="clear" ></div>
+			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" class="<?php if ($autoopen['component'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_COMPONENT'); ?></a>
+			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($autoopen['metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
+			<div class="clear"></div>
 		</div>
-			
-		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8" >
+
+		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8">
 			<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce('save', 'edit.php'); ?>">
 			<input id="author" name="post-author" type="hidden" value="<?php echo $author; ?>">
 			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>">
 			<input id="action" name="action" type="hidden" value="save">
+			<input id="autoopen-metadata" name="autoopen-metadata" type="hidden" value="<?php echo (string)$autoopen['metadata']; ?>">
+			<input id="autoopen-component" name="autoopen-component" type="hidden" value="<?php echo (string)$autoopen['component']; ?>">
 
 			<!-- page title toggle screen -->
 			<p id="edit_window">
-				<label for="post-title" style="display:none;"><?php i18n('PAGE_TITLE'); ?></label>
-				<input class="text title" id="post-title" name="post-title" type="text" value="<?php echo $title; ?>" placeholder="<?php i18n('PAGE_TITLE'); ?>" />
+				<label for="post-title" style="display: none;"><?php i18n('PAGE_TITLE'); ?></label>
+				<input class="text title" id="post-title" name="post-title" type="text" value="<?php echo $title; ?>" placeholder="<?php i18n('PAGE_TITLE'); ?>">
 			</p>
-				
 
 			<!-- metadata toggle screen -->
-			<div style="display:none;" id="metadata_window">
+			<div style="display: <?php echo ($autoopen['metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
 			<div class="leftopt">
-				<p class="inline clearfix" id="post-private-wrap" >
-					<label for="post-private" ><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
-					<select id="post-private" name="post-private" class="text autowidth" >
-						<option value="" ><?php i18n('NORMAL'); ?></option>
-						<option value="Y" <?php echo $sel_p; ?> ><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
+				<p class="inline clearfix" id="post-private-wrap">
+					<label for="post-private"><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
+					<select id="post-private" name="post-private" class="text autowidth">
+						<option value=""><?php i18n('NORMAL'); ?></option>
+						<option value="Y" <?php echo $sel_p; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
 					</select>
 				</p>
-				<p class="inline clearfix" >
+				<p class="inline clearfix">
 					<label for="post-parent"><?php i18n('PARENT_PAGE'); ?>:</label>
 					<select class="text autowidth" id="post-parent" name="post-parent"> 
 						<?php 
@@ -195,8 +190,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						$count = 0;
 						foreach ($pagesArray as $page) {
 							if ($page['parent'] != '') { 
-								$parentTitle = returnPageField($page['parent'], "title");
-								$sort = $parentTitle .' '. $page['title'];
+								$parentTitle = returnPageField($page['parent'], 'title');
+								$sort = $parentTitle . ' ' . $page['title'];
 							} else {
 								$sort = $page['title'];
 							}
@@ -206,40 +201,40 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						}
 						// $pagesArray = $pagesArray_tmp;
 						$pagesSorted = subval_sort($pagesArray_tmp,'sort');
-						$ret=get_pages_menu_dropdown('','',0);
-						$ret=str_replace('value="'.$id.'"', 'value="'.$id.'" disabled', $ret);
+						$ret=get_pages_menu_dropdown('', '', 0);
+						$ret=str_replace('value="' . $id . '"', 'value="' . $id . '" disabled', $ret);
 						
 						// handle 'no parents' correctly
 						if ($parent == '') { 
-							$none='selected';
-							$noneText='< '.i18n_r('NO_PARENT').' >'; 
+							$none = 'selected';
+							$noneText = '<' . i18n_r('NO_PARENT') . '>'; 
 						} else { 
-							$none=null; 
-							$noneText='< '.i18n_r('NO_PARENT').' >'; 
+							$none = null; 
+							$noneText = '<' . i18n_r('NO_PARENT') . '>'; 
 						}
 						
 						// Create base option
-						echo '<option '.$none.' value="" >'.$noneText.'</option>';
+						echo '<option '.$none.' value="">'.$noneText.'</option>';
 						echo $ret;
 						?>
 					</select>
 				</p>
-				<p class="inline clearfix" >
+				<p class="inline clearfix">
 					<label for="post-template"><?php i18n('TEMPLATE'); ?>:</label>
-					<select class="text autowidth" id="post-template" name="post-template" >
+					<select class="text autowidth" id="post-template" name="post-template">
 						<?php echo $theme_templates; ?>
 					</select>
 				</p>
 				
 				<p class="inline post-menu clearfix">
-					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" <?php echo $sel_m; ?> />&nbsp;&nbsp;&nbsp;<label for="post-menu-enable" ><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox" ><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>" /></a>
+					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="Y" <?php echo $sel_m; ?>>&nbsp;&nbsp;&nbsp;<label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
 				</p>
 				<div id="menu-items">
-					<span style="float:left;width:81%;"><label for="post-menu"><?php i18n('MENU_TEXT'); ?></label></span><span style="float:left;width:10%;" ><label for="post-menu-order"><?php i18n('PRIORITY'); ?></label></span>
+					<span style="float:left;width:81%;"><label for="post-menu"><?php i18n('MENU_TEXT'); ?></label></span><span style="float:left;width:10%;"><label for="post-menu-order"><?php i18n('PRIORITY'); ?></label></span>
 					<div class="clear"></div>
-					<input class="text" style="width:73%;" id="post-menu" name="post-menu" type="text" value="<?php echo $menu; ?>" />&nbsp;&nbsp;&nbsp;&nbsp;<select class="text"  style="width:16%" id="post-menu-order" name="post-menu-order" >
-					<?php if(isset($menuOrder)) { 
-						if($menuOrder == 0) {
+					<input class="text" style="width:73%;" id="post-menu" name="post-menu" type="text" value="<?php echo $menu; ?>"/>&nbsp;&nbsp;&nbsp;&nbsp;<select class="text"  style="width:16%" id="post-menu-order" name="post-menu-order">
+					<?php if (isset($menuOrder)) { 
+						if ($menuOrder == 0) {
 							echo '<option value="" selected>-</option>'; 
 						} else {
 							echo '<option value="'.$menuOrder.'" selected>'.$menuOrder.'</option>'; 
@@ -249,14 +244,14 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						<?php
 						$i = 1;
 						while ($i <= 30) { 
-							echo '<option value="'.$i.'">'.$i.'</option>';
+							echo '<option value="' . $i . '">' . $i . '</option>';
 							$i++;
 						}
 						?>
 					</select>
 				</div>
 			</div>
-			
+
 			<div class="rightopt">
 				<p>
 					<label for="post-id"><?php i18n('SLUG_URL'); ?>:</label>
@@ -275,8 +270,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<input class="text short" id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ($dataw->lang != '') { echo $dataw->lang; } else { i18n('PLACEHOLDER_LANG'); } ?>">
 				</p>
 				<p>
-					<label for="post-metad" class="clearfix"><?php i18n('META_DESC'); ?>: <span id="countdownwrap"><strong id="countdown" ></strong> <?php i18n('REMAINING'); ?></span></label>
-					<textarea class="text" id="post-metad" name="post-metad" ><?php echo $metad; ?></textarea>
+					<label for="post-metad" class="clearfix"><?php i18n('META_DESC'); ?>: <span id="countdownwrap"><strong id="countdown"></strong> <?php i18n('REMAINING'); ?></span></label>
+					<textarea class="text" id="post-metad" name="post-metad"><?php echo $metad; ?></textarea>
 				</p>
 				
 
@@ -285,11 +280,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<?php exec_action('edit-extras'); ?>
 
 			</div><!-- / metadata toggle screen -->
-				
-				
-				
+
 			<!-- component toggle screen -->
-			<div style="display:none;" id="component_window">
+			<div style="display: <?php echo ($autoopen['component'] == true) ? 'block' : 'none' ?>;" id="component_window">
 				<p class="inline post-component-enable clearfix">
 					<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnabled) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('ENABLE_COMPONENT'); ?></label>
 				</p>
@@ -301,22 +294,21 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<textarea class="text" id="post-component" name="post-component"><?php echo $component; ?></textarea>
 				</p>
 			</div><!-- / component toggle screen -->
-			
-			
+
 			<!-- page body -->
 			<p>
 				<label for="post-content" style="display:none;"><?php i18n('LABEL_PAGEBODY'); ?></label>
 				<textarea id="post-content" name="post-content"><?php echo $content; ?></textarea>
 			</p>
-			
+
 			<?php exec_action('edit-content'); ?> 
-			
+
 			<?php if(isset($data_edit)) {
 				echo '<input type="hidden" name="existing-url" value="'. $url .'" />'; 
 			} ?>
-			
+
 			<span class="editing"><?php echo i18n_r('EDITPAGE_TITLE') .': ' . $title; ?></span>
-			<div id="submit_line" >
+			<div id="submit_line">
 				<input type="hidden" name="redirectto" value="" />
 				
 				<span><input id="page_submit" class="submit" type="submit" name="submitted" value="<?php echo $buttonname; ?>" /></span>
@@ -324,32 +316,32 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				<div id="dropdown">
 					<h6 class="dropdownaction"><?php i18n('ADDITIONAL_ACTIONS'); ?></h6>
 					<ul class="dropdownmenu">
-						<li id="save-close" ><a href="#" ><?php i18n('SAVE_AND_CLOSE'); ?></a></li>
+						<li id="save-close"><a href="#"><?php i18n('SAVE_AND_CLOSE'); ?></a></li>
 						<?php if($url != '') { ?>
-							<li><a href="pages.php?id=<?php echo $url; ?>&amp;action=clone&amp;nonce=<?php echo get_nonce("clone","pages.php"); ?>" ><?php i18n('CLONE'); ?></a></li>
+							<li><a href="pages.php?id=<?php echo $url; ?>&amp;action=clone&amp;nonce=<?php echo get_nonce("clone","pages.php"); ?>"><?php i18n('CLONE'); ?></a></li>
 						<?php } ?>
-						<li id="cancel-updates" class="alertme"><a href="pages.php?cancel" ><?php i18n('CANCEL'); ?></a></li>
+						<li id="cancel-updates" class="alertme"><a href="pages.php?cancel"><?php i18n('CANCEL'); ?></a></li>
 						<?php if($url != 'index' && $url != '') { ?>
-							<li class="alertme" ><a href="deletefile.php?id=<?php echo $url; ?>&amp;nonce=<?php echo get_nonce("delete","deletefile.php"); ?>" ><?php echo strip_tags(i18n_r('ASK_DELETE')); ?></a></li>
+							<li class="alertme"><a href="deletefile.php?id=<?php echo $url; ?>&amp;nonce=<?php echo get_nonce("delete","deletefile.php"); ?>"><?php echo strip_tags(i18n_r('ASK_DELETE')); ?></a></li>
 						<?php } ?>
 					</ul>
 				</div>
 				
 			</div>
-			
+
 			<?php if($url != '') { ?>
-				<p class="backuplink" ><?php 
+				<p class="backuplink"><?php 
 					if (isset($pubDate)) {
 						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.($lastAuthor ? $lastAuthor : '-').'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
 					}
 					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {	
-						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank" >'.i18n_r('BACKUP_AVAILABLE').'</a>';
+						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank">'.i18n_r('BACKUP_AVAILABLE').'</a>';
 					} 
 				?></p>
 			<?php } ?>
-			
+
 		</form>
-		
+
 		<?php 
 
 			if(isset($EDTOOL)) $EDTOOL = returnJsArray($EDTOOL);
@@ -362,7 +354,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			$options = isset($EDOPTIONS) ? ','.trim($EDOPTIONS,",") : '';
 
 		?>
-		<?php if ($HTMLEDITOR != '') { ?>
+		<?php if ($HTMLEDITOR == '1') { ?>
 		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef("GSCKETSTAMP",true) ? "?t=".getDef("GSCKETSTAMP") : ""; ?>"></script>
 
 			<script type="text/javascript">
@@ -422,30 +414,30 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				ckeditor_add_page_link();
 				exec_action('html-editor-init'); 
 			?>
-			
+
 		<?php } ?>
-		
+
 		<script type="text/javascript">
 			/* Warning for unsaved Data */
 			var yourText = null;
 			var warnme = false;
 			var pageisdirty = false;
-			
+
 			$('#cancel-updates').hide();
-	
+
 			window.onbeforeunload = function () {
 				if (warnme || pageisdirty == true) {
 					return "<?php i18n('UNSAVED_INFORMATION'); ?>";
 				}
 			}
-			
-			$('#editform').submit(function(){
+
+			$('#editform').submit(function() {
 				warnme = false;
 				return checkTitle();
 			});
 
-			checkTitle = function(){
-				if($.trim($("#post-title").val()).length == 0){
+			checkTitle = function() {
+				if($.trim($("#post-title").val()).length == 0) {
 					alert("<?php i18n('CANNOT_SAVE_EMPTY'); ?>");
 					return false;
 				}
@@ -458,7 +450,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					$('#pagechangednotify').hide();
 					$('#autosavenotify').show();
 					$('#autosavenotify').html('Autosaving is <b>ON</b> (<?php echo (int)GSAUTOSAVE; ?> s)');
-					
+
 					function autoSaveIntvl(){
 						// console.log('autoSaveIntvl called, isdirty:' + pageisdirty);
 						if(pageisdirty == true){
@@ -466,13 +458,13 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 							pageisdirty = false;
 						}
 					}
-					
+
 					function autoSave() {
 						$('input[type=submit]').attr('disabled', 'disabled');
 
 						// we are using ajax, so ckeditor wont copy data to our textarea for us, so we do it manually
 						if(typeof(editor)!='undefined'){ $('#post-content').val(CKEDITOR.instances["post-content"].getData()); }
-						
+
 						var dataString = $("#editform").serialize();
 						
 						// not internalionalized or using GS date format!
@@ -480,9 +472,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						var hours = currentTime.getHours();
 						var minutes = currentTime.getMinutes();
 						if (minutes < 10){ minutes = "0" + minutes; }
-						if(hours > 11){ daypart = "PM";	} else {	daypart = "AM";	}
-						if(hours > 12){ hours-=12; }
-						
+						if (hours > 11){ daypart = "PM"; } else { daypart = "AM"; }
+						if (hours > 12){ hours -= 12; }
+
 						$.ajax({
 							type: "POST",
 							url: "changedata.php",
@@ -504,21 +496,21 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 							}
 						});
 					}
-					
+
 					// We register title and slug changes with change() which only fires when you lose focus to prevent midchange saves.
 					$('#post-title, #post-id').change(function () {
 							$('#editform #post-content').trigger('change');
-				  });
-					
+					});
+
 					// We register all other form elements to detect changes of any type by using bind
 					$('#editform input,#editform textarea,#editform select').not('#post-title').not('#post-id').bind('change keypress paste textInput input',function(){
 							pageisdirty = true;
 							warnme = true;
 							autoSaveInd();
 					});
-				
+
 				setInterval(autoSaveIntvl, <?php echo (int)GSAUTOSAVE*1000; ?>);
-				
+
 				<?php } else { /* AUTOSAVE IS NOT TURNED ON */ ?>
 					$('#editform').bind('change keypress paste focus textInput input',function(){
 							warnme = true;
@@ -526,19 +518,19 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 							autoSaveInd();
 					});
 					<?php } ?>
-					
+
 					function autoSaveInd(){
 							$('#pagechangednotify').show();
 							$('#pagechangednotify').text("<?php i18n('PAGE_UNSAVED')?>");
 							$('input[type=submit]').css('border-color','#CC0000');
 							$('#cancel-updates').show();
 					}
-				
+
 			});
 		</script>
 		<?php
 			# register CodeMirror
-			if ($datau->CODEEDITOR == 1) {
+			if ($datau->CODEEDITOR == '1') {
 		?>
 		<style>
 			.CodeMirror, .CodeMirror-scroll {
@@ -550,7 +542,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		document.getElementById('component_toggle').addEventListener('click', function() {
 				setTimeout(function() {
 					cm.refresh();
-				},1)
+				}, 1)
 		});
 		console.log(cm);
 		</script>
@@ -560,10 +552,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		</script>
 	</div>
 	</div><!-- end maincontent -->
-	
-	
-	<div id="sidebar" >
-		<?php include('template/sidebar-pages.php'); ?>	
+
+	<div id="sidebar">
+		<?php include('template/sidebar-pages.php'); ?>
 	</div>
 
 </div>

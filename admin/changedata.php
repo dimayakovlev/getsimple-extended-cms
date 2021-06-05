@@ -53,173 +53,136 @@ login_cookie_check();
 if ($referer == 'edit.php' && $action == 'save') {
 
 	$existingurl = isset($_POST['existing-url']) ? $_POST['existing-url'] : null;
-	
+
 	if (trim($_POST['post-title']) == '') {
-		redirect("edit.php?upd=edit-error&type=".urlencode(i18n_r('CANNOT_SAVE_EMPTY')));
+		redirect($referer . '?upd=edit-error&type=' . urlencode(i18n_r('CANNOT_SAVE_EMPTY')));
 	} else {
 		$autoSaveDraft = false; // auto save to autosave drafts
-		$url="";$title="";$metad=""; $metak="";	$cont="";
-		
+		$url = '';
+
 		// is a slug provided?
-		if ($_POST['post-id']) { 
+		if ($_POST['post-id']) {
 			$url = trim($_POST['post-id']);
-			if (isset($i18n['TRANSLITERATION']) && is_array($translit=$i18n['TRANSLITERATION']) && count($translit>0)) {
-				$url = str_replace(array_keys($translit),array_values($translit),$url);
+			if (isset($i18n['TRANSLITERATION']) && is_array($i18n['TRANSLITERATION']) && count($i18n['TRANSLITERATION']) > 0) {
+				$url = str_replace(array_keys($i18n['TRANSLITERATION']), array_values($i18n['TRANSLITERATION']), $url);
 			}
-			$url = to7bit($url, "UTF-8");
+			$url = to7bit($url, 'UTF-8');
 			$url = clean_url($url); //old way
 		} else {
-			if ($_POST['post-title'])	{ 
+			if ($_POST['post-title']) { 
 				$url = trim($_POST['post-title']);
-				if (isset($i18n['TRANSLITERATION']) && is_array($translit=$i18n['TRANSLITERATION']) && count($translit>0)) {
-					$url = str_replace(array_keys($translit),array_values($translit),$url);
+				if (isset($i18n['TRANSLITERATION']) && is_array($i18n['TRANSLITERATION']) && count($i18n['TRANSLITERATION']) > 0) {
+					$url = str_replace(array_keys($i18n['TRANSLITERATION']), array_values($i18n['TRANSLITERATION']), $url);
 				}
-				$url = to7bit($url, "UTF-8");
+				$url = to7bit($url, 'UTF-8');
 				$url = clean_url($url); //old way
 			} else {
-				$url = "temp";
+				$url = 'temp';
 			}
 		}
-	
-	
+
 		//check again to see if the URL is empty
-		if ( trim($url) == '' )	{
-			$url = 'temp';
-		}
-		
-		
+		if (trim($url) == '') $url = 'temp';
+
 		// was the slug changed on an existing page?
-		if ( isset($existingurl) ) {
-			if ($_POST['post-id'] != $existingurl){
+		if (isset($existingurl)) {
+			if ($_POST['post-id'] != $existingurl) {
 				// dont change the index page's slug
 				if ($existingurl == 'index') {
 					$url = $existingurl;
-					redirect("edit.php?id=". urlencode($existingurl) ."&upd=edit-index&type=edit");
+					redirect($referer . '?id=' . urlencode($existingurl) . '&upd=edit-index&type=edit');
 				} else {
 					exec_action('changedata-updateslug');
 					updateSlugs($existingurl);
-					$file = GSDATAPAGESPATH . $url .".xml";
-					$existing = GSDATAPAGESPATH . $existingurl .".xml";
-					$bakfile = GSBACKUPSPATH."pages/". $existingurl .".bak.xml";
+					$file = GSDATAPAGESPATH . $url . '.xml';
+					$existing = GSDATAPAGESPATH . $existingurl . '.xml';
+					$bakfile = GSBACKUPSPATH . 'pages/'. $existingurl . '.bak.xml';
 					copy($existing, $bakfile);
 					unlink($existing);
 				} 
 			} 
 		}
-		
-		$file = GSDATAPAGESPATH . $url .".xml";
-		
-		// format and clean the responses
-		if(isset($_POST['post-title'])) 			{	$title = var_out(xss_clean($_POST['post-title']));	}
-		if(isset($_POST['post-metak'])) 			{	$metak = safe_slash_html(strip_tags($_POST['post-metak']));	}
-		if(isset($_POST['post-metad'])) 			{	$metad = safe_slash_html(strip_tags($_POST['post-metad']));	}
-		if(isset($_POST['post-author'])) 			{	$author = safe_slash_html($_POST['post-author']);	}
-		if(isset($_POST['post-template'])) 		{ $template = $_POST['post-template']; }
-		if(isset($_POST['post-parent'])) 			{ $parent = $_POST['post-parent']; }
-		if(isset($_POST['post-menu'])) 				{ $menu = var_out(xss_clean($_POST['post-menu'])); }
-		if(isset($_POST['post-menu-enable'])) { $menuStatus = "Y"; } else { $menuStatus = ""; }
-		if(isset($_POST['post-private']) ) 		{ $private = safe_slash_html($_POST['post-private']); }
-		if(isset($_POST['post-content'])) 		{	$content = safe_slash_html($_POST['post-content']);	}
-		if (isset($_POST['post-component']))	{ $component = safe_slash_html($_POST['post-component']); }
-		if (isset($_POST['post-component-enable']))	{ $componentEnabled = safe_slash_html($_POST['post-component-enable']); }
-		if (isset($_POST['post-component-content']))	{ $componentContent = safe_slash_html($_POST['post-component-content']); }
-		if (isset($_POST['post-lang'])) 			{ $lang = var_out(xss_clean($_POST['post-lang'])); }
-		if(isset($_POST['post-menu-order'])) 	{ 
-			if (is_numeric($_POST['post-menu-order'])) 
-			{
-				$menuOrder = $_POST['post-menu-order']; 
-			} 
-			else 
-			{
-				$menuOrder = "0";
-			}
-		}
-		if (isset($_POST['post-creDate']) && $_POST['post-creDate']) {
-			$creDate = $_POST['post-creDate'];
-		} else {
-			$creDate = date('r');
-		}
-		if (isset($_POST['post-permalink']))	{ $permalink = safe_slash_html($_POST['post-permalink']); }
+
+		$file = GSDATAPAGESPATH . $url . '.xml';
+
 		// If saving a new file do not overwrite existing, get next incremental filename, file-count.xml
 		// @todo this is a mess, new file existing file should all be determined at beginning of block and defined
-		if ( (file_exists($file) && $url != $existingurl) ||  in_array($url,$reservedSlugs) ) {
-			$count = "1";
-			$file = GSDATAPAGESPATH . $url ."-".$count.".xml";
-			while ( file_exists($file) ) {
+		if ((file_exists($file) && $url != $existingurl) ||  in_array($url, $reservedSlugs)) {
+			$count = 1;
+			$file = GSDATAPAGESPATH . $url . '-' . $count . '.xml';
+			while (file_exists($file)) {
 				$count++;
-				$file = GSDATAPAGESPATH . $url ."-".$count.".xml";
+				$file = GSDATAPAGESPATH . $url . '-' . $count. '.xml';
 			}
-			$url = $url .'-'. $count;
+			$url = $url . '-' . $count;
 		}
 
-		
 		// if we are editing an existing page, create a backup
-		if ( file_exists($file) ) 
-		{
-			$bakfile = GSBACKUPSPATH."pages/". $url .".bak.xml";
+		if (file_exists($file)) {
+			$bakfile = GSBACKUPSPATH . 'pages/' . $url . '.bak.xml';
 			copy($file, $bakfile);
 		}
-		
-		
+
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('pubDate', date('r'));
-		$xml->addChild('creDate', $creDate);
-		$xml->addChild('title')->addCData($title);
+		$xml->addChild('creDate', filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_STRING) ?: date('r'));
+		$xml->addChild('title')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-title')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('url', $url);
-		$xml->addChild('meta')->addCData($metak);
-		$xml->addChild('metad')->addCData($metad);
-		$xml->addChild('menu')->addCData($menu);
-		$xml->addChild('menuOrder', $menuOrder);
-		$xml->addChild('menuStatus', $menuStatus);
-		$xml->addChild('template', $template);
-		$xml->addChild('parent', $parent);
-		$xml->addChild('content')->addCData($content);
-		$xml->addChild('component')->addCData($component);
-		$xml->addChild('componentEnabled', $componentEnabled);
-		$xml->addChild('componentContent', $componentContent);
-		$xml->addChild('private', $private);
-		$xml->addChild('author', $author);
+		$xml->addChild('meta')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-metak')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('metad')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-metad')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('menu')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-menu')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('menuOrder', filter_input(INPUT_POST, 'post-menu-order', FILTER_SANITIZE_NUMBER_INT) ?: '0');
+		$xml->addChild('menuStatus', filter_input(INPUT_POST, 'post-menu-enable', FILTER_SANITIZE_STRING));
+		$xml->addChild('template', filter_input(INPUT_POST, 'post-template', FILTER_SANITIZE_STRING));
+		$xml->addChild('parent', filter_input(INPUT_POST, 'post-parent', FILTER_SANITIZE_STRING));
+		$xml->addChild('content')->addCData(filter_input(INPUT_POST, 'post-content', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('component')->addCData(filter_input(INPUT_POST, 'post-component', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('componentEnabled', (string)filter_input(INPUT_POST, 'post-component-enable', FILTER_VALIDATE_BOOLEAN));
+		$xml->addChild('componentContent', (string)filter_input(INPUT_POST, 'post-component-content', FILTER_VALIDATE_BOOLEAN));
+		$xml->addChild('private', filter_input(INPUT_POST, 'post-private', FILTER_SANITIZE_STRING));
+		$xml->addChild('author', filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_STRING) ?: $USR);
 		$xml->addChild('lastAuthor', $USR);
-		$xml->addChild('lang', $lang);
-		$xml->addChild('permalink', $permalink);
+		$xml->addChild('lang', filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('permalink', filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addAttribute('autoOpenMetadata', (string)filter_input(INPUT_POST, 'autoopen-metadata', FILTER_VALIDATE_BOOLEAN));
+		$xml->addAttribute('autoOpenComponent', (string)filter_input(INPUT_POST, 'autoopen-component', FILTER_VALIDATE_BOOLEAN));
 
 		exec_action('changedata-save');
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true' && $autoSaveDraft == true) {
-			$status = XMLsave($xml, GSAUTOSAVEPATH.$url);
+			$status = XMLsave($xml, GSAUTOSAVEPATH . $url);
 		} else {
 			$status = XMLsave($xml, $file);
 			if ($status) set_site_last_update();
 		}
-		
+
 		//ending actions
 		exec_action('changedata-aftersave');
 		generate_sitemap();
-		
+
 		// redirect user back to edit page 
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true') {
 			echo $status ? 'OK' : 'ERROR';
 		} else {
+			if(!$status) redirect($referer . '?id=' . $url . '&upd=edit-error&type=edit'); 
 
-			if(!$status) redirect("edit.php?id=". $url ."&upd=edit-error&type=edit"); 
-
-			if ($_POST['redirectto']!='') {
+			if ($_POST['redirectto'] != '') {
 				$redirect_url = $_POST['redirectto']; // @todo sanitize redirects, not sure what this is for, js sets pages.php always?
 			} else {
 				$redirect_url = 'edit.php';
 			}
 			
-			if(isset($existingurl)){
+			if (isset($existingurl)) {
 				if ($url == $existingurl) {
 					// redirect save new file
-					redirect($redirect_url."?id=". $url ."&upd=edit-success&type=edit");
+					redirect($redirect_url . '?id=' . $url . '&upd=edit-success&type=edit');
 				} else {
 					// redirect new slug, undo for old slug
-					redirect($redirect_url."?id=". $url ."&old=".$existingurl."&upd=edit-success&type=edit");
+					redirect($redirect_url . '?id=' . $url . '&old=' . $existingurl . '&upd=edit-success&type=edit');
 				}
 			}	
 			else {
 				// redirect new slug
-				redirect($redirect_url."?id=". $url ."&upd=edit-success&type=new"); 
+				redirect($redirect_url . '?id=' . $url . '&upd=edit-success&type=new'); 
 			}
 		}
 	}
