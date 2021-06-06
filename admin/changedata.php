@@ -142,10 +142,12 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addChild('private', filter_input(INPUT_POST, 'post-private', FILTER_SANITIZE_STRING));
 		$xml->addChild('author', filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_STRING) ?: $USR);
 		$xml->addChild('lastAuthor', $USR);
-		$xml->addChild('lang', filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-		$xml->addChild('permalink', filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('permalink')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addAttribute('autoOpenMetadata', (string)filter_input(INPUT_POST, 'autoopen-metadata', FILTER_VALIDATE_BOOLEAN));
 		$xml->addAttribute('autoOpenComponent', (string)filter_input(INPUT_POST, 'autoopen-component', FILTER_VALIDATE_BOOLEAN));
+		$xml->addAttribute('disableHTMLEditor', (string)filter_input(INPUT_POST, 'disable-html-editor', FILTER_VALIDATE_BOOLEAN));
+		$xml->addAttribute('disableCodeEditor', (string)filter_input(INPUT_POST, 'disable-code-editor', FILTER_VALIDATE_BOOLEAN));
 
 		exec_action('changedata-save');
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true' && $autoSaveDraft == true) {

@@ -96,6 +96,8 @@ $i18n = array(
 "OR"								=>	"or",
 "SAVE_AND_CLOSE"		=> "Save &amp; Close",
 "PAGE_UNSAVED"			=>	"Page has unsaved changes",
+"PAGE_DISABLE_HTML_EDITOR" => 'Disable the HTML Editor for this page',
+"PAGE_DISABLE_CODE_EDITOR" => 'Disable the Code Editor for this page',
 
 /* 
  * For: upload.php
@@ -223,7 +225,7 @@ $i18n = array(
 "LOCAL_TIMEZONE"		=>	"Local Timezone",
 "LANGUAGE"					=>	"Language",
 "USE_PRETTY_URLS"		=>	"Use Pretty URLs - <b style=\"font-weight:100\">Requires that your host has <code>mod_rewrite</code> enabled</b>",
-"ENABLE_HTML_ED"		=>	"Enable the HTML editor - <b style=\"font-weight:100\">Adds WYSIWYG, code highlights and other features to page content editor</b>",
+"ENABLE_HTML_ED"		=>	"Enable the HTML Editor - <b style=\"font-weight:100\">Adds WYSIWYG, code highlights and other features to page content editor</b>",
 "WARN_EMAILINVALID"	=>	"WARNING: This email address does not look valid!",
 "ONLY_NEW_PASSWORD"	=>	"Only provide a password below if you want to change your current one",
 "NEW_PASSWORD"			=>	"New Password",
@@ -599,7 +601,7 @@ $i18n = array(
 'TITLE' => 'Title', // common string, components.php
 "PAGE_COMPONENT" => "Page <em>C</em>omponent", // edit.php
 "PAGE_COMPONENT_REPLACE_CONTENT" => 'Replace content - <span style="font-weight:100">Make the page dynamic by replacing content with component output</span>',
-"ENABLE_CODE_ED"		=>	"Enable the code editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
+"ENABLE_CODE_ED"		=>	"Enable the Code Editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
 "MAINTENANCE_MODE" => "MAINTENANCE MODE",
 "MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",
 "ALLOW_ACCESS_IN_MAINTENANCE" => "Access to website in Maintenance Mode - <b style=\"font-weight:100\">Allow access to website while Maintenance Mode is enabled</b>",

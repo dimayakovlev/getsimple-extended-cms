@@ -946,20 +946,20 @@ label span.right a:hover {
 	margin: 0 !important;
 }
 
-#metadata_window .wideopt input, 
-#metadata_window .wideopt select, 
-#metadata_window .wideopt textarea {
-	width: 99%;
-}	
-
-#metadata_window input#post-menu-enable {
+#metadata_window input[type="checkbox"] {
 	width: 20px;
 	padding: 0;
 	margin: 0;
 }
 
+#metadata_window .wideopt input, 
+#metadata_window .wideopt select, 
+#metadata_window .wideopt textarea {
+	width: 99%;
+}
+
 #metadata_window textarea {
-	 height: 62px;
+	height: 62px;
 	margin-bottom: 0;
 	line-height: 15px;
 }
@@ -993,7 +993,7 @@ label span.right a:hover {
 	clip-path: polygon(15px 5px, 100% 5px, 100% 100%, 0px 100%, 0px 5px, 5px 5px, 10px 0px);
 	padding: 10px 10px 0 10px;
 	position: relative;
-	margin-top: -5px;	
+	margin-top: -5px;
 }
 
 #metadata_window #menu-items input, 

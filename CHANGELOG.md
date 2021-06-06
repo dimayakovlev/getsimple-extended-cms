@@ -32,6 +32,7 @@
     * Added `getParentsMulti()` cache function to get parents of page with optional data
     * Added option to replace page content with page component output
     * Added save state and auto open metadata and component windows in page editor
+    * Added option to disable HTML and Code Editors on page level
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

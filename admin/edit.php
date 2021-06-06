@@ -77,6 +77,8 @@ if ($id) {
 	$permalink = (string)$data_edit->permalink;
 	$autoopen['metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
 	$autoopen['component'] = ($data_edit->attributes()->autoOpenComponent == '1');
+	$disable['codeeditor'] = ($data_edit->attributes()->disableCodeEditor == '1');
+	$disable['htmleditor'] = ($data_edit->attributes()->disableHTMLEditor == '1');
 
 } else {
 	// prefill fields is provided
@@ -92,6 +94,8 @@ if ($id) {
 	$buttonname =  i18n_r('BTN_SAVEPAGE');
 	$autoopen['metadata'] = false;
 	$autoopen['component'] = false;
+	$disable['codeeditor'] = false;
+	$disable['htmleditor'] = false;
 }
 
 // MAKE SELECT BOX OF AVAILABLE TEMPLATES
@@ -225,26 +229,24 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						<?php echo $theme_templates; ?>
 					</select>
 				</p>
-				
+				<p class="inline clearfix">
+					<input type="checkbox" id="disable-html-editor" name="disable-html-editor" value="1"<?php echo $disable['htmleditor'] ? ' checked' : ''; ?>> <label for="disable-html-editor"><?php i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
+				</p>
+				<p class="inline clearfix">
+					<input type="checkbox" id="disable-code-editor" name="disable-code-editor" value="1"<?php echo $disable['codeeditor'] ? ' checked' : ''; ?>> <label for="disable-code-editor"><?php i18n('PAGE_DISABLE_CODE_EDITOR'); ?></label>
+				</p>
 				<p class="inline post-menu clearfix">
-					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="Y" <?php echo $sel_m; ?>>&nbsp;&nbsp;&nbsp;<label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
+					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="Y" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
 				</p>
 				<div id="menu-items">
 					<span style="float:left;width:81%;"><label for="post-menu"><?php i18n('MENU_TEXT'); ?></label></span><span style="float:left;width:10%;"><label for="post-menu-order"><?php i18n('PRIORITY'); ?></label></span>
 					<div class="clear"></div>
 					<input class="text" style="width:73%;" id="post-menu" name="post-menu" type="text" value="<?php echo $menu; ?>"/>&nbsp;&nbsp;&nbsp;&nbsp;<select class="text"  style="width:16%" id="post-menu-order" name="post-menu-order">
-					<?php if (isset($menuOrder)) { 
-						if ($menuOrder == 0) {
-							echo '<option value="" selected>-</option>'; 
-						} else {
-							echo '<option value="'.$menuOrder.'" selected>'.$menuOrder.'</option>'; 
-						}
-					} ?>
-						<option value="">-</option>
+						<option value=""<?php echo $menuOrder == 0 ? ' selected' : ''; ?>>-</option>
 						<?php
 						$i = 1;
-						while ($i <= 30) { 
-							echo '<option value="' . $i . '">' . $i . '</option>';
+						while ($i <= 30) {
+							echo '<option value="' . $i . '"' . ($menuOrder == $i ? ' selected' : '') . '>' . $i . '</option>';
 							$i++;
 						}
 						?>
@@ -258,8 +260,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<input class="text short" type="text" id="post-id" name="post-id" value="<?php echo $url; ?>" <?php echo ($url=='index'?'readonly="readonly" ':''); ?>/>
 				</p>
 				<p>
-					<label for="post-permalink"><?php i18n('PERMALINK');?>:</label>
-					<input class="text short" type="text" id="post-permalink" name="post-permalink" value="<?php echo $permalink; ?>" placeholder="<?php if ($PERMALINK) { echo htmlspecialchars($PERMALINK); } else { echo '%parent%/%slug%/'; } ?>">
+					<label for="post-permalink"><?php i18n('PERMALINK'); ?>:</label>
+					<input class="text short" type="text" id="post-permalink" name="post-permalink" value="<?php echo $permalink; ?>" placeholder="<?php echo $PERMALINK ? htmlspecialchars($PERMALINK, ENT_QUOTES) : '%parent%/%slug%/'; ?>">
 				</p>
 				<p>
 					<label for="post-metak"><?php i18n('TAG_KEYWORDS'); ?>:</label>
@@ -354,7 +356,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			$options = isset($EDOPTIONS) ? ','.trim($EDOPTIONS,",") : '';
 
 		?>
-		<?php if ($HTMLEDITOR == '1') { ?>
+		<?php if ($HTMLEDITOR == '1' && $disable['htmleditor'] == false) { ?>
 		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef("GSCKETSTAMP",true) ? "?t=".getDef("GSCKETSTAMP") : ""; ?>"></script>
 
 			<script type="text/javascript">
@@ -530,7 +532,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		</script>
 		<?php
 			# register CodeMirror
-			if ($datau->CODEEDITOR == '1') {
+			if ($datau->CODEEDITOR == '1' && $disable['codeeditor'] == false) {
 		?>
 		<style>
 			.CodeMirror, .CodeMirror-scroll {
