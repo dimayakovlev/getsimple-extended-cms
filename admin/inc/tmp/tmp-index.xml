@@ -19,4 +19,10 @@
 &lt;/ol&gt;
 
 &lt;blockquote&gt;A blockquote. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut est risus, placerat venenatis augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.&lt;/blockquote&gt;
-]]></content><private></private><author></author><lastAuthor></lastAuthor><permalink>/</permalink></item>
+]]></content><component><![CDATA[&lt;?php
+/*
+ * Place your custom PHP code here and execute in template:
+ * &lt;?php get_page_component(false); ?&gt;
+ */
+get_page_content(false);
+?&gt;]]></component><private></private><author></author><lastAuthor></lastAuthor><permalink><![CDATA[/]]></permalink></item>

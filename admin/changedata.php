@@ -26,6 +26,7 @@ $referer = basename(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));
 $actions = array(
 	'edit.php' => array('save'),
 	'menu-manager.php' => array('save'),
+	'components.php' => array('save'),
 );
 
 // check referer page
@@ -41,6 +42,7 @@ if ($action == '' || !in_array($action, $actions[$referer])) {
 }
 
 // check for csrf
+// Create nonce in forms: get_nonce('action-name', pathinfo(__FILE__, PATHINFO_BASENAME));
 if (!defined('GSNOCSRF') || GSNOCSRF == false) {
 	$nonce = isset($_POST['nonce']) ? trim($_POST['nonce']) : '';
 	if ($nonce == '' || !check_nonce($nonce, $action, $referer)) {
@@ -50,6 +52,7 @@ if (!defined('GSNOCSRF') || GSNOCSRF == false) {
 
 login_cookie_check();
 
+// Save page data
 if ($referer == 'edit.php' && $action == 'save') {
 
 	$existingurl = isset($_POST['existing-url']) ? $_POST['existing-url'] : null;
@@ -190,8 +193,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 	}
 }
 
+// Save page priority order
 if ($referer == 'menu-manager.php' && $action == 'save') {
-	# save page priority order
 	if (isset($_POST['menuOrder'])) {
 		$menuOrder = explode(',', $_POST['menuOrder']);
 		$priority = 0;
@@ -214,6 +217,61 @@ if ($referer == 'menu-manager.php' && $action == 'save') {
 	} else {
 		redirect($referer . '?upd=menu-error');
 	}
+}
+
+// Save components
+if ($referer == 'components.php' && $action == 'save') {
+		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><components></components>');
+		$xml->addAttribute('created', filter_input(INPUT_POST, 'created') ?: date('r'));
+		$xml->addAttribute('modified', date('r'));
+		$xml->addAttribute('user', $USR);
+		$components = array();
+		if (isset($_POST['components'])) {
+			foreach($_POST['components'] as $component) {
+				if (!isset($component['title']) || trim($component['title']) == '') {
+					$component['title'] = uniqid('Component ');
+				} else {
+					$component['title'] = safe_slash_html(trim($component['title']));
+				}
+				if (!isset($component['slug']) || trim($component['slug']) == '') {
+					$slug = clean_url(to7bit(trim($component['title'])), 'UTF-8');
+					if ($slug) {
+						$component['slug'] = $slug;
+					} else {
+						$component['slug'] = uniqid('component-');
+					}
+				}
+				if (isset($component['value'])) {
+					$component['value'] = safe_slash_html($component['value']);
+				} else {
+					$component['value'] = '';
+				}
+				$component['enabled'] = isset($component['enabled']) ? $component['enabled'] : '';
+				$components[] = $component;
+			}
+		}
+
+		if ($components) {
+			$components = subval_sort($components, 'title');
+			foreach ($components as $component) {
+				$item = $xml->addChild('component');
+				$item->addChild('title')->addCData($component['title']);
+				$item->addChild('slug', $component['slug']);
+				$item->addChild('enabled', $component['enabled']);
+				$item->addChild('value')->addCData($component['value']);
+			}
+		}
+		$file = 'components.xml';
+		$path = GSDATAOTHERPATH;
+		$bakpath = GSBACKUPSPATH . 'other/';
+		createBak($file, $path, $bakpath);
+
+		exec_action('component-save');
+		if (XMLsave($xml, $path . $file)) {
+			redirect($referer . '?upd=comp-success');
+		} else {
+			redirect($referer . '?upd=comp-error');
+		}
 }
 
 redirect('pages.php');

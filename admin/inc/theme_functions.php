@@ -687,8 +687,6 @@ function menu_data($id = null,$xml=false) {
  * 
  * @uses GSDATAOTHERPATH
  * @uses getXML
- * @modified mvlcek 6/12/2011
- * @modified Dmitry Yakovlev 13/05/2021
  *
  * @param string $id This is the ID of the component you want to display
  * @param bool $check Check if component enabled
@@ -700,7 +698,7 @@ function get_component($id, $check = true) {
 	if (!$components) {
 		if (file_exists(GSDATAOTHERPATH . 'components.xml')) {
 			$data = getXML(GSDATAOTHERPATH . 'components.xml');
-			$components = $data->item;
+			$components = $data->children();
 		} else {
 			$components = array();
 		}

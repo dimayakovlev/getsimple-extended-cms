@@ -366,8 +366,9 @@ $i18n = array(
 "ER_SENDMAIL_ERR"		=>	"There was a problem sending the email. Please try again",
 "ER_FILE_DEL_SUC"		=>	"File deleted successfully",
 "ER_PROBLEM_DEL"		=>	"There was a problem deleting the file",
-"ER_COMPONENT_SAVE"	=>	"Your components have been saved",
-"ER_COMPONENT_REST"	=>	"Your components have been restored",
+"ER_COMPONENT_SAVE_ERROR" => "There was a problem saving components",
+"ER_COMPONENT_SAVE"	=>	"Components have been saved",
+"ER_COMPONENT_REST"	=>	"Components have been restored",
 "ER_CANCELLED_FAIL"	=>	"<b>Cancelled:</b> This update has been cancelled",
 
 /* 

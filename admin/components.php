@@ -4,79 +4,21 @@
  *
  * Displays and creates static components
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Components
- * @link http://get-simple.info/docs/what-are-components
+ * @link https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Components
  */
- 
+
 # setup inclusions
 $load['plugin'] = true;
 include('inc/common.php');
 
 # variable settings
-$userid 	= login_cookie_check();
-$file 		= 'components.xml';
-$path 		= GSDATAOTHERPATH;
-$bakpath 	= GSBACKUPSPATH . 'other/';
-$update 	= ''; $table = ''; $list='';
-
-# check to see if form was submitted
-if (isset($_POST['submitted'])) {
-
-	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == false) ) {
-		$nonce = $_POST['nonce'];
-		if(!check_nonce($nonce, 'modify_components')) {
-			die('CSRF detected!');
-		}
-	}
-
-	# create backup file for undo
-	createBak($file, $path, $bakpath);
-
-	# start creation of top of components.xml file
-	$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><channel></channel>');
-	$components = array();
-	if (isset($_POST['components'])) {
-		foreach($_POST['components'] as $component) {
-			if (!isset($component['title']) || trim($component['title']) == '') {
-				$component['title'] = uniqid('Component ');
-			} else {
-				$component['title'] = safe_slash_html(trim($component['title']));
-			}
-			if (!isset($component['slug']) || trim($component['slug']) == '') {
-				$slug = clean_url(to7bit(trim($component['title'])), 'UTF-8');
-				if ($slug) {
-					$component['slug'] = $slug;
-				} else {
-					$component['slug'] = uniqid('component-');
-				}
-			}
-			if (isset($component['value'])) {
-				$component['value'] = safe_slash_html($component['value']);
-			} else {
-				$component['value'] = '';
-			}
-			$component['enabled'] = isset($component['enabled']) ? $component['enabled'] : '';
-			$components[] = $component;
-		}
-	}
-
-	if ($components) {
-		$components = subval_sort($components, 'title');
-		foreach ($components as $component) {
-			$item = $xml->addChild('item');
-			$item->addChild('title')->addCData($component['title']);
-			$item->addChild('slug', $component['slug']);
-			$item->addChild('enabled', $component['enabled']);
-			$item->addChild('value')->addCData($component['value']);
-		}
-	}
-
-	exec_action('component-save');
-	XMLsave($xml, $path . $file);
-	redirect('components.php?upd=comp-success');
-}
+$userid = login_cookie_check();
+$file = 'components.xml';
+$path = GSDATAOTHERPATH;
+$bakpath = GSBACKUPSPATH . 'other/';
+$table = '';
 
 # if undo was invoked
 if (isset($_GET['undo'])) {
@@ -92,18 +34,18 @@ if (isset($_GET['undo'])) {
 
 # create components form html
 $data = getXML($path . $file);
-$components = $data->item;
+$components = $data->children();
 $count= 0;
 if (count($components) != 0) {
 	foreach ($components as $component) {
 		$checked = (isset($component->enabled) && $component->enabled == '1') ? ' checked ' : '';
-		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable" ><tr><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
-		$table .= '<td style="text-align:right;" ><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
-		$table .= '<a href="#" title="'.i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title). '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enabled]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
+		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable"><tr><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
+		$table .= '<td style="text-align:right;"><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
+		$table .= '<a href="#" title="' . i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title) . '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enabled]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
 		$table .= '<label for="components[' . $count . '][value]" style="display: none;">' . i18n_r('COMPONENT_CODE') . ':</label><textarea class="text" id="components[' . $count . '][value]" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
-		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '" />';
-		$table .= '<input type="hidden" class="comptitle" name="components[' . $count . '][title]" value="' . stripslashes($component->title) . '" />';
-		$table .= '<input type="hidden" name="components[' . $count . '][id]" value="' . $count . '" />';
+		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '">';
+		$table .= '<input type="hidden" class="comptitle" name="components[' . $count . '][title]" value="' . stripslashes($component->title) . '">';
+		$table .= '<input type="hidden" name="components[' . $count . '][id]" value="' . $count . '">';
 		exec_action('component-extras');
 		$table .= '</div>';
 		$count++;
@@ -121,7 +63,7 @@ if (count($components) != 0) {
 		$submitclass = 'hidden';
 	}
 # register and queue CodeMirror files
-if ($datau->CODEEDITOR == 1) {
+if ($datau->CODEEDITOR == '1') {
 	register_script('codemirror', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', false);
 	register_style('codemirror-css', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror.css','screen', false);
 	register_style('codemirror-theme', $SITEURL . $GSADMIN . '/template/js/codemirror/theme/default.css','screen', false);
@@ -143,14 +85,15 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 	<div class="main">
 	<h3 class="floated"><?php echo i18n('EDIT_COMPONENTS');?></h3>
 	<div class="edit-nav" >
-		<a href="#" id="addcomponent" accesskey="<?php echo find_accesskey(i18n_r('ADD_COMPONENT'));?>" ><?php i18n('ADD_COMPONENT');?></a>
+		<a href="#" id="addcomponent" accesskey="<?php echo find_accesskey(i18n_r('ADD_COMPONENT'));?>"><?php i18n('ADD_COMPONENT');?></a>
 		<div class="clear"></div>
 	</div>
 
-	<form class="manyinputs" action="<?php myself(); ?>" method="post" accept-charset="utf-8" >
-		<input type="hidden" id="id" value="<?php echo $count; ?>" />
-		<input type="hidden" id="nonce" name="nonce" value="<?php echo get_nonce("modify_components"); ?>" />
-
+	<form class="manyinputs" action="changedata.php" method="post" accept-charset="utf-8">
+		<input type="hidden" id="id" value="<?php echo $count; ?>">
+		<input type="hidden" id="nonce" name="nonce" value="<?php echo get_nonce('save', pathinfo(__FILE__, PATHINFO_BASENAME)); ?>">
+		<input type="hidden" id="created" name="created" value="<?php echo (string)$data->attributes()->created; ?>">
+		<input id="action" name="action" type="hidden" value="save">
 		<div id="divTxt"></div>
 		<?php echo $table; ?>
 		<?php
