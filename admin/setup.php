@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Setup
  *
  * Second step of installation (install.php). Sets up initial files & structure
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Installation
  */
 
@@ -14,50 +14,49 @@ if(isset($_POST['lang']) && trim($_POST['lang']) != '') { $LANG = $_POST['lang']
 include('inc/common.php');
 
 # default variables
-if(defined('GSLOGINSALT')) { $logsalt = GSLOGINSALT;} else { $logsalt = null; }
+$logsalt = defined('GSLOGINSALT') ? GSLOGINSALT : null;
 $kill = ''; // fatal error kill submission reshow form
-$status = ''; 
+$status = '';
 $err = null; // used for errors, show form alow resubmision
 $message = null; // message to show user
 $random = null;
 $success = false; // success true show message if message
-$fullpath = suggest_site_path();	
-$path_parts = suggest_site_path(true);   
+$fullpath = suggest_site_path();
+$path_parts = suggest_site_path(true);
 
 # if the form was submitted, continue
 if(isset($_POST['submitted'])) {
-	if($_POST['sitename'] != '') { 
+	if($_POST['sitename'] != '') {
 		$SITENAME = htmlentities($_POST['sitename'], ENT_QUOTES, 'UTF-8'); 
-	} else { 
+	} else {
 		$err .= i18n_r('WEBSITENAME_ERROR') .'<br />'; 
 	}
-	
+
 	$urls = $_POST['siteurl']; 
 	if(preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $urls)) {
 		$SITEURL = tsl($_POST['siteurl']); 
 	} else {
 		$err .= i18n_r('WEBSITEURL_ERROR') .'<br />'; 
 	}
-	
+
 	if($_POST['user'] != '') { 
 		$USR = strtolower($_POST['user']);
 	} else {
-		$err .= i18n_r('USERNAME_ERROR') .'<br />'; 
+		$err .= i18n_r('USERNAME_ERROR') .'<br />';
 	}
-	
+
 	if (! check_email_address($_POST['email'])) {
-		$err .= i18n_r('EMAIL_ERROR') .'<br />'; 
+		$err .= i18n_r('EMAIL_ERROR') .'<br />';
 	} else {
 		$EMAIL = $_POST['email'];
 	}
 
 	# if there were no errors, continue setting up the site
-	if ($err == '')	{
-		
+	if ($err == '') {
 		# create new password
 		$random = createRandomPassword();
 		$PASSWD = passhash($random);
-		
+
 		# create user xml file
 		$file = _id($USR).'.xml';
 		createBak($file, GSUSERSPATH, GSBACKUSERSPATH);
@@ -76,14 +75,14 @@ if(isset($_POST['submitted'])) {
 		if (! XMLsave($xml, GSUSERSPATH . $file) ) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
-		
+
 		# create password change trigger file
 		$flagfile = GSUSERSPATH . _id($USR).".xml.reset";
 		copy(GSUSERSPATH . $file, $flagfile);
-		
+
 		# create new website.xml file
 		$file = 'website.xml';
-		$xmls = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');		
+		$xmls = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$note = $xmls->addChild('SITENAME');
 		$note->addCData($SITENAME);
 		$xmls->addChild('SITEDESCRIPTION', '');
@@ -98,13 +97,13 @@ if(isset($_POST['submitted'])) {
 		if (! XMLsave($xmls, GSDATAOTHERPATH . $file) ) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
-		
+
 		# create default index.xml page
 		$init = GSDATAPAGESPATH.'index.xml'; 
 		$temp = GSADMININCPATH.'tmp/tmp-index.xml';
-		if (! file_exists($init))	{
+		if (! file_exists($init)) {
 			copy($temp,$init);
-			$xml = simplexml_load_file($init); 
+			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
@@ -114,17 +113,17 @@ if(isset($_POST['submitted'])) {
 
 		# create default components.xml page
 		$init = GSDATAOTHERPATH.'components.xml';
-		$temp = GSADMININCPATH.'tmp/tmp-components.xml'; 
-		if (! file_exists($init)) {
-			copy($temp,$init);
+		$temp = GSADMININCPATH.'tmp/tmp-components.xml';
+		if (!file_exists($init)) {
+			copy($temp, $init);
 		}
 
 		# create default 503.xml page
 		$init = GSDATAOTHERPATH.'503.xml';
-		$temp = GSADMININCPATH.'tmp/tmp-503.xml'; 
-		if (! file_exists($init)) {
+		$temp = GSADMININCPATH.'tmp/tmp-503.xml';
+		if (!file_exists($init)) {
 			copy($temp,$init);
-			$xml = simplexml_load_file($init); 
+			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
@@ -134,10 +133,10 @@ if(isset($_POST['submitted'])) {
 
 		# create default 403.xml page
 		$init = GSDATAOTHERPATH.'403.xml';
-		$temp = GSADMININCPATH.'tmp/tmp-403.xml'; 
-		if (! file_exists($init)) {
+		$temp = GSADMININCPATH.'tmp/tmp-403.xml';
+		if (!file_exists($init)) {
 			copy($temp,$init);
-			$xml = simplexml_load_file($init); 
+			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
@@ -147,10 +146,10 @@ if(isset($_POST['submitted'])) {
 
 		# create default 404.xml page
 		$init = GSDATAOTHERPATH.'404.xml';
-		$temp = GSADMININCPATH.'tmp/tmp-404.xml'; 
-		if (! file_exists($init)) {
+		$temp = GSADMININCPATH.'tmp/tmp-404.xml';
+		if (!file_exists($init)) {
 			copy($temp,$init);
-			$xml = simplexml_load_file($init); 
+			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
@@ -159,13 +158,13 @@ if(isset($_POST['submitted'])) {
 		}
 
 		# create root .htaccess file
-		 if ( !function_exists('apache_get_modules') or in_arrayi('mod_rewrite',apache_get_modules())) {
-		 	$temp = GSROOTPATH .'temp.htaccess';
-		 	$init = GSROOTPATH.'.htaccess';
-			
+		 if (!function_exists('apache_get_modules') or in_arrayi('mod_rewrite',apache_get_modules())) {
+		 	$temp = GSROOTPATH . 'temp.htaccess';
+		 	$init = GSROOTPATH. '.htaccess';
+
 			if(file_exists($temp)) {
-				$temp_data = file_get_contents(GSROOTPATH .'temp.htaccess');
-				$temp_data = str_replace('**REPLACE**',tsl($path_parts), $temp_data);
+				$temp_data = file_get_contents(GSROOTPATH . 'temp.htaccess');
+				$temp_data = str_replace('**REPLACE**', tsl($path_parts), $temp_data);
 				$fp = fopen($init, 'w');
 				fwrite($fp, $temp_data);
 				fclose($fp);
@@ -176,10 +175,10 @@ if(isset($_POST['submitted'])) {
 				}
 			}	
 		} 
-	
+
 		# create gsconfig.php if it doesn't exist yet.
-		$init = GSROOTPATH.'gsconfig.php';
-		$temp = GSROOTPATH.'temp.gsconfig.php';
+		$init = GSROOTPATH . 'gsconfig.php';
+		$temp = GSROOTPATH . 'temp.gsconfig.php';
 		if (file_exists($init)) {
 			if(file_exists($temp)) unlink($temp);
 			if (file_exists($temp)) {
@@ -200,8 +199,8 @@ if(isset($_POST['submitted'])) {
 		$message .= '<p><em>'. i18n_r('EMAIL_THANKYOU') .' '.$site_full_name.'!</em></p>';
 		$status   = sendmail($EMAIL,$subject,$message);
 		# activate default plugins
-		change_plugin('anonymous_data.php',true);
-		change_plugin('InnovationPlugin.php',true);
+		change_plugin('anonymous_data.php', true);
+		change_plugin('InnovationPlugin.php', true);
 
 		# set the login cookie, then redirect user to secure panel
 		create_cookie();
@@ -209,7 +208,7 @@ if(isset($_POST['submitted'])) {
 	}
 }
 
-get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION'));
+get_template('header', $site_full_name .' &raquo; '. i18n_r('INSTALLATION'));
 
 ?>
 	
@@ -234,7 +233,7 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION'));
 				// $success = false;
 				echo '<div class="error">'. $err .'</div>';
 			}
-			if ($random != ''){
+			if ($random != '') {
 				echo '<div class="updated">'.i18n_r('NOTE_USERNAME').' <b>'. stripslashes($_POST['user']) .'</b> '.i18n_r('NOTE_PASSWORD').' <b>'. $random .'</b> &nbsp&raquo;&nbsp; <a href="support.php?updated=2">'.i18n_r('EMAIL_LOGIN').'</a></div>';
 				$_POST = null;
 			}

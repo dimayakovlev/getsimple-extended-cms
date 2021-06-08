@@ -446,7 +446,7 @@ jQuery(document).ready(function () {
 		$e.preventDefault();
 		$("#metadata_window").slideToggle('fast');
 		$(this).toggleClass('current');
-		var autoopen = document.getElementById('autoopen-metadata');
+		var autoopen = document.getElementById('auto-open-metadata');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
 	// Toggle page component window
@@ -459,7 +459,7 @@ jQuery(document).ready(function () {
 			}
 		}
 		$(this).toggleClass('current');
-		var autoopen = document.getElementById('autoopen-component');
+		var autoopen = document.getElementById('auto-open-component');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
  

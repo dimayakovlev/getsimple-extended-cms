@@ -2,9 +2,9 @@
 /**
  * Index
  *
- * Where it all starts	
+ * Where it all starts
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage FrontEnd
  */
 
@@ -19,16 +19,10 @@
 	if(!defined('GSSTYLE_SBFIXED')) define('GSSTYLE_SBFIXED', 'sbfixed'); // fixed sidebar
 
 	# Check and load gsconfig
-	if (file_exists('gsconfig.php')) {
-		require_once('gsconfig.php');
-	}
+	if (file_exists('gsconfig.php')) require_once('gsconfig.php');
 
 	# Apply GSADMIN env
-	if (defined('GSADMIN')) {
-		$GSADMIN = GSADMIN;
-	} else {
-		$GSADMIN = 'admin';
-	}
+	$GSADMIN = defined('GSADMIN') ? GSADMIN : 'admin';
 
 	# setup paths 
 	# @todo wtf are these for ?
@@ -47,17 +41,13 @@ include($GSADMIN . '/inc/common.php');
 exec_action('index-header');
 
 # get page id (url slug) that is being passed via .htaccess mod_rewrite
-if (isset($_GET['id'])) { 
-	$id = lowercase(str_replace(array('..', '/'), '', $_GET['id']));
-} else {
-	$id = "index";
-}
+$id = isset($_GET['id']) ? lowercase(str_replace(array('..', '/'), '', $_GET['id'])) : 'index';
 
 // filter to modify page id request
 $id = exec_filter('indexid', $id);
  // $_GET['id'] = $id; // support for plugins that are checking get?
 
- $GSCANONICAL = getDef('GSCANONICAL', true);
+$GSCANONICAL = getDef('GSCANONICAL', true);
 
 // define page
 if ($dataw->maintenance == '1' && (!is_logged_in() || $datau->accessInMaintenance != '1')) {

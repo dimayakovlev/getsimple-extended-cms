@@ -2,7 +2,7 @@
 /****************************************************
 *
 * @File:  caching_functions.php
-* @Package: GetSimple
+* @Package: GetSimple Extended
 * @since 3.1
 * @Action:  Plugin to create pages.xml and new functions
 *
@@ -383,6 +383,7 @@ function getPagesXmlValues($chkcount = false) {
  * @since 3.1
  * 
  * @global $pagesArray
+ * @global $USR
  * 
  * @uses GSDATAOTHERPATH
  * @uses GSDATAPAGESPATH
@@ -398,6 +399,7 @@ function getPagesXmlValues($chkcount = false) {
  */
 function create_pagesxml($flag) {
 	global $pagesArray;
+	global $USR;
 
 	$success = '';
 
@@ -419,7 +421,7 @@ function create_pagesxml($flag) {
 		}
 		
 		$count = 0;
-		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><channel></channel>');  
+		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><channel></channel>');
 		if (count($filenames) != 0) {
 			foreach ($filenames as $file) {
 				if ($file == "." || $file == ".." || is_dir(GSDATAPAGESPATH . $file) || $file == ".htaccess") {
@@ -441,11 +443,11 @@ function create_pagesxml($flag) {
 
 					foreach ($data->children() as $item => $itemdata) {
 						if ($item != 'content' && $item != 'component') {
-							if ($item == 'title' || $item == 'meta' || $item == 'metad' || $item == 'menu') {
+							if (in_array($item, array('title', 'meta', 'metad', 'menu', 'permalink', 'lang'))) {
 								$pages->addChild($item)->addCData($itemdata);
 							} else {
 								$pages->addChild($item, $itemdata);
-							}							
+							}
 							$pagesArray[(string)$id][$item]=(string)$itemdata;
 						}
 					}
@@ -457,16 +459,18 @@ function create_pagesxml($flag) {
 					
 				} // else
 			} // end foreach
-		}   // endif      
+		} // endif
 		if ($flag === true || $flag == 'true') {
 
 			// Plugin Authors should add custom fields etc.. here
 			$xml = exec_filter('pagecache', $xml);
 
 			// sanity check in case the filter does not come back properly or returns null
-			if ($xml) { 
+			if ($xml) {
+				$xml->addAttribute('created', date('r'));
+				$xml->addAttribute('user', $USR);
 				$success = XMLsave($xml, $filem);
-			}	
+			}
 			// debugLog("create_pagesxml saved: ". $success);
 			exec_action('pagecache-aftersave');
 			return $success;

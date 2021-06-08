@@ -2,7 +2,7 @@
 /**
  * Page Edit
  *
- * Edit or create new pages for the website.	
+ * Edit or create new pages for the website.
  *
  * @package GetSimple Extended
  * @subpackage Page-Edit
@@ -72,13 +72,14 @@ if ($id) {
 	$menuOrder = (string)$data_edit->menuOrder;
 	$lang = stripslashes($data_edit->lang);
 	$buttonname = i18n_r('BTN_SAVEUPDATES');
-	$creDate = ((string)$data_edit->creDate) ?: $pubDate;
-	$lastAuthor = ((string)$data_edit->lastAuthor) ?: $author;
+	$creDate = (string)$data_edit->creDate ?: $pubDate;
+	$lastAuthor = (string)$data_edit->lastAuthor ?: $author;
 	$permalink = (string)$data_edit->permalink;
-	$autoopen['metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
-	$autoopen['component'] = ($data_edit->attributes()->autoOpenComponent == '1');
-	$disable['codeeditor'] = ($data_edit->attributes()->disableCodeEditor == '1');
-	$disable['htmleditor'] = ($data_edit->attributes()->disableHTMLEditor == '1');
+	$attributes['auto-open-metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
+	$attributes['auto-open-component'] = ($data_edit->attributes()->autoOpenComponent == '1');
+	$attributes['disable-code-editor'] = ($data_edit->attributes()->disableCodeEditor == '1');
+	$attributes['disable-html-editor'] = ($data_edit->attributes()->disableHTMLEditor == '1');
+	$attributes['revision-number'] = (string)$data_edit->attributes()->revisionNumber ?: '0';
 
 } else {
 	// prefill fields is provided
@@ -92,14 +93,15 @@ if ($id) {
 	$lang = isset($_GET['lang']) ? var_out($_GET['lang']) : '';
 	$permalink = isset($_GET['permalink']) ? var_out($_GET['permalink']) : '';
 	$buttonname =  i18n_r('BTN_SAVEPAGE');
-	$autoopen['metadata'] = false;
-	$autoopen['component'] = false;
-	$disable['codeeditor'] = false;
-	$disable['htmleditor'] = false;
+	$attributes['auto-open-metadata'] = false;
+	$attributes['auto-open-component'] = false;
+	$attributes['disable-code-editor'] = false;
+	$attributes['disable-html-editor'] = false;
+	$attributes['revision-number'] = '0';
 }
 
 // MAKE SELECT BOX OF AVAILABLE TEMPLATES
-if ($template == '') { $template = 'template.php'; }
+if ($template == '') $template = 'template.php';
 
 $themes_path = GSTHEMESPATH . $TEMPLATE;
 $themes_handle = opendir($themes_path) or die("Unable to open ". GSTHEMESPATH);
@@ -157,8 +159,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
 			}
 			?>
-			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" class="<?php if ($autoopen['component'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_COMPONENT'); ?></a>
-			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($autoopen['metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
+			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" class="<?php if ($attributes['auto-open-component'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_COMPONENT'); ?></a>
+			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($attributes['auto-open-metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
 			<div class="clear"></div>
 		</div>
 
@@ -167,8 +169,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<input id="author" name="post-author" type="hidden" value="<?php echo $author; ?>">
 			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>">
 			<input id="action" name="action" type="hidden" value="save">
-			<input id="autoopen-metadata" name="autoopen-metadata" type="hidden" value="<?php echo (string)$autoopen['metadata']; ?>">
-			<input id="autoopen-component" name="autoopen-component" type="hidden" value="<?php echo (string)$autoopen['component']; ?>">
+			<input id="auto-open-metadata" name="auto-open-metadata" type="hidden" value="<?php echo (string)$attributes['auto-open-metadata']; ?>">
+			<input id="auto-open-component" name="auto-open-component" type="hidden" value="<?php echo (string)$attributes['auto-open-component']; ?>">
+			<input id="revision-number" name="revision-number" type="hidden" value="<?php echo $attributes['revision-number']; ?>">
 
 			<!-- page title toggle screen -->
 			<p id="edit_window">
@@ -177,7 +180,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			</p>
 
 			<!-- metadata toggle screen -->
-			<div style="display: <?php echo ($autoopen['metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
+			<div style="display: <?php echo ($attributes['auto-open-metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
 			<div class="leftopt">
 				<p class="inline clearfix" id="post-private-wrap">
 					<label for="post-private"><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
@@ -230,10 +233,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					</select>
 				</p>
 				<p class="inline clearfix">
-					<input type="checkbox" id="disable-html-editor" name="disable-html-editor" value="1"<?php echo $disable['htmleditor'] ? ' checked' : ''; ?>> <label for="disable-html-editor"><?php i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
+					<input type="checkbox" id="disable-html-editor" name="disable-html-editor" value="1"<?php echo $attributes['disable-html-editor'] ? ' checked' : ''; ?>> <label for="disable-html-editor"><?php i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
 				</p>
 				<p class="inline clearfix">
-					<input type="checkbox" id="disable-code-editor" name="disable-code-editor" value="1"<?php echo $disable['codeeditor'] ? ' checked' : ''; ?>> <label for="disable-code-editor"><?php i18n('PAGE_DISABLE_CODE_EDITOR'); ?></label>
+					<input type="checkbox" id="disable-code-editor" name="disable-code-editor" value="1"<?php echo $attributes['disable-code-editor'] ? ' checked' : ''; ?>> <label for="disable-code-editor"><?php i18n('PAGE_DISABLE_CODE_EDITOR'); ?></label>
 				</p>
 				<p class="inline post-menu clearfix">
 					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="Y" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
@@ -257,7 +260,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<div class="rightopt">
 				<p>
 					<label for="post-id"><?php i18n('SLUG_URL'); ?>:</label>
-					<input class="text short" type="text" id="post-id" name="post-id" value="<?php echo $url; ?>" <?php echo ($url=='index'?'readonly="readonly" ':''); ?>/>
+					<input class="text short" type="text" id="post-id" name="post-id" value="<?php echo $url; ?>" <?php echo ($url=='index' ? 'readonly="readonly"' : ''); ?>>
 				</p>
 				<p>
 					<label for="post-permalink"><?php i18n('PERMALINK'); ?>:</label>
@@ -305,25 +308,23 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 
 			<?php exec_action('edit-content'); ?> 
 
-			<?php if(isset($data_edit)) {
-				echo '<input type="hidden" name="existing-url" value="'. $url .'" />'; 
-			} ?>
+			<?php if (isset($data_edit)) echo '<input type="hidden" name="existing-url" value="' . $url . '">'; ?>
 
 			<span class="editing"><?php echo i18n_r('EDITPAGE_TITLE') .': ' . $title; ?></span>
 			<div id="submit_line">
-				<input type="hidden" name="redirectto" value="" />
+				<input type="hidden" name="redirectto" value="">
 				
-				<span><input id="page_submit" class="submit" type="submit" name="submitted" value="<?php echo $buttonname; ?>" /></span>
+				<span><input id="page_submit" class="submit" type="submit" name="submitted" value="<?php echo $buttonname; ?>"></span>
 				
 				<div id="dropdown">
 					<h6 class="dropdownaction"><?php i18n('ADDITIONAL_ACTIONS'); ?></h6>
 					<ul class="dropdownmenu">
 						<li id="save-close"><a href="#"><?php i18n('SAVE_AND_CLOSE'); ?></a></li>
-						<?php if($url != '') { ?>
+						<?php if ($url != '') { ?>
 							<li><a href="pages.php?id=<?php echo $url; ?>&amp;action=clone&amp;nonce=<?php echo get_nonce("clone","pages.php"); ?>"><?php i18n('CLONE'); ?></a></li>
 						<?php } ?>
 						<li id="cancel-updates" class="alertme"><a href="pages.php?cancel"><?php i18n('CANCEL'); ?></a></li>
-						<?php if($url != 'index' && $url != '') { ?>
+						<?php if ($url != 'index' && $url != '') { ?>
 							<li class="alertme"><a href="deletefile.php?id=<?php echo $url; ?>&amp;nonce=<?php echo get_nonce("delete","deletefile.php"); ?>"><?php echo strip_tags(i18n_r('ASK_DELETE')); ?></a></li>
 						<?php } ?>
 					</ul>
@@ -336,7 +337,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					if (isset($pubDate)) {
 						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.($lastAuthor ? $lastAuthor : '-').'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
 					}
-					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {	
+					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {
 						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank">'.i18n_r('BACKUP_AVAILABLE').'</a>';
 					} 
 				?></p>
@@ -356,17 +357,17 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			$options = isset($EDOPTIONS) ? ','.trim($EDOPTIONS,",") : '';
 
 		?>
-		<?php if ($HTMLEDITOR == '1' && $disable['htmleditor'] == false) { ?>
+		<?php if ($HTMLEDITOR == '1' && $attributes['disable-html-editor'] == false) { ?>
 		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef("GSCKETSTAMP",true) ? "?t=".getDef("GSCKETSTAMP") : ""; ?>"></script>
 
 			<script type="text/javascript">
 			<?php if(getDef("GSCKETSTAMP",true)) echo "CKEDITOR.timestamp = '".getDef("GSCKETSTAMP") . "';\n"; ?>
-			var editor = CKEDITOR.replace( 'post-content', {
+			var editor = CKEDITOR.replace('post-content', {
 					skin : 'getsimple',
 					forcePasteAsPlainText : true,
 					language : '<?php echo $EDLANG; ?>',
 					defaultLanguage : 'en',
-					<?php if (file_exists(GSTHEMESPATH .$TEMPLATE."/editor.css")) { 
+					<?php if (file_exists(GSTHEMESPATH .$TEMPLATE."/editor.css")) {
 						$fullpath = suggest_site_path();
 						?>
 						contentsCss: '<?php echo $fullpath; ?>theme/<?php echo $TEMPLATE; ?>/editor.css',
@@ -389,12 +390,12 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			function InstanceReadyEvent(ev) {
 				_this = this;
 
-				this.document.on("keyup", function () {
+				this.document.on("keyup", function() {
 					$('#editform #post-content').trigger('change');
 					_this.resetDirty();
 				});
 
-				this.timer = setInterval(function(){trackChanges(_this)},500);
+				this.timer = setInterval(function() { trackChanges(_this) }, 500);
 			}
 
 			/**
@@ -403,7 +404,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			 */
 			function trackChanges(editor) {
 				// console.log('check changes');
-				if ( editor.checkDirty() ) {
+				if (editor.checkDirty()) {
 					$('#editform #post-content').trigger('change');
 					editor.resetDirty();
 				}
@@ -414,7 +415,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<?php
 				# CKEditor setup functions
 				ckeditor_add_page_link();
-				exec_action('html-editor-init'); 
+				exec_action('html-editor-init');
 			?>
 
 		<?php } ?>
@@ -445,9 +446,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				}
 			}
 
-			jQuery(document).ready(function() { 
+			jQuery(document).ready(function(){
 
-			<?php if (defined('GSAUTOSAVE') && (int)GSAUTOSAVE != 0) { /* IF AUTOSAVE IS TURNED ON via GSCONFIG.PHP */ ?>	
+			<?php if (defined('GSAUTOSAVE') && (int)GSAUTOSAVE != 0) { /* IF AUTOSAVE IS TURNED ON via GSCONFIG.PHP */ ?>
 
 					$('#pagechangednotify').hide();
 					$('#autosavenotify').show();
@@ -455,7 +456,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 
 					function autoSaveIntvl(){
 						// console.log('autoSaveIntvl called, isdirty:' + pageisdirty);
-						if(pageisdirty == true){
+						if(pageisdirty == true) {
 							autoSave();
 							pageisdirty = false;
 						}
@@ -465,7 +466,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						$('input[type=submit]').attr('disabled', 'disabled');
 
 						// we are using ajax, so ckeditor wont copy data to our textarea for us, so we do it manually
-						if(typeof(editor)!='undefined'){ $('#post-content').val(CKEDITOR.instances["post-content"].getData()); }
+						if (typeof(editor) != 'undefined') { $('#post-content').val(CKEDITOR.instances["post-content"].getData()); }
 
 						var dataString = $("#editform").serialize();
 						
@@ -473,26 +474,25 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						var currentTime = new Date();
 						var hours = currentTime.getHours();
 						var minutes = currentTime.getMinutes();
-						if (minutes < 10){ minutes = "0" + minutes; }
-						if (hours > 11){ daypart = "PM"; } else { daypart = "AM"; }
-						if (hours > 12){ hours -= 12; }
+						if (minutes < 10) { minutes = "0" + minutes; }
+						if (hours > 11) { daypart = "PM"; } else { daypart = "AM"; }
+						if (hours > 12) { hours -= 12; }
 
 						$.ajax({
 							type: "POST",
 							url: "changedata.php",
-							data: dataString+'&autosave=true&submitted=true',
+							data: dataString + '&autosave=true&submitted=true',
 							success: function(msg) {
-								if (msg.toString()=='OK') {
-									$('#autosavenotify').text("<?php i18n('AUTOSAVE_NOTIFY'); ?> "+ hours +":"+minutes+" "+daypart);
+								if (msg.toString() == 'OK') {
+									$('#autosavenotify').text("<?php i18n('AUTOSAVE_NOTIFY'); ?> " + hours + ":" + minutes + " " + daypart);
 									$('#pagechangednotify').hide();
-									$('#pagechangednotify').text('');                    
+									$('#pagechangednotify').text('');
 									$('input[type=submit]').attr('disabled', false);
 									$('input[type=submit]').css('border-color','#ABABAB');
 									warnme = false;
 									$('#cancel-updates').hide();
-								}
-								else {
-									pageisdirty=true;
+								} else {
+									pageisdirty = true;
 									$('#autosavenotify').text("<?php i18n('AUTOSAVE_FAILED'); ?>");
 								}
 							}
@@ -500,43 +500,43 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					}
 
 					// We register title and slug changes with change() which only fires when you lose focus to prevent midchange saves.
-					$('#post-title, #post-id').change(function () {
-							$('#editform #post-content').trigger('change');
+					$('#post-title, #post-id').change(function() {
+						$('#editform #post-content').trigger('change');
 					});
 
 					// We register all other form elements to detect changes of any type by using bind
-					$('#editform input,#editform textarea,#editform select').not('#post-title').not('#post-id').bind('change keypress paste textInput input',function(){
-							pageisdirty = true;
-							warnme = true;
-							autoSaveInd();
+					$('#editform input,#editform textarea,#editform select').not('#post-title').not('#post-id').bind('change keypress paste textInput input', function(){
+						pageisdirty = true;
+						warnme = true;
+						autoSaveInd();
 					});
 
-				setInterval(autoSaveIntvl, <?php echo (int)GSAUTOSAVE*1000; ?>);
+				setInterval(autoSaveIntvl, <?php echo (int)GSAUTOSAVE * 1000; ?>);
 
 				<?php } else { /* AUTOSAVE IS NOT TURNED ON */ ?>
-					$('#editform').bind('change keypress paste focus textInput input',function(){
-							warnme = true;
-							pageisdirty = false;
-							autoSaveInd();
+					$('#editform').bind('change keypress paste focus textInput input', function(){
+						warnme = true;
+						pageisdirty = false;
+						autoSaveInd();
 					});
 					<?php } ?>
 
-					function autoSaveInd(){
-							$('#pagechangednotify').show();
-							$('#pagechangednotify').text("<?php i18n('PAGE_UNSAVED')?>");
-							$('input[type=submit]').css('border-color','#CC0000');
-							$('#cancel-updates').show();
+					function autoSaveInd() {
+						$('#pagechangednotify').show();
+						$('#pagechangednotify').text("<?php i18n('PAGE_UNSAVED')?>");
+						$('input[type=submit]').css('border-color','#CC0000');
+						$('#cancel-updates').show();
 					}
 
 			});
 		</script>
 		<?php
 			# register CodeMirror
-			if ($datau->CODEEDITOR == '1' && $disable['codeeditor'] == false) {
+			if ($datau->CODEEDITOR == '1' && $attributes['disable-code-editor'] == false) {
 		?>
 		<style>
 			.CodeMirror, .CodeMirror-scroll {
-				height: <?php echo $EDHEIGHT; ?>
+				height: <?php echo $EDHEIGHT; ?>;
 			}
 		</style>
 		<script>
