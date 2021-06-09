@@ -199,7 +199,6 @@ if(isset($_POST['submitted'])) {
 		$message .= '<p><em>'. i18n_r('EMAIL_THANKYOU') .' '.$site_full_name.'!</em></p>';
 		$status   = sendmail($EMAIL,$subject,$message);
 		# activate default plugins
-		change_plugin('anonymous_data.php', true);
 		change_plugin('InnovationPlugin.php', true);
 
 		# set the login cookie, then redirect user to secure panel
