@@ -18,10 +18,10 @@ include('inc/common.php');
 $userid = login_cookie_check();
 
 // Get passed variables
-$id    = isset($_GET['id'])    ? var_out( $_GET['id']    ): null;
-$uri   = isset($_GET['uri'])   ? var_out( $_GET['uri']   ): null; 
-$ptype = isset($_GET['type'])  ? var_out( $_GET['type']  ): null;
-$nonce = isset($_GET['nonce']) ? var_out( $_GET['nonce'] ): null;
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+$uri = filter_input(INPUT_GET, 'uri', FILTER_SANITIZE_URL);
+$ptype = filter_input(INPUT_GET, 'type');
+$nonce = filter_input(INPUT_GET, 'nonce');
 $path  = GSDATAPAGESPATH;
 
 // Page variables reset
@@ -50,9 +50,7 @@ $permalink = '';
 if ($id) {
 	// get saved page data
 	$file = $id . '.xml';
-	
 	if (!file_exists($path . $file)) redirect('pages.php?error=' . urlencode(i18n_r('PAGE_NOTEXIST')));
-
 	$data_edit = getXML($path . $file);
 	$title = stripslashes($data_edit->title);
 	$pubDate = (string)$data_edit->pubDate;
@@ -80,23 +78,22 @@ if ($id) {
 	$attributes['disable-code-editor'] = ($data_edit->attributes()->disableCodeEditor == '1');
 	$attributes['disable-html-editor'] = ($data_edit->attributes()->disableHTMLEditor == '1');
 	$attributes['revision-number'] = (string)$data_edit->attributes()->revisionNumber ?: '0';
-
 } else {
 	// prefill fields is provided
-	$title      =  isset( $_GET['title']      ) ? var_out( $_GET['title']      ) : '';
-	$template   =  isset( $_GET['template']   ) ? var_out( $_GET['template']   ) : '';
-	$parent     =  isset( $_GET['parent']     ) ? var_out( $_GET['parent']     ) : '';
-	$menu       =  isset( $_GET['menu']       ) ? var_out( $_GET['menu']       ) : '';
-	$private    =  isset( $_GET['private']    ) ? var_out( $_GET['private']    ) : '';
-	$menuStatus =  isset( $_GET['menuStatus'] ) ? var_out( $_GET['menuStatus'] ) : '';
-	$menuOrder  =  isset( $_GET['menuOrder']  ) ? var_out( $_GET['menuOrder']  ) : '';
-	$lang = isset($_GET['lang']) ? var_out($_GET['lang']) : '';
-	$permalink = isset($_GET['permalink']) ? var_out($_GET['permalink']) : '';
-	$buttonname =  i18n_r('BTN_SAVEPAGE');
-	$attributes['auto-open-metadata'] = false;
-	$attributes['auto-open-component'] = false;
-	$attributes['disable-code-editor'] = false;
-	$attributes['disable-html-editor'] = false;
+	$title = filter_var(trim(xss_clean(filter_input(INPUT_GET, 'title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$template =  filter_input(INPUT_GET, 'template', FILTER_SANITIZE_STRING);
+	$parent = filter_input(INPUT_GET, 'parent', FILTER_SANITIZE_STRING);
+	$menu = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'menu')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$private  =  isset($_GET['private']) ? var_out($_GET['private']) : '';
+	$menuStatus =  isset($_GET['menuStatus']) ? var_out($_GET['menuStatus']) : '';
+	$menuOrder = filter_input(INPUT_GET, 'menuOrder', FILTER_SANITIZE_NUMBER_INT);
+	$lang = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$permalink = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$buttonname = i18n_r('BTN_SAVEPAGE');
+	$attributes['auto-open-metadata'] = filter_input(INPUT_GET, 'autoOpenMetadata', FILTER_VALIDATE_BOOLEAN);
+	$attributes['auto-open-component'] = filter_input(INPUT_GET, 'autoOpenComponent', FILTER_VALIDATE_BOOLEAN);
+	$attributes['disable-code-editor'] = filter_input(INPUT_GET, 'disableCodeEditor', FILTER_VALIDATE_BOOLEAN);
+	$attributes['disable-html-editor'] = filter_input(INPUT_GET, 'disableHTMLEditor', FILTER_VALIDATE_BOOLEAN);
 	$attributes['revision-number'] = '0';
 }
 
@@ -191,17 +188,12 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				</p>
 				<p class="inline clearfix">
 					<label for="post-parent"><?php i18n('PARENT_PAGE'); ?>:</label>
-					<select class="text autowidth" id="post-parent" name="post-parent"> 
-						<?php 
+					<select class="text autowidth" id="post-parent" name="post-parent">
+					<?php
 						getPagesXmlValues();
 						$count = 0;
 						foreach ($pagesArray as $page) {
-							if ($page['parent'] != '') { 
-								$parentTitle = returnPageField($page['parent'], 'title');
-								$sort = $parentTitle . ' ' . $page['title'];
-							} else {
-								$sort = $page['title'];
-							}
+							$sort = $page['parent'] != '' ? returnPageField($page['parent'], 'title') . $page['title'] : $page['title'];
 							$page = array_merge($page, array('sort' => $sort));
 							$pagesArray_tmp[$count] = $page;
 							$count++;
@@ -210,20 +202,20 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 						$pagesSorted = subval_sort($pagesArray_tmp,'sort');
 						$ret=get_pages_menu_dropdown('', '', 0);
 						$ret=str_replace('value="' . $id . '"', 'value="' . $id . '" disabled', $ret);
-						
+
 						// handle 'no parents' correctly
-						if ($parent == '') { 
+						if ($parent == '') {
 							$none = 'selected';
-							$noneText = '<' . i18n_r('NO_PARENT') . '>'; 
-						} else { 
+							$noneText = '<' . i18n_r('NO_PARENT') . '>';
+						} else {
 							$none = null; 
-							$noneText = '<' . i18n_r('NO_PARENT') . '>'; 
+							$noneText = '<' . i18n_r('NO_PARENT') . '>';
 						}
-						
+
 						// Create base option
-						echo '<option '.$none.' value="">'.$noneText.'</option>';
+						echo '<option '. $none . ' value="">' . $noneText . '</option>';
 						echo $ret;
-						?>
+					?>
 					</select>
 				</p>
 				<p class="inline clearfix">
@@ -287,7 +279,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			</div><!-- / metadata toggle screen -->
 
 			<!-- component toggle screen -->
-			<div style="display: <?php echo ($autoopen['component'] == true) ? 'block' : 'none' ?>;" id="component_window">
+			<div style="display: <?php echo ($attributes['auto-open-component'] == true) ? 'block' : 'none' ?>;" id="component_window">
 				<p class="inline post-component-enable clearfix">
 					<input type="checkbox" id="post-component-enable" name="post-component-enable" value="1"<?php if ($componentEnabled) echo ' checked '; ?>/>&nbsp;<label for="post-component-enable"><?php i18n('ENABLE_COMPONENT'); ?></label>
 				</p>
