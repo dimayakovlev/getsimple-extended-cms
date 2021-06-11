@@ -234,48 +234,36 @@ function path_is_safe($path,$pathmatch,$subdir = true){
 /**
  * Check if server is Apache
  * 
- * @returns bool
+ * @return bool
  */
 function server_is_apache() {
-    return( strpos(strtolower($_SERVER['SERVER_SOFTWARE']),'apache') !== false );
+	return (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') !== false);
 }
 
 /**
- * Performs filtering on variable, falls back to htmlentities
+ * Performs filtering on variable
  *
  * @since 3.3.0
- * @param  string $var    var to filter
- * @param  string $filter filter type
- * @return string         return filtered string
+ * @since 3.5.0 Added filters default and encoded. Always use function filter_var. Default filter is FILTER_SANITIZE_FULL_SPECIAL_CHARS
+ * @param string $string String to filter
+ * @param string $filter Type of filter
+ * @return string Filtered string
  */
-function var_out($var,$filter = "special"){
-	$var = (string)$var;
-
-	// php 5.2 shim
-	if(!defined('FILTER_SANITIZE_FULL_SPECIAL_CHARS')){
-		define('FILTER_SANITIZE_FULL_SPECIAL_CHARS',522);
-		if($filter == "full") return htmlspecialchars($var, ENT_QUOTES);
-	}
-
-	if(function_exists( "filter_var") ){
-		$aryFilter = array(
-			"string"  => FILTER_SANITIZE_STRING,
-			"int"     => FILTER_SANITIZE_NUMBER_INT,
-			"float"   => FILTER_SANITIZE_NUMBER_FLOAT,
-			"url"     => FILTER_SANITIZE_URL,
-			"email"   => FILTER_SANITIZE_EMAIL,
-			"special" => FILTER_SANITIZE_SPECIAL_CHARS,
-			"full"    => FILTER_SANITIZE_FULL_SPECIAL_CHARS
-		);
-		if(isset($aryFilter[$filter])) return filter_var( $var, $aryFilter[$filter]);
-		return filter_var( $var, FILTER_SANITIZE_SPECIAL_CHARS);
-	}
-	else {
-		return htmlentities($var);
-	}
+function var_out(string $string, $filter = 'full') {
+	$filters = array(
+		'default' => FILTER_DEFAULT,
+		'encoded' => FILTER_SANITIZE_ENCODED,
+		'string' => FILTER_SANITIZE_STRING,
+		'int' => FILTER_SANITIZE_NUMBER_INT,
+		'float' => FILTER_SANITIZE_NUMBER_FLOAT,
+		'url' => FILTER_SANITIZE_URL,
+		'email' => FILTER_SANITIZE_EMAIL,
+		'special' => FILTER_SANITIZE_SPECIAL_CHARS,
+		'full' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
+	);
+	return filter_var($string, isset($filters[$filter]) ? $filters[$filter] : FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 }
 
-function validImageFilename($file){
-	$image_exts = array('jpg','jpeg','gif','png');
-	return in_array(getFileExtension($file),$image_exts);
+function validImageFilename($file) {
+	return in_array(lowercase(pathinfo($file, PATHINFO_EXTENSION)), array('jpg', 'jpeg', 'gif', 'png'));
 }
