@@ -52,9 +52,9 @@ if (!defined('GSNOCSRF') || GSNOCSRF == false) {
 
 login_cookie_check();
 
-// Save page data
-if ($referer == 'edit.php' && $action == 'save') {
 
+if ($referer == 'edit.php' && $action == 'save') {
+	// Save page data
 	$existingurl = isset($_POST['existing-url']) ? $_POST['existing-url'] : null;
 
 	if (trim($_POST['post-title']) == '') {
@@ -129,11 +129,11 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('pubDate', date('r'));
 		$xml->addChild('creDate', filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_STRING) ?: date('r'));
-		$xml->addChild('title')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-title')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('title')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('url', $url);
 		$xml->addChild('meta')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-metak')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-		$xml->addChild('metad')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-metad')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-		$xml->addChild('menu')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-menu')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('metad')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-metad'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('menu')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-menu'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('menuOrder', filter_input(INPUT_POST, 'post-menu-order', FILTER_SANITIZE_NUMBER_INT) ?: '0');
 		$xml->addChild('menuStatus', filter_input(INPUT_POST, 'post-menu-enable', FILTER_SANITIZE_STRING));
 		$xml->addChild('template', filter_input(INPUT_POST, 'post-template', FILTER_SANITIZE_STRING));
@@ -169,33 +169,21 @@ if ($referer == 'edit.php' && $action == 'save') {
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true') {
 			echo $status ? 'OK' : 'ERROR';
 		} else {
-			if(!$status) redirect($referer . '?id=' . $url . '&upd=edit-error&type=edit'); 
-
-			if ($_POST['redirectto'] != '') {
-				$redirect_url = $_POST['redirectto']; // @todo sanitize redirects, not sure what this is for, js sets pages.php always?
+			if (!$status) redirect($referer . '?id=' . $url . '&upd=edit-error&type=edit');
+			$redirect_url = filter_input(INPUT_POST, 'redirectto', FILTER_SANITIZE_URL) ?: 'edit.php';
+			if (!isset($existingurl)) {
+				redirect($redirect_url . '?id=' . $url . '&upd=edit-success&type=new');
+			} elseif ($url == $existingurl) {
+				// redirect save new file
+				redirect($redirect_url . '?id=' . $url . '&upd=edit-success&type=edit');
 			} else {
-				$redirect_url = 'edit.php';
-			}
-			
-			if (isset($existingurl)) {
-				if ($url == $existingurl) {
-					// redirect save new file
-					redirect($redirect_url . '?id=' . $url . '&upd=edit-success&type=edit');
-				} else {
-					// redirect new slug, undo for old slug
-					redirect($redirect_url . '?id=' . $url . '&old=' . $existingurl . '&upd=edit-success&type=edit');
-				}
-			}	
-			else {
-				// redirect new slug
-				redirect($redirect_url . '?id=' . $url . '&upd=edit-success&type=new'); 
+				// redirect new slug, undo for old slug
+				redirect($redirect_url . '?id=' . $url . '&old=' . $existingurl . '&upd=edit-success&type=edit');
 			}
 		}
 	}
-}
-
-// Save page priority order
-if ($referer == 'menu-manager.php' && $action == 'save') {
+} elseif ($referer == 'menu-manager.php' && $action == 'save') {
+	// Save page priority order
 	if (isset($_POST['menuOrder'])) {
 		$menuOrder = explode(',', $_POST['menuOrder']);
 		$priority = 0;
@@ -220,10 +208,8 @@ if ($referer == 'menu-manager.php' && $action == 'save') {
 	} else {
 		redirect($referer . '?upd=menu-error');
 	}
-}
-
-// Save components
-if ($referer == 'components.php' && $action == 'save') {
+} elseif ($referer == 'components.php' && $action == 'save') {
+	// Save components
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><components></components>');
 		$xml->addAttribute('created', filter_input(INPUT_POST, 'created') ?: date('r'));
 		$xml->addAttribute('modified', date('r'));
@@ -275,6 +261,6 @@ if ($referer == 'components.php' && $action == 'save') {
 		} else {
 			redirect($referer . '?upd=comp-error');
 		}
+} else {
+	redirect('pages.php');
 }
-
-redirect('pages.php');
