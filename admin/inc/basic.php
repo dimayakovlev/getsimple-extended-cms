@@ -573,6 +573,7 @@ function i18n($name, $echo = true) {
  * @author ccagle8
  *
  * @param string $name
+ * @return string
  */
 function i18n_r($name) {
 	return i18n($name, false);
@@ -773,14 +774,14 @@ function getFileExtension($file) {
  * Suggestion function for SITEURL variable
  *
  * @since 2.04
- * @uses $GSAMIN
+ * @global $GSAMIN
  * @uses http_protocol
  * @author ccagle8
  *
  * @param bool $parts 
  * @return string
  */
-function suggest_site_path($parts=false, $protocolRelative = false) {
+function suggest_site_path($parts = false, $protocolRelative = false) {
 	global $GSADMIN;
 	$protocol = $protocolRelative ? '' : http_protocol() . ':';
 	$path_parts = pathinfo(htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES));
@@ -795,17 +796,15 @@ function suggest_site_path($parts=false, $protocolRelative = false) {
 }
 
 /**
- * Myself 
- *
- * Returns the page itself 
+ * Returns the page itself
  *
  * @since 2.04
  * @author ccagle8
  *
  * @param bool $echo
- * @return string
+ * @return null|string Echo or return string
  */
-function myself($echo=true) {
+function myself($echo = true) {
 	if ($echo) {
 		echo htmlentities(basename($_SERVER['PHP_SELF']), ENT_QUOTES);
 	} else {
@@ -817,22 +816,22 @@ function myself($echo=true) {
  * Get Available Themes
  *
  * @since 2.04
- * @uses GSTHEMESPATH
- * @author ccagle8
+ * @since 3.5.0 Get what it should according to the name. Return null if themes folder not exist
+ * @global GSTHEMESPATH
  *
- * @param string $temp
- * @return array
+ * @return null|array Return null if themes folder not exist else return array
  */
-function get_themes($temp) {
-	$themes_path = GSTHEMESPATH . $temp . '/';
-	$themes_handle = opendir($themes_path);
-	while ($file = readdir($themes_handle)) {
-		if(is_file($themes_path . $file) && $file != '.' && $file != '..') {
-			$templates[] = $file;
+function get_themes() {
+	if (!is_dir(GSTHEMESPATH)) return null;
+	$themes = array();
+	$themesDir = opendir(GSTHEMESPATH);
+	while ($theme = readdir($themesDir)) {
+		if ($theme != '.' && $theme != '..' && is_dir(GSTHEMESPATH . $theme) && file_exists(GSTHEMESPATH . $theme . '/template.php')) {
+			$themes[] = $theme;
 		}
 	}
-	sort($templates);
-	return $templates;
+	sort($themes);
+	return $themes;
 }
 
 /**
@@ -858,13 +857,7 @@ function htmldecode($text) {
  * @return string
  */
 function lowercase($text) {
-	if (function_exists('mb_strtolower')) {
-		$text = mb_strtolower($text, 'UTF-8'); 
-	} else {
-		$text = strtolower($text); 
-	}
-	
-	return $text;
+	return function_exists('mb_strtolower') ? mb_strtolower($text, 'UTF-8') : strtolower($text);
 }
 
 /**
@@ -874,15 +867,11 @@ function lowercase($text) {
  * accesskeys are language dependent.
  * 
  * @param string $string, text from the i18n array
- * @return string
+ * @return null|string
  */
 function find_accesskey($string) {
-  $found = array();
-  $matched = preg_match('/<em>([a-zA-Z])<\/em>/', $string, $found);
-  if ($matched != 1) {
-     return null;
-	}
-  return strtolower($found[1]);
+	$found = array();
+	return preg_match('/<em>([a-zA-Z])<\/em>/', $string, $found) != 1 ? null : strtolower($found[1]);
 }
 
 /**
@@ -894,10 +883,7 @@ function find_accesskey($string) {
  * @return string
  */
 function _id($text) {
-	$text = to7bit($text, "UTF-8");
-	$text = clean_url($text);
-	$text = preg_replace('/[[:cntrl:]]/', '', $text); //remove control characters that cause interface to choke
-	return lowercase($text);
+	return lowercase(preg_replace('/[[:cntrl:]]/', '', clean_url(to7bit($text, "UTF-8"))));
 }
 
 /**
@@ -919,58 +905,42 @@ function defined_array($constants) {
 	return $defined;
 }
 
-
 /**
  * Is Folder Empty
  *
  * Check to see if a folder is empty or not
- * 
+ * @since 3.5.0 Returns null if given path is not a directory. Use function foler_item() to count items
  * @param string $folder
- * @return bool
+ * @return null|bool Return null if given path is not a directory else return true if directory is not empty or false
  */
 function check_empty_folder($folder) {
-	$files = array ();
-	if ( $handle = opendir ( $folder ) ) {
-		while ( false !== ( $file = readdir ( $handle ) ) ) {
-			if ( $file != "." && $file != ".." ) {
-				$files [] = $file;
-			}
-		}
-		closedir ( $handle );
-	}
-	return ( count ( $files ) > 0 ) ? FALSE : TRUE;
+	$result = folder_items($folder);
+	return $result === null ? null : !(bool)$result;
 }
-
 
 /**
  * Folder Items
  *
  * Return the amount of items within the given folder
- * 
+ *
+ * @since 3.5.0 Returns null if given path is not a folder. Accept array with items names to exclude from count
  * @param string $folder
- * @return string
+ * @param array $exclude Array of items names to exclude from count
+ * @return null|int Return null if $folder is not directory else return count of items in it
  */
-function folder_items($folder) {
-	$files = array ();
-	if ( $handle = opendir ( $folder ) ) {
-		while ( false !== ( $file = readdir ( $handle ) ) ) {
-			if ( $file != "." && $file != ".." ) {
-				$files [] = $file;
-			}
-		}
-		closedir($handle);
-	}
-	return count($files);
+function folder_items($folder, $exclude = array()) {
+	if (!is_dir($folder)) return null;
+	return count(array_diff(scandir($folder), array_merge(array('..', '.'), $exclude)));
 }
 
 /**
  * Validate a URL String
  * 
- * @param string $u
+ * @param string $url String to validate as URL
  * @return bool
  */
-function validate_url($u) {
-	return filter_var($u,FILTER_VALIDATE_URL);
+function validate_url($url) {
+	return filter_var($url, FILTER_VALIDATE_URL);
 }
 
 
@@ -1021,15 +991,13 @@ function formatXmlString_legacy($xml) {
 }
 
 /**
- * Formats the xml output readable, accepts simplexmlobject or string
+ * Formats the XML output readable, accepts SimpleXML, SimpleXMLExtended object or XML string
  * 
- * @param object  $data instance of SimpleXmlObject
- * @return bool|object of indented xml-elements
+ * @param object  $data Instance of SimpleXML, SimpleXMLExtended object or XML string
+ * @return bool|string Return false on error or XML string
  */
 function formatXmlString($data) {
-	if (!is_object($data)) return false;
-	$data = $data->asXML();
-	if (!$data) return false;
+	if (is_object($data)) $data = $data->asXML();
 	//Format XML to save indented tree rather than one line
 	$dom = new DOMDocument('1.0');
 	$dom->preserveWhiteSpace = false;
@@ -1097,18 +1065,18 @@ function is_frontend() {
 }
 
 /**
- * Get Installed GetSimple Version
+ * Get Installed Version
  *
- * This will return the version of GetSimple that is installed
+ * This will return or echo the version of GetSimple Extended that is installed
  *
  * @since 1.0
  * @uses GSVERSION
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_site_version($echo=true) {
-	include(GSADMININCPATH.'configuration.php');
+function get_site_version($echo = true) {
+	include(GSADMININCPATH . 'configuration.php');
 	if ($echo) {
 		echo GSVERSION;
 	} else {
@@ -1200,10 +1168,20 @@ function getDef($id, $isbool = false) {
 /**
  * Alias for checking for debug constant
  * @since 3.2.1
- * @return  bool true if debug enabled
+ * @return null|bool Return null if GSDEBUG not defined, else return boolean. True if debug enabled
  */
 function isDebug() {
-	return getDef('GSDEBUG',true);
+	return getDef('GSDEBUG', true);
+}
+
+/**
+ * Check version is Alpha
+ *
+ * @since  3.5.0
+ * @return boolean True if alpha release
+ */
+function isAlpha() {
+	return strpos(get_site_version(false), 'a') === false ? false : true;
 }
 
 /**
@@ -1213,7 +1191,7 @@ function isDebug() {
  * @return boolean True if beta release
  */
 function isBeta() {
-	return strPos(get_site_version(false), 'b');
+	return strpos(get_site_version(false), 'b') === false ? false : true;
 }
 
 /**
@@ -1222,7 +1200,7 @@ function isBeta() {
  * @return bool True if ajax
  */
 function requestIsAjax() {
-	return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_GET['ajax']);
+	return (strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') || isset($_GET['ajax']);
 }
 
 /**
@@ -1281,11 +1259,11 @@ function returnJsArray($var){
  * @since  3.4
  * @param  string $value header value to send, default `DENY`
  */
-function header_xframeoptions($value = null){
-	if(!isset($value)){
+function header_xframeoptions($value = null) {
+	if (!isset($value)) {
 		if(getDef('GSNOFRAMEDEFAULT',true)) $value = getDef('GSNOFRAMEDEFAULT');
 		else $value = 'DENY';
-	}	
+	}
 	header('X-Frame-Options: ' . $value); // FF 3.6.9+ Chrome 4.1+ IE 8+ Safari 4+ Opera 10.5+
 }
 

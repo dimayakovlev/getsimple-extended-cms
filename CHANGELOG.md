@@ -44,9 +44,12 @@
     * Basic `get_site_lang()` function renamed to `get_admin_lang()` and moved to template_functions.php
     * **Fancy URLs** renamed to **Pretty URLs**
     * Signature of function `find_url()` changed. Second parameter control absolute or relative URL. Function can build query string from array passed as third parameter
-    * Signature of functon `get_page_content()` changed. Added parameter to control replacing page content with page component output
+    * Signature of function `get_page_content()` changed. Added parameter to control replace page content with page component output
     * Save user name and date of last saving Components
     * Save revision number for pages
+    * Signature of function `folder_items()` changed. Second parameter accept array with items names to exclude from count items in given path. If given path is not a folder function return null
+    * Added function `isAlpha()` to check is alpha version installed
+    * Change function `get_themes()` to get what it should according to the name
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`

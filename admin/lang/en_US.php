@@ -459,6 +459,7 @@ $i18n = array(
 "KILL_CANT_CONTINUE" => "Cannot continue. Please fix errors and try again.",
 "REFRESH" => "Refresh",
 "BETA"=> "Beta / Bleeding Edge",
+"ALPHA"=> "Alpha / First Phaze",
 
 /*
  * Misc Cleanup Work
