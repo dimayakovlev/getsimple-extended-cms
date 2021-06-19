@@ -91,7 +91,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT'));
 
 <?php include('template/include-nav.php'); ?>
 	
-<div class="bodycontent clearfix">
+<div class="bodycontent">
 	
 	<div id="maincontent">
 	<?php exec_action('pages-main'); ?>

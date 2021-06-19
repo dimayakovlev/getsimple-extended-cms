@@ -34,14 +34,14 @@ if (isset($_GET['undo'])) {
 
 # create components form html
 $data = getXML($path . $file);
-$components = $data->children();
-$count= 0;
+$components = $data ? $data->children() : array();
+$count = 0;
 if (count($components) != 0) {
 	foreach ($components as $component) {
 		$checked = (isset($component->enabled) && $component->enabled == '1') ? ' checked ' : '';
 		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable"><tr><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
 		$table .= '<td style="text-align:right;"><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
-		$table .= '<a href="#" title="' . i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title) . '?" class="delcomponent" rel="' . $count . '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enabled]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
+		$table .= '<a href="#" title="' . i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title) . '?" class="delcomponent" rel="' . $count . '" data-action="component-delete">&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' . $count . '][enabled]" value="1"' . $checked . '>&nbsp;<label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td></tr></table>';
 		$table .= '<label for="components[' . $count . '][value]" style="display: none;">' . i18n_r('COMPONENT_CODE') . ':</label><textarea class="text" id="components[' . $count . '][value]" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
 		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '">';
 		$table .= '<input type="hidden" class="comptitle" name="components[' . $count . '][title]" value="' . stripslashes($component->title) . '">';
@@ -53,10 +53,10 @@ if (count($components) != 0) {
 }
 	# create list to show on sidebar for easy access
 	$listc = ''; $submitclass = '';
-	if($count > 1) {
+	if ($count > 1) {
 		$item = 0;
 		foreach($components as $component) {
-			$listc .= '<a id="divlist-' . $item . '" href="#section-' . $item . '" class="component">' . $component->title . '</a>';
+			$listc .= '<a id="divlist-' . $item . '" data-action="component-focus" href="#section-' . $item . '" class="component">' . $component->title . '</a>';
 			$item++;
 		}
 	} elseif ($count == 0) {
@@ -79,22 +79,22 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 
 <?php include('template/include-nav.php'); ?>
 
-<div class="bodycontent clearfix">
+<div class="bodycontent">
 
 	<div id="maincontent">
 	<div class="main">
 	<h3 class="floated"><?php echo i18n('EDIT_COMPONENTS');?></h3>
 	<div class="edit-nav" >
-		<a href="#" id="addcomponent" accesskey="<?php echo find_accesskey(i18n_r('ADD_COMPONENT'));?>"><?php i18n('ADD_COMPONENT');?></a>
+		<a href="#" id="addcomponent" data-action="component-add" accesskey="<?php echo find_accesskey(i18n_r('ADD_COMPONENT'));?>"><?php i18n('ADD_COMPONENT');?></a>
 		<div class="clear"></div>
 	</div>
 
 	<form class="manyinputs" action="changedata.php" method="post" accept-charset="utf-8">
 		<input type="hidden" id="id" value="<?php echo $count; ?>">
 		<input type="hidden" id="nonce" name="nonce" value="<?php echo get_nonce('save', pathinfo(__FILE__, PATHINFO_BASENAME)); ?>">
-		<input type="hidden" id="created" name="created" value="<?php echo (string)$data->attributes()->created; ?>">
+		<input type="hidden" id="created" name="created" value="<?php echo $data ? (string)$data->attributes()->created : ''; ?>">
 		<input id="action" name="action" type="hidden" value="save">
-		<div id="divTxt"></div>
+		<div id="components-new"></div>
 		<?php echo $table; ?>
 		<?php
 			if ($datau->CODEEDITOR == '1') {

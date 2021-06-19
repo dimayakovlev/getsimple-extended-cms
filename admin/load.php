@@ -30,7 +30,7 @@ get_template('header', cl($SITENAME).' &raquo; '. $plugin_info[$plugin_id]['name
 	
 <?php include('template/include-nav.php'); ?>
 
-<div class="bodycontent clearfix">
+<div class="bodycontent">
 	
 	<div id="maincontent">
 		<div class="main">

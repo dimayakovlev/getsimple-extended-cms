@@ -24,7 +24,7 @@ ob_end_flush();
 </div>
 <div class="wrapper">
 <?php include('template/error_checking.php'); ?>
-<div class="bodycontent clearfix">
+<div class="bodycontent">
 	<div id="maincontent">
 		<div class="main" >
 			<h3><?php echo cl($SITENAME); ?></h3>

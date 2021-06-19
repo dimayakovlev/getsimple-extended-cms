@@ -70,6 +70,7 @@ a img,
 
 html {
 	overflow-y: scroll;
+	scroll-behavior: smooth;
 }
 
 .clearfix:before, .clearfix:after {
@@ -430,6 +431,13 @@ h5:hover img {
 	opacity: 1;
 }
 
+.bodycontent {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
 .bodycontent ul, 
 .bodycontent ol {
 	margin: 0 0 20px 30px;
@@ -449,13 +457,15 @@ h5:hover img {
 #sidebar {
 	width: 225px;
 	float: right;
+	position: sticky;
+	top: 20px;
 }
 
-#sidebar.fixed{
+#sidebar.fixed {
 	-transition: top .2s ease-out;
-		-webkit-transition: top .2s ease-in-out;
-		-moz-transition: top .2s ease-in-out;
-		-o-transition: top .2s ease-in-out;
+	-webkit-transition: top .2s ease-in-out;
+	-moz-transition: top .2s ease-in-out;
+	-o-transition: top .2s ease-in-out;
 }
 
 #sidebar .section {
@@ -1189,7 +1199,7 @@ form.manyinputs input.text {
 }
 
 form.manyinputs textarea {
-	width: 632px;
+	width: 636px;
 	height: 200px;
 }
 
@@ -1203,7 +1213,7 @@ form.manyinputs p {
 
 table.comptable {
 	margin: 0px !important;
-	width: 645px;
+	width: 100%;
 	background: #fff;
 	border: none;
 	padding: 0;
@@ -1249,6 +1259,7 @@ table.comptable tr td input.newtitle {
 	background: #fff;
 	border: 1px solid #999;
 	text-decoration: none;
+	overflow-wrap: anywhere;
 }
 
 .wrapper a.component:hover {
@@ -2077,14 +2088,6 @@ h5 .crumbs, div.h5 .crumbs {
 	height: 18px;
 	background: #FFB164;
 	border: 1px solid #FF9933;
-}
-
-#theme-edit #maincontent {
-	width: 100%;
-}
-
-#theme-edit #sidebar {
-	display: none;
 }
 
 #gsdebug{

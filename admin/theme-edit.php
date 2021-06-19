@@ -198,7 +198,7 @@ window.onload = function() {
 <?php 
 }
 ?>
-<div class="bodycontent clearfix">
+<div class="bodycontent">
 	
 	<div id="maincontent">
 		<div class="main">

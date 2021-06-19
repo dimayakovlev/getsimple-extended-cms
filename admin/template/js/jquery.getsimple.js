@@ -111,10 +111,10 @@ function addCodeMirror(textarea, options) {
 		enterMode: 'keep',
 		mode: 'application/x-httpd-php',
 		tabMode: 'shift',
-		theme:'default',
+		theme: 'default',
 		onCursorActivity: function() {
 			cm.setLineClass(cm.getCursor().line, 'activeline');
-		}
+		},
 	});
 	if (typeof options === 'object') {
 		for (var option in options) {
@@ -124,9 +124,10 @@ function addCodeMirror(textarea, options) {
 	return cm;
 }
 jQuery(document).ready(function () {
- 
+
+	var id = document.body.id;
 	var loadingAjaxIndicator = $('#loader');
- 
+
 	/* Listener for filter dropdown */
 	function attachFilterChangeEvent() {
 		$(document).on('change', "#imageFilter", function () {
@@ -149,7 +150,6 @@ jQuery(document).ready(function () {
 	}
 	
 
-
 	// Add CodeMirror to textareas in GS.CodeMirror['elements']
 	if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
 		if (GS.CodeMirror['elements'] && GS.CodeMirror['elements'].length > 0) {
@@ -161,7 +161,7 @@ jQuery(document).ready(function () {
 
 	//upload.php
 	attachFilterChangeEvent();
- 
+
 	//image.php 
 	var copyKitTextArea = $('textarea.copykit');
 	$("select#img-info").change(function () {
@@ -175,8 +175,7 @@ jQuery(document).ready(function () {
 		copyKitTextArea.focus().select();
 		return false;
 	});
- 
- 
+
 	//autofocus index.php & resetpassword.php fields on pageload
 	$("#index input#userid").focus();
 	$("#resetpassword input[name='username']").focus();
@@ -191,94 +190,79 @@ jQuery(document).ready(function () {
 			$(this).removeClass('capslock');
 		}
 	};
- 
+
 	$("input[type='password']").capslock(options);
- 
- 
+
 	// components.php
-	
-	function focusCompEditor(selector){
-		var editor = $(selector + ' textarea');		
-		editor.focus();
+	if (id == 'components') {
+		document.addEventListener('click', function(event) {
+			let element = event.target;
+			let action = element.dataset.action;
+			//if (action) event.preventDefault();
+			switch (action) {
+				// Auto focus component editors and scroll to component section
+				case 'component-focus':
+					let editor = document.querySelector(element.getAttribute('href') + ' textarea:not([style="display: none;"])');
+					if (editor !== null) {
+						editor.focus();
+						//editor.closest('.compdiv').scrollIntoView({block: 'start', behavior: 'smooth'});
+					}
+					break;
+				case 'component-delete':
+					loadingAjaxIndicator.show();
+					if (confirm(element.getAttribute('title'))) {
+						document.getElementById('divlist-' + element.getAttribute('rel')).remove();
+						element.closest('.compdiv').remove();
+					}
+					loadingAjaxIndicator.fadeOut(500);
+					event.preventDefault();
+					break;
+				case 'component-add':
+					let elementID = document.getElementById('id');
+					let id = Number.parseInt(elementID.value);
+					let template = document.createElement('template');
+					template.innerHTML = '<div style="display: none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>' + GS.i18n['TITLE'] + ': </b><input type="text" class="text newtitle" name="components[' + id + '][title]" value="" /></td><td class="delete"><a href="#" title="' + GS.i18n['DELETE_COMPONENT'] + '?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' + id + '][enabled]" value="1">&nbsp;<label for="components[' + id + '][enabled]">' + GS.i18n['ENABLE_COMPONENT'] + '</label></td></tr></table><label for="components[' + id + '][value]" style="display: none;">' + GS.i18n['COMPONENT_CODE'] + ':</label><textarea class="text" name="components[' + id + '][value]"></textarea><input type="hidden" name="components[' + id + '][slug]" value="" /><input type="hidden" name="components[' + id + '][id]" value="' + id + '" /><div>';
+					loadingAjaxIndicator.show();
+					let component = template.content.firstChild;
+					document.getElementById('components-new').prepend(component);
+					component.style.display = 'block';
+					if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
+						addCodeMirror(component.querySelector('textarea'), GS.CodeMirror['options']);
+					}
+					elementID.value = id + 1;
+					loadingAjaxIndicator.fadeOut(500);
+					if (id == 0) document.getElementById('submit_line').classList.remove('hidden');
+					event.preventDefault();
+					break;
+			}
+			
+		})
+		$("b.editable").dblclick(function () {
+			var t = $(this).html();
+			$(this).parents('.compdiv').find("input.comptitle").hide();
+			$(this).after('<div id="changetitle"><b>' + GS.i18n['TITLE'] + ': </b><input class="text newtitle titlesaver" name="title[]" value="' + t + '" /></div>');
+			$(this).next('#changetitle').children('input').focus();
+			$(this).parents('.compdiv').find("input.compslug").val('');
+			$(this).hide();
+		});
+		$("input.titlesaver").live("keyup", function () {
+			var myval = $(this).val();
+			var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
+			$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
+			$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
+			$(this).parents('.compdiv').find("b.editable").html(myval);
+		}).live("focusout", function () {
+			var myval = $(this).val();
+			var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
+			$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
+			$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
+			$(this).parents('.compdiv').find("b.editable").html(myval);
+			$(this).parents('.compdiv').find("input.comptitle").val(myval);
+			$("b.editable").show();
+			$('#changetitle').remove();
+		});
 	}
 
-	// auto focus component editors
-	$('#components div.compdivlist a').on('click', function(ev){
-		focusCompEditor($(this).attr('href'));
-		ev.preventDefault();		
-	});	
-	
-	$(".delconfirmcomp").live("click", function ($e) {
-		$e.preventDefault();
-		loadingAjaxIndicator.show();
-		var message = $(this).attr("title");
-		var answer = confirm(message);
-		if (answer) {
-			var compid = $(this).attr("rel");
-			$(compid).slideToggle(500).remove();
-		}
-		loadingAjaxIndicator.fadeOut(500);
-	});
-	$("#addcomponent").live("click", function ($e) {
-		$e.preventDefault();
-		loadingAjaxIndicator.show();
-		var id = $("#id").val();
-		var component = $('<div style="display:none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>' + GS.i18n['TITLE'] + ': </b><input type="text" class="text newtitle" name="components[' + id + '][title]" value="" /></td><td class="delete"><a href="#" title="' + GS.i18n['DELETE_COMPONENT'] + '?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' + id + '][enabled]" value="1">&nbsp;<label for="components[' + id + '][enabled]">' + GS.i18n['ENABLE_COMPONENT'] + '</label></td></tr></table><label for="components[' + id + '][value]" style="display: none;">' + GS.i18n['COMPONENT_CODE'] + ':</label><textarea class="text" name="components[' + id + '][value]"></textarea><input type="hidden" name="components[' + id + '][slug]" value="" /><input type="hidden" name="components[' + id + '][id]" value="' + id + '" /><div>')
-		$("#divTxt").prepend(component);
-		$("#section-" + id).slideToggle('fast');
-		id = (id - 1) + 2;
-		$("#id").val(id);
-		loadingAjaxIndicator.fadeOut(500);
-		$('#submit_line').fadeIn();
-		$("#divTxt").find('input').get(0).focus();
-    if (GS.CodeMirror && GS.CodeMirror['enabled'] == true) {
-      addCodeMirror(component.find('textarea')[0], GS.CodeMirror['options']);
-    }
-	});
-	$('.delcomponent').live("click", function ($e) {
-		$e.preventDefault();
-		var message = $(this).attr("title");
-		var compid = $(this).attr("rel");
-		var answer = confirm(message);
-		if (answer) {
-			loadingAjaxIndicator.show();
-			var myparent = $(this).parents('.compdiv');
-			myparent.slideUp('fast', function () {
-				if ($("#divlist-" + compid).length) {
-					$("#divlist-" + compid).remove();
-				}
-				myparent.remove();
-			});
-			loadingAjaxIndicator.fadeOut(1000);
-		}
- 
-	});
-	$("b.editable").dblclick(function () {
-		var t = $(this).html();
-		$(this).parents('.compdiv').find("input.comptitle").hide();
-		$(this).after('<div id="changetitle"><b>' + GS.i18n['TITLE'] + ': </b><input class="text newtitle titlesaver" name="title[]" value="' + t + '" /></div>');
-		$(this).next('#changetitle').children('input').focus();
-		$(this).parents('.compdiv').find("input.compslug").val('');
-		$(this).hide();
-	});
-	$("input.titlesaver").live("keyup", function () {
-		var myval = $(this).val();
-		var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
-		$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
-		$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
-		$(this).parents('.compdiv').find("b.editable").html(myval);
-	}).live("focusout", function () {
-		var myval = $(this).val();
-		var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
-		$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
-		$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
-		$(this).parents('.compdiv').find("b.editable").html(myval);
-		$(this).parents('.compdiv').find("input.comptitle").val(myval);
-		$("b.editable").show();
-		$('#changetitle').remove();
-	});
- 
- 
 	// other general functions
 	$(".snav a.current").live("click", function ($e) {
 		$e.preventDefault();

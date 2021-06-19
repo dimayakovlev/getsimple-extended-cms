@@ -28,7 +28,7 @@ get_template('header', cl($SITENAME).' &raquo; '.strip_tags(i18n_r('SIDE_VIEW_SI
 	
 <?php include('template/include-nav.php'); ?>
 
-<div class="bodycontent clearfix">
+<div class="bodycontent">
 	<div id="maincontent">
 		<div class="main" >
 			<h3 class="floated"><?php echo i18n('SIDE_VIEW_SITEMAP'); ?></h3>
