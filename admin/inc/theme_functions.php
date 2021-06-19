@@ -1,12 +1,12 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')) { die('you cannot load this page directly.'); }
 /**
  * Theme Functions
  *
- * These functions are used within the front-end of a GetSimple installation
+ * These functions are used within the front-end of a GetSimple Extended installation
  *
- * @link http://get-simple.info/docs/theme-codex/
+ * @link https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Themes
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Theme-Functions
  */
 
@@ -136,15 +136,37 @@ function get_page_field($field, $echo = true) {
  * @uses strip_decode
  * 
  * @param $echo Optional, default is true. False will return value
- * @return mixed string|null Echos or return based on param $echo
+ * @return string|null Echos or return based on param $echo
  */
 function get_page_lang($echo = true) {
 	global $data_index;
-	$myVar = strip_decode($data_index->lang);
 	if ($echo) {
-		echo $myVar;
+		echo strip_decode($data_index->lang);
+		return null;
 	} else {
-		return $myVar;
+		return strip_decode($data_index->lang);
+	}
+}
+
+/**
+ * Get Page Image
+ * 
+ * This will return or echo url of the page image
+ * 
+ * @since 3.5.0
+ * 
+ * @global $data_index
+ * @uses strip_decode
+ * @param $echo Optional, default is true. False will return value
+ * @return string|null Echos or return based on param $echo
+ */
+function get_page_image($echo = true) {
+	global $data_index;
+	if ($echo) {
+		echo strip_decode($data_index->image);
+		return null;
+	} else {
+		return strip_decode($data_index->image);
 	}
 }
 
@@ -784,7 +806,6 @@ function is_logged_in() {
   return (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME'));
 }
 
-
 /**
  * @depreciated as of 2.04
  */
@@ -808,12 +829,12 @@ function return_page_slug() {
  */
 function return_site_ver() {
 	return get_site_version(FALSE);
-}	
+}
 /**
  * @depreciated as of 2.03
  */
 if(!function_exists('set_contact_page')) {
 	function set_contact_page() {
-		#removed functionality	
+		#removed functionality
 	}
 }

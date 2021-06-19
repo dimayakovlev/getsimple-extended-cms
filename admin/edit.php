@@ -73,6 +73,7 @@ if ($id) {
 	$creDate = (string)$data_edit->creDate ?: $pubDate;
 	$lastAuthor = (string)$data_edit->lastAuthor ?: $author;
 	$permalink = (string)$data_edit->permalink;
+	$image = (string)$data_edit->image;
 	$attributes['auto-open-metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
 	$attributes['auto-open-component'] = ($data_edit->attributes()->autoOpenComponent == '1');
 	$attributes['disable-code-editor'] = ($data_edit->attributes()->disableCodeEditor == '1');
@@ -89,6 +90,7 @@ if ($id) {
 	$menuOrder = filter_input(INPUT_GET, 'menuOrder', FILTER_SANITIZE_NUMBER_INT);
 	$lang = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$permalink = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$image = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'image', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$buttonname = i18n_r('BTN_SAVEPAGE');
 	$attributes['auto-open-metadata'] = filter_input(INPUT_GET, 'autoOpenMetadata', FILTER_VALIDATE_BOOLEAN);
 	$attributes['auto-open-component'] = filter_input(INPUT_GET, 'autoOpenComponent', FILTER_VALIDATE_BOOLEAN);
@@ -259,15 +261,19 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<input class="text short" type="text" id="post-permalink" name="post-permalink" value="<?php echo $permalink; ?>" placeholder="<?php echo $PERMALINK ? htmlspecialchars($PERMALINK, ENT_QUOTES) : '%parent%/%slug%/'; ?>">
 				</p>
 				<p>
-					<label for="post-metak"><?php i18n('TAG_KEYWORDS'); ?>:</label>
-					<input class="text short" id="post-metak" name="post-metak" type="text" value="<?php echo $metak; ?>" />
+					<label for="post-image"><?php i18n('LABEL_IMAGE'); ?>:<?php if ($image) { ?> <span class="right"><a href="<?php echo $image;?>" rel="facybox_i" target="_blank"><?php i18n('PREVIEW'); ?></a></span><?php } ?></label>
+					<input class="text short" id="post-image" name="post-image" type="text" value="<?php echo $image; ?>">
 				</p>
 				<p>
 					<label for="post-lang"><?php i18n('LABEL_PAGELANG'); ?>:</label>
 					<input class="text short" id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ($dataw->lang != '') { echo $dataw->lang; } else { i18n('PLACEHOLDER_LANG'); } ?>">
 				</p>
 				<p>
-					<label for="post-metad" class="clearfix"><?php i18n('META_DESC'); ?>: <span id="countdownwrap"><strong id="countdown"></strong> <?php i18n('REMAINING'); ?></span></label>
+					<label for="post-metak"><?php i18n('TAG_KEYWORDS'); ?>:</label>
+					<input class="text short" id="post-metak" name="post-metak" type="text" value="<?php echo $metak; ?>" />
+				</p>
+				<p>
+					<label for="post-metad" class="clearfix"><?php i18n('META_DESC'); ?>: <span id="countdownwrap" class="right"><span id="countdown"></span> <?php i18n('REMAINING'); ?></span></label>
 					<textarea class="text" id="post-metad" name="post-metad"><?php echo $metad; ?></textarea>
 				</p>
 				

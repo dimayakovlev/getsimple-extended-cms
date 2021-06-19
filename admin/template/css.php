@@ -1022,12 +1022,14 @@ label span.right a:hover {
 	height: 200px;
 }
 
-#countdownwrap {
+#metadata_window label span.right {
 	display: inline-block;
 	color: #999;
 	font-size: 11px;
 	font-weight: normal;
 	float: right;
+	margin-right: 0;
+	text-transform: lowercase;
 }
 
 #countdownwrap strong {

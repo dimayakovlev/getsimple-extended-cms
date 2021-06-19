@@ -147,6 +147,7 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addChild('lastAuthor', $USR);
 		$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('permalink')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('image')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-image', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addAttribute('autoOpenMetadata', (string)filter_input(INPUT_POST, 'auto-open-metadata', FILTER_VALIDATE_BOOLEAN));
 		$xml->addAttribute('autoOpenComponent', (string)filter_input(INPUT_POST, 'auto-open-component', FILTER_VALIDATE_BOOLEAN));
 		$xml->addAttribute('disableHTMLEditor', (string)filter_input(INPUT_POST, 'disable-html-editor', FILTER_VALIDATE_BOOLEAN));

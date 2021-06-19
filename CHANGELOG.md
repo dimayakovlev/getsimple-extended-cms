@@ -33,6 +33,8 @@
     * Added option to replace page content with page component output
     * Added save state and auto open metadata and component windows in page editor
     * Added option to disable HTML and Code Editors on page level
+    * Added page image support
+    * Added `get_page_image()` theme function to echo or return page image
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

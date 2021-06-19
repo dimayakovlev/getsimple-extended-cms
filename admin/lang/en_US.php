@@ -611,4 +611,6 @@ $i18n = array(
 "DISPLAY_WEBSITELANG" => "A code of language of website content (en, de, fr, it, ru, be, ua, etc.). Set per page language in page editor",
 "LABEL_PAGELANG"  => "Language",
 "PLACEHOLDER_LANG" => "en",
+"LABEL_IMAGE" => "Image",
+"PREVIEW" => "Preview",
 );
