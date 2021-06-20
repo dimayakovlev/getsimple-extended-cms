@@ -35,6 +35,7 @@
     * Added option to disable HTML and Code Editors on page level
     * Added page image support
     * Added `get_page_image()` theme function to echo or return page image
+    * Add toggle to display URLs of pages on Page Management
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

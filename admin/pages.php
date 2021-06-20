@@ -97,9 +97,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT'));
 	<?php exec_action('pages-main'); ?>
 		<div class="main">
 			<h3 class="floated"><?php i18n('PAGE_MANAGEMENT'); ?></h3>
-			<div class="edit-nav clearfix" >
-				<a href="#" id="filtertable" accesskey="<?php echo find_accesskey(i18n_r('FILTER'));?>" ><?php i18n('FILTER'); ?></a>
-				<a href="#" id="show-characters" accesskey="<?php echo find_accesskey(i18n_r('TOGGLE_STATUS'));?>" ><?php i18n('TOGGLE_STATUS'); ?></a>
+			<div class="edit-nav clearfix">
+				<a href="#" id="filtertable" accesskey="<?php echo find_accesskey(i18n_r('FILTER'));?>"><?php i18n('FILTER'); ?></a>
+				<a href="#" id="toggle-status" data-role="toggle" data-target="page-status" accesskey="<?php echo find_accesskey(i18n_r('TOGGLE_STATUS'));?>"><?php i18n('TOGGLE_STATUS'); ?></a>
+				<a href="#" id="toggle-url" data-role="toggle" data-target="page-url" accesskey="<?php echo find_accesskey(i18n_r('TOGGLE_URL'));?>"><?php i18n('TOGGLE_URL'); ?></a>
 			</div>
 			<div id="filter-search">
 				<form><input type="text" autocomplete="off" class="text" id="q" placeholder="<?php echo strip_tags(lowercase(i18n_r('FILTER'))); ?>..." /> &nbsp; <a href="pages.php" class="cancel"><?php i18n('CANCEL'); ?></a></form>
@@ -115,7 +116,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT'));
 	</div><!-- end maincontent -->
 	
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-pages.php'); ?>
 	</div>
 

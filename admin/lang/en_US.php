@@ -61,6 +61,7 @@ $i18n = array(
 "DELETEPAGE_TITLE"	=>	"Delete Page",
 "PAGE_MANAGEMENT"		=>	"Page Management",
 "TOGGLE_STATUS"			=>	"Toggle Stat<em>u</em>s",
+"TOGGLE_URL"				=>	"Toggle UR<em>L</em>",
 "TOTAL_PAGES"				=>	"total pages",
 "ALL_PAGES"					=>	"Pages",
 "NO_PAGE_TITLE"     =>  "No Title",

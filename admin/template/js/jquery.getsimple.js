@@ -193,8 +193,8 @@ jQuery(document).ready(function () {
 
 	$("input[type='password']").capslock(options);
 
-	// components.php
 	if (id == 'components') {
+		// components.php
 		document.addEventListener('click', function(event) {
 			let element = event.target;
 			let action = element.dataset.action;
@@ -261,6 +261,14 @@ jQuery(document).ready(function () {
 			$("b.editable").show();
 			$('#changetitle').remove();
 		});
+	} else if (id == 'pages') {
+		// pages.php
+		document.querySelectorAll("[data-role='toggle']").forEach(toggle => toggle.addEventListener('click', function (event) {
+			event.preventDefault();
+			let display = this.classList.contains('current') ? 'none' : 'inline';
+			document.querySelectorAll("[data-role='" + toggle.dataset.target + "']").forEach(target => target.style.display = display);
+			toggle.classList.toggle('current');
+		}));
 	}
 
 	// other general functions
@@ -411,7 +419,7 @@ jQuery(document).ready(function () {
  
 		});
 	});
- 
+
 	// edit.php
 	function updateMetaDescriptionCounter() {
 		var remaining = 155 - jQuery('#post-metad').val().length;
@@ -446,7 +454,7 @@ jQuery(document).ready(function () {
 		var autoopen = document.getElementById('auto-open-component');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
- 
+
 	var privateLabel = $("#post-private-wrap label");
 	$("#post-private").change(function () {
 		if ($(this).val() == "Y") {
@@ -477,14 +485,6 @@ jQuery(document).ready(function () {
 		$('input[name=redirectto]').val('pages.php');
 		$("#submit_line input.submit").trigger('click');
 	});
- 
- 
-	// pages.php
-	$("#show-characters").live("click", function () {
-		$(this).hasClass('current') ? $(".showstatus").hide() : $(".showstatus").show() ;
-		$(this).toggleClass('current');
-	});
- 
  
 	// log.php
 	if (jQuery().reverseOrder) {
