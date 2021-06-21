@@ -35,7 +35,7 @@
     * Added option to disable HTML and Code Editors on page level
     * Added page image support
     * Added `get_page_image()` theme function to echo or return page image
-    * Add toggle to display URLs of pages on Page Management
+    * Added toggle to display URLs of pages on Page Management
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu
@@ -53,6 +53,8 @@
     * Signature of function `folder_items()` changed. Second parameter accept array with items names to exclude from count items in given path. If given path is not a folder function return null
     * Added function `isAlpha()` to check is alpha version installed
     * Change function `get_themes()` to get what it should according to the name
+    * Added support for txt, svg, json and xml files in **Theme Editor**
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`
+    * **Theme Edit** now work with theme files with not only lowercase extensions

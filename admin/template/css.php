@@ -2125,3 +2125,21 @@ a.disabled:visited {
 .cke_toolbar_separator {
 	box-shadow: 1px 0 1px rgba(0, 0, 0, 0.14) !important;
 }
+
+#theme-files-selector {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+#theme-folder {
+	flex: 1;
+}
+
+#theme-files {
+	width: 380px;
+}
