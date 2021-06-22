@@ -50,7 +50,7 @@ $id = exec_filter('indexid', $id);
 $GSCANONICAL = getDef('GSCANONICAL', true);
 
 // define page
-if ($dataw->maintenance == '1' && (!is_logged_in() || $datau->accessInMaintenance != '1')) {
+if ($dataw->SITEMAINTENANCE == '1' && (!is_logged_in() || $datau->accessInMaintenance != '1')) {
 	// apply page data if maintance mode enabled
 	$data_index = getXml(GSDATAOTHERPATH . '503.xml');
 	if ($data_index) {

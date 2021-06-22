@@ -91,7 +91,7 @@ if(isset($_POST['submitted'])) {
 		$xmls->addChild('TEMPLATE', 'Innovation');
 		$xmls->addChild('PRETTYURLS', '');
 		$xmls->addChild('PERMALINK', '');
-		$xmls->addChild('maintenance', '1');
+		$xmls->addChild('SITEMAINTENANCE', '1');
 		$xmls->addChild('DATECREATED', date('r'));
 		$xmls->addChild('DATEMODIFIED', date('r'));
 		if (! XMLsave($xmls, GSDATAOTHERPATH . $file) ) {

@@ -28,7 +28,7 @@ $USRDATEMODIFIED = $data->DATEMODIFIED;
 $CODEEDITOR = $data->CODEEDITOR;
 $ACCESS_IN_MAINTENANCE = $data->accessInMaintenance;
 
-$SITEMAINTENANCE = $dataw->maintenance;
+$SITEMAINTENANCE = $dataw->SITEMAINTENANCE;
 $SITELANG = $dataw->lang;
 $SITEDATECREATED = $dataw->DATECREATED;
 $SITEDATEMODIFIED = $dataw->MODIFIED;
@@ -207,7 +207,7 @@ if(isset($_POST['submitted'])) {
 		$note->addCData($TEMPLATE);
 		$xmls->addChild('PRETTYURLS', $PRETTYURLS);
 		$xmls->addChild('PERMALINK', var_out($PERMALINK));
-		$xmls->addChild('maintenance', $SITEMAINTENANCE);
+		$xmls->addChild('SITEMAINTENANCE', $SITEMAINTENANCE);
 		$xmls->addChild('DATECREATED', var_out($SITEDATECREATED));
 		$SITEDATEMODIFIED = date('r'); // need to rework saving data
 		$xmls->addChild('DATEMODIFIED', $SITEDATEMODIFIED);

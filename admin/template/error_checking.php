@@ -17,7 +17,7 @@ if ((!defined('GSNOAPACHECHECK') || GSNOAPACHECHECK == false) and !server_is_apa
 	echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> <a href="health-check.php">' . i18n_r('SERVER_SETUP') . ' non-Apache</a></div>';
 }
 
-if ($dataw->maintenance == '1') {
+if ($dataw->SITEMAINTENANCE == '1') {
 	echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> ' . i18n_r('MAINTENANCE_WARNING') . '</div>';
 }
 

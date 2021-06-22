@@ -7,7 +7,7 @@
 
 if (cookie_check()) { 
 	echo '<ul id="pill"><li class="leftnav"><a href="logout.php" accesskey="' . find_accesskey(i18n_r('TAB_LOGOUT')) . '" >' . i18n_r('TAB_LOGOUT') . '</a></li>';
-	if ($dataw->maintenance == '1') {
+	if ($dataw->SITEMAINTENANCE == '1') {
 		echo '<li class="mode maintenance"><a href="settings.php#sitemaintenance">' . i18n_r('MAINTENANCE_MODE') . '</a></li>';
 	}
 	if (isDebug()) {
