@@ -3,7 +3,7 @@
 /*
  * CSS php dynamic
  * DO NOT TIDY!
- * @uses color variables $primary0 - $primary6, $secondary_0-$secondary_1 	
+ * @uses color variables $primary0 - $primary6, $secondary_0-$secondary_1
  *
  */
 
@@ -64,7 +64,7 @@ a img,
 	border: 1px solid #555;
 }
 
-.hidden {
+.hidden, .toggle {
 	display: none;
 }
 
@@ -161,7 +161,7 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 .wrapper #pill li.mode a:visited,
 .wrapper #pill li.mode a:hover {
 	color: #fff;
-	background: #cc0000;
+	background: <?php echo $secondary_1; ?>;
 	padding: 4px 10px;
 	font-weight: 700 !important;
 	text-decoration: none !important;
@@ -1568,10 +1568,6 @@ table.simple td.title {
 	opacity: 1;
 }
 
-.toggle {
-	display: none;
-}
-
 .editable {
 	padding: 3px 1px;
 	cursor: pointer;
@@ -1704,7 +1700,7 @@ table.simple td.title {
 #uploadify object {
 	position: absolute;
 	left: 0;
-	 right: 0;
+	right: 0;
 	cursor: pointer;
 }
 
@@ -1765,7 +1761,7 @@ textarea.copykit {
 
 a.updatelink:link, 
 a.updatelink:visited {
-	color: #CF3805;
+	color: <?php echo secondary_1 ;?>;
 	padding: 1px 3px;
 }
 
