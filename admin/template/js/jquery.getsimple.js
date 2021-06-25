@@ -211,7 +211,8 @@ jQuery(document).ready(function () {
 				case 'component-delete':
 					loadingAjaxIndicator.show();
 					if (confirm(element.getAttribute('title'))) {
-						document.getElementById('divlist-' + element.getAttribute('rel')).remove();
+						let btn = document.getElementById('divlist-' + element.getAttribute('rel'));
+						if (btn) btn.remove();
 						element.closest('.compdiv').remove();
 					}
 					loadingAjaxIndicator.fadeOut(500);
@@ -221,7 +222,7 @@ jQuery(document).ready(function () {
 					let elementID = document.getElementById('id');
 					let id = Number.parseInt(elementID.value);
 					let template = document.createElement('template');
-					template.innerHTML = '<div style="display: none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>' + GS.i18n['TITLE'] + ': </b><input type="text" class="text newtitle" name="components[' + id + '][title]" value="" /></td><td class="delete"><a href="#" title="' + GS.i18n['DELETE_COMPONENT'] + '?" class="delcomponent" id="del-' + id + '" rel="' + id + '" >&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' + id + '][enabled]" value="1">&nbsp;<label for="components[' + id + '][enabled]">' + GS.i18n['ENABLE_COMPONENT'] + '</label></td></tr></table><label for="components[' + id + '][value]" style="display: none;">' + GS.i18n['COMPONENT_CODE'] + ':</label><textarea class="text" name="components[' + id + '][value]"></textarea><input type="hidden" name="components[' + id + '][slug]" value="" /><input type="hidden" name="components[' + id + '][id]" value="' + id + '" /><div>';
+					template.innerHTML = '<div style="display: none;" class="compdiv" id="section-' + id + '"><table class="comptable"><tr><td><b>' + GS.i18n['TITLE'] + ': </b><input type="text" class="text newtitle" name="components[' + id + '][title]" value="" /></td><td class="delete"><a href="#" title="' + GS.i18n['DELETE_COMPONENT'] + '?" class="delcomponent" id="del-' + id + '" rel="' + id + '" data-action="component-delete">&times;</a></td></tr><tr><td colspan="3" class="inline"><input type="checkbox" name="components[' + id + '][enabled]" value="1">&nbsp;<label for="components[' + id + '][enabled]">' + GS.i18n['ENABLE_COMPONENT'] + '</label></td></tr></table><label for="components[' + id + '][value]" style="display: none;">' + GS.i18n['COMPONENT_CODE'] + ':</label><textarea class="text" name="components[' + id + '][value]"></textarea><input type="hidden" name="components[' + id + '][slug]" value="" /><input type="hidden" name="components[' + id + '][id]" value="' + id + '" /><div>';
 					loadingAjaxIndicator.show();
 					let component = template.content.firstChild;
 					document.getElementById('components-new').prepend(component);
