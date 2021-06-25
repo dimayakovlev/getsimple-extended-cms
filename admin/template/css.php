@@ -1426,7 +1426,7 @@ table td.delete a {
 }
 
 .delete a:hover {
-	background: #D94136 !important;
+	background: <?php echo $secondary_1; ?> !important;
 	color: #fff !important;
 	text-decoration: none !important;
 	padding: 1px;
@@ -1439,7 +1439,7 @@ table td.delete a {
 a.cancel:link, 
 a.cancel:visited {	 
 	font-weight: 100;
-	color: #D94136 !important;
+	color: <?php echo $secondary_1; ?> !important;
 	text-decoration: underline;
 	padding: 1px 3px;
 	background: none !important;
@@ -1452,7 +1452,7 @@ a.cancel:visited {
 
 a.cancel:hover {
 	font-weight: 100;
-	background: #D94136 !important;
+	background: <?php echo $secondary_1; ?> !important;
 	color: #fff !important;
 	text-decoration: none !important;
 	padding: 1px 3px;
@@ -1582,7 +1582,7 @@ table.simple td.title {
 }
 
 .wrapper table td span.ERRmsg {
-	color: #D94136;
+	color: <?php echo $secondary_1; ?>;
 	font-color: 12px;
 }
 
@@ -1623,11 +1623,11 @@ table.simple td.title {
 }
 
 .uploadifyError {
-	color: #D94136 !important;
+	color: <?php echo $secondary_1; ?> !important;
 }
 
 .uploadifyError .uploadifyProgressBar {
-	background-color: #D94136 !important;
+	background-color: <?php echo $secondary_1; ?> !important;
 }
 
 #sidebar .snav li .cancel {
