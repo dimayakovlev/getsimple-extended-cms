@@ -210,10 +210,9 @@ if(isset($_POST['submitted'])) {
 get_template('header', $site_full_name .' &raquo; '. i18n_r('INSTALLATION'));
 
 ?>
-	
 		<h1><?php echo $site_full_name; ?></h1>
 	</div>
-</div>
+</header>
 <div class="wrapper">
 	<div id="maincontent">
 		<?php

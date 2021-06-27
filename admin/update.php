@@ -183,10 +183,9 @@ else $message.= "<p><div class=\"notify notify_ok\">".i18n_r('SITE_UPDATED')."</
 get_template('header', $site_full_name.' &raquo; '. i18n_r('SYSTEM_UPDATE')); 
 
 ?>
-	
-	<h1><?php echo $site_full_name; ?></h1>
-</div> 
-</div><!-- Closes header -->
+		<h1><?php echo $site_full_name; ?></h1>
+	</div> 
+</header><!-- Closes header -->
 <div class="wrapper">
 	<?php // include('template/error_checking.php'); ?>
 	

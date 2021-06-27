@@ -2,7 +2,7 @@
 /**
  * Header Admin Template
  *
- * @package GetSimple
+ * @package GetSimple Extended
  */
  
 global $SITENAME, $SITEURL;
@@ -23,7 +23,8 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title ?></title>
-	<?php if(!isAuthPage()) { ?><meta name="generator" content="GetSimple - <?php echo GSVERSION; ?>" /> 
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+	<?php if(!isAuthPage()) { ?><meta name="generator" content="GetSimple Extended - <?php echo GSVERSION; ?>" /> 
 	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 	<link rel="author" href="humans.txt" />
 	<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
@@ -62,7 +63,7 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	}
 
   if (doVerCheck()) { ?>
-	<script type="text/javascript">		
+	<script type="text/javascript">
 		// check to see if core update is needed
 		jQuery(document).ready(function() { 
 			<?php 
@@ -85,7 +86,7 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<?php } ?>
 </head>
 
-<body <?php filename_id(); echo ' ' . $bodyclass; ?> >
-	<div class="header" id="header" >
-		<div class="wrapper clearfix">
- <?php exec_action('header-body'); ?>
+<body <?php filename_id(); echo ' ' . $bodyclass; ?>>
+	<header class="header" id="header">
+		<div class="wrapper">
+<?php exec_action('header-body'); ?>

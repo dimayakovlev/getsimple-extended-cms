@@ -9,7 +9,8 @@
 
 /** GLOBAL RESETS **/
 :link,:visited {
-	text-decoration: none}
+	text-decoration: none
+}
 
 h1,h2,h3,h4,h5,h6,pre,code {
 	font-size: 1em;
@@ -22,12 +23,18 @@ ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input {
 	padding: 0;
 }
 
+html {
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+}
+
 body {
 	height: 100%;
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 12px;
 	background: #f6f6f6;
 	color: black;
+	text-rendering: optimizeLegibility;
 }
 
 a img,
@@ -66,11 +73,6 @@ a img,
 
 .hidden, .toggle {
 	display: none;
-}
-
-html {
-	overflow-y: scroll;
-	scroll-behavior: smooth;
 }
 
 .clearfix:before, .clearfix:after {
@@ -115,58 +117,91 @@ input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
 input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 
 /** HEADER / NAVIGATION **/
-.header {
+#header {
 	color: #FFF;
 	border-top: 1px solid <?php echo $primary_1; ?>;
-	background: <?php echo $primary_3; ?>;	/* old browsers */
+	background: <?php echo $primary_3; ?>; /* old browsers */
 		background: -moz-linear-gradient(top, <?php echo $primary_4; ?> 0%, <?php echo $primary_2; ?> 100%);	/* firefox */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,<?php echo $primary_4; ?>), color-stop(100%,<?php echo $primary_2; ?>));	/* webkit */
 		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='<?php echo $primary_4; ?>', endColorstr='<?php echo $primary_2; ?>',GradientType=0 );	/* ie */
 	margin: 0 0 25px 0;
 }
 
-.header .wrapper {
-	height: 95px;
+#header .wrapper {
 	position: relative;
-	border: none;
+	display: flex;
+	flex-direction: column;
+	padding-top: 0px;
 }
 
-.wrapper .nav {
+#header a {
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#header h1 {
+	font-size: 24px;
+	font-family: Georgia, Times, Times New Roman, serif;
+	text-shadow: 1px 1px 0px <?php echo $primary_2; ?>;
+	margin: 18px 0;
+}
+
+#header h1 a:link,
+#header h1 a:visited,
+#header h1 a:hover {
+	color: <?php echo $primary_5; ?>;
+}
+
+#header h1 a:hover {
+	color: #FFF;
+}
+
+#header ul {
 	list-style: none;
-	font-size: 13px;
-	position: absolute;
-	bottom: 0px;
-	left: 0;
-	width: 960px;
+	display: flex;
 }
 
-.wrapper .nav li a {
+#header .nav {
+	font-size: 13px;
+	flex-direction: row;
+	align-items: flex-start;
+}
+#header .nav li {
+	position: relative;
+}
+#header .nav li:not(:last-child) {
+	margin-right: 8px;
+}
+
+#header .nav a {
 	padding: 7px 13px;
-	font-weight: 100 !important;
-	text-decoration: none !important;
 	display: block;
 	border-radius: 5px 5px 0 0;
 }
-
-.wrapper .nav li a:link, 
-.wrapper .nav li a:visited, 
-.wrapper #pill li a:link, 
-.wrapper #pill li a:visited {
+#header .nav a:link,
+#header .nav a:visited,
+#pill a:link,
+#pill a:visited {
 	color: <?php echo $primary_6; ?>;
 	background: <?php echo $primary_1; ?>;
 	text-shadow: 1px 1px 0px rgba(0,0,0,.3);
 }
 
-.wrapper #pill li.mode a:link,
-.wrapper #pill li.mode a:visited,
-.wrapper #pill li.mode a:hover {
-	color: #fff;
-	background: <?php echo $secondary_1; ?>;
+#header #nav_support {
+	margin-left: auto;
+	margin-right: 1px;
+}
+
+#header #nav_support a {
+	border-radius: 3px 0 0 3px;
+}
+#header #nav_settings a {
+	border-radius: 0 3px 3px 0;
+}
+
+#header #nav_support a, #header #nav_settings a {
+	font-size: 11px;
 	padding: 4px 10px;
-	font-weight: 700 !important;
-	text-decoration: none !important;
-	display: block;
-	border-left: 1px solid <?php echo $primary_3; ?>;
 }
 
 #edit .wrapper .nav li a.pages,
@@ -203,117 +238,63 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 	font-weight: bold !important;
 	text-shadow: 1px 1px 0px rgba(255,244,255,.2);
 	box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;
-		-moz-box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;  
+		-moz-box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;
 		-webkit-box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;
 }
 
-.wrapper .nav li a:active, 
-.wrapper .nav li a:focus, 
-.wrapper .nav li a:hover, 
-.wrapper #pill li a:hover, 
-.wrapper #pill li a:focus {
+#header .nav a:active,
+#header .nav a:focus,
+#header .nav a:hover,
+#pill a:hover,
+#pill a:focus {
 	color: #FFF;
 	background: <?php echo $primary_0; ?>;
 	text-shadow: 1px 1px 0px rgba(0,0,0,.4);
 }
 
-.wrapper .nav li {
-	float: left;
-	margin: 0 8px 0 0;
-	position: relative;
-}
-
-.wrapper .nav li.rightnav {
-	float: right;
-	margin: 0 0 0 0;
-	font-size: 11px;
- }
-
-.wrapper .nav li.rightnav a.first {
-	padding: 4px 10px;
-	font-weight: 100 !important;
-	text-decoration: none !important;
-	display: block;
-	border-radius: 0 3px 3px 0;
-	border-left: 1px solid <?php echo $primary_3; ?>;
-}
-
-.wrapper .nav li.rightnav a.last {
-	padding: 4px 10px;
-	font-weight: 100;
-	text-decoration: none !important;
-	display: block;
-	border-radius: 3px 0 0 3px;
-}
-
-/* warning alert on tab */
-.nav li.rightnav .warning, .nav li.rightnav .info {
-	position: absolute;
-	top: -5px;
-	left: -5px;
-}
-
-.nav li .warning, .nav li .info {
-	position: absolute;
-	top: -5px;
-	right: -5px;
-	font-size: 10px;
-	color: #000;
-	text-shadow: 1px 1px 0px rgba(255,255,255,.5);
-	font-weight: bold;
-	text-align: center;
-	border-radius: 2px;
-	display: block;
-	width: 11px;
-	border: 1px solid #FFCC33;
-	background: #FFFF66;
-	background: -moz-linear-gradient(top, #FFFF66 0%, #FFCC33 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFF66), color-stop(100%,#FFCC33));
-}
-
-.nav li .info {
-	font-family: serif;
-	border: 1px solid #2DB1FF;
-	background: #6FCCFF;
-	background: -moz-linear-gradient(top, #BDF2FF 0%, #6FCCFF 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#BDF2FF), color-stop(100%,#6FCCFF));
-}
-
-.wrapper .nav li a em, .wrapper #pill li a em {
+#header a em {
 	font-style: normal;
 }
 
-.wrapper .nav li a:hover em, .wrapper .nav li a:focus em {
-	border-bottom: 1px dotted #666;
+#header .nav a:hover em, #header .nav a:focus em {
+	border-bottom: 1px dotted currentColor;
 }
 
-.wrapper #pill {
-	list-style: none;
-	position: absolute;
-	top: 0px;
-	right: 0;
+#pill {
 	font-size: 11px;
+	flex-direction: row;
+	justify-content: flex-end;
 }
 
-.wrapper #pill li {
-	float: right;
-}
-
-.wrapper #pill li.leftnav a {
+#pill a {
 	padding: 4px 10px;
-	font-weight: 100 !important;
-	text-decoration: none !important;
+	font-weight: normal;
+	text-decoration: none;
 	display: block;
-	border-radius: 0 0 3px 0;
-	border-left: 1px solid <?php echo $primary_3; ?>;
 }
 
-.wrapper #pill li.rightnav a {
-	padding: 4px 10px;
-	font-weight: 100 !important;
-	text-decoration: none !important;
-	display: block;
+#pill .mode {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+#pill .mode a:link,
+#pill .mode a:visited,
+#pill .mode a:hover {
+	color: #fff;
+	background: <?php echo $secondary_1; ?>;
+}
+
+#pill li:not(:first-child) {
+	margin-left: 1px;
+}
+
+#pill li:first-child a {
 	border-radius: 0 0 0 3px;
+}
+
+#pill li:last-child a {
+	border-radius: 0 0 3px 0;
 }
 
 .wrapper {
@@ -350,27 +331,6 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 
 .inner {
 	padding: 20px;
-}
-
-.header h1 {
-	font-size: 25px;
-	font-family: Georgia, Times, Times New Roman, serif;
-	position: absolute;
-	text-shadow: 1px 1px 0px <?php echo $primary_2; ?>;
-	top: 17px;
-	left: 0;
-}
-
-.header h1 a:link,
-.header h1 a:visited,
-.header h1 a:hover {
-	font-weight: normal;
-	color: <?php echo $primary_5; ?>;
-	text-decoration: none;
-}
-
-.header h1 a:hover  {
-	color: #FFF;
 }
 
 .wrapper h2 {
@@ -450,13 +410,11 @@ h5:hover img {
 
 #maincontent {
 	width: 690px;
-	float: left;
 	text-align: left;
 }
 
 #sidebar {
 	width: 225px;
-	float: right;
 	position: sticky;
 	top: 20px;
 }
