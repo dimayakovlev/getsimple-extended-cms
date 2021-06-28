@@ -38,7 +38,7 @@ $component = '';
 $componentEnabled = '';
 $componentContent = '';
 $author = $USR;
-$lastAuthor = '';
+$publisher = '';
 $title = '';
 $url = '';
 $metak = '';
@@ -71,7 +71,7 @@ if ($id) {
 	$lang = stripslashes($data_edit->lang);
 	$buttonname = i18n_r('BTN_SAVEUPDATES');
 	$creDate = (string)$data_edit->creDate ?: $pubDate;
-	$lastAuthor = (string)$data_edit->lastAuthor ?: $author;
+	$publisher = (string)$data_edit->publisher ?: $author;
 	$permalink = (string)$data_edit->permalink;
 	$image = (string)$data_edit->image;
 	$attributes['auto-open-metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
@@ -333,7 +333,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<?php if($url != '') { ?>
 				<p class="backuplink"><?php 
 					if (isset($pubDate)) {
-						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.($lastAuthor ? $lastAuthor : '-').'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
+						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.($publisher ? $publisher : '-').'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
 					}
 					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {
 						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank">'.i18n_r('BACKUP_AVAILABLE').'</a>';

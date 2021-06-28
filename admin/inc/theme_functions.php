@@ -10,15 +10,15 @@
  * @subpackage Theme-Functions
  */
 
- /**
+/**
  * Get Page Author
  *
  * @since 3.5.0
  * @uses $data_index
  * @uses strip_decode
  *
- * @param bool $echo	Optional, default is true. False will 'return' value
- * @return string Echos or returns page author based on param $echo
+ * @param bool $echo Optional, default is true. False will 'return' value
+ * @return null|string Echos or returns page author based on param $echo
  */
 function get_page_author($echo = true) {
 	global $data_index;
@@ -27,6 +27,26 @@ function get_page_author($echo = true) {
 		echo $author;
 	} else {
 		return $author;
+	}
+}
+
+/**
+ * Get Page Publisher
+ *
+ * @since 3.5.0
+ * @uses $data_index
+ * @uses strip_decode
+ *
+ * @param bool $echo Optional, default is true. False will 'return' value
+ * @return null|string Echos or returns page publisher based on param $echo
+ */
+function get_page_publisher($echo = true) {
+	global $data_index;
+	$publisher = strip_decode($data_index->publisher);
+	if ($echo) {
+		echo $publisher;
+	} else {
+		return $publisher;
 	}
 }
 

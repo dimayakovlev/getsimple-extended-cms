@@ -3,7 +3,7 @@
 
 1. [](#new)
     * Added `creDate` page field to store date of page creation
-    * Added `lastAuthor` page field to store author of last page editing
+    * Added `publisher` page field to store the user who last saved page
     * Added `SITEDESCRIPTION` website field to store website description
     * Added `get_site_description()` theme function to get value from `SITEDESCRIPTION` website field
     * Added `DESCRIPTION` user field to store user description (e.g. user biography) for public display
@@ -36,6 +36,7 @@
     * Added page image support
     * Added `get_page_image()` theme function to echo or return page image
     * Added toggle to display URLs of pages on Page Management
+    * Added `get_page_publisher()` theme function to echo or return publisher of the requested page
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

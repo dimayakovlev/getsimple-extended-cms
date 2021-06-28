@@ -107,7 +107,7 @@ if(isset($_POST['submitted'])) {
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
-			$xml->lastAuthor = $USR;
+			$xml->publisher = $USR;
 			$xml->asXML($init);
 		}
 
@@ -127,7 +127,7 @@ if(isset($_POST['submitted'])) {
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
-			$xml->lastAuthor = $USR;
+			$xml->publisher = $USR;
 			$xml->asXML($init);
 		}
 
@@ -140,7 +140,7 @@ if(isset($_POST['submitted'])) {
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
-			$xml->lastAuthor = $USR;
+			$xml->publisher = $USR;
 			$xml->asXML($init);
 		}
 
@@ -153,7 +153,7 @@ if(isset($_POST['submitted'])) {
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
 			$xml->author = $USR;
-			$xml->lastAuthor = $USR;
+			$xml->publisher = $USR;
 			$xml->asXML($init);
 		}
 

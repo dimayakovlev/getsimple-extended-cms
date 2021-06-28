@@ -144,7 +144,7 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addChild('componentContent', (string)filter_input(INPUT_POST, 'post-component-content', FILTER_VALIDATE_BOOLEAN));
 		$xml->addChild('private', filter_input(INPUT_POST, 'post-private', FILTER_SANITIZE_STRING));
 		$xml->addChild('author', filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_STRING) ?: $USR);
-		$xml->addChild('lastAuthor', $USR);
+		$xml->addChild('publisher', $USR);
 		$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('permalink')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('image')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-image', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -195,8 +195,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 				if ($priority != (int)$data->menuOrder) {
 					$data->menuOrder = $priority;
 					$data->pubDate = date('r');
-					$data->lastAuthor = $USR;
-					//$data->attributes()->revisionNumber = (int)$data->attributes()->revisionNumber + 1;
+					$data->publisher = $USR;
+					$data->attributes()->revisionNumber = (int)$data->attributes()->revisionNumber + 1;
 					copy($file, GSBACKUPSPATH . 'pages/' . $slug. '.bak.xml');
 					XMLsave($data, $file);
 				}
