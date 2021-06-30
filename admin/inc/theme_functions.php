@@ -133,15 +133,15 @@ function get_page_excerpt($len=200, $striphtml=true, $ellipsis = '…') {
  *
  * @param string $field Page field name
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
 function get_page_field($field, $echo = true) {
 	global $data_index;
-	$myVar = strip_decode($data_index->$field);
 	if ($echo) {
-	  echo $myVar;
+		echo strip_decode($data_index->$field);
+		return null;
 	} else {
-	  return $myVar;
+		return strip_decode($data_index->$field);
 	}
 }
 
@@ -203,7 +203,6 @@ function get_page_image($echo = true) {
 function get_page_meta_keywords($echo=true) {
 	global $metak;
 	$myVar = encode_quotes(strip_decode($metak));
-	
 	if ($echo) {
 		echo $myVar;
 	} else {
@@ -240,14 +239,13 @@ function get_page_meta_desc($echo=true) {
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
-function get_page_title($echo=true) {
+function get_page_title($echo = true) {
 	global $title;
-	$myVar = strip_decode($title);
-	
 	if ($echo) {
-		echo $myVar;
+		echo strip_decode($title);
+		return null;
 	} else {
-		return $myVar;
+		return strip_decode($title);
 	}
 }
 
@@ -282,16 +280,15 @@ function get_page_clean_title($echo=true) {
  * @uses $url
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_page_slug($echo=true) {
+function get_page_slug($echo = true) {
 	global $url;
-	$myVar = $url;
-	
 	if ($echo) {
-		echo $myVar;
+		echo $url;
+		return null;
 	} else {
-		return $myVar;
+		return $url;
 	}
 }
 
@@ -304,16 +301,15 @@ function get_page_slug($echo=true) {
  * @uses $parent
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
 function get_parent($echo=true) {
 	global $parent;
-	$myVar = $parent;
-	
 	if ($echo) {
-		echo $myVar;
+		echo $parent;
+		return null;
 	} else {
-		return $myVar;
+		return $parent;
 	}
 }
 
@@ -323,28 +319,24 @@ function get_parent($echo=true) {
  * This will return the page's updated date/timestamp
  *
  * @since 1.0
- * @uses $date
- * @uses $TIMEZONE
+ * @global $date
+ * @global $TIMEZONE
  *
  * @param string $i Optional, default is "l, F jS, Y - g:i A"
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_page_date($i = "l, F jS, Y - g:i A", $echo=true) {
+function get_page_date($i = 'l, F jS, Y - g:i A', $echo = true) {
 	global $date;
 	global $TIMEZONE;
-	if ($TIMEZONE != '') {
-		if (function_exists('date_default_timezone_set')) {
-			date_default_timezone_set($TIMEZONE);
-		}
+	if ($TIMEZONE != '' && function_exists('date_default_timezone_set')) {
+		date_default_timezone_set($TIMEZONE);
 	}
-	
-	$myVar = date($i, strtotime($date));
-	
 	if ($echo) {
-		echo $myVar;
+		echo date($i, strtotime($date));
+		return null;
 	} else {
-		return $myVar;
+		return date($i, strtotime($date));
 	}
 }
 
@@ -356,20 +348,16 @@ function get_page_date($i = "l, F jS, Y - g:i A", $echo=true) {
  * @since 1.0
  * @sinde 3.5.0 Use updated function find_url()
  * @uses $url
- * @uses $SITEURL
- * @uses $PRETTYURLS
  * @uses find_url
  *
  * @param bool $echo Optional, default is false. True will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_page_url($echo=false) {
+function get_page_url($echo = false) {
 	global $url;
-	global $SITEURL;
-	global $PRETTYURLS;
-
 	if (!$echo) {
 		echo find_url($url);
+		return null;
 	} else {
 		return find_url($url);
 	}
@@ -395,41 +383,38 @@ function get_page_url($echo=false) {
  *
  * @return string HTML for template header
  */
-function get_header($full=true) {
+function get_header($full = true) {
 	global $metad;
 	global $title;
 	global $content;
 	include(GSADMININCPATH.'configuration.php');
-	
-	// meta description	
+	// meta description
 	if ($metad != '') {
-		$desc = get_page_meta_desc(FALSE);
-	}
-	else if(getDef('GSAUTOMETAD',true))
-	{
+		$desc = get_page_meta_desc(false);
+	} elseif (getDef('GSAUTOMETAD', true)) {
 		// use content excerpt, NOT filtered
 		$desc = strip_decode($content);
-		if(getDef('GSCONTENTSTRIP',true)) $desc = strip_content($desc);
-		$desc = cleanHtml($desc,array('style','script')); // remove unwanted elements that strip_tags fails to remove
-		$desc = getExcerpt($desc,160); // grab 160 chars
+		if (getDef('GSCONTENTSTRIP', true)) $desc = strip_content($desc);
+		$desc = cleanHtml($desc, array('style', 'script')); // remove unwanted elements that strip_tags fails to remove
+		$desc = getExcerpt($desc, 160); // grab 160 chars
 		$desc = strip_whitespace($desc); // remove newlines, tab chars
 		$desc = encode_quotes($desc);
 		$desc = trim($desc);
 	}
 
-	if(!empty($desc)) echo '<meta name="description" content="'.$desc.'" />'."\n";
+	if (!empty($desc)) echo '<meta name="description" content="' . $desc . '" />' . "\n";
 
 	// meta keywords
-	$keywords = get_page_meta_keywords(FALSE);
-	if ($keywords != '') echo '<meta name="keywords" content="'.$keywords.'" />'."\n";
-	
+	$keywords = get_page_meta_keywords(false);
+	if ($keywords != '') echo '<meta name="keywords" content="' . $keywords . '" />' . "\n";
+
 	if ($full) {
-		echo '<link rel="canonical" href="'. get_page_url(true) .'" />'."\n";
+		echo '<link rel="canonical" href="' . get_page_url(false) . '" />' . "\n";
 	}
 
 	// script queue
 	get_scripts_frontend();
-	
+
 	exec_action('theme-header');
 }
 
@@ -446,7 +431,7 @@ function get_header($full=true) {
  * @return string HTML for template header
  */
 function get_footer() {
-	get_scripts_frontend(TRUE);
+	get_scripts_frontend(true);
 	exec_action('theme-footer');
 }
 
@@ -460,13 +445,13 @@ function get_footer() {
  * @uses $SITEURL
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_site_url($echo=true) {
+function get_site_url($echo = true) {
 	global $SITEURL;
-	
 	if ($echo) {
 		echo $SITEURL;
+		return null;
 	} else {
 		return $SITEURL;
 	}
@@ -482,12 +467,13 @@ function get_site_url($echo=true) {
  * 
  * @global $dataw
  * @param $echo Optional, default is true. False will return value
- * @return mixed string|null Echos or return based on param $echo
+ * @return string|null Echos or return based on param $echo
  */
 function get_site_lang($echo = true) {
 	global $dataw;
 	if ($echo) {
 		echo $dataw->lang;
+		return null;
 	} else {
 		return (string)$dataw->lang;
 	}
@@ -504,7 +490,7 @@ function get_site_lang($echo = true) {
  * @global $dataw
  * @param bool $echo Optional, default is true. False will return value
  * @param string $lang Optional, default is en. Fallback language code, used if language for page or website was not setted
- * @return string|null 
+ * @return string|null
  */
 function get_lang($echo = true, $lang = 'en') {
 	global $data_index;
@@ -518,6 +504,7 @@ function get_lang($echo = true, $lang = 'en') {
 	}
 	if ($echo) {
 		echo $value;
+		return null;
 	} else {
 		return $value;
 	}
@@ -533,17 +520,17 @@ function get_lang($echo = true, $lang = 'en') {
  * @uses $TEMPLATE
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_theme_url($echo=true) {
+function get_theme_url($echo = true) {
 	global $SITEURL;
 	global $TEMPLATE;
-	$myVar = trim($SITEURL . "theme/" . $TEMPLATE);
-	
+	$value = trim($SITEURL . "theme/" . $TEMPLATE);
 	if ($echo) {
-		echo $myVar;
+		echo $value;
+		return null;
 	} else {
-		return $myVar;
+		return $value;
 	}
 }
 
@@ -556,16 +543,15 @@ function get_theme_url($echo=true) {
  * @uses $SITENAME
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_site_name($echo=true) {
+function get_site_name($echo = true) {
 	global $SITENAME;
-	$myVar = cl($SITENAME);
-	
 	if ($echo) {
-		echo $myVar;
+		echo cl($SITENAME);
+		return null;
 	} else {
-		return $myVar;
+		return cl($SITENAME);
 	}
 }
 
@@ -580,14 +566,13 @@ function get_site_name($echo=true) {
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
-function get_site_description($echo=true) {
+function get_site_description($echo = true) {
 	global $SITEDESCRIPTION;
-	$myVar = cl($SITEDESCRIPTION);
-	
 	if ($echo) {
-		echo $myVar;
+		echo cl($SITEDESCRIPTION);
+		return null;
 	} else {
-		return $myVar;
+		return cl($SITEDESCRIPTION);
 	}
 }
 
@@ -602,9 +587,9 @@ function get_site_description($echo=true) {
  * @uses $EMAIL
  *
  * @param bool $echo Optional, default is true. False will 'return' value
- * @return string Echos or returns based on param $echo
+ * @return null|string Echos or returns based on param $echo
  */
-function get_site_email($echo=true) {
+function get_site_email($echo = true) {
 	global $EMAIL;
 	$myVar = trim(stripslashes($EMAIL));
 	
@@ -634,8 +619,7 @@ function get_site_email($echo=true) {
  */
 function get_site_credits($text ='Powered by ') {
 	include(GSADMININCPATH.'configuration.php');
-	
-	$site_credit_link = '<a href="'.$site_link_back_url.'" target="_blank" >'.$text.' '.$site_full_name.'</a>';
+	$site_credit_link = '<a href="' . $site_link_back_url . '" target="_blank" >' . $text . ' ' . $site_full_name . '</a>';
 	echo stripslashes($site_credit_link);
 }
 
@@ -822,8 +806,8 @@ function get_navigation($currentpage = "",$classPrefix = "") {
  * @return bool Return true if user is logged in
  */
 function is_logged_in() {
-  global $USR;
-  return (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME'));
+	global $USR;
+	return (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME'));
 }
 
 /**
