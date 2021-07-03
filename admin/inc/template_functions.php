@@ -830,7 +830,7 @@ function get_pages_menu($parent, $menu, $level) {
 			$pageURL = find_url($page['url']);
 			if ($page['title'] == '') { $page['title'] = '[' . i18n_r('NO_PAGE_TITLE') . '] &nbsp;&raquo;&nbsp; <em>' . $page['url'] . '</em>'; }
 			if ($page['menuStatus'] != '') { $page['menuStatus'] = ' <sup>[' . i18n_r('MENUITEM_SUBTITLE') . ']</sup>'; } else { $page['menuStatus'] = ''; }
-			if ($page['private'] != '') { $page['private'] = ' <sup>[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
+			if ($page['private'] != '') { $page['private'] = ' <sup class="is-private">[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
 			if (isset($page['componentEnabled']) && $page['componentEnabled'] == '1') { $page['componentEnabled'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnabled'] = ''; }
 			if ($page['componentEnabled'] != '' && isset($page['componentContent']) && $page['componentContent'] == '1') { $page['componentContent'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_CONTENT_SUBTITLE') . ']</sup>'; } else { $page['componentContent'] = ''; }

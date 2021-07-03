@@ -122,7 +122,6 @@ foreach ($templates as $file) {
 
 // SETUP CHECKBOXES
 $sel_m = ($menuStatus != '') ? 'checked' : '';
-$sel_p = ($private == 'Y') ? 'selected' : '';
 if ($menu == '') $menu = $title;
 
 # register and queue CodeMirror files
@@ -182,10 +181,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<div style="display: <?php echo ($attributes['auto-open-metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
 			<div class="leftopt">
 				<p class="inline clearfix" id="post-private-wrap">
-					<label for="post-private"><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
+					<label for="post-private"<?php if ($private) echo ' class="is-private"'; ?>><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
 					<select id="post-private" name="post-private" class="text autowidth">
 						<option value=""><?php i18n('NORMAL'); ?></option>
-						<option value="Y" <?php echo $sel_p; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
+						<option value="Y"<?php if ($private) echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
 					</select>
 				</p>
 				<p class="inline clearfix">

@@ -195,7 +195,7 @@ jQuery(document).ready(function () {
 
 	if (id == 'components') {
 		// components.php
-		document.addEventListener('click', function(event) {
+		document.addEventListener('click', function (event) {
 			let element = event.target;
 			let action = element.dataset.action;
 			//if (action) event.preventDefault();
@@ -270,6 +270,11 @@ jQuery(document).ready(function () {
 			document.querySelectorAll("[data-role='" + toggle.dataset.target + "']").forEach(target => target.style.display = display);
 			toggle.classList.toggle('current');
 		}));
+	} else if (id == 'edit') {
+		document.getElementById('post-private').addEventListener('change', function (event) {
+			let label = event.target.labels[0];
+			event.target.value ? label.classList.add('is-private') : label.classList.remove('is-private');
+		})
 	}
 
 	// other general functions
@@ -455,20 +460,6 @@ jQuery(document).ready(function () {
 		var autoopen = document.getElementById('auto-open-component');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
-
-	var privateLabel = $("#post-private-wrap label");
-	$("#post-private").change(function () {
-		if ($(this).val() == "Y") {
-			privateLabel.css("color", '#cc0000');
-		} else {
-			privateLabel.css("color", '#333333');
-		}
-	});
-	if ($("#post-private").val() == "Y") {
-		privateLabel.css("color", '#cc0000');
-	} else {
-		privateLabel.css("color", '#333333');
-	}
 	$("#post-menu-enable").live("click", function () {
 		$("#menu-items").slideToggle("fast");
 	});

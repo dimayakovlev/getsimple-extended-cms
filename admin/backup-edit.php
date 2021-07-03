@@ -29,7 +29,7 @@ if ($_GET['id'] != '') {
 	$metad = htmldecode($data->metad);
 	$url = $data->url;
 	$content = htmldecode($data->content);
-	$private = $data->private;
+	$private = (string)$data->private;
 	$template = $data->template;
 	$menu = htmldecode($data->menu);
 	$menuStatus = $data->menuStatus;
@@ -38,7 +38,6 @@ if ($_GET['id'] != '') {
 	redirect('backups.php?upd=bak-err');
 }
 
-if ($private != '' ) { $private = '<span style="color:#cc0000">('.i18n_r('PRIVATE_SUBTITLE').')</span>'; } else { $private = ''; }
 if ($menuStatus == '' ) { $menuStatus = i18n_r('NO'); } else { $menuStatus = i18n_r('YES'); }
 
 // are we going to do anything with this backup?
@@ -110,9 +109,9 @@ get_template('header', cl($SITENAME).' &raquo; '. i18n_r('BAK_MANAGEMENT').' &ra
 			<div class="clear"></div>
 		</div>
 		
-		<table class="simple highlight" >
-		<tr><td class="title" ><?php i18n('PAGE_TITLE');?>:</td><td><b><?php echo cl($title); ?></b> <?php echo $private; ?></td></tr>
-		<tr><td class="title" ><?php i18n('BACKUP_OF');?>:</td><td>
+		<table class="simple highlight">
+		<tr><td class="title"><?php i18n('PAGE_TITLE');?>:</td><td><b><?php echo cl($title); ?></b><?php if ($private) echo ' <span class="is-private">(' . i18n_r('PRIVATE_SUBTITLE') . ')</span>'; ?></td></tr>
+		<tr><td class="title"><?php i18n('BACKUP_OF');?>:</td><td>
 			<?php 
 			if (isset($id)) {
 				$link = find_url($url);

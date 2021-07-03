@@ -345,6 +345,10 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 	font-style: italic;
 }
 
+.attention, .is-private {
+	color: <?php echo $secondary_1; ?>;
+}
+
 h3 {
 	font-size: 18px;
 	font-family: Georgia, Times, Times New Roman, serif;
