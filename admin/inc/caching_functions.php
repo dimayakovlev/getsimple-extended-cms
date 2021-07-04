@@ -51,15 +51,16 @@ function getPageComponent($page, $check = true) {
  * As the Content is not cahed the file is read in.
  *
  * @since 2.0
- * @param $page - slug of the page to retrieve content
+ * @since 3.5.0 Remove parameter $field. Add parameter $filter
+ * @param string $page Slug of the page to retrieve content
+ * @param bool $filter Optional, default is true. If true content filtered with content filter
+ * @return null Echo content of the page
  */
-function getPageContent($page, $field = 'content') {
+function getPageContent($page, $filter = true) {
 	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
 	$data = simplexml_load_string($thisfile);
-	$content = stripslashes(htmlspecialchars_decode($data->$field, ENT_QUOTES));
-	if ($field == 'content') {
-		$content = exec_filter('content', $content);
-	}
+	$content = stripslashes(htmlspecialchars_decode($data->content, ENT_QUOTES));
+	if ($filter === true) $content = exec_filter('content', $content);
 	echo $content;
 }
 
@@ -76,12 +77,12 @@ function getPageContent($page, $field = 'content') {
 function getPageField($page, $field) {
 	global $pagesArray;
 	if ($field == 'content') {
-	  getPageContent($page);
+		getPageContent($page);
 	} else {
-		if (array_key_exists($field, $pagesArray[(string)$page])){
+		if (array_key_exists($field, $pagesArray[(string)$page])) {
 			echo strip_decode($pagesArray[(string)$page][(string)$field]);
 		} else {
-			getPageContent($page,$field);
+			getPageContent($page, $field);
 		}
 	}
 }
