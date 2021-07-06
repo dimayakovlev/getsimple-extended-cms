@@ -3,7 +3,7 @@
 /*
  * CSS php dynamic
  * DO NOT TIDY!
- * @uses color variables $primary0 - $primary6, $secondary_0-$secondary_1
+ * @uses color variables $primary0 - $primary6, $secondary_0 - $secondary_1
  *
  */
 
@@ -1723,7 +1723,7 @@ textarea.copykit {
 
 a.updatelink:link, 
 a.updatelink:visited {
-	color: <?php echo secondary_1 ;?>;
+	color: <?php echo $secondary_1; ?>;
 	padding: 1px 3px;
 }
 
