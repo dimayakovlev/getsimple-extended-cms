@@ -315,29 +315,27 @@ function XMLsave($xml, $file) {
  * Long Date Output
  *
  * @since 1.0
- * @uses $i18n
+ * @since 3.5.0 Code refactor
  * @uses i18n_r
  *
  * @param string $dt Date/Time format, default is $i18n['DATE_AND_TIME_FORMAT']
  * @return string
  */
 function lngDate($dt) {
-	global $i18n;
-	return $dt ? date(i18n_r('DATE_AND_TIME_FORMAT'), strtotime($dt)) : $data = date(i18n_r('DATE_AND_TIME_FORMAT'));
+	return $dt ? date(i18n_r('DATE_AND_TIME_FORMAT'), strtotime($dt)) : date(i18n_r('DATE_AND_TIME_FORMAT'));
 }
 
 /**
  * Short Date Output
  *
  * @since 1.0
- * @uses $i18n
+ * @since 3.5.0 Code refactor
  * @uses i18n_r
  *
  * @param string $dt Date/Time format, default is $i18n['DATE_FORMAT']
  * @return string
  */
 function shtDate($dt) {
-	global $i18n;
 	return $dt ? date(i18n_r('DATE_FORMAT'), strtotime($dt)) : date(i18n_r('DATE_FORMAT'));
 }
 
