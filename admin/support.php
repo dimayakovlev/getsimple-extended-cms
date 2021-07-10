@@ -1,8 +1,8 @@
-<?php 
+<?php
 /**
  * Support
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Support
  */
 
@@ -11,10 +11,10 @@ $load['plugin'] = true;
 include('inc/common.php');
 login_cookie_check();
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT') ); 
+get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT') );
 
 ?>
-	
+
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent">
@@ -40,6 +40,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT') );
 				<li><a href="edit.php"><?php i18n('CREATE_NEW_PAGE'); ?></a></li>
 				<li><a href="upload.php"><?php i18n('UPLOADIFY_BUTTON'); ?></a></li>
 				<li><a href="settings.php"><?php i18n('GENERAL_SETTINGS'); ?></a></li>
+				<li><a href="user.php"><?php i18n('USER_SETTINGS'); ?></a></li>
 				<li><a href="theme.php"><?php i18n('CHOOSE_THEME'); ?></a></li>
 				<?php exec_action('welcome-link'); ?>
 				<?php exec_action('welcome-doc-link'); ?>

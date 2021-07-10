@@ -55,6 +55,7 @@
     * Added function `isAlpha()` to check is alpha version installed
     * Change function `get_themes()` to get what it should according to the name
     * Added support for txt, svg, json and xml files in **Theme Editor**
+    * Split website and user settings
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`

@@ -1,4 +1,4 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')) { die('you cannot load this page directly.'); }
 /**
  * Header Admin Template
  *
@@ -23,12 +23,12 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title ?></title>
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php if(!isAuthPage()) { ?><meta name="generator" content="GetSimple Extended - <?php echo GSVERSION; ?>" /> 
 	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 	<link rel="author" href="humans.txt" />
 	<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-	<?php } ?>	
+	<?php } ?>
 	<meta name="robots" content="noindex, nofollow">
 	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo 's=' . $GSSTYLE . '&amp;v=' . GSVERSION .  (isDebug() ? '&amp;nocache' : ''); ?>" media="screen" />
 	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="template/ie6.css?v=<?php echo GSVERSION; ?>" media="screen" /><![endif]-->
@@ -54,9 +54,9 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<link rel="stylesheet" type="text/css" href="template/js/jcrop/jquery.Jcrop.css" media="screen" />
 	<?php } ?>
 
-  <?php 
+  <?php
 	# Plugin hook to allow insertion of stuff into the header
-	if(!isAuthPage()) exec_action('header'); 
+	if(!isAuthPage()) exec_action('header');
 	
 	function doVerCheck() {
 		return !isAuthPage() && !getDef('GSNOVERCHECK');

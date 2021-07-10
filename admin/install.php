@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Install
  *
  * Initial step of installation. Redirects to setup.php if everything checks out OK
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Installation
  */
 
@@ -77,7 +77,7 @@ $filenames = getFiles(GSLANGPATH);
 if ($LANG == '') { $LANG = 'en_US'; }
 
 foreach ($filenames as $lfile) {
-	if( is_file(GSLANGPATH . $lfile) && $lfile != "." && $lfile != ".." ) {
+	if (is_file(GSLANGPATH . $lfile) && $lfile != "." && $lfile != "..") {
 		$lang_array[] = basename($lfile, ".php");
 	}
 }
@@ -89,7 +89,6 @@ if (count($lang_array) == 1) {
 	$count="0"; $sel = ''; 
 	$langs = '<label for="lang" >'.i18n_r('SELECT_LANGUAGE').':</label>';
 	$langs .= '<select name="lang" id="lang" class="text" onchange="window.location=\'install.php?lang=\' + this.value;">';
-	
 	foreach ($lang_array as $larray) {
 		if ($LANG == $larray) { $sel="selected";}
 		$langs .= '<option '.$sel.' value="'.$larray.'" >'.$larray.'</option>';
@@ -113,8 +112,8 @@ if (! file_exists($api_file)) {
 	$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');	
 	$note = $xml->addChild('apikey');
 	$note->addCData($saltval);
-	if(! XMLsave($xml, $api_file) ){
-			$kill = i18n_r('CHMOD_ERROR');
+	if(!XMLsave($xml, $api_file)){
+		$kill = i18n_r('CHMOD_ERROR');
 	}
 }
 
@@ -126,34 +125,31 @@ if(empty($APIKEY)){
 		$kill = i18n_r('CHMOD_ERROR');
 }
 
-get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION') ); 
+get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION'));
 
 ?>
-	
 	<h1><?php echo $site_full_name; ?></h1>
 </div>
-</div>
+</header>
 <div class="wrapper">
 	
 <?php
-	if ($kill != '') {
-		echo '<div class="error">'. $kill .'</div>';
-	}	
+	if ($kill != '') echo '<div class="error">' . $kill . '</div>';
 ?>
 
 	<div id="maincontent">
-	<div class="main" >
-	<h3><?php echo $site_full_name .' '. i18n_r('INSTALLATION'); ?></h3>
+	<div class="main">
+	<h3><?php echo $site_full_name . ' ' . i18n_r('INSTALLATION'); ?></h3>
 
 			<table class="highlight healthcheck">
 			<?php
 			
 			# check to see if there is a core update needed
 			$data = get_api_details();
-			if ($data)	{
+			if ($data) {
 				$apikey = json_decode($data);
 				$verstatus = $apikey->status;
-			}	else {
+			} else {
 				$verstatus = null;
 			}
 			
@@ -182,25 +178,25 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION') );
 					echo '<tr><td>Folder Permissions</td><td><span class="ERRmsg" >'.i18n_r('ERROR') .' - '.i18n_r('NOT_WRITABLE') .'</span></td></tr>';
 				}
 				
-				if  (in_arrayi('curl', $php_modules) ) {
+				if (in_arrayi('curl', $php_modules)) {
 					echo '<tr><td>cURL Module</td><td><span class="OKmsg" >'.i18n_r('INSTALLED') .' - '.i18n_r('OK') .'</span></td></tr>';
 				} else{
 					echo '<tr><td>cURL Module</td><td><span class="WARNmsg" >'.i18n_r('NOT_INSTALLED') .' - '.i18n_r('WARNING') .'</span></td></tr>';
 				}
 				
-				if  (in_arrayi('gd', $php_modules) ) {
+				if (in_arrayi('gd', $php_modules)) {
 					echo '<tr><td>GD Library</td><td><span class="OKmsg" >'.i18n_r('INSTALLED').' - '.i18n_r('OK') .'</span></td></tr>';
 				} else{
 					echo '<tr><td>GD Library</td><td><span class="WARNmsg" >'.i18n_r('NOT_INSTALLED').' - '.i18n_r('WARNING') .'</span></td></tr>';
 				}
 				
-				if  (in_arrayi('zip', $php_modules) ) {
+				if (in_arrayi('zip', $php_modules)) {
 					echo '<tr><td>ZipArchive</td><td><span class="OKmsg" >'.i18n_r('INSTALLED').' - '.i18n_r('OK').'</span></td></tr>';
 				} else{
 					echo '<tr><td>ZipArchive</td><td><span class="WARNmsg" >'.i18n_r('NOT_INSTALLED').' - '.i18n_r('WARNING').'</span></td></tr>';
 				}
 
-				if (! in_arrayi('SimpleXML', $php_modules) ) {
+				if (!in_arrayi('SimpleXML', $php_modules)) {
 					echo '<tr><td>SimpleXML Module</td><td><span class="ERRmsg" >'.i18n_r('NOT_INSTALLED').' - '.i18n_r('ERROR').'</span></td></tr>';
 				} else {
 					echo '<tr><td>SimpleXML Module</td><td><span class="OKmsg" >'.i18n_r('INSTALLED').' - '.i18n_r('OK').'</span></td></tr>';
@@ -231,7 +227,7 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION') );
 			<?php } else {?>
 			<form action="setup.php" method="post" accept-charset="utf-8" >
 				<div class="leftsec">
-					<p>			
+					<p>
 						<?php echo $langs; ?><a href="https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Languages" target="_blank" ><?php i18n('DOWNLOAD_LANG');?></a>
 						<noscript><a href="install.php?lang=" id="refreshlanguage" ><?php i18n('REFRESH');?></a> &nbsp;|&nbsp;</noscript> 
 					</p>

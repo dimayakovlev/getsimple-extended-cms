@@ -2,15 +2,13 @@
 /**
  * GSConfig
  *
- * The base configurations for GetSimple	
+ * The base configurations for GetSimple Extended
  *
- * @package GetSimple
+ * @package GetSimple Extended
  */
 
 /** Prevent direct access */
-if (basename($_SERVER['PHP_SELF']) == 'gsconfig.php') { 
-	die('You cannot load this page directly.');
-}; 
+if (basename($_SERVER['PHP_SELF']) == 'gsconfig.php') die('You cannot load this page directly.');
 
 /*****************************************************************************/
 /** Below are constants that you can use to customize how GetSimple operates */ 
@@ -127,5 +125,3 @@ define('GSSUPPRESSERRORS',true);
 
 # GS can format its xml files before saving them if you require human readable source for them
 # define('GSFORMATXML',true);
-
-?>

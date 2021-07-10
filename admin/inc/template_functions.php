@@ -1310,12 +1310,15 @@ function cleanHtml($str,$strip_tags = array()){
 }
 
 /**
- * Set time of last website update
+ * Update website data file
+ * 
+ * Function changes values stored in attributes revisionNumber, modified and user
  * 
  * @since 3.5.0
  * 
  * @global GSBACKUPSPATH
  * @global GSDATAOTHERPATH
+ * @global $USR
  * 
  * @uses createBak()
  * @uses getXML()
@@ -1323,11 +1326,13 @@ function cleanHtml($str,$strip_tags = array()){
  * 
  * @return bool 
  */
-function set_site_last_update() {
-	$file = GSDATAOTHERPATH .'website.xml';
+function update_website_data() {
+	$file = GSDATAOTHERPATH . 'website.xml';
 	if (!file_exists($file)) return false;
 	$data = getXML($file, 0);
-	$data->DATEMODIFIED = date('r');
+	$data->attributes()->revisionNumber = (int)$data->attributes()->revisionNumber + 1;
+	$data->attributes()->modified = date('r');
+	$data->attributes()->user = $USR;
 	createBak('website.xml', GSDATAOTHERPATH, GSBACKUPSPATH . 'other/');
 	return XMLsave($data, $file);
 }

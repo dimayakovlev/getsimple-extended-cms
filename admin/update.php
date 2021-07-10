@@ -4,7 +4,7 @@
  *
  * Provides any updating to the system the first time it is run
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Init
  */
 
@@ -47,11 +47,11 @@ function msgError($msg){
 
 /* create new folders */
 foreach($create_dirs as $dir){
-	if (!file_exists($dir)) {  	
-		if (defined('GSCHMOD')) { 
-		 $chmod_value = GSCHMOD; 
+	if (!file_exists($dir)) {
+		if (defined('GSCHMOD')) {
+			$chmod_value = GSCHMOD;
 		} else {
-		 $chmod_value = 0755;
+			$chmod_value = 0755;
 		}
 		$status = mkdir($dir, $chmod_value);
 		if($status) $message.= msgOK(sprintf(i18n_r('FOLDER_CREATED'),$dir));
@@ -98,9 +98,9 @@ if (file_exists(GSDATAOTHERPATH .'user.xml')) {
 	$PERMALINK = $datac->PERMALINK;
 	$TIMEZONE = $datac->TIMEZONE;
 	$LANG = $datac->LANG;
-	$SITENAME = stripslashes($dataw->SITENAME);
-	$SITEURL = $dataw->SITEURL;
-	$TEMPLATE = $dataw->TEMPLATE;
+	$SITENAME = stripslashes($dataw->title);
+	$SITEURL = $dataw->url;
+	$TEMPLATE = $dataw->theme;
 	
 	
 	# creating new user file
@@ -131,15 +131,21 @@ if (file_exists(GSDATAOTHERPATH .'user.xml')) {
 	}
 	
 	#creating new website file
-	$xml = new SimpleXMLElement('<item></item>');
-	$xml->addChild('SITENAME', $SITENAME);
-	$xml->addChild('SITEURL', $SITEURL);
-	$xml->addChild('TEMPLATE', $TEMPLATE);
-	$xml->addChild('PRETTYURLS', $PRETTYURLS);
-	$xml->addChild('PERMALINK', $PERMALINK);
-	$status = XMLsave($xml, GSDATAOTHERPATH .'website.xml');	
+	$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
+	$xml->addChild('title')->addCData((string)$dataw->title);
+	$xml->addChild('url')->addCDate((string)$dataw->url);
+	$xml->addChild('theme', (string)$dataw->theme);
+	$xml->addChild('prettyurls', (string)$dataw->prettyurls);
+	$xml->addChild('permalink')->addCData((string)$dataw->permalink);
+	$xml->addChild('lang')->addCData((string)$dataw->lang);
+	$xml->addChild('maintenance', (string)$dataw->maintenance);
+	$xmls->addAttribute('revisionNumber', (string)$dataw->attributes()->revisionNumber ?: '1');
+	$xmls->addAttribute('created', (string)$dataw->attributes()->created ?: date('r'));
+	$xmls->addAttribute('modified', date('r'));
+	$xmls->addAttribute('user', $USR);
+	$status = XMLsave($xml, GSDATAOTHERPATH .'website.xml');
 	if (!$status) {
-		$error .= msgError('Unable to update website.xml file!');	
+		$error .= msgError('Unable to update website.xml file!');
 	} else {
 		$message .= msgOK('Created updated website.xml file');
 	}

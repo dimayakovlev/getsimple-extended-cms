@@ -164,12 +164,11 @@ $load['plugin'] = (isset($load['plugin'])) ? $load['plugin'] : '';
 $thisfilew = GSDATAOTHERPATH .'website.xml';
 if (file_exists($thisfilew)) {
 	$dataw = getXML($thisfilew);
-	$SITENAME = 				stripslashes($dataw->SITENAME);
-	$SITEDESCRIPTION = 	stripslashes($dataw->SITEDESCRIPTION);
-	$SITEURL = 					$dataw->SITEURL;
-	$TEMPLATE = 				$dataw->TEMPLATE;
-	$PRETTYURLS = 			$dataw->PRETTYURLS;
-	$PERMALINK = 				$dataw->PERMALINK;
+	$SITENAME = (string)$dataw->title;
+	$SITEURL = (string)$dataw->url;
+	$TEMPLATE = (string)$dataw->theme;
+	$PRETTYURLS = (string)$dataw->prettyurls;
+	$PERMALINK = (string)$dataw->permalink;
 } else {
 	$SITENAME = '';
 	$SITEURL = '';
@@ -181,10 +180,10 @@ if (isset($_COOKIE['GS_ADMIN_USERNAME'])) {
 	$cookie_user_id = _id($_COOKIE['GS_ADMIN_USERNAME']);
 	if (file_exists(GSUSERSPATH . $cookie_user_id.'.xml')) {
 		$datau = getXML(GSUSERSPATH  . $cookie_user_id.'.xml');
-		$USR = stripslashes($datau->USR);
-		$HTMLEDITOR = $datau->HTMLEDITOR;
-		$TIMEZONE = $datau->TIMEZONE;
-		$LANG = $datau->LANG;
+		$USR = stripslashes($datau->user);
+		$HTMLEDITOR = (string)$datau->enableHTMLEditor;
+		$TIMEZONE = (string)$datau->timezone;
+		$LANG = (string)$datau->lang;
 	} else {
 		$USR = null;
 	}
@@ -196,7 +195,7 @@ if (isset($_COOKIE['GS_ADMIN_USERNAME'])) {
  * Language control
  */
 if(!isset($LANG) || $LANG == '') {
-	$filenames = glob(GSLANGPATH.'*.php');	
+	$filenames = glob(GSLANGPATH.'*.php');
 	$cntlang = count($filenames);
 	if ($cntlang == 1) {
 		// assign lang to only existing file

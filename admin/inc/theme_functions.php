@@ -355,7 +355,7 @@ function get_page_date($i = 'l, F jS, Y - g:i A', $echo = true) {
  */
 function get_page_url($echo = false) {
 	global $url;
-	if (!$echo) {
+	if ($echo) {
 		echo find_url($url);
 		return null;
 	} else {
@@ -540,7 +540,7 @@ function get_theme_url($echo = true) {
  * This will return the value set in the control panel
  *
  * @since 1.0
- * @uses $SITENAME
+ * @global $SITENAME
  *
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return null|string Echos or returns based on param $echo
@@ -561,18 +561,18 @@ function get_site_name($echo = true) {
  * This will return the value set in the control panel
  *
  * @since 3.5.0
- * @uses $SITEDESCRIPTION
+ * @global $dataw
  *
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
 function get_site_description($echo = true) {
-	global $SITEDESCRIPTION;
+	global $dataw;
 	if ($echo) {
-		echo cl($SITEDESCRIPTION);
+		echo cl($dataw->description);
 		return null;
 	} else {
-		return cl($SITEDESCRIPTION);
+		return cl($dataw->description);
 	}
 }
 

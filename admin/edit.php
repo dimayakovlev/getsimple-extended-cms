@@ -529,7 +529,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		</script>
 		<?php
 			# register CodeMirror
-			if ($datau->CODEEDITOR == '1' && $attributes['disable-code-editor'] == false) {
+			if ($datau->enableCodeEditor == '1' && $attributes['disable-code-editor'] == false) {
 		?>
 		<style>
 			.CodeMirror, .CodeMirror-scroll {

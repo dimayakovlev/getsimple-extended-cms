@@ -17,7 +17,7 @@ if ((!defined('GSNOAPACHECHECK') || GSNOAPACHECHECK == false) and !server_is_apa
 	echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> <a href="health-check.php">' . i18n_r('SERVER_SETUP') . ' non-Apache</a></div>';
 }
 
-if ($dataw->SITEMAINTENANCE == '1') {
+if ((string)$dataw->maintenance == '1') {
 	echo '<div class="error"><strong>' . i18n_r('WARNING') . ':</strong> ' . i18n_r('MAINTENANCE_WARNING') . '</div>';
 }
 
@@ -34,10 +34,10 @@ if ($dataw->SITEMAINTENANCE == '1') {
 	switch ($update) {
 		case 'bak-success':
 			echo '<div class="updated"><p>' . sprintf(i18n_r('ER_BAKUP_DELETED'), $errid) . '</p></div>';
-		break;
+			break;
 		case 'bak-err':
-			echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> '. i18n_r('ER_REQ_PROC_FAIL') . '</p></div>';
-		break;
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> '. i18n_r('ER_REQ_PROC_FAIL') . '</p></div>';
+			break;
 		case 'edit-success':
 			echo '<div class="updated"><p>';
 			if ($ptype == 'edit') {
@@ -50,57 +50,87 @@ if ($dataw->SITEMAINTENANCE == '1') {
 				echo sprintf(i18n_r('ER_YOUR_CHANGES'), $id) . '. <a href="deletefile.php?id=' . $id . '&nonce='.get_nonce("delete", "deletefile.php") . '">' . i18n_r('UNDO') . '</a>';
 			}
 			echo '</p></div>';
-		break;
+			break;
 		case 'clone-success':
 			echo '<div class="updated"><p>' . sprintf(i18n_r('CLONE_SUCCESS'), '<a href="edit.php?id=' . $errid . '">' . $errid . '</a>') . '.</p></div>';
-		break;
+			break;
 		case 'edit-index':
-			echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> ' . i18n_r('ER_CANNOT_INDEX') . '.</p></div>';
-		break;
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_CANNOT_INDEX') . '.</p></div>';
+			break;
 		case 'edit-error':
-			echo '<div class="error"><p><b>' . i18n_r('ERROR').':</b> ' . var_out($ptype) . '.</p></div>';
-		break;
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR').':</strong> ' . var_out($ptype) . '.</p></div>';
+			break;
 		case 'pwd-success':
 			echo '<div class="updated"><p>' . i18n_r('ER_NEW_PWD_SENT') . '. <a href="index.php">' . i18n_r('LOGIN') . '</a></p></div>';
-		break;
+			break;
 		case 'pwd-error':
-			echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> ' . i18n_r('ER_SENDMAIL_ERR') . '.</p></div>';
-		break;
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_SENDMAIL_ERR') . '.</p></div>';
+			break;
 		case 'del-success':
-			echo '<div class="updated"><p>' . i18n_r('ER_FILE_DEL_SUC') . ': <b>' . $errid . '</b></p></div>';
-		break;
+			echo '<div class="updated"><p>' . i18n_r('ER_FILE_DEL_SUC') . ': <strong>' . $errid . '</strong></p></div>';
+			break;
 		case 'flushcache-success':
 			echo '<div class="updated"><p>' . i18n_r('FLUSHCACHE-SUCCESS') . '</p></div>';
-		break;
+			break;
 		case 'del-error':
-			echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> ' . i18n_r('ER_PROBLEM_DEL') . '.</p></div>';
-		break;
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_PROBLEM_DEL') . '.</p></div>';
+			break;
 		case 'comp-error':
-			echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> '. i18n_r('ER_COMPONENT_SAVE_ERROR') . '.</p></div>';
-		break;
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> '. i18n_r('ER_COMPONENT_SAVE_ERROR') . '.</p></div>';
+			break;
 		case 'comp-success':
 			echo '<div class="updated"><p>' . i18n_r('ER_COMPONENT_SAVE') . '. <a href="components.php?undo&nonce=' . get_nonce("undo") . '">' . i18n_r('UNDO') . '</a></p></div>';
-		break;
+			break;
 		case 'comp-restored':
 			echo '<div class="updated"><p>' . i18n_r('ER_COMPONENT_REST') . '. <a href="components.php?undo&nonce=' . get_nonce("undo") . '">' . i18n_r('UNDO') . '</a></p></div>';
-		break;
+			break;
 		case 'menu-success':
 			echo '<div class="updated"><p>' . i18n_r('MENU_MANAGER_SUCCESS') . '</p></div>';
-		break;
+			break;
 		case 'menu-error':
 			echo '<div class="error"><p>' . i18n_r('MENU_MANAGER_ERROR'). '</p></div>';
-		break;
-		
+			break;
+		case 'settings-success':
+			echo '<div class="updated"><p>' . i18n_r('ER_SETTINGS_UPD') . '. <a href="changedata.php?action=undo&nonce=' . get_nonce('undo', 'settings.php') . '">' . i18n_r('UNDO') . '</a></p></div>';
+			break;
+		case 'settings-error':
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_SETTINGS_SAVE_ERROR') . '</p></div>';
+			break;
+		case 'settings-restored':
+			echo '<div class="updated"><p>' . i18n_r('ER_OLD_RESTORED') .'</p></div>';
+			break;
+		case 'settings-restored-error':
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_OLD_RESTORED_ERROR') . '</p></div>';
+			break;
+		case 'user-success':
+			echo '<div class="updated"><p>' . i18n_r('ER_USER_UPD') . '. <a href="changedata.php?action=undo&nonce=' . get_nonce('undo', 'user.php') . '">' . i18n_r('UNDO') . '</a></p></div>';
+			break;
+		case 'user-error':
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_USER_SAVE_ERROR') . '</p></div>';
+			break;
+		case 'user-restored':
+			echo '<div class="updated"><p>' . i18n_r('ER_USER_RESTORED') .'</p></div>';
+			break;
+		case 'user-restored-error':
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_USER_RESTORED_ERROR') . '</p></div>';
+			break;
+		case 'user-password-mismatch':
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_USER_PASSWORD_MISMATCH') . '</p></div>';
+			break;
+		case 'theme-success':
+			echo '<div class="updated"><p>' . i18n_r('THEME_CHANGED') .'</p></div>';
+			break;
+		case 'theme-error':
+			echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('THEME_CHANGED_ERROR') . '</p></div>';
+			break;
 		/**/
 		default:
-			if (isset( $error )) echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> ' . $error . '</div>';
-			else if ($restored == 'true') echo '<div class="updated"><p>' . i18n_r('ER_OLD_RESTORED') . '. <a href="settings.php?undo&nonce=' . get_nonce("undo") . '">' . i18n_r('UNDO') . '</a></p></div>';
+			if (isset( $error )) echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . $error . '</div>';
 			else if (isset($_GET['rest']) && $_GET['rest'] == 'true') echo '<div class="updated"><p>' . i18n_r('ER_OLD_RESTORED') . '. <a href="support.php?undo&nonce=' . get_nonce("undo", "support.php") . '">' . i18n_r('UNDO') . '</a></p></div>';
 			elseif (isset($_GET['cancel'])) echo '<div class="error"><p>' . i18n_r('ER_CANCELLED_FAIL') . '</p></div>';
 			elseif (isset($error)) echo '<div class="error"><p>' . $error . '</div>';
-			elseif (!empty($err)) echo '<div class="error"><p><b>' . i18n_r('ERROR') . ':</b> ' . $err . '</p></div>';
+			elseif (!empty($err)) echo '<div class="error"><p><strong>' . i18n_r('ERROR') . ':</strong> ' . $err . '</p></div>';
 			elseif (isset($success)) echo '<div class="updated"><p>' . $success . '</p></div>';
-			elseif ( $restored == 'true') echo '<div class="updated"><p>' . i18n_r('ER_OLD_RESTORED') . '. <a href="settings.php?undo&nonce=' . get_nonce("undo") . '">' . i18n_r('UNDO') . '</a></p></div>';
-		break;
+			break;
 		/**/
 	}

@@ -7,9 +7,9 @@
 
 if (cookie_check()) {
 	echo '<ul id="pill">';
-	echo '<li class="user"><a href="settings.php#profile">' . i18n_r('WELCOME') . ', <strong>' . ($datau->NAME != '' ? var_out($datau->NAME) : $USR) . '</strong></a></li>';
-	if ($dataw->SITEMAINTENANCE == '1') {
-		echo '<li class="mode maintenance"><a href="settings.php#sitemaintenance">' . i18n_r('MAINTENANCE_MODE') . '</a></li>';
+	echo '<li class="user"><a href="user.php">' . i18n_r('WELCOME') . ', <strong>' . ($datau->name != '' ? var_out($datau->name) : $USR) . '!</strong></a></li>';
+	if ($dataw->maintenance == '1') {
+		echo '<li class="mode maintenance"><a href="settings.php#maintenance">' . i18n_r('MAINTENANCE_MODE') . '</a></li>';
 	}
 	if (isDebug()) {
 		echo '<li class="mode debug"><a href="https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Debug-Mode" target="_blank">' . i18n_r('DEBUG_MODE') . '</a></li>';

@@ -203,6 +203,7 @@ $i18n = array(
  * For: theme.php
 */
 "THEME_CHANGED"			=>	"Your theme has been changed successfully",
+"THEME_CHANGED_ERROR" => "There was a problem changing your theme",
 "CHOOSE_THEME"			=>	"Choose Your Theme",
 "ACTIVATE_THEME"		=>	"Activate Theme",
 "THEME_SCREENSHOT"	=>	"Theme Screenshot",
@@ -236,15 +237,20 @@ $i18n = array(
 "MORE" 							=> 	"more",
 "HELP" 							=> 	"help",
 "FLUSHCACHE"        =>  "Flush All Caches",
-"FLUSHCACHE-SUCCESS"=>  "Caches Flushed Successfully",
+"FLUSHCACHE-SUCCESS"=>  "Caches flushed successfully",
 "DISPLAY_NAME"			=>  "A name for public display that is not your username",
-"LABEL_USERDESCRIPTION" =>  "Description",
-"DISPLAY_USERDESCRIPTION" =>  "A personal information for public display",
+"LABEL_USERDESCRIPTION" => "User Description",
+"DISPLAY_USERDESCRIPTION" => "A personal information for public display",
 "MAINTENANCE_ENABLE"  => "Enable Maintenance Mode - <b style=\"font-weight:100\">Allows you to display a user-friendly notice to your visitors during website maintenance</b>",
 
-/* 
+/*
+ * For user.php
+ */
+"USER_SETTINGS" => "User Settings",
+
+/*
  * For: health-check.php
-*/
+ */
 "WEB_HEALTH_CHECK"	=>	"Website Health Check",
 "VERSION"						=>	"Version",
 "UPG_NEEDED"				=>	"Upgrade Recommended",
@@ -342,7 +348,7 @@ $i18n = array(
  * For: sidebar-settings.php
 */
 "SIDE_GEN_SETTINGS"	=>	"General <em>S</em>ettings",
-"SIDE_USER_PROFILE"	=>	"<em>U</em>ser Profile",
+"SIDE_USER_PROFILE"	=>	"<em>U</em>ser Profile Settings",
 
 /* 
  * For: sidebar-backups.php
@@ -354,7 +360,7 @@ $i18n = array(
 /* 
  * For: error_checking.php
 */
-"ER_PWD_CHANGE"			=>	"Don't forget to <a href=\"settings.php#profile\">change your password</a> from that random generated one you have now...",
+"ER_PWD_CHANGE"			=>	"Don't forget to <a href=\"user.php#password\">change your password</a> from that random generated one you have now...",
 "ER_BAKUP_DELETED"	=>	"The backup has been deleted for <b>%s</b>",
 "ER_REQ_PROC_FAIL"	=>	"The requested process failed",
 "ER_YOUR_CHANGES"		=>	"Your changes to <b>%s</b> have been saved",
@@ -362,7 +368,14 @@ $i18n = array(
 "ER_HASBEEN_DEL"		=>	"<b>%s</b> has been deleted",
 "ER_CANNOT_INDEX"		=>	"You cannot change the URL of the index page",
 "ER_SETTINGS_UPD"		=>	"Your settings have been updated",
-"ER_OLD_RESTORED"		=>	"Your old settings have been restored",
+"ER_SETTINGS_SAVE_ERROR" => "There was a problem saving your settings",
+"ER_OLD_RESTORED"		=>	"Your last settings have been restored",
+"ER_OLD_RESTORED_ERROR"		=> "There was a problem restoring your last settings",
+"ER_USER_UPD"		=>	"User profile settings have been updated",
+"ER_USER_SAVE_ERROR" => "There was a problem saving user profile settings",
+"ER_USER_RESTORED"		=>	"Your last user profile settings have been restored",
+"ER_USER_RESTORED_ERROR"		=> "There was a problem restoring your last user profile settings",
+"ER_USER_PASSWORD_MISMATCH" => "Password and confirm password does not match",
 "ER_NEW_PWD_SENT"		=>	"A new password has been sent to the email address provided",
 "ER_SENDMAIL_ERR"		=>	"There was a problem sending the email. Please try again",
 "ER_FILE_DEL_SUC"		=>	"File deleted successfully",
@@ -609,7 +622,7 @@ $i18n = array(
 "MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",
 "ALLOW_ACCESS_IN_MAINTENANCE" => "Access to website in Maintenance Mode - <b style=\"font-weight:100\">Allow access to website while Maintenance Mode is enabled</b>",
 "LABEL_WEBSITELANG" => "Website Language",
-"DISPLAY_WEBSITELANG" => "A code of language of website content (en, de, fr, it, ru, be, ua, etc.). Set per page language in page editor",
+"DISPLAY_WEBSITELANG" => "The code of language of website content (en, de, fr, it, ru, be, ua, etc.). Set per page language in page editor",
 "LABEL_PAGELANG"  => "Language",
 "PLACEHOLDER_LANG" => "en",
 "LABEL_IMAGE" => "Image",

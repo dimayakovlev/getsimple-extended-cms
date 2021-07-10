@@ -63,7 +63,7 @@ if (count($components) != 0) {
 		$submitclass = 'hidden';
 	}
 # register and queue CodeMirror files
-if ($datau->CODEEDITOR == '1') {
+if ($datau->enableCodeEditor == '1') {
 	register_script('codemirror', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', false);
 	register_style('codemirror-css', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror.css','screen', false);
 	register_style('codemirror-theme', $SITEURL . $GSADMIN . '/template/js/codemirror/theme/default.css','screen', false);
@@ -97,7 +97,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 		<div id="components-new"></div>
 		<?php echo $table; ?>
 		<?php
-			if ($datau->CODEEDITOR == '1') {
+			if ($datau->enableCodeEditor == '1') {
 		?>
 		<style>
 			.compdiv .CodeMirror, .compdiv .CodeMirror-scroll { height: <?php echo $EDHEIGHT; ?>; }

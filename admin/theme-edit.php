@@ -93,7 +93,7 @@ foreach ($templates as $file) {
 $theme_templates .= "</select></span>";
 
 # register and queue CodeMirror files
-if ($datau->CODEEDITOR == '1') {
+if ($datau->enableCodeEditor == '1') {
 	register_script('codemirror', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', false);
 	register_style('codemirror-css', $SITEURL . $GSADMIN . '/template/js/codemirror/lib/codemirror.css','screen', false);
 	register_style('codemirror-theme', $SITEURL . $GSADMIN . '/template/js/codemirror/theme/default.css','screen', false);
@@ -125,7 +125,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('THEME_MANAGEMENT'));
 			</p>
 		</form>
 <?php
-if ($datau->CODEEDITOR == 1) {
+if ($datau->enableCodeEditor == 1) {
 	switch (strtolower(pathinfo($template_file, PATHINFO_EXTENSION))) {
 		case 'css':
 			$mode = 'text/css';

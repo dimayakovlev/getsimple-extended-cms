@@ -10,7 +10,7 @@
 
 # setup inclusions
 $load['plugin'] = true;
-if(isset($_POST['lang']) && trim($_POST['lang']) != '') { $LANG = $_POST['lang']; }
+if (isset($_POST['lang']) && trim($_POST['lang']) != '') $LANG = $_POST['lang'];
 include('inc/common.php');
 
 # default variables
@@ -26,27 +26,27 @@ $path_parts = suggest_site_path(true);
 
 # if the form was submitted, continue
 if(isset($_POST['submitted'])) {
-	if($_POST['sitename'] != '') {
-		$SITENAME = htmlentities($_POST['sitename'], ENT_QUOTES, 'UTF-8'); 
+	if ($_POST['sitename'] != '') {
+		$SITENAME = htmlentities($_POST['sitename'], ENT_QUOTES, 'UTF-8');
 	} else {
-		$err .= i18n_r('WEBSITENAME_ERROR') .'<br />'; 
+		$err .= i18n_r('WEBSITENAME_ERROR') . '<br />';
 	}
 
-	$urls = $_POST['siteurl']; 
-	if(preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $urls)) {
-		$SITEURL = tsl($_POST['siteurl']); 
+	$urls = $_POST['siteurl'];
+	if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $urls)) {
+		$SITEURL = tsl($_POST['siteurl']);
 	} else {
-		$err .= i18n_r('WEBSITEURL_ERROR') .'<br />'; 
+		$err .= i18n_r('WEBSITEURL_ERROR') .'<br />';
 	}
 
-	if($_POST['user'] != '') { 
+	if($_POST['user'] != '') {
 		$USR = strtolower($_POST['user']);
 	} else {
-		$err .= i18n_r('USERNAME_ERROR') .'<br />';
+		$err .= i18n_r('USERNAME_ERROR') . '<br />';
 	}
 
 	if (! check_email_address($_POST['email'])) {
-		$err .= i18n_r('EMAIL_ERROR') .'<br />';
+		$err .= i18n_r('EMAIL_ERROR') . '<br />';
 	} else {
 		$EMAIL = $_POST['email'];
 	}
@@ -60,49 +60,53 @@ if(isset($_POST['submitted'])) {
 		# create user xml file
 		$file = _id($USR).'.xml';
 		createBak($file, GSUSERSPATH, GSBACKUSERSPATH);
-		$xml = new SimpleXMLElement('<item></item>');
-		$xml->addChild('USR', $USR);
-		$xml->addChild('DESCRIPTION', '');
-		$xml->addChild('PWD', $PASSWD);
-		$xml->addChild('EMAIL', $EMAIL);
-		$xml->addChild('HTMLEDITOR', '1');
-		$xml->addChild('CODEEDITOR', '1');
-		$xml->addChild('TIMEZONE', $TIMEZONE);
-		$xml->addChild('LANG', $LANG);
-		$xml->addChild('accessInMaintenance', '1');
-		$xml->addChild('DATECREATED', date('r'));
-		$xml->addChild('DATEMODIFIED', date('r'));
-		if (! XMLsave($xml, GSUSERSPATH . $file) ) {
+		$xml = new SimpleXMLExtended('<item></item>');
+		$xml->addChild('user', $USR);
+		$xml->addChild('name')->addCData('');
+		$xml->addChild('description')->addCData('');
+		$xml->addChild('email')->addCData($EMAIL);
+		$xml->addChild('password', $PASSWD);
+		$xml->addChild('enableHTMLEditor', '1');
+		$xml->addChild('enableCodeEditor', '1');
+		$xml->addChild('timezone', $TIMEZONE);
+		$xml->addChild('lang', $LANG);
+		$xml->addChild('accessFrontMaintenance', '1');
+		$xml->addAttribute('revisionNumber', '1');
+		$xml->addAttribute('created',  date('r'));
+		$xml->addAttribute('modified', date('r'));
+		$xml->addAttribute('user', $USR);
+		if (!XMLsave($xml, GSUSERSPATH . $file)) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
 
 		# create password change trigger file
-		$flagfile = GSUSERSPATH . _id($USR).".xml.reset";
+		$flagfile = GSUSERSPATH . _id($USR). '.xml.reset';
 		copy(GSUSERSPATH . $file, $flagfile);
 
 		# create new website.xml file
 		$file = 'website.xml';
 		$xmls = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
-		$note = $xmls->addChild('SITENAME');
-		$note->addCData($SITENAME);
-		$xmls->addChild('SITEDESCRIPTION', '');
-		$note = $xmls->addChild('SITEURL');
-		$note->addCData($SITEURL);
-		$xmls->addChild('TEMPLATE', 'Innovation');
-		$xmls->addChild('PRETTYURLS', '');
-		$xmls->addChild('PERMALINK', '');
-		$xmls->addChild('SITEMAINTENANCE', '1');
-		$xmls->addChild('DATECREATED', date('r'));
-		$xmls->addChild('DATEMODIFIED', date('r'));
-		if (! XMLsave($xmls, GSDATAOTHERPATH . $file) ) {
+		$xmls->addChild('title')->addCData($SITENAME);
+		$xmls->addChild('description')->addCData('');
+		$xmls->addChild('url')->addCData($SITEURL);
+		$xmls->addChild('theme', 'Innovation');
+		$xmls->addChild('prettyurls', '');
+		$xmls->addChild('permalink')->addCData('');
+		$xmls->addChild('maintenance', '1');
+		$xmls->addChild('lang')->addCData('');
+		$xmls->addAttribute('revisionNumber', '1');
+		$xmls->addAttribute('created', date('r'));
+		$xmls->addAttribute('modified', date('r'));
+		$xmls->addAttribute('user', $USR);
+		if (!XMLsave($xmls, GSDATAOTHERPATH . $file)) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
 
 		# create default index.xml page
-		$init = GSDATAPAGESPATH.'index.xml'; 
-		$temp = GSADMININCPATH.'tmp/tmp-index.xml';
-		if (! file_exists($init)) {
-			copy($temp,$init);
+		$init = GSDATAPAGESPATH . 'index.xml'; 
+		$temp = GSADMININCPATH . 'tmp/tmp-index.xml';
+		if (!file_exists($init)) {
+			copy($temp, $init);
 			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
@@ -112,8 +116,8 @@ if(isset($_POST['submitted'])) {
 		}
 
 		# create default components.xml page
-		$init = GSDATAOTHERPATH.'components.xml';
-		$temp = GSADMININCPATH.'tmp/tmp-components.xml';
+		$init = GSDATAOTHERPATH . 'components.xml';
+		$temp = GSADMININCPATH . 'tmp/tmp-components.xml';
 		if (!file_exists($init)) {
 			copy($temp, $init);
 		}
@@ -122,7 +126,7 @@ if(isset($_POST['submitted'])) {
 		$init = GSDATAOTHERPATH.'503.xml';
 		$temp = GSADMININCPATH.'tmp/tmp-503.xml';
 		if (!file_exists($init)) {
-			copy($temp,$init);
+			copy($temp, $init);
 			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
@@ -135,7 +139,7 @@ if(isset($_POST['submitted'])) {
 		$init = GSDATAOTHERPATH.'403.xml';
 		$temp = GSADMININCPATH.'tmp/tmp-403.xml';
 		if (!file_exists($init)) {
-			copy($temp,$init);
+			copy($temp, $init);
 			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
@@ -148,7 +152,7 @@ if(isset($_POST['submitted'])) {
 		$init = GSDATAOTHERPATH.'404.xml';
 		$temp = GSADMININCPATH.'tmp/tmp-404.xml';
 		if (!file_exists($init)) {
-			copy($temp,$init);
+			copy($temp, $init);
 			$xml = simplexml_load_file($init);
 			$xml->pubDate = date('r');
 			$xml->creDate = date('r');
@@ -160,7 +164,7 @@ if(isset($_POST['submitted'])) {
 		# create root .htaccess file
 		 if (!function_exists('apache_get_modules') or in_arrayi('mod_rewrite',apache_get_modules())) {
 		 	$temp = GSROOTPATH . 'temp.htaccess';
-		 	$init = GSROOTPATH. '.htaccess';
+		 	$init = GSROOTPATH . '.htaccess';
 
 			if(file_exists($temp)) {
 				$temp_data = file_get_contents(GSROOTPATH . 'temp.htaccess');
@@ -173,7 +177,7 @@ if(isset($_POST['submitted'])) {
 				} else if(file_exists($temp)){
 					unlink($temp);
 				}
-			}	
+			}
 		} 
 
 		# create gsconfig.php if it doesn't exist yet.
@@ -218,34 +222,33 @@ get_template('header', $site_full_name .' &raquo; '. i18n_r('INSTALLATION'));
 		<?php
 			# display error or success messages
 			if ($status == 'success') {
-				echo '<div class="updated">'. i18n_r('NOTE_REGISTRATION') .' '. $_POST['email'] .'</div>';
-			}
-			elseif ($status == 'error') {
-				echo '<div class="error">'. i18n_r('NOTE_REGERROR') .'.</div>';
+				echo '<div class="updated">' . i18n_r('NOTE_REGISTRATION') .' ' . $_POST['email'] . '</div>';
+			} elseif ($status == 'error') {
+				echo '<div class="error">' . i18n_r('NOTE_REGERROR') . '.</div>';
 			}
 			if ($kill != '') {
 				$success = false;
-				echo '<div class="error">'. $kill .'</div>';
+				echo '<div class="error">' . $kill . '</div>';
 			}
 			if ($err != '') {
 				// $success = false;
-				echo '<div class="error">'. $err .'</div>';
+				echo '<div class="error">' . $err . '</div>';
 			}
 			if ($random != '') {
-				echo '<div class="updated">'.i18n_r('NOTE_USERNAME').' <b>'. stripslashes($_POST['user']) .'</b> '.i18n_r('NOTE_PASSWORD').' <b>'. $random .'</b> &nbsp&raquo;&nbsp; <a href="support.php?updated=2">'.i18n_r('EMAIL_LOGIN').'</a></div>';
+				echo '<div class="updated">' . i18n_r('NOTE_USERNAME') . ' <b>' . stripslashes($_POST['user']) . '</b> ' . i18n_r('NOTE_PASSWORD') . ' <b>' . $random . '</b> &nbsp&raquo;&nbsp; <a href="support.php?updated=2">' . i18n_r('EMAIL_LOGIN') . '</a></div>';
 				$_POST = null;
 			}
 
 	if (!$success) { ?>
-		<div class="main" >
-			<h3><?php echo $site_full_name .' '. i18n_r('INSTALLATION'); ?></h3>
-			<form action="<?php myself(); ?>" method="post" accept-charset="utf-8" >
-				<input name="siteurl" type="hidden" value="<?php echo $fullpath; ?>" />
-				<input name="lang" type="hidden" value="<?php echo $LANG; ?>" />
-				<p><label for="sitename" ><?php i18n('LABEL_WEBSITE'); ?>:</label><input class="text" id="sitename" name="sitename" type="text" value="<?php if(isset($_POST['sitename'])) { echo $_POST['sitename']; } ?>" /></p>
-				<p><label for="user" ><?php i18n('LABEL_USERNAME'); ?>:</label><input class="text" name="user" id="user" type="text" value="<?php if(isset($_POST['user'])) { echo $_POST['user']; } ?>" /></p>
-				<p><label for="email" ><?php i18n('LABEL_EMAIL'); ?>:</label><input class="text" name="email" id="email" type="email" value="<?php if(isset($_POST['email'])) { echo $_POST['email']; } ?>" /></p>
-				<p><input class="submit" type="submit" name="submitted" value="<?php i18n('LABEL_INSTALL'); ?>" /></p>
+		<div class="main">
+			<h3><?php echo $site_full_name . ' ' . i18n_r('INSTALLATION'); ?></h3>
+			<form action="<?php myself(); ?>" method="post" accept-charset="utf-8">
+				<input name="siteurl" type="hidden" value="<?php echo $fullpath; ?>">
+				<input name="lang" type="hidden" value="<?php echo $LANG; ?>">
+				<p><label for="sitename"><?php i18n('LABEL_WEBSITE'); ?>:</label><input class="text" id="sitename" name="sitename" type="text" value="<?php if(isset($_POST['sitename'])) { echo $_POST['sitename']; } ?>"></p>
+				<p><label for="user"><?php i18n('LABEL_USERNAME'); ?>:</label><input class="text" name="user" id="user" type="text" value="<?php if(isset($_POST['user'])) { echo $_POST['user']; } ?>"></p>
+				<p><label for="email"><?php i18n('LABEL_EMAIL'); ?>:</label><input class="text" name="email" id="email" type="email" value="<?php if(isset($_POST['email'])) { echo $_POST['email']; } ?>"></p>
+				<p><input class="submit" type="submit" name="submitted" value="<?php i18n('LABEL_INSTALL'); ?>"></p>
 			</form>
 		</div>
 </div>

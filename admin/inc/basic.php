@@ -1,4 +1,4 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')) die('you cannot load this page directly.');
 /**
  * Basic Functions
  *
@@ -301,8 +301,7 @@ function XMLsave($xml, $file) {
 	if (getDef('GSFORMATXML', true)) $data = formatXmlString($data); // format xml if config setting says so
 	$data = exec_filter('xmlsave', $data); // @filter xmlsave executed before writing string to file
 	$success = file_put_contents($file, $data); // LOCK_EX ?
-	
-	// debugLog('XMLsave: ' . $file . ' ' . get_execution_time());	
+	// debugLog('XMLsave: ' . $file . ' ' . get_execution_time());
 	if (getDef('GSDOCHMOD') === false) return $success;
 	if (defined('GSCHMOD')) {
 		return $success && chmod($file, GSCHMOD);
