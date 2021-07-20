@@ -23,7 +23,7 @@ $plugin_class = get_filename_id() == 'load' ? $plugin_info[$plugin_id]['page_typ
 
 ?>
 		<h1 id="sitename"><a href="<?php echo $SITEURL; ?>" target="_blank" ><?php echo cl($SITENAME); ?></a></h1>
-		<ul role="navigation" class="nav <?php echo $plugin_class; ?>">
+		<ul class="nav <?php echo $plugin_class; ?>">
 			<li id="nav_pages"><a class="pages" href="pages.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_PAGES'));?>"><?php i18n('TAB_PAGES');?></a></li>
 			<li id="nav_upload"><a class="files" href="upload.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_FILES'));?>"><?php i18n('TAB_FILES');?></a></li>
 			<li id="nav_theme"><a class="theme" href="theme.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_THEME'));?>"><?php i18n('TAB_THEME');?></a></li>
