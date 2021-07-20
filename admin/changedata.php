@@ -170,6 +170,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addAttribute('disableHTMLEditor', (string)filter_input(INPUT_POST, 'disable-html-editor', FILTER_VALIDATE_BOOLEAN));
 		$xml->addAttribute('disableCodeEditor', (string)filter_input(INPUT_POST, 'disable-code-editor', FILTER_VALIDATE_BOOLEAN));
 		$xml->addAttribute('revisionNumber', (int)filter_input(INPUT_POST, 'revision-number', FILTER_SANITIZE_NUMBER_INT) + 1);
+		$xml->addAttribute('appName', $site_full_name);
+		$xml->addAttribute('appVersion', $site_version_no);
 
 		exec_action('changedata-save');
 		if (isset($_POST['autosave']) && $_POST['autosave'] == 'true' && $autoSaveDraft == true) {
@@ -214,6 +216,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 					$data->pubDate = date('r');
 					$data->publisher = $USR;
 					$data->attributes()->revisionNumber = (int)$data->attributes()->revisionNumber + 1;
+					$data->attributes()->appName = $site_full_name;
+					$data->attributes()->appVersion = $site_version_no;
 					copy($file, GSBACKUPSPATH . 'pages/' . $slug. '.bak.xml');
 					XMLsave($data, $file);
 				}
@@ -232,6 +236,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 	$xml->addAttribute('created', filter_input(INPUT_POST, 'created') ?: date('r'));
 	$xml->addAttribute('modified', date('r'));
 	$xml->addAttribute('user', $USR);
+	$xml->addAttribute('appName', $site_full_name);
+	$xml->addAttribute('appVersion', $site_version_no);
 	$components = array();
 	if (isset($_POST['components'])) {
 		foreach($_POST['components'] as $component) {
@@ -292,6 +298,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 	$xml->addAttribute('created', filter_input(INPUT_POST, 'created') ?: date('r'));
 	$xml->addAttribute('modified', date('r'));
 	$xml->addAttribute('user', $USR);
+	$xml->addAttribute('appName', $site_full_name);
+	$xml->addAttribute('appVersion', $site_version_no);
 	$file = 'website.xml';
 	createBak($file, GSDATAOTHERPATH, GSBACKUPSPATH . 'other/');
 	exec_action('settings-website');
@@ -319,6 +327,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 	$xml->attributes()->revisionNumber = (int)$xml->attributes()->revisionNumber + 1;
 	$xml->attributes()->modified = date('r');
 	$xml->attributes()->user = $USR;
+	$xml->attributes()->appName = $site_full_name;
+	$xml->attributes()->appVersion = $site_version_no;
 	createBak($file, GSDATAOTHERPATH, GSBACKUPSPATH . 'other/');
 	redirect($referer . '?upd=' . (XMLsave($xml, GSDATAOTHERPATH . $file) ? 'theme-success' : 'theme-error'));
 } elseif ($referer == 'user.php' && $action == 'save') {
@@ -346,6 +356,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 	$xml->addAttribute('created', (string)$xml_old->attributes()->created ?: date('r'));
 	$xml->addAttribute('modified', date('r'));
 	$xml->addAttribute('user', $USR);
+	$xml->addAttribute('appName', $site_full_name);
+	$xml->addAttribute('appVersion', $site_version_no);
 	createBak($file, GSUSERSPATH, GSBACKUSERSPATH);
 	if (XMLsave($xml, GSUSERSPATH . $file)) {
 		if (file_exists(GSUSERSPATH . $file. '.reset')) unlink(GSUSERSPATH . $file . '.reset');

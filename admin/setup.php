@@ -75,6 +75,8 @@ if(isset($_POST['submitted'])) {
 		$xml->addAttribute('created',  date('r'));
 		$xml->addAttribute('modified', date('r'));
 		$xml->addAttribute('user', $USR);
+		$xml->addAttribute('appName', $site_full_name);
+		$xml->addAttribute('appVersion', $site_version_no);
 		if (!XMLsave($xml, GSUSERSPATH . $file)) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
@@ -98,6 +100,8 @@ if(isset($_POST['submitted'])) {
 		$xmls->addAttribute('created', date('r'));
 		$xmls->addAttribute('modified', date('r'));
 		$xmls->addAttribute('user', $USR);
+		$xmls->addAttribute('appName', $site_full_name);
+		$xmls->addAttribute('appVersion', $site_version_no);
 		if (!XMLsave($xmls, GSDATAOTHERPATH . $file)) {
 			$kill = i18n_r('CHMOD_ERROR');
 		}
@@ -112,6 +116,8 @@ if(isset($_POST['submitted'])) {
 			$xml->creDate = date('r');
 			$xml->author = $USR;
 			$xml->publisher = $USR;
+			$xml->addAttribute('appName', $site_full_name);
+			$xml->addAttribute('appVersion', $site_version_no);
 			$xml->asXML($init);
 		}
 
@@ -120,6 +126,14 @@ if(isset($_POST['submitted'])) {
 		$temp = GSADMININCPATH . 'tmp/tmp-components.xml';
 		if (!file_exists($init)) {
 			copy($temp, $init);
+			$xml = simplexml_load_file($init);
+			$xml->addAttribute('appName', $site_full_name);
+			$xml->addAttribute('appVersion', $site_version_no);
+			$xml->addAttribute('revisionNumber', '1');
+			$xml->addAttribute('created', date('r'));
+			$xml->addAttribute('modified', date('r'));
+			$xml->addAttribute('user', $USR);
+			$xml->asXML($init);
 		}
 
 		# create default 503.xml page
@@ -132,6 +146,8 @@ if(isset($_POST['submitted'])) {
 			$xml->creDate = date('r');
 			$xml->author = $USR;
 			$xml->publisher = $USR;
+			$xml->addAttribute('appName', $site_full_name);
+			$xml->addAttribute('appVersion', $site_version_no);
 			$xml->asXML($init);
 		}
 
@@ -145,6 +161,8 @@ if(isset($_POST['submitted'])) {
 			$xml->creDate = date('r');
 			$xml->author = $USR;
 			$xml->publisher = $USR;
+			$xml->addAttribute('appName', $site_full_name);
+			$xml->addAttribute('appVersion', $site_version_no);
 			$xml->asXML($init);
 		}
 
@@ -158,6 +176,8 @@ if(isset($_POST['submitted'])) {
 			$xml->creDate = date('r');
 			$xml->author = $USR;
 			$xml->publisher = $USR;
+			$xml->addAttribute('appName', $site_full_name);
+			$xml->addAttribute('appVersion', $site_version_no);
 			$xml->asXML($init);
 		}
 

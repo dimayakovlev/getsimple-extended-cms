@@ -139,10 +139,12 @@ if (file_exists(GSDATAOTHERPATH .'user.xml')) {
 	$xml->addChild('permalink')->addCData((string)$dataw->permalink);
 	$xml->addChild('lang')->addCData((string)$dataw->lang);
 	$xml->addChild('maintenance', (string)$dataw->maintenance);
-	$xmls->addAttribute('revisionNumber', (string)$dataw->attributes()->revisionNumber ?: '1');
-	$xmls->addAttribute('created', (string)$dataw->attributes()->created ?: date('r'));
-	$xmls->addAttribute('modified', date('r'));
-	$xmls->addAttribute('user', $USR);
+	$xml->addAttribute('revisionNumber', (string)$dataw->attributes()->revisionNumber ?: '1');
+	$xml->addAttribute('created', (string)$dataw->attributes()->created ?: date('r'));
+	$xml->addAttribute('modified', date('r'));
+	$xml->addAttribute('user', $USR);
+	$xml->addAttribute('appName', $site_full_name);
+	$xml->addAttribute('appVersion', $site_version_no);
 	$status = XMLsave($xml, GSDATAOTHERPATH .'website.xml');
 	if (!$status) {
 		$error .= msgError('Unable to update website.xml file!');
