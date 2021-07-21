@@ -102,6 +102,13 @@ include('template/include-nav.php');
                 <p id="submit_line">
                     <span><input class="submit" type="submit" name="submitted" value="<?php i18n('BTN_SAVESETTINGS');?>" /></span> <?php i18n('OR'); ?> <a class="cancel" href="settings.php?cancel"><?php i18n('CANCEL'); ?></a>
                 </p>
+                <p class="backuplink">
+                <?php
+                    if ((string)$datau->attributes()->modified) {
+                        echo sprintf(i18n_r('LAST_SAVED'), '<em>' . ((string)$datau->attributes()->user ?: '-') . '</em>', lngDate((string)$datau->attributes()->modified));
+                    }
+                ?>
+                </p>
             </form>
         </div>
     </div>

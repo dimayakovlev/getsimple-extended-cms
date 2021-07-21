@@ -329,14 +329,14 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				
 			</div>
 
-			<?php if($url != '') { ?>
-				<p class="backuplink"><?php 
+			<?php if ($url != '') { ?>
+				<p class="backuplink"><?php
 					if (isset($pubDate)) {
-						echo sprintf(i18n_r('LAST_SAVED'), '<em>'.($publisher ? $publisher : '-').'</em>').' '. lngDate($pubDate).'&nbsp;&nbsp; ';
+						echo sprintf(i18n_r('LAST_SAVED'), '<em>' . ($publisher ?: '-') . '</em>', lngDate($pubDate));
 					}
-					if ( file_exists(GSBACKUPSPATH.'pages/'.$url.'.bak.xml') ) {
-						echo '&bull;&nbsp;&nbsp; <a href="backup-edit.php?p=view&amp;id='.$url.'" target="_blank">'.i18n_r('BACKUP_AVAILABLE').'</a>';
-					} 
+					if (file_exists(GSBACKUPSPATH . 'pages/' . $url . '.bak.xml')) {
+						echo ' &bull; <a href="backup-edit.php?p=view&amp;id=' . $url . '" target="_blank">' . i18n_r('BACKUP_AVAILABLE') . '</a>';
+					}
 				?></p>
 			<?php } ?>
 

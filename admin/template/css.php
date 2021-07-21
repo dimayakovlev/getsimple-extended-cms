@@ -1165,7 +1165,7 @@ form.manyinputs textarea {
 	height: 200px;
 }
 
-form.manyinputs p {
+form.manyinputs p:not(.backuplink) {
 	margin: 0 0 25px 0;
 }
 

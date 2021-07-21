@@ -33,8 +33,8 @@ if (isset($_GET['undo'])) {
 }
 
 # create components form html
-$data = getXML($path . $file);
-$components = $data ? $data->children() : array();
+$datac = getXML($path . $file);
+$components = $datac ? $datac->children() : array();
 $count = 0;
 if (count($components) != 0) {
 	foreach ($components as $component) {
@@ -92,7 +92,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 	<form class="manyinputs" action="changedata.php" method="post" accept-charset="utf-8">
 		<input type="hidden" id="id" value="<?php echo $count; ?>">
 		<input type="hidden" id="nonce" name="nonce" value="<?php echo get_nonce('save', pathinfo(__FILE__, PATHINFO_BASENAME)); ?>">
-		<input type="hidden" id="created" name="created" value="<?php echo $data ? (string)$data->attributes()->created : ''; ?>">
+		<input type="hidden" id="created" name="created" value="<?php echo $datac ? (string)$datac->attributes()->created : ''; ?>">
 		<input id="action" name="action" type="hidden" value="save">
 		<div id="components-new"></div>
 		<?php echo $table; ?>
@@ -121,7 +121,14 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 			GS.i18n['COMPONENT_CODE'] = "<?php i18n('COMPONENT_CODE'); ?>";
 		</script>
 		<p id="submit_line" class="<?php echo $submitclass; ?>">
-			<span><input type="submit" class="submit" name="submitted" id="button" value="<?php i18n('SAVE_COMPONENTS');?>" /></span> &nbsp;&nbsp;<?php i18n('OR'); ?>&nbsp;&nbsp; <a class="cancel" href="components.php?cancel"><?php i18n('CANCEL'); ?></a>
+			<span><input type="submit" class="submit" name="submitted" value="<?php i18n('SAVE_COMPONENTS');?>" /></span> <?php i18n('OR'); ?> <a class="cancel" href="components.php?cancel"><?php i18n('CANCEL'); ?></a>
+		</p>
+		<p class="backuplink">
+			<?php
+				if ((string)$datac->attributes()->modified) {
+					echo sprintf(i18n_r('LAST_SAVED'), '<em>' . ((string)$datac->attributes()->user ?: '-') . '</em>', lngDate((string)$datac->attributes()->modified));
+				}
+			?>
 		</p>
 	</form>
 	</div>
