@@ -112,7 +112,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('THEME_MANAGEMENT'));
 		<h3><?php i18n('EDIT_THEME'); ?></h3>
 		<form id="theme-files-selector" action="<?php myself(); ?>" method="get" accept-charset="utf-8"><?php echo $theme_options; ?><?php echo $theme_templates; ?><input class="submit" type="submit" name="s" value="<?php i18n('EDIT'); ?>" /></form>
 
-		<p><b><?php i18n('EDITING_FILE'); ?>:</b> <code><?php echo $SITEURL.'theme/'. tsl($template) .'<b>'. $template_file; ?></b></code></p>
+		<p><strong><?php i18n('EDITING_FILE'); ?>:</strong> <code><?php echo $SITEURL.'theme/'. tsl($template) .'<strong>'. $template_file; ?></strong></code></p>
 		<?php $content = file_get_contents(GSTHEMESPATH . tsl($template) . $template_file); ?>
 
 		<form action="<?php myself(); ?>?t=<?php echo $template; ?>&amp;f=<?php echo $template_file; ?>" method="post" >

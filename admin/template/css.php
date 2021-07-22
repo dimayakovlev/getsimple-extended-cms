@@ -2084,7 +2084,7 @@ a.disabled:visited {
 	box-shadow: 1px 0 1px rgba(0, 0, 0, 0.14) !important;
 }
 
-#theme-files-selector {
+#theme-selector, #theme-files-selector {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
