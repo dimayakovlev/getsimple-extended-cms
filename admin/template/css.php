@@ -636,7 +636,7 @@ h5:hover img {
 .wrapper table {
 	border-collapse: collapse;
 	margin: 0 0 20px 0;
-	width: 645px;
+	width: 100%;
 }
 
 .wrapper table td {
