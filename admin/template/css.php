@@ -1170,7 +1170,7 @@ form.manyinputs p:not(.backuplink) {
 }
 
 .compdiv {
-	padding: 10px 0 35px 0;
+	padding-bottom: 10px;
 }
 
 table.comptable {
@@ -1181,10 +1181,19 @@ table.comptable {
 	padding: 0;
 }
 
-table.comptable tr td {
+table.comptable td {
 	font-size: 12px;
 	border: none;
-	padding: 0;
+	vertical-align: middle;
+}
+
+table.comptable td:first-child {
+	padding-left: 0;
+	width: 1ch;
+}
+
+table.comptable td:last-child {
+	padding-right: 0;
 }
 
 table.comptable tr td code {
@@ -1196,12 +1205,15 @@ table.comptable tr td code {
 }
 
 table.comptable tr {
-	border: none;
 	border: none !important;
 }
 
-table.comptable tr td input.newtitle {
-	margin-bottom: 2px !important;
+table.comptable input[name$="[enabled]"] {
+	vertical-align: middle;
+}
+
+table.comptable input[name$="[enabled]"] + label {
+	display: none;
 }
 
 .wrapper a.component {
@@ -1531,7 +1543,6 @@ table.simple td.title {
 }
 
 .editable {
-	padding: 3px 1px;
 	cursor: pointer;
 	transition: background-color .3s ease-in-out;
 		-webkit-transition: background-color .3s ease-in-out;
@@ -1570,7 +1581,6 @@ table.simple td.title {
 .wrapper table.highlight tr.img-highlight td a.primarylink {
 	font-weight: bold !important;
 }
-
 
 #sidebar .uploadform {
 	padding: 5px 15px;
