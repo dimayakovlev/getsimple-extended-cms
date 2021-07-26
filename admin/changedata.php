@@ -178,7 +178,6 @@ if ($referer == 'edit.php' && $action == 'save') {
 			$status = XMLsave($xml, GSAUTOSAVEPATH . $url);
 		} else {
 			$status = XMLsave($xml, $file);
-			if ($status) update_website_data();
 		}
 
 		//ending actions
@@ -225,7 +224,6 @@ if ($referer == 'edit.php' && $action == 'save') {
 			$priority++;
 		}
 		create_pagesxml('true');
-		update_website_data();
 		redirect($referer . '?upd=menu-success');
 	} else {
 		redirect($referer . '?upd=menu-error');

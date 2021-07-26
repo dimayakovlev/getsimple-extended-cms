@@ -36,7 +36,6 @@ if (isset($_GET['id'])) {
 		$status = delete_file($id);
 		generate_sitemap();
 		exec_action('page-delete');
-		update_website_data();
 		redirect("pages.php?upd=edit-".$status."&id=". $id ."&type=delete");
 	}
 } 
