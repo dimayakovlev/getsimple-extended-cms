@@ -1252,13 +1252,12 @@ table.comptable input[name$="[enabled]"] + label {
 
 /* Notification styles
  *
- * alerts are now notifications 
- * use notify and notify_type
- * .error and .upddated are still supported for legacy alerts
+ * alerts are now notifications
+ * use classes notify and notification
  *
- */ 
+ */
 
-.updated, .error, .notify {
+.notify, .notification {
 	border: 1px solid #E6DB55;
 	border-radius: 2px;
 	background: #FFFBCC;
@@ -1267,14 +1266,27 @@ table.comptable input[name$="[enabled]"] + label {
 	line-height: 22px;
 	padding: 5px 10px;
 	margin-bottom: 20px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	column-gap: 10px;
 }
 
-.updated p, .error p, .notify p {
+.notify p, .notification p {
 	margin: 0;
 	line-height: 22px;
 }
 
-.error, .notify_error {
+.notify .close, .notification .close {
+	border: none;
+	background: none;
+	color: inherit;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.notify.error, .notification.error {
 	color: #990000;
 	border-color: #cc0000;
 	background: #F9DFDD;
@@ -1282,7 +1294,7 @@ table.comptable input[name$="[enabled]"] + label {
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FCF0EF), color-stop(100%,#F9DFDD));	/* webkit */
 }
 
-.notify_ok {
+.notify.ok, .notification.ok {
 	border-color: #258815;
 	color: #258815;
 	background: #f0ffed;	/* Old browsers */
@@ -1295,7 +1307,7 @@ table.comptable input[name$="[enabled]"] + label {
 		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f0ffed', endColorstr='#dfffd7',GradientType=0 );	/* IE6-9 */
 }
 
-.notify_info {
+.notify.info, .notification.info {
 	border-color: #2850C1;
 	color: #2850C1;
 	background: #edf4ff;	/* Old browsers */
@@ -1308,7 +1320,7 @@ table.comptable input[name$="[enabled]"] + label {
 		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#edf4ff', endColorstr='#d7e7ff',GradientType=0 );	/* IE6-9 */
 }
 
-.notify_warning {
+.notify.warning, .notification.warning {
 	border-color: #878314;
 	color: #878314;
 	background: #fffed5;	/* Old browsers */
@@ -1325,20 +1337,17 @@ table.comptable input[name$="[enabled]"] + label {
 	background-color: #FFB19B;
 }
 
-.error code, 
-.notify code {
+.notify code, .notification code {
 	color: #990000;
 	font-size: 11px;
 	font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-	 
 	line-height: 14px;
 	background: #fff;
 	opacity: .8;
 	padding: 1px;
 }
 
-.updated,
-#temp_good_flash {
+.notify.updated, .notification.updated, #temp_good_flash {
 	color: #308000;
 }
 

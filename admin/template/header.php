@@ -1,4 +1,4 @@
-<?php if (!defined('IN_GS')) { die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')) die('you cannot load this page directly.');
 /**
  * Header Admin Template
  *
@@ -42,6 +42,7 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 		GS.i18n = new Array();
 		GS.i18n['PLUGIN_UPDATED'] = '<?php i18n("PLUGIN_UPDATED"); ?>';
 		GS.i18n['ERROR'] = '<?php i18n("ERROR"); ?>';
+		GS.i18n['CLOSE'] = '<?php i18n("CLOSE"); ?>';
 	</script>
 	<script type="text/javascript" src="template/js/jquery.getsimple.js?v=<?php echo GSVERSION; ?>"></script>
 

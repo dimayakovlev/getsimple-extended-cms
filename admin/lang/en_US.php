@@ -627,4 +627,5 @@ $i18n = array(
 "PLACEHOLDER_LANG" => "en",
 "LABEL_IMAGE" => "Image",
 "PREVIEW" => "Preview",
+"CLOSE" => "Close",
 );

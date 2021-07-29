@@ -20,8 +20,8 @@ function updateCoords(c) {
 	$('#pich').html(c.h);
 	$('#picw').html(c.w);
 };
-var Debugger = function () {}
-Debugger.log = function (message) {
+var Debugger = function() {}
+Debugger.log = function(message) {
 	try {
 		console.log(message);
 	} catch (exception) {
@@ -34,9 +34,9 @@ Debugger.log = function (message) {
  * element attention blink
  * ensures occurs only once
  */
-$.fn.popit = function ($speed) {
+$.fn.popit = function($speed) {
 	$speed = $speed || 500;
-	$(this).each(function () {
+	$(this).each(function() {
 		if ($(this).data('popped') != true) {
 			$(this).fadeOut($speed).fadeIn($speed);
 			$(this).data('popped', true);
@@ -49,48 +49,56 @@ $.fn.popit = function ($speed) {
  * closeit
  * fadeout close on delay
  */
-$.fn.removeit = function ($delay) {
+$.fn.removeit = function($delay) {
 	$delay = $delay || 5000;
-	$(this).each(function () {
+	$(this).each(function() {
 		$(this).delay($delay).fadeOut(500);
 	});
 	return $(this);
 }
 
-function notifyOk($msg) {
-	return notify($msg, 'ok');
+function notifyOk(msg, close = true) {
+	return notify(msg, 'ok', close);
 }
 
-function notifyWarn($msg) {
-	return notify($msg, 'warning');
+function notifyWarn(msg, close = true) {
+	return notify(msg, 'warning', close);
 }
 
-function notifyInfo($msg) {
-	return notify($msg, 'info');
+function notifyInfo(msg, close = true) {
+	return notify(msg, 'info', close);
 }
  
-function notifyError($msg) {
-	return notify($msg, 'error');
+function notifyError(msg, close = true) {
+	return notify(msg, 'error', close);
 }
 
-function notify($msg, $type) {
-	if ($type == 'ok' || $type == 'warning' || $type == 'info' || $type == 'error') {
-		var $notify = $('<div class="notify notify_' + $type + '"><p>' + $msg + '</p></div>');
-		$('div.bodycontent').before($notify);
-		return $notify;
-	}
+/**
+ * Create notification
+ * 
+ * Add new notification to #notifications container
+ * 
+ * @param {string} msg 
+ * @param {string} type Type of notification. Standard values are "ok", "warning", "info", "error"
+ * @param {bool} close If true add close button
+ * @return {object} JQuery object
+ */
+function notify(msg, type = 'error', close = true) {
+	type = type || 'error';
+	var $notification = $('<div class="notification ' + type + '"><p>' + msg + '</p>' + ((close === true) ? '<button title="' + i18n('CLOSE') + '" class="close">&times;</button>' : '') + '</div>');
+	$('#notifications').append($notification);
+	return $notification;
 }
 
 function clearNotify() {
-	$('div.wrapper .notify').remove();
+	$('#notifications .notify, #notifications .notification').remove();
 }
 
-basename = function(str){
-	return str.substring(0,str.lastIndexOf('/') );
+basename = function(str) {
+	return str.substring(0, str.lastIndexOf('/'));
 }
 
-
-function i18n(key){
+function i18n(key) {
 	return GS.i18n[key];
 }
 
@@ -123,14 +131,14 @@ function addCodeMirror(textarea, options) {
 	}
 	return cm;
 }
-jQuery(document).ready(function () {
+jQuery(document).ready(function() {
 
 	var id = document.body.id;
 	var loadingAjaxIndicator = $('#loader');
 
 	/* Listener for filter dropdown */
 	function attachFilterChangeEvent() {
-		$(document).on('change', "#imageFilter", function () {
+		$(document).on('change', "#imageFilter", function() {
 			Debugger.log('attachFilterChangeEvent');
 			loadingAjaxIndicator.show();
 			var filterx = $(this).val();
@@ -164,14 +172,14 @@ jQuery(document).ready(function () {
 
 	//image.php 
 	var copyKitTextArea = $('textarea.copykit');
-	$("select#img-info").change(function () {
+	$("select#img-info").change(function() {
 		var codetype = $(this).val();
 		var code = $('p#' + codetype).html();
 		var originalBG = $('textarea.copykit').css('background-color');
 		var fadeColor = "#FFFFD1";
 		copyKitTextArea.fadeOut(500).fadeIn(500).html(code);
 	});
-	$(".select-all").live("click", function () {
+	$(".select-all").live("click", function() {
 		copyKitTextArea.focus().select();
 		return false;
 	});
@@ -180,13 +188,13 @@ jQuery(document).ready(function () {
 	$("#index input#userid").focus();
 	$("#resetpassword input[name='username']").focus();
 	var options = {
-		caps_lock_on: function () {
+		caps_lock_on: function() {
 			$(this).addClass('capslock');
 		},
-		caps_lock_off: function () {
+		caps_lock_off: function() {
 			$(this).removeClass('capslock');
 		},
-		caps_lock_undetermined: function () {
+		caps_lock_undetermined: function() {
 			$(this).removeClass('capslock');
 		}
 	};
@@ -195,7 +203,7 @@ jQuery(document).ready(function () {
 
 	if (id == 'components') {
 		// components.php
-		document.addEventListener('click', function (event) {
+		document.addEventListener('click', function(event) {
 			let element = event.target;
 			let action = element.dataset.action;
 			//if (action) event.preventDefault();
@@ -237,7 +245,7 @@ jQuery(document).ready(function () {
 					break;
 			}
 		})
-		$("b.editable").dblclick(function () {
+		$("b.editable").dblclick(function() {
 			var t = $(this).html();
 			$(this).parents('.compdiv').find("input.comptitle").hide();
 			$(this).after('<div id="changetitle"><b>' + GS.i18n['TITLE'] + ': </b><input class="text newtitle titlesaver" name="title[]" value="' + t + '" /></div>');
@@ -245,13 +253,13 @@ jQuery(document).ready(function () {
 			$(this).parents('.compdiv').find("input.compslug").val('');
 			$(this).hide();
 		});
-		$("input.titlesaver").live("keyup", function () {
+		$("input.titlesaver").live("keyup", function() {
 			var myval = $(this).val();
 			var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
 			$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
 			$(this).parents('.compdiv').find("input.compslug").val(componentSlug);
 			$(this).parents('.compdiv').find("b.editable").html(myval);
-		}).live("focusout", function () {
+		}).live("focusout", function() {
 			var myval = $(this).val();
 			var componentSlug = myval.trim().replace(/[^a-z0-9-_\s]+/gi, '').replace(/\s/g, '-').toLowerCase();
 			$(this).parents('.compdiv').find(".compslugcode").html("'" + componentSlug + "'");
@@ -263,24 +271,24 @@ jQuery(document).ready(function () {
 		});
 	} else if (id == 'pages') {
 		// pages.php
-		document.querySelectorAll("[data-role='toggle']").forEach(toggle => toggle.addEventListener('click', function (event) {
+		document.querySelectorAll("[data-role='toggle']").forEach(toggle => toggle.addEventListener('click', function(event) {
 			event.preventDefault();
 			let display = this.classList.contains('current') ? 'none' : 'inline';
 			document.querySelectorAll("[data-role='" + toggle.dataset.target + "']").forEach(target => target.style.display = display);
 			toggle.classList.toggle('current');
 		}));
 	} else if (id == 'edit') {
-		document.getElementById('post-private').addEventListener('change', function (event) {
+		document.getElementById('post-private').addEventListener('change', function(event) {
 			let label = event.target.labels[0];
 			event.target.value ? label.classList.add('is-private') : label.classList.remove('is-private');
 		})
 	}
 
 	// other general functions
-	$(".snav a.current").live("click", function ($e) {
+	$(".snav a.current").live("click", function($e) {
 		$e.preventDefault();
 	});
-	$(".confirmation").live("click", function ($e) {
+	$(".confirmation").live("click", function($e) {
 		loadingAjaxIndicator.show();
 		var message = $(this).attr("title");
 		var answer = confirm(message);
@@ -290,7 +298,7 @@ jQuery(document).ready(function () {
 		}
 		loadingAjaxIndicator.fadeOut(500);
 	});
-	$(".delconfirm").live("click", function () {
+	$(".delconfirm").live("click", function() {
 		var message = $(this).attr("title");
 		var dlink = $(this).attr("href");
 		var mytr = $(this).parents("tr");
@@ -300,13 +308,15 @@ jQuery(document).ready(function () {
 			if (!$(this).hasClass('noajax')) {
 				loadingAjaxIndicator.show();
 				mytr.addClass('deletedrow');
-				mytr.fadeOut(500, function () {
+				mytr.fadeOut(500, function() {
 					$.ajax({
 						type: "GET",
 						url: dlink,
-						success: function (response) {
-							if ($(response).find('div.error').html()) {
-								$('div.bodycontent').before('<div class="error"><p>' + $(response).find('div.error').html() + '</p></div>');
+						success: function(response) {
+							$notifications = $(response).find('#notifications .notification');
+							if ($notifications) {
+								clearNotify();
+								$('#notifications').append($notifications);
 								popAlertMsg();
 								return;
 							}
@@ -314,13 +324,6 @@ jQuery(document).ready(function () {
 							if ($("#pg_counter").length) {
 								counter = $("#pg_counter").html();
 								$("#pg_counter").html(counter - 1);
-							}
- 
-							$('div.wrapper .updated').remove();
-							$('div.wrapper .error').remove();
-							if ($(response).find('div.updated').html()) {
-								$('div.bodycontent').before('<div class="updated"><p>' + $(response).find('div.updated').html() + '</p></div>');
-								popAlertMsg();
 							}
 						}
 					});
@@ -333,14 +336,13 @@ jQuery(document).ready(function () {
 			return false;
 		}
 	});
-	$("#waittrigger").click(function () {
+	$("#waittrigger").click(function() {
 		loadingAjaxIndicator.fadeIn();
 		$("#waiting").fadeIn(1000).fadeOut(1000).fadeIn(1000).fadeOut(1000).fadeIn(1000).fadeOut(1000).fadeIn(1000);
 	});
- 
- 
+
 	/* Notifications */
- 
+
 	/*
 	notifyError('This is an ERROR notification');
 	notifyOk('This is an OK notification');
@@ -349,17 +351,20 @@ jQuery(document).ready(function () {
 	notify('message','msgtype');
 	notifyError('This notification blinks and autocloses').popit(ms speed).closeit(ms delay);   
 	*/
- 
+
 	function popAlertMsg() {
 		/* legacy, see jquery extend popit() and closeit() */
-		$(".updated").fadeOut(500).fadeIn(500);
-		$(".error").fadeOut(500).fadeIn(500);
- 
-		$(".notify").popit(); // allows legacy use
+		$(".notification.updated").fadeOut(500).fadeIn(500);
+		$(".notification.error").fadeOut(500).fadeIn(500);
+		$(".notify, .notification").popit(); // allows legacy use
 	}
- 
+
 	popAlertMsg();
- 
+
+	$('.notify .close, .notification .close').live('click', function(e) {
+		$(this).closest('.notify, .notification').fadeOut(500);
+	})
+
 	if (jQuery().fancybox) {
 		$('a[rel*=facybox]').fancybox({
 			type: 'ajax',
@@ -371,26 +376,26 @@ jQuery(document).ready(function () {
 			type: 'ajax',
 			padding: 0,
 			scrolling: 'no'
-		}).on('click',function(e){e.preventDefault();});
+		}).on('click', function(e) { e.preventDefault(); });
 	}
- 
+
 	//plugins.php
-	$(".toggleEnable").live("click", function ($e) {
-		$e.preventDefault();
- 
+	$(".toggleEnable").live("click", function(e) {
+		e.preventDefault();
+
 		var loadingAjaxIndicator = $('#loader');
 		document.body.style.cursor = "wait";
 		loadingAjaxIndicator.show();
- 
+
 		var message = $(this).attr("title");
 		var dlink = $(this).attr("href");
 		var mytd = $(this).parents("td");
 		var mytr = $(this).parents("tr");
- 
+
 		mytd.html('');
 		mytd.addClass('ajaxwait ajaxwait_dark ajaxwait_tint_dark');
 		$('.toggleEnable').addClass('disabled');
- 
+
 		$.ajax({
 			type: "GET",
 			dataType: "html",
@@ -398,15 +403,15 @@ jQuery(document).ready(function () {
 			success: function (data, textStatus, jqXHR) {
 				// Store the response as specified by the jqXHR object
 				responseText = jqXHR.responseText;
- 
+
 				// remove scripts to prevent assets from loading when we create temp dom
 				rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
- 
+
 				// create temp doms to reliably find elements
 				$('#header').html($("<div>").append(responseText.replace(rscript, "")).find('#header > *'));
 				$('#sidebar').html($("<div>").append(responseText.replace(rscript, "")).find('#sidebar > *'));
 				$('#maincontent').html($("<div>").append(responseText.replace(rscript, "")).find('#maincontent > *'));
- 
+
 				document.body.style.cursor = "default";
 				clearNotify();
 				notifyOk(i18n('PLUGIN_UPDATED')).popit().removeit();
@@ -417,11 +422,10 @@ jQuery(document).ready(function () {
 				mytd.removeClass('ajaxwait ajaxwait_dark ajaxwait_tint_dark');
 				$('.toggleEnable').removeClass('disabled');
 				loadingAjaxIndicator.fadeOut();
- 
+
 				clearNotify();
 				notifyError(i18n('ERROR'));
 			}
- 
 		});
 	});
 
@@ -439,16 +443,16 @@ jQuery(document).ready(function () {
 	if ($("#edit input#post-title:empty").val() == '') {
 		$("#edit input#post-title").focus();
 	}
-	$("#metadata_toggle").live("click", function ($e) {
-		$e.preventDefault();
+	$("#metadata_toggle").live("click", function(e) {
+		e.preventDefault();
 		$("#metadata_window").slideToggle('fast');
 		$(this).toggleClass('current');
 		var autoopen = document.getElementById('auto-open-metadata');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
 	// Toggle page component window
-	$("#component_toggle").live("click", function ($e) {
-		$e.preventDefault();
+	$("#component_toggle").live("click", function(e) {
+		e.preventDefault();
 		$('#component_window').slideToggle('fast');
 		if ($('#component_window').is(':visible')) {
 			if ($('#post-component').is(':visible')) {
@@ -459,41 +463,41 @@ jQuery(document).ready(function () {
 		var autoopen = document.getElementById('auto-open-component');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
-	$("#post-menu-enable").live("click", function () {
+	$("#post-menu-enable").live("click", function() {
 		$("#menu-items").slideToggle("fast");
 	});
 	if ($("#post-menu-enable").is(":checked")) {} else {
 		$("#menu-items").css("display", "none");
 	}
- 
+
 	var edit_line = $('#submit_line span').html();
 	$('#js_submit_line').html(edit_line);
-	$("#js_submit_line input.submit").live("click", function () {
+	$("#js_submit_line input.submit").live("click", function() {
 		$("#submit_line input.submit").trigger('click');
 	});
-	$("#save-close a").live("click", function ($e) {
+	$("#save-close a").live("click", function($e) {
 		$e.preventDefault();
 		$('input[name=redirectto]').val('pages.php');
 		$("#submit_line input.submit").trigger('click');
 	});
- 
+
 	// log.php
 	if (jQuery().reverseOrder) {
 		$('ol.more li').reverseOrder();
 	}
-	$("ol.more").each(function () {
+	$("ol.more").each(function() {
 		$("li:gt(4)", this).hide(); /* :gt() is zero-indexed */
 		$("li:nth-child(5)", this).after("<li class='more'><a href='#'>More...</a></li>"); /* :nth-child() is one-indexed */
 	});
-	$("li.more a").live("click", function ($e) {
-		$e.preventDefault();
+	$("li.more a").live("click", function(e) {
+		e.preventDefault();
 		var li = $(this).parents("li:first");
 		li.parent().children().show();
 		li.remove();
 	});
- 
- 	// theme.php
-	$("#theme_select").on('change',function (e) {
+
+	// theme.php
+	$("#theme_select").on('change',function(e) {
 		var theme_new = $(this).val();
 		var theme_url_old = $("#theme_preview").attr('src');
 		// we dont have a global paths in js so work theme path out
@@ -501,16 +505,16 @@ jQuery(document).ready(function () {
 		var theme_url_new = theme_path+'/'+theme_new+'/images/screenshot.png';
 		$("#theme_preview").attr('src',theme_url_new);
 		$("#theme_preview").css('visibility','visible');
-		$('#theme_no_img').css('visibility','hidden');		
+		$('#theme_no_img').css('visibility','hidden');
 	});
 
-	$("#theme_preview").on('error',function ($e) {
+	$("#theme_preview").on('error',function(e) {
 		$(this).css('visibility','hidden');
 		$('#theme_no_img').css('visibility','visible');
 	});
 
 	// theme-edit.php
-	$("#theme-folder").on('change',function (e) {
+	$("#theme-folder").on('change',function(e) {
 		var thmfld = $(this).val();
 		$.ajax({
 			type: "GET",
@@ -524,53 +528,52 @@ jQuery(document).ready(function () {
 
 	//title filtering on pages.php & backups.php
 	var filterSearchInput = $("#filter-search");
-	$('#filtertable').live("click", function ($e) {
-		$e.preventDefault();
+	$('#filtertable').live("click", function(e) {
+		e.preventDefault();
 		filterSearchInput.slideToggle();
 		$(this).toggleClass('current');
 		filterSearchInput.find('#q').focus();
 	});
-	$("#filter-search #q").keydown(function ($e) {
-		if ($e.keyCode == 13) {
-			$e.preventDefault();
+	$("#filter-search #q").keydown(function(e) {
+		if (e.keyCode == 13) {
+			e.preventDefault();
 		}
 	});
-	$("#editpages tr:has(td.pagetitle)").each(function () {
+	$("#editpages tr:has(td.pagetitle)").each(function() {
 		var t = $(this).find('td.pagetitle').text().toLowerCase();
 		$("<td class='indexColumn'></td>").hide().text(t).appendTo(this);
 	});
-	$("#filter-search #q").keyup(function () {
+	$("#filter-search #q").keyup(function() {
 		var s = $(this).val().toLowerCase().split(" ");
 		$("#editpages tr:hidden").show();
-		$.each(s, function () {
+		$.each(s, function() {
 			$("#editpages tr:visible .indexColumn:not(:contains('" + this + "'))").parent().hide();
 		});
 	});
-	$("#filter-search .cancel").live("click", function ($e) {
-		$e.preventDefault();
+	$("#filter-search .cancel").live("click", function(e) {
+		e.preventDefault();
 		$("#editpages tr").show();
 		$('#filtertable').toggleClass('current');
 		filterSearchInput.find('#q').val('');
 		filterSearchInput.slideUp();
 	});
- 
- 
+
 	//create new folder in upload.php
-	$('#createfolder').live("click", function ($e) {
-		$e.preventDefault();
+	$('#createfolder').live("click", function(e) {
+		e.preventDefault();
 		$("#new-folder").find("form").show();
 		$(this).hide();
 		$("#new-folder").find('#foldername').focus();
 	});
-	$("#new-folder .cancel").live("click", function ($e) {
-		$e.preventDefault();
+	$("#new-folder .cancel").live("click", function(e) {
+		e.preventDefault();
 		$("#new-folder").find("#foldername").val('');
 		$("#new-folder").find("form").hide();
 		$('#createfolder').show();
 	});
- 
+
 	// upload.php ajax folder creation
-	$('#new-folder form').submit(function () {
+	$('#new-folder form').submit(function() {
 		loadingAjaxIndicator.show();
 		var dataString = $(this).serialize();
 		var newfolder = $('#foldername').val();
@@ -579,8 +582,8 @@ jQuery(document).ready(function () {
 			type: "GET",
 			data: dataString,
 			url: hrefaction,
-			success: function (response) {
-				$('#imageTable').load(location.href + ' #imageTable >*', function () {
+			success: function(response) {
+				$('#imageTable').load(location.href + ' #imageTable >*', function() {
 					attachFilterChangeEvent();
 					$("#new-folder").find("#foldername").val('');
 					$("#new-folder").find("form").hide();
@@ -594,36 +597,36 @@ jQuery(document).ready(function () {
 		});
 		return false;
 	});
- 
-	function scrollsidebar(){
+
+	function scrollsidebar() {
 		var elem = $('body.sbfixed #sidebar');
 
-		if(!jQuery().scrollToFixed || !elem[0]){
+		if (!jQuery().scrollToFixed || !elem[0]) {
 			// Debugger.log("sbfixed not enabled or scrolltofixed not loaded");
 			return;
 		}
 
-		elem.scrollToFixed({ 
+		elem.scrollToFixed({
 			marginTop: 15,
-			limit: function(){ return $('#footer').offset().top - elem.outerHeight(true) - 15},
-			postUnfixed: function(){$(this).addClass('fixed')},
-			postFixed: function(){$(this).removeClass('fixed')},
-			postAbsolute: function(){$(this).removeClass('fixed')},
+			limit: function() {return $('#footer').offset().top - elem.outerHeight(true) - 15},
+			postUnfixed: function() {$(this).addClass('fixed')},
+			postFixed: function() {$(this).removeClass('fixed')},
+			postAbsolute: function() {$(this).removeClass('fixed')},
 
 		});
 	}
 
 	scrollsidebar();
- 	
- 	// catch all redirects for session timeout on HTTP 401 unauthorized
-	$( document ).ajaxError(function( event, xhr, settings ) {
+
+	// catch all redirects for session timeout on HTTP 401 unauthorized
+	$(document).ajaxError(function(event, xhr, settings) {
 		// notifyInfo("ajaxComplete: " + xhr.status);
-		if(xhr.status == 401){
+		if (xhr.status == 401) {
 			notifyInfo("Redirecting...");
 			window.location.reload();
 		}
 	});
-	
+
 	//end of javascript for getsimple
 
 });

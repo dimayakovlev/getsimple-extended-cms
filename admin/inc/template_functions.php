@@ -1308,3 +1308,22 @@ function cleanHtml($str,$strip_tags = array()){
 	$html_fragment = preg_replace('/^<!DOCTYPE.+?>|<head.*?>(.*)?<\/head>/', '', str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), @$dom_document->saveHTML()));	
 	return $html_fragment;
 }
+
+/**
+ * Create notification
+ *
+ * @since 3.5.0
+ * @param string $text Text of notification
+ * @param string $type Type of notification
+ * @param bool $close If true add close button to notification
+ * @param bool $echo If true echo notification HTML code
+ * @return null|string Echo or return HTML code of notification
+ */
+function create_notification($text, $type = 'error', $close = true, $echo = true) {
+	$html = '<div class="notification ' . ($type ?: 'error') . '"><p>' . $text . '</p>' . ($close ? '<button title="' . i18n_r('CLOSE') . '" class="close">&times;</button>' : '') . '</div>';
+	if ($echo) {
+		echo $html;
+	} else {
+		return $html;
+	}
+}
