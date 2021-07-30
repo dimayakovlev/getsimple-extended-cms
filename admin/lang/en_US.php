@@ -384,6 +384,7 @@ $i18n = array(
 "ER_COMPONENT_SAVE"	=>	"Components have been saved",
 "ER_COMPONENT_REST"	=>	"Components have been restored",
 "ER_CANCELLED_FAIL"	=>	"<b>Cancelled:</b> This update has been cancelled",
+"ER_COMPONENT_ACTION" => "<strong>Execution of Components on actions enabled!</strong> Each enabled Component named like <strong>action_action-name</strong> will be executed on call corresponding action.",
 
 /* 
  * For: changedata.php

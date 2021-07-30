@@ -161,7 +161,7 @@ $load['plugin'] = (isset($load['plugin'])) ? $load['plugin'] : '';
  */
  
 /** grab website data */
-$thisfilew = GSDATAOTHERPATH .'website.xml';
+$thisfilew = GSDATAOTHERPATH . 'website.xml';
 if (file_exists($thisfilew)) {
 	$dataw = getXML($thisfilew);
 	$SITENAME = (string)$dataw->title;
@@ -213,12 +213,12 @@ i18n_merge(null); // load $LANG file into $i18n
 
 // Merge in default lang to avoid empty lang tokens
 // if GSMERGELANG is undefined or false merge en_US else merge custom
-if(getDef('GSMERGELANG', true) !== false and !getDef('GSMERGELANG', true) ){
-	if($LANG !='en_US')	i18n_merge(null,"en_US");
-} else{
+if (getDef('GSMERGELANG', true) !== false and !getDef('GSMERGELANG', true)){
+	if ($LANG !='en_US') i18n_merge(null,"en_US");
+} else {
 	// merge GSMERGELANG defined lang if not the same as $LANG
-	if($LANG !=getDef('GSMERGELANG') ) i18n_merge(null,getDef('GSMERGELANG'));	
-}	
+	if ($LANG != getDef('GSMERGELANG')) i18n_merge(null, getDef('GSMERGELANG'));
+}
 
 /** 
  * Init Editor globals
@@ -228,15 +228,15 @@ if(getDef('GSMERGELANG', true) !== false and !getDef('GSMERGELANG', true) ){
  * @uses $EDOPTIONS js obj param strings, comma delimited
  */
 
-if(!defined('GSCKETSTAMP')) define('GSCKETSTAMP',get_gs_version()); // ckeditor asset querystring for cache control
+if(!defined('GSCKETSTAMP')) define('GSCKETSTAMP', get_gs_version()); // ckeditor asset querystring for cache control
 if (defined('GSEDITORHEIGHT')) { $EDHEIGHT = GSEDITORHEIGHT .'px'; } else {	$EDHEIGHT = '500px'; }
-if (defined('GSEDITORLANG'))   { $EDLANG = GSEDITORLANG; } else {	$EDLANG = i18n_r('CKEDITOR_LANG'); }
+if (defined('GSEDITORLANG'))   { $EDLANG = GSEDITORLANG; } else { $EDLANG = i18n_r('CKEDITOR_LANG'); }
 if (defined('GSEDITORTOOL') and !isset($EDTOOL)) { $EDTOOL = GSEDITORTOOL; }
-if (defined('GSEDITOROPTIONS') and !isset($EDOPTIONS) && trim(GSEDITOROPTIONS)!="" ) $EDOPTIONS = GSEDITOROPTIONS; 
+if (defined('GSEDITOROPTIONS') and !isset($EDOPTIONS) && trim(GSEDITOROPTIONS) != '' ) $EDOPTIONS = GSEDITOROPTIONS; 
 
-if(!isset($EDTOOL)) $EDTOOL = 'basic'; // default gs toolbar
+if (!isset($EDTOOL)) $EDTOOL = 'basic'; // default gs toolbar
 
-if($EDTOOL == "none") $EDTOOL = null; // toolbar to use cke default
+if ($EDTOOL == "none") $EDTOOL = null; // toolbar to use cke default
 $EDTOOL = returnJsArray($EDTOOL);
 // if($EDTOOL === null) $EDTOOL = 'null'; // not supported in cke 3.x
 // at this point $EDTOOL should always be a valid js nested array ([[ ]]) or escaped toolbar id ('toolbar_id')
@@ -246,14 +246,13 @@ $EDTOOL = returnJsArray($EDTOOL);
  */
 
 // set defined timezone from config if not set on user
-if( (!isset($TIMEZONE) || trim($TIMEZONE) == '' ) && defined('GSTIMEZONE') ){
+if ((!isset($TIMEZONE) || trim($TIMEZONE) == '') && defined('GSTIMEZONE')) {
 	$TIMEZONE = GSTIMEZONE;
 }
 
-if(isset($TIMEZONE) && function_exists('date_default_timezone_set') && ($TIMEZONE != "" || stripos($TIMEZONE, '--')) ) { 
+if (isset($TIMEZONE) && function_exists('date_default_timezone_set') && ($TIMEZONE != "" || stripos($TIMEZONE, '--'))) {
 	date_default_timezone_set($TIMEZONE);
 }
-
 
 /**
  * Variable Globalization
@@ -267,7 +266,7 @@ if (defined('GSUSECUSTOMSALT')) {
 } 
 else {
 	// use from authorization.xml
-	if (file_exists(GSDATAOTHERPATH .'authorization.xml')) {
+	if (file_exists(GSDATAOTHERPATH . 'authorization.xml')) {
 		$dataa = getXML(GSDATAOTHERPATH .'authorization.xml');
 		$SALT = stripslashes($dataa->apikey);
 	} else {
@@ -278,17 +277,14 @@ else {
 }
 $SESSIONHASH = sha1($SALT . $SITENAME);
 
-
 /**
  * $base is if the site is being viewed from the front-end
  */
-if(isset($base)) {
-	include_once(GSADMININCPATH.'theme_functions.php');
-}
+if (isset($base)) include_once(GSADMININCPATH.'theme_functions.php');
 
-function serviceUnavailable(){
+function serviceUnavailable() {
 	GLOBAL $base;
-	if(isset($base)){
+	if (isset($base)) {
 		header('HTTP/1.1 503 Service Temporarily Unavailable');
 		header('Status: 503 Service Temporarily Unavailable');
 		header('Retry-After: 7200'); // in seconds
@@ -305,61 +301,71 @@ if (get_filename_id() != 'install' && get_filename_id() != 'setup' && get_filena
 	
 	# if there is no SITEURL set, then it's a fresh install. Start installation process
 	# siteurl check is not good for pre 3.0 since it will be empty, so skip and run update first.
-	if ($SITEURL == '' &&  get_gs_version() >= 3.0)	{
+	if ($SITEURL == '' &&  get_gs_version() >= 3.0) {
 		serviceUnavailable();
-		redirect($fullpath . $GSADMIN.'/install.php');
-	} 
-	else {	
+		redirect($fullpath . $GSADMIN . '/install.php');
+	} else {
 		# if an update file was included in the install package, redirect there first	
 		if (file_exists(GSADMINPATH.'update.php') && !isset($_GET['updated']) && !getDef('GSDEBUGINSTALL'))	{
 			serviceUnavailable();
-			redirect($fullpath . $GSADMIN.'/update.php');
+			redirect($fullpath . $GSADMIN . '/update.php');
 		}
 	}
 
-	if(!getDef('GSDEBUGINSTALL',true)){	
+	if(!getDef('GSDEBUGINSTALL', true)) {
 		# if you've made it this far, the site is already installed so remove the installation files
-		$filedeletionstatus=true;
-		if (file_exists(GSADMINPATH.'install.php'))	{
-			$filedeletionstatus = unlink(GSADMINPATH.'install.php');
+		$filedeletionstatus = true;
+		if (file_exists(GSADMINPATH . 'install.php')) {
+			$filedeletionstatus = unlink(GSADMINPATH . 'install.php');
 		}
-		if (file_exists(GSADMINPATH.'setup.php'))	{
-			$filedeletionstatus = unlink(GSADMINPATH.'setup.php');
+		if (file_exists(GSADMINPATH . 'setup.php')) {
+			$filedeletionstatus = unlink(GSADMINPATH . 'setup.php');
 		}
-		if (file_exists(GSADMINPATH.'update.php'))	{
-			$filedeletionstatus = unlink(GSADMINPATH.'update.php');
+		if (file_exists(GSADMINPATH.'update.php')) {
+			$filedeletionstatus = unlink(GSADMINPATH . 'update.php');
 		}
 		if (!$filedeletionstatus) {
-			$error = sprintf(i18n_r('ERR_CANNOT_DELETE'), '<code>/'.$GSADMIN.'/install.php</code>, <code>/'.$GSADMIN.'/setup.php</code> or <code>/'.$GSADMIN.'/update.php</code>');
+			$error = sprintf(i18n_r('ERR_CANNOT_DELETE'), '<code>/' . $GSADMIN . '/install.php</code>, <code>/' . $GSADMIN . '/setup.php</code> or <code>/' . $GSADMIN . '/update.php</code>');
 		}
-	}	
+	}
 
 }
 
 /**
  * Include other files depending if they are needed or not
  */
-include_once(GSADMININCPATH.'cookie_functions.php');
-if(isset($load['plugin']) && $load['plugin']){
-	# remove the pages.php plugin if it exists. 	
-	if (file_exists(GSPLUGINPATH.'pages.php'))	{
-		unlink(GSPLUGINPATH.'pages.php');
+include_once(GSADMININCPATH . 'cookie_functions.php');
+if (isset($load['plugin']) && $load['plugin']) {
+	include_once(GSADMININCPATH . 'plugin_functions.php');
+	if (getDef('GSCOMPONENTACTION', true)) {
+		if (file_exists(GSDATAOTHERPATH . 'components.xml')) {
+			$components = getXML(GSDATAOTHERPATH . 'components.xml');
+			if (is_object($components)) {
+				$components = $components->children();
+				foreach ($components as $component) {
+					if (strpos((string)$component->slug, 'action_') === 0 && $component->enabled == '1') {
+						$actionName = substr((string)$component->slug, 7);
+						if ($actionName) {
+							add_action($actionName, function() use ($component) {
+								eval('?>' . strip_decode($component->value) . '<?php ');
+							});
+						}
+					}
+				}
+			} else {
+				$components = array();
+			}
+		}
 	}
-	include_once(GSADMININCPATH.'plugin_functions.php');
-	if(get_filename_id()=='settings' || get_filename_id()=='load') {
+	if (get_filename_id()=='settings' || get_filename_id()=='load') {
 		/* this core plugin only needs to be visible when you are viewing the 
 		settings page since that is where its sidebar item is. */
-		if (defined('GSEXTAPI') && GSEXTAPI==1) {
-			include_once('api.plugin.php');
-		}
+		if (defined('GSEXTAPI') && GSEXTAPI==1) include_once('api.plugin.php');
 	}
 	# include core plugin for page caching
 	include_once('caching_functions.php');
 	
 	# main hook for common.php
 	exec_action('common');
-	
 }
-if(isset($load['login']) && $load['login']) {
-	include_once(GSADMININCPATH.'login_functions.php');
-}
+if (isset($load['login']) && $load['login']) include_once(GSADMININCPATH.'login_functions.php');

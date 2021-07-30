@@ -26,7 +26,7 @@
     * Added `get_site_lang()` theme function to echo or return website language
     * Added `get_page_lang()` theme function to echo or return page language
     * Added `get_lang()` theme function to echo or return language of current page based on values setted for page, website or in fallback parameter. Use this function to set value of HTML lang attribute
-    * Added new tokens for **Pretty URLs**: `%author%`, `%parents%`, `%lang%`, `%year%`, `%month%`, `%day%`
+    * Added new tags for **Pretty URLs**: `%author%`, `%parents%`, `%lang%`, `%year%`, `%month%`, `%day%`
     * Added per page permalink structure
     * Added `getParents()` cache function to get parents of page
     * Added `getParentsMulti()` cache function to get parents of page with optional data
@@ -37,6 +37,7 @@
     * Added `get_page_image()` theme function to echo or return page image
     * Added toggle to display URLs of pages on Page Management
     * Added `get_page_publisher()` theme function to echo or return publisher of the requested page
+    * Added automatic execution of enabled Components named like `action_action-name` on call corresponding actions
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

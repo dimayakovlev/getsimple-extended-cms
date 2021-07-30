@@ -23,6 +23,10 @@ if ((string)$dataw->maintenance == '1') {
 	create_notification('<strong>' . i18n_r('WARNING') . ':</strong> ' . i18n_r('MAINTENANCE_WARNING'), 'error', false);
 }
 
+if (get_filename_id() == 'components' && getDef('GSCOMPONENTACTION', true)) {
+	create_notification(i18n_r('ER_COMPONENT_ACTION'), 'info', false);
+}
+
 if (!isset($update)) $update = '';
 $err = '';
 $restored = '';

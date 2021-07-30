@@ -38,7 +38,7 @@ define('GSDONOTPING', 1);
 #define('GSCHMOD', 0755);
 
 # Disable chmod operations
-# define('GSDOCHMOD',false);
+# define('GSDOCHMOD', false);
 
 # Enable Canonical Redirects?
 #define('GSCANONICAL', 1);
@@ -76,14 +76,14 @@ define('GSDONOTPING', 1);
 # define('GSTIMEZONE', 'America/Chicago');
 
 # Disable loading of external CDN versions of scripts (jQuery/jQueryUI)
-#define("GSNOCDN",true);
+#define("GSNOCDN", true);
 
 # Disable Codemirror theme editor
 # Deprecated setting. Control code editor usage per user from settings page
-#define("GSNOHIGHLIGHT",true);
+#define("GSNOHIGHLIGHT", true);
 
 # Forces suppression of php errors when GSDEBUG is false, despite php ini settings
-define('GSSUPPRESSERRORS',true);
+define('GSSUPPRESSERRORS', true);
 
 # Disable check for Apache web server, default false
 #define('GSNOAPACHECHECK', true);
@@ -102,17 +102,17 @@ define('GSSUPPRESSERRORS',true);
 # eg. 
 # define('GSSTYLE',GSSTYLE_SBFIXED);
 # define('GSSTYLE',GSSTYLEWIDE);
-#define('GSSTYLE',implode(',',array(GSSTYLEWIDE,GSSTYLE_SBFIXED)));
+#define('GSSTYLE', implode(',',array(GSSTYLEWIDE,GSSTYLE_SBFIXED)));
 
 # Disable Sitemap generation and menu items
-# define('GSNOSITEMAP',true);
+# define('GSNOSITEMAP', true);
 
 # Enable auto meta descriptions from content excerpts when empty
-# define('GSAUTOMETAD',true);
+# define('GSAUTOMETAD', true);
 
 # Set default language for missing lang token merge, 
 # accepts a lang string, default is 'en_US', false to disable
-# define('GSMERGELANG',false);
+# define('GSMERGELANG', false);
 
 # GS can prevent backend or frontend pages from being loaded inside a frame 
 # this is done by sending an x-frame-options header, and helps protect against clickjacking attacks
@@ -120,8 +120,12 @@ define('GSSUPPRESSERRORS',true);
 # setting GSNOFRAME to (false) will disable this behavior
 # You can also customize this by passing the gs location definitions,
 # GSFRONT, GSBACK or GSBOTH definitions enable this for front and/or backends
-# define('GSNOFRAME',GSBOTH); # prevent in frames ALWAYS
-#define('GSNOFRAME',false);  # prevent in frames NEVER
+# define('GSNOFRAME', GSBOTH); # prevent in frames ALWAYS
+#define('GSNOFRAME', false);  # prevent in frames NEVER
 
 # GS can format its xml files before saving them if you require human readable source for them
-# define('GSFORMATXML',true);
+# define('GSFORMATXML', true);
+
+# Register and execute components as actions
+# Each component with name "action_action-name" will be registered and executed on call action with exec_action("action-name");
+# define('GSCOMPONENTACTION', true);
