@@ -1319,7 +1319,7 @@ function cleanHtml($str,$strip_tags = array()){
  * @param bool $echo If true echo notification HTML code
  * @return null|string Echo or return HTML code of notification
  */
-function create_notification($text, $type = 'error', $close = true, $echo = true) {
+function create_notification($text, $type = 'error', $close = false, $echo = true) {
 	$html = '<div class="notification ' . ($type ?: 'error') . '"><p>' . $text . '</p>' . ($close ? '<button title="' . i18n_r('CLOSE') . '" class="close">&times;</button>' : '') . '</div>';
 	if ($echo) {
 		echo $html;

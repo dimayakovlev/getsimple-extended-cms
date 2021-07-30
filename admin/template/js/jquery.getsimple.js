@@ -57,19 +57,19 @@ $.fn.removeit = function($delay) {
 	return $(this);
 }
 
-function notifyOk(msg, close = true) {
+function notifyOk(msg, close = false) {
 	return notify(msg, 'ok', close);
 }
 
-function notifyWarn(msg, close = true) {
+function notifyWarn(msg, close = false) {
 	return notify(msg, 'warning', close);
 }
 
-function notifyInfo(msg, close = true) {
+function notifyInfo(msg, close = false) {
 	return notify(msg, 'info', close);
 }
  
-function notifyError(msg, close = true) {
+function notifyError(msg, close = false) {
 	return notify(msg, 'error', close);
 }
 
@@ -83,7 +83,7 @@ function notifyError(msg, close = true) {
  * @param {bool} close If true add close button
  * @return {object} JQuery object
  */
-function notify(msg, type = 'error', close = true) {
+function notify(msg, type = 'error', close = false) {
 	type = type || 'error';
 	var $notification = $('<div class="notification ' + type + '"><p>' + msg + '</p>' + ((close === true) ? '<button title="' + i18n('CLOSE') + '" class="close">&times;</button>' : '') + '</div>');
 	$('#notifications').append($notification);
