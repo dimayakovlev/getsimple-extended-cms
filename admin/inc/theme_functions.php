@@ -733,7 +733,7 @@ function get_component($id, $check = true) {
 	if (count($components) > 0) {
 		foreach ($components as $component) {
 			if ($id == $component->slug) {
-				if ($check == true && $component->enabled == '1') {
+				if ($check == false || ($check == true && $component->enabled == '1')) {
 					eval('?>' . strip_decode($component->value) . '<?php ');
 				}
 				break;
