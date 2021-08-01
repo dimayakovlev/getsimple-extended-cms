@@ -153,11 +153,13 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		<!-- pill edit navigation -->
 		<div class="edit-nav">
 			<?php
-			if (isset($id)) {
-				echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
-			}
+				if (isset($id)) echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
+				if (getDef('GSPAGECOMPONENT', true)) {
 			?>
 			<a href="#" id="component_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_COMPONENT'));?>" class="<?php if ($attributes['auto-open-component'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_COMPONENT'); ?></a>
+			<?php
+				}
+			?>
 			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($attributes['auto-open-metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
 			<div class="clear"></div>
 		</div>
@@ -170,6 +172,16 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<input id="auto-open-metadata" name="auto-open-metadata" type="hidden" value="<?php echo (string)$attributes['auto-open-metadata']; ?>">
 			<input id="auto-open-component" name="auto-open-component" type="hidden" value="<?php echo (string)$attributes['auto-open-component']; ?>">
 			<input id="revision-number" name="revision-number" type="hidden" value="<?php echo $attributes['revision-number']; ?>">
+			<?php
+				if (!getDef('GSPAGECOMPONENT', true)) {
+			?>
+			<input type="hidden" name="disable-code-editor" value="<?php echo $attributes['disable-code-editor']; ?>">
+			<input type="hidden" name="post-component-enable" value="<?php echo $componentEnabled; ?>">
+			<input type="hidden" name="post-component-content" value="<?php echo $componentContent; ?>">
+			<textarea class="text" name="post-component" hidden><?php echo $component; ?></textarea>
+			<?php
+				}
+			?>
 
 			<!-- page title toggle screen -->
 			<p id="edit_window">
@@ -228,9 +240,15 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 				<p class="inline clearfix">
 					<input type="checkbox" id="disable-html-editor" name="disable-html-editor" value="1"<?php echo $attributes['disable-html-editor'] ? ' checked' : ''; ?>> <label for="disable-html-editor"><?php i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
 				</p>
+				<?php
+					if (getDef('GSPAGECOMPONENT', true)) {
+				?>
 				<p class="inline clearfix">
 					<input type="checkbox" id="disable-code-editor" name="disable-code-editor" value="1"<?php echo $attributes['disable-code-editor'] ? ' checked' : ''; ?>> <label for="disable-code-editor"><?php i18n('PAGE_DISABLE_CODE_EDITOR'); ?></label>
 				</p>
+				<?php
+					}
+				?>
 				<p class="inline post-menu clearfix">
 					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="Y" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
 				</p>
@@ -282,7 +300,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 			<?php exec_action('edit-extras'); ?>
 
 			</div><!-- / metadata toggle screen -->
-
+			<?php
+			if (getDef('GSPAGECOMPONENT', true)) {
+			?>
 			<!-- component toggle screen -->
 			<div style="display: <?php echo ($attributes['auto-open-component'] == true) ? 'block' : 'none' ?>;" id="component_window">
 				<p class="inline post-component-enable clearfix">
@@ -296,7 +316,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<textarea class="text" id="post-component" name="post-component"><?php echo $component; ?></textarea>
 				</p>
 			</div><!-- / component toggle screen -->
-
+			<?php
+			}
+			?>
 			<!-- page body -->
 			<p>
 				<label for="post-content" style="display:none;"><?php i18n('LABEL_PAGEBODY'); ?></label>
@@ -529,7 +551,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		</script>
 		<?php
 			# register CodeMirror
-			if ($datau->enableCodeEditor == '1' && $attributes['disable-code-editor'] == false) {
+			if (getDef('GSPAGECOMPONENT', true) && $datau->enableCodeEditor == '1' && $attributes['disable-code-editor'] == false) {
 		?>
 		<style>
 			.CodeMirror, .CodeMirror-scroll {
@@ -539,11 +561,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 		<script>
 		var cm = addCodeMirror(document.getElementById('post-component'), { mode: 'application/x-httpd-php' });
 		document.getElementById('component_toggle').addEventListener('click', function() {
-				setTimeout(function() {
-					cm.refresh();
-				}, 1)
+			setTimeout(function() {
+				cm.refresh();
+			}, 1)
 		});
-		console.log(cm);
 		</script>
 		<?php
 			}

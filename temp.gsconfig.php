@@ -129,3 +129,6 @@ define('GSSUPPRESSERRORS', true);
 # Register and execute components as actions
 # Each component with name "action_action-name" will be registered and executed on call action with exec_action("action-name");
 # define('GSCOMPONENTACTION', true);
+
+# Enable per page component
+# define('GSPAGECOMPONENT', true);

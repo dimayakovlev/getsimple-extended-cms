@@ -25,15 +25,16 @@ add_action('changedata-aftersave', 'create_pagesxml', array(true));     // Creat
  * @since 3.5.0
  * 
  * @uses GSDATAPAGESPATH
- * @uses strip_decode
- * @uses returnPageField
+ * @uses strip_decode()
+ * @uses returnPageField()
+ * @uses getDef()
  *
  * @param string $page Slug of the page to retrive component code
  * @param bool $check Check if page component enabled
  * @return mixed Return result of evaluation of page component code or null
  */
 function getPageComponent($page, $check = true) {
-	if ($check && (bool)returnPageField($page, 'componentEnabled') == false) return null;
+	if (!getDef('GSPAGECOMPONENT', true) || ($check && (bool)returnPageField($page, 'componentEnabled') == false)) return null;
 	$file = GSDATAPAGESPATH . $page . '.xml';
 	if (!file_exists($file)) return null;
 	$xml = simplexml_load_file($file);
@@ -47,7 +48,7 @@ function getPageComponent($page, $check = true) {
 /**
  * Get Page Content
  *
- * Retrieve and display the content of the requested page. 
+ * Retrieve and display the content of the requested page.
  * As the Content is not cahed the file is read in.
  *
  * @since 2.0

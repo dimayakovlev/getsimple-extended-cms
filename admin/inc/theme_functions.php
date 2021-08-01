@@ -60,6 +60,7 @@ function get_page_publisher($echo = true) {
  * @uses exec_action()
  * @uses exec_filter()
  * @uses strip_decode()
+ * @uses getDef()
  * @uses get_page_component()
  * 
  * @param bool $component If false disable page component. Default is true
@@ -69,7 +70,7 @@ function get_page_publisher($echo = true) {
 function get_page_content($component = true) {
 	global $content;
 	global $data_index;
-	if ($component && $data_index->componentContent == '1' && $data_index->componentEnabled == '1') {
+	if ($component && getDef('GSPAGECOMPONENT', true) && $data_index->componentContent == '1' && $data_index->componentEnabled == '1') {
 		get_page_component();
 	} else {
 		exec_action('content-top');
@@ -86,7 +87,8 @@ function get_page_content($component = true) {
  *
  * @since 3.5.0
  * @global $data_index
- * @uses strip_decode
+ * @uses getDef()
+ * @uses strip_decode()
  * 
  * @param bool $check Check if page component enabled
  *
@@ -94,6 +96,7 @@ function get_page_content($component = true) {
  */
 function get_page_component($check = true) {
 	global $data_index;
+	if (!getDef('GSPAGECOMPONENT', true)) return null;
 	if ($check && $data_index->componentEnabled != '1') return null;
 	if ($data_index->component) {
 		eval('?>' . strip_decode($data_index->component) . '<?php ');
