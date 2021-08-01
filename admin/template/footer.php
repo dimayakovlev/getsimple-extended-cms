@@ -28,7 +28,7 @@
 
 		</div><!-- end #footer -->
 		<?php 
-			if(!isAuthPage() && isDebug()) {
+			if (!isAuthPage() && isDebug()) {
 				global $GS_debug;
 				echo '<h2>' . i18n_r('DEBUG_CONSOLE') . '</h2><div id="gsdebug"><pre>';
 				foreach ($GS_debug as $log) {
@@ -38,7 +38,7 @@
 						print($log . '<br/>');
 					}
 				}
-				echo '</div>';
+				echo '</pre></div>';
 			}
 		?>
 	</div><!-- end .wrapper -->
