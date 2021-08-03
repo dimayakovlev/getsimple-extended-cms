@@ -707,11 +707,11 @@ function menu_data($id = null,$xml=false) {
 /**
  * Get Component
  *
- * This will return the component requested. 
+ * This will return the component requested.
  * Components are parsed for PHP within them.
  *
  * @since 1.0
- * 
+ * @since 3.5.0 Added parameter $check to check if component enabled
  * @global $components
  * 
  * @uses GSDATAOTHERPATH
@@ -739,7 +739,7 @@ function get_component($id, $check = true) {
 				if ($check == false || ($check == true && $component->enabled == '1')) {
 					eval('?>' . strip_decode($component->value) . '<?php ');
 				}
-				break;
+				//break;
 			}
 		}
 	}
