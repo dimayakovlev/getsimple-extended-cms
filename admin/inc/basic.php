@@ -389,7 +389,7 @@ if (!function_exists('in_arrayi')) {
  * Default function to create the correct url structure for each front-end page
  *
  * @since 2.0
- * @since 3.5.0 Changed signature. Function use cached data to get page fields
+ * @since 3.5.0 Changed signature. Function use cached data to get page fields. Available new tags in permalink template
  * @global $PRETTYURLS
  * @global $SITEURL
  * @global $PERMALINK
@@ -415,7 +415,7 @@ function find_url(string $slug, $absolute = true, $query = array()) {
 	}
 
 	if ($PRETTYURLS == '1') {
-		$permalink = html_entity_decode(!empty($pagesArray[$slug]['permalink']) ? $pagesArray[$slug]['permalink'] : $PERMALINK);
+		$permalink = html_entity_decode(!empty($pagesArray[$slug]['permalink']) ? $pagesArray[$slug]['permalink'] : ($slug != 'index' ? $PERMALINK : '/'));
 		if ($permalink == '') {
 			$parent = isset($pagesArray[$slug]['parent']) ? $pagesArray[$slug]['parent'] : '';
 			$permalink = $parent ? ($parent . '/' . $slug . '/') : ($slug . '/');
@@ -1154,7 +1154,7 @@ function directoryToArray($directory, $recursive) {
  * 
  * @param string $id Constant name
  * @param bool $isbool Treat definition as boolean and cast it
- * @return mixed Returns definition or null if not defined
+ * @return mixed Returns definition, boolean value of definition if $isbool = true, or null if not defined
  */
 function getDef($id, $isbool = false) {
 	if (!defined($id)) return null;
