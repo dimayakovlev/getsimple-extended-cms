@@ -26,35 +26,33 @@ if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
 }
 	
 // are we deleting pages?
-if (isset($_GET['id'])) { 
+if (isset($_GET['id'])) {
 	$id = $_GET['id'];
-	
 	if ($id == 'index') {
-		redirect('pages.php?upd=edit-error&type='.urlencode(i18n_r('HOMEPAGE_DELETE_ERROR')));
+		redirect('pages.php?upd=edit-error&type=' . urlencode(i18n_r('HOMEPAGE_DELETE_ERROR')));
 	} else {
 		updateSlugs($id);
-		$status = delete_file($id);
+		$status = delete_file($id) ? 'success' : 'error';
 		generate_sitemap();
 		exec_action('page-delete');
-		redirect("pages.php?upd=edit-".$status."&id=". $id ."&type=delete");
+		redirect("pages.php?upd=edit-" . $status . "&id=" . $id . "&type=delete");
 	}
 } 
 
 // are we deleting archives?
 if (isset($_GET['zip'])) { 
 	$zip = $_GET['zip'];
-	$status = delete_zip($zip);
-	
-	redirect("archive.php?upd=del-". $status ."&id=". $zip);
+	$status = delete_zip($zip) ? 'success' : 'error';
+	redirect("archive.php?upd=del-" . $status . "&id=" . $zip);
 } 
 
 // are we deleting uploads?
 if (isset($_GET['file'])) {
 	$path = (isset($_GET['path'])) ? $_GET['path'] : "";
 	$file = $_GET['file'];
-	$status = delete_upload($file, $path);
+	$status = delete_upload($file, $path) ? 'success' : 'error';
 	
-	redirect("upload.php?upd=del-".$status."&id=". $file . "&path=" . $path);
+	redirect("upload.php?upd=del-" . $status . "&id=" . $file . "&path=" . $path);
 } 
 
 

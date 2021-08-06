@@ -1,12 +1,12 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')) die('you cannot load this page directly.');
 /**
  * Template Functions
  *
  * These functions are used within the back-end of a GetSimple installation
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Zip
- */ 
+ */
 
 /**
  * Get Language for administration panel
@@ -19,14 +19,9 @@
  */
 function get_admin_lang($short = false) {
 	global $LANG;
-	if ($short) {
-		$LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);
-		return $LANG_header;
-	} else {
-		return $LANG;
-	}
+	return $short ? preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG) : $LANG;
 }
-	
+
 /**
  * Get Template
  *
@@ -36,12 +31,11 @@ function get_admin_lang($short = false) {
  * @param string $title Title to place on page
  * @return string
  */
-function get_template($name, $title='** Change Me - Default Page Title **') {
+function get_template($name, $title = '** Change Me - Default Page Title **') {
 	ob_start();
-	$file = "template/" . $name . ".php";
-	include($file);
+	include('template' . DIRECTORY_SEPARATOR . $name . '.php');
 	$template = ob_get_contents();
-	ob_end_clean(); 
+	ob_end_clean();
 	echo $template;
 }
 
@@ -56,9 +50,7 @@ function get_template($name, $title='** Change Me - Default Page Title **') {
  * @return string
  */
 function filename_id() {
-	$path = myself(FALSE);
-	$file = basename($path,".php");	
-	echo "id=\"". $file ."\"";	
+	echo 'id="' . basename(myself(false), '.php') . '"';
 }
 
 /**
@@ -72,9 +64,7 @@ function filename_id() {
  * @return string
  */
 function get_filename_id() {
-	$path = myself(FALSE);
-	$file = basename($path,".php");	
-	return $file;	
+	return basename(myself(false), '.php');
 }
 
 /**
@@ -83,25 +73,23 @@ function get_filename_id() {
  * Deletes pages data file afer making backup
  *
  * @since 1.0
+ * @since 3.5.0 Returns boolean value
  * @uses GSBACKUPSPATH
  * @uses GSDATAPAGESPATH
  *
  * @param string $id File ID to delete
+ * @return boolean Returns true on success page data file creating backup and deletion else return false
  */
 function delete_file($id) {
-
 	$bakfilepath = GSBACKUPSPATH . 'pages' . DIRECTORY_SEPARATOR;
-	$bakfile = $bakfilepath . $id .'.bak.xml';
-
-	$filepath = GSDATAPAGESPATH;
-	$file = $filepath . $id .'.xml';
-
-	if(filepath_is_safe($file,$filepath)){
+	$bakfile = $bakfilepath . $id . '.bak.xml';
+	$file = GSDATAPAGESPATH . $id . '.xml';
+	if (filepath_is_safe($file, GSDATAPAGESPATH)) {
 		$successbak = copy($file, $bakfile);
 		$successdel = unlink($file);
-		if($successdel && $successbak) return 'success';
+		if ($successdel && $successbak) return true;
 	}
-	return 'error';
+	return false;
 }
 
 /**
@@ -113,60 +101,52 @@ function delete_file($id) {
  *
  * @param string $path File and/or path
  */
-function check_perms($path) { 
-  clearstatcache(); 
-  $configmod = substr(sprintf('%o', fileperms($path)), -4);  
+function check_perms($path) {
+  clearstatcache();
+  $configmod = substr(sprintf('%o', fileperms($path)), -4);
 	return $configmod;
-} 
+}
 
 /**
  * Delete Zip File
  *
  * @since 1.0
+ * @since 3.5.0 Returns boolean value
  * @uses GSBACKUPSPATH
  *
  * @param string $id Zip filename to delete
- * @return string
+ * @return bool Returns true on success zip file deletion else returns false
  */
-function delete_zip($id) { 
+function delete_zip($id) {
 	$filepath = GSBACKUPSPATH . 'zip' . DIRECTORY_SEPARATOR;
 	$file = $filepath . $id;
-
-	if(filepath_is_safe($file,$filepath)){
-		$success =  unlink($file);
-		if($success) return 'success';
-	}
-	return 'error';
-} 
+	if (filepath_is_safe($file, $filepath)) return unlink($file);
+	return false;
+}
 
 /**
  * Delete Uploaded File
  *
  * @since 1.0
+ * @since 3.5.0 Returns boolean value.
  * @uses GSTHUMBNAILPATH
  * @uses GSDATAUPLOADPATH
  *
  * @param string $id Uploaded filename to delete
  * @param string $path Path to uploaded file folder
- * @return string
+ * @return bool Returns true on success file deletion else returns false
  */
-function delete_upload($id, $path = "") { 
+function delete_upload($id, $path = '') {
 	$filepath = GSDATAUPLOADPATH . $path;
 	$file =  $filepath . $id;
-
-	if(path_is_safe($filepath,GSDATAUPLOADPATH) && filepath_is_safe($file,$filepath)){
+	if (path_is_safe($filepath, GSDATAUPLOADPATH) && filepath_is_safe($file, $filepath)) {
 		$status = unlink(GSDATAUPLOADPATH . $path . $id);
-		if (file_exists(GSTHUMBNAILPATH.$path."thumbnail.". $id)) {
-			unlink(GSTHUMBNAILPATH.$path."thumbnail.". $id);
-		}
-		if (file_exists(GSTHUMBNAILPATH.$path."thumbsm.". $id)) {
-			unlink(GSTHUMBNAILPATH.$path."thumbsm.". $id);
-		}
-		if($status) return 'success';
-	}	
-
-	return 'error';
-} 
+		if (file_exists(GSTHUMBNAILPATH . $path . "thumbnail." . $id)) unlink(GSTHUMBNAILPATH . $path . "thumbnail." . $id);
+		if (file_exists(GSTHUMBNAILPATH . $path . "thumbsm." . $id)) unlink(GSTHUMBNAILPATH . $path. "thumbsm." . $id);
+		return $status;
+	}
+	return false;
+}
 
 /**
  * Delete Cache Files
@@ -174,36 +154,46 @@ function delete_upload($id, $path = "") {
  * @since 3.1.3
  * @uses GSCACHEPATH
  *
- * @returns deleted count on success, null if there are any errors
+ * @return mixed Deleted count on success, null if there are any errors
  */
-function delete_cache() { 
+function delete_cache() {
 	$cachepath = GSCACHEPATH;
-	
-	$cnt = 0;	
+	$cnt = 0;
 	$success = null;
-	
-	foreach(glob($cachepath.'*.txt') as $file){
-		if(unlink($file)) $cnt++;
+	foreach (glob($cachepath. '*.txt') as $file) {
+		if (unlink($file)) $cnt++;
 		else $success = false;
-	}	
-
-	if($success == false) return null;
+	}
+	if ($success == false) return null;
 	return $cnt;
-} 
+}
+
+/**
+ * Check if backup of page data file exists
+ * 
+ * @since 3.5.0
+ * @uses GSBACKUPSPATH
+ * 
+ * @param string $id Page ID to check
+ * @return bool Returns true if backup of page data file exists or false
+ */
+function exists_bak($id) {
+	return file_exists(GSBACKUPSPATH . 'pages' . DIRECTORY_SEPARATOR . $id . '.bak.xml');
+}
 
 /**
  * Delete Pages Backup File
  *
  * @since 1.0
+ * @since 3.5.0 Returns boolean value.
  * @uses GSBACKUPSPATH
  *
  * @param string $id File ID to delete
- * @return string
+ * @return bool Returns result of page data backup file deletion
  */
-function delete_bak($id) { 
-	unlink(GSBACKUPSPATH."pages/". $id .".bak.xml");
-	return 'success';
-} 
+function delete_bak($id) {
+	return unlink(GSBACKUPSPATH . 'pages' . DIRECTORY_SEPARATOR . $id . '.bak.xml');
+}
 
 /**
  * Restore Pages Backup File
@@ -214,11 +204,11 @@ function delete_bak($id) {
  *
  * @param string $id File ID to restore
  */
-function restore_bak($id) { 
-	$file = GSBACKUPSPATH."pages/". $id .".bak.xml";
-	$newfile = GSDATAPAGESPATH . $id .".xml";
-	$tmpfile = GSBACKUPSPATH."pages/". $id .".tmp.xml";
-	if ( !file_exists($newfile) ) { 
+function restore_bak($id) {
+	$file = GSBACKUPSPATH. 'pages' . DIRECTORY_SEPARATOR . $id . '.bak.xml';
+	$newfile = GSDATAPAGESPATH . $id . '.xml';
+	$tmpfile = GSBACKUPSPATH . 'pages' . DIRECTORY_SEPARATOR . $id . '.tmp.xml';
+	if (!file_exists($newfile)) {
 		copy($file, $newfile);
 		unlink($file);
 	} else {
@@ -229,7 +219,7 @@ function restore_bak($id) {
 	}
 	exec_action('page-restored');
 	generate_sitemap();
-} 
+}
 
 /**
  * Create Random Password
@@ -264,7 +254,6 @@ function createRandomPassword() {
  * @return string
  */
 function get_FileType($ext) {
-
 	$ext = lowercase($ext);
 	if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'pct' || $ext == 'gif' || $ext == 'bmp' || $ext == 'png' ) {
 		return i18n_r('IMAGES') .' Images';
@@ -290,10 +279,10 @@ function get_FileType($ext) {
 }
 
 /**
- * Create Backup Pages File
+ * Create Backup File
  *
  * @since 1.0
- * @uses tsl
+ * @uses tsl()
  *
  * @param string $file
  * @param string $filepath
@@ -301,16 +290,49 @@ function get_FileType($ext) {
  * @return bool
  */
 function createBak($file, $filepath, $bakpath) {
-	$bakfile = $bakpath . $file .".bak";
-	if ( file_exists(tsl($filepath) . $file) ) {
-		copy($filepath . $file, $bakfile);
-	}
-	
-	if ( file_exists($bakfile) ) {
-		return true;
-	} else {
-		return false;
-	} 
+	$origfile = tsl($filepath) . $file;
+	$bakfile = tsl($bakpath) . $file . '.bak';
+	if (file_exists($origfile)) return copy($origfile, $bakfile);
+	return false;
+}
+
+/**
+ * Undo
+ * Restore backup file.
+ *
+ * @since 1.0
+ * @uses tsl()
+ *
+ * @param string $file filename to undo
+ * @param string $filepath filepath to undo
+ * @param string $bakpath path to the backup file
+ * @return bool
+ */
+function undo($file, $filepath, $bakpath) {
+	$undo_file = tsl($filepath) . $file;
+	$bak_file  = tsl($bakpath) . $file . '.bak';
+	$tmp_file = tsl($bakpath) . $file . '.tmp';
+	copy($undo_file, $tmp_file); // rename original to temp shuttle
+	copy($bak_file, $undo_file); // copy backup
+	copy($tmp_file, $bak_file);  // save original as backup
+	unlink($tmp_file); 			 // remove temp shuttle file
+	return !file_exists($tmp_file);
+}
+
+/**
+ * Restore Backup File
+ * This is alias of function undo()
+ *
+ * @since 3.5.0
+ * @uses undo()
+ *
+ * @param string $file
+ * @param string $filepath
+ * @param string $bakpath
+ * @return bool
+ */
+function restoreBak($file, $filepath, $bakpath) {
+	return undo($file, $filepath, $bakpath);
 }
 
 /**
@@ -401,33 +423,6 @@ function pingGoogleSitemaps($url_xml) {
 }
 
 /**
- * Undo
- *
- * @since 1.0
- * @uses tsl
- *
- * @param string $file filename to undo
- * @param string $filepath filepath to undo
- * @param string $bakpath path to the backup file
- * @return bool
- */
-function undo($file, $filepath, $bakpath) {
-	$undo_file = $filepath . $file;
-	$bak_file  = tsl($bakpath) . $file .".bak";
-	$tmp_file = tsl($bakpath) . $file .".tmp";
-	copy($undo_file, $tmp_file); // rename original to temp shuttle
-	copy($bak_file, $undo_file); // copy backup
-	copy($tmp_file, $bak_file);  // save original as backup
-	unlink($tmp_file); 			 // remove temp shuttle file
-	
-	if (file_exists($tmp_file)) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
-/**
  * File Size
  *
  * @since 1.0
@@ -496,11 +491,7 @@ function check_email_address($email) {
  * @return bool
  */
 function do_reg($text, $regex) {
-	if (preg_match($regex, $text)) {
-		return true;
-	} else {
-		return false;
-	}
+	return (bool)preg_match($regex, $text);
 }
 
 /**
@@ -570,9 +561,9 @@ function get_admin_path() {
  * @return string
  */
 function get_root_path() {
-  $pos = strrpos(dirname(__FILE__),DIRECTORY_SEPARATOR.'inc');
+  $pos = strrpos(dirname(__FILE__), DIRECTORY_SEPARATOR . 'inc');
   $adm = substr(dirname(__FILE__), 0, $pos);
-  $pos2 = strrpos($adm,DIRECTORY_SEPARATOR);
+  $pos2 = strrpos($adm, DIRECTORY_SEPARATOR);
   return tsl(substr(__FILE__, 0, $pos2));
 }
 
@@ -589,29 +580,22 @@ function get_root_path() {
  * @return string
  */
 function check_menu($text) {
-	if(get_filename_id()===$text){
-		echo 'class="current"';
-	}
+	echo get_filename_id() === $text ? 'class="current"' : '';
 }
 
 /**
  * Password Hashing
  *
- * Default function to create a hashed password for GetSimple
+ * Default function to create a hashed password
  *
  * @since 2.0
  * @uses GSLOGINSALT
  *
- * @param string $p 
+ * @param string $p
  * @return string
  */
 function passhash($p) {
-	if(defined('GSLOGINSALT') && GSLOGINSALT != '') { 
-		$logsalt = sha1(GSLOGINSALT);
-	} else { 
-		$logsalt = null; 
-	}
-	
+	$logsalt = (defined('GSLOGINSALT') && GSLOGINSALT != '') ? sha1(GSLOGINSALT) : null;
 	return sha1($p . $logsalt);
 }
 
@@ -689,7 +673,6 @@ function updateSlugs($existingUrl, $newurl=null){
       }
 }
 
-          
 /**
  * Get Link Menu Array
  * 
@@ -1196,22 +1179,22 @@ function archive_targz() {
  * Check if a page is a public admin page
  * @return boolean true if page is non protected admin page
  */
-function isAuthPage(){
+function isAuthPage() {
 	$page = get_filename_id(); 
 	return $page == 'index' || $page == 'resetpassword';
 }
 
 /**
  * returns a query string with only the allowed keys
- * @since  3.3.0
+ * @since 3.3.0
  * 
- * @param  array $allowed array of querystring keys to keep
+ * @param array $allowed array of querystring keys to keep
  * @return string built query string
  */
-function filter_queryString($allowed = array()){
+function filter_queryString($allowed = array()) {
 	parse_str($_SERVER['QUERY_STRING'], $query_string);
 	$qstring_filtered = array_intersect_key($query_string, array_flip($allowed));
-	$new_qstring = http_build_query($qstring_filtered,'','&amp;');
+	$new_qstring = http_build_query($qstring_filtered, '', '&amp;');
 	return $new_qstring;
 }
 
@@ -1268,10 +1251,10 @@ function getExcerpt($str, $len = 200, $striphtml = true, $ellipsis = '…', $bre
  * 
  * @uses mb_check_encoding
  * 
- * @param  string $str string to check
- * @return bool      true if multibyte
+ * @param string $str string to check
+ * @return bool true if multibyte
  */
-function strIsMultibyte($str){
+function strIsMultibyte($str) {
 	return function_exists('mb_check_encoding') && ! mb_check_encoding($str, 'ASCII') && mb_check_encoding($str, 'UTF-8');
 }
 
