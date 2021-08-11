@@ -285,6 +285,7 @@ function getXML($file, $options = LIBXML_NOCDATA) {
  * XML Save
  *
  * @since 2.0
+ * @since 3.5.0 Format XML after execution filter xmlsave
  * @todo create and chmod file before ->asXML call (if it doesnt exist already, if so, then just chmod it.)
  *
  * @param object $xml
@@ -298,8 +299,8 @@ function XMLsave($xml, $file) {
 		return false;
 	}
 	$data = @$xml->asXML();
-	if (getDef('GSFORMATXML', true)) $data = formatXmlString($data); // format xml if config setting says so
 	$data = exec_filter('xmlsave', $data); // @filter xmlsave executed before writing string to file
+	if (getDef('GSFORMATXML', true)) $data = formatXmlString($data); // format xml if config setting says so
 	$success = file_put_contents($file, $data); // LOCK_EX ?
 	// debugLog('XMLsave: ' . $file . ' ' . get_execution_time());
 	if (getDef('GSDOCHMOD') === false) return $success;
