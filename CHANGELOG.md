@@ -38,6 +38,7 @@
     * Added toggle to display URLs of pages on Page Management
     * Added `get_page_publisher()` theme function to echo or return publisher of the requested page
     * Added automatic execution of enabled Components named like `action_action-name` on call corresponding actions
+    * Added actions `page-clone`, `page-clone-success`, `page-clone-error`
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

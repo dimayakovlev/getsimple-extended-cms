@@ -2,9 +2,9 @@
 /**
  * All Pages
  *
- * Displays all pages 
+ * Displays all pages
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Page-Edit
  */
 
@@ -16,64 +16,64 @@ include('inc/common.php');
 
 // Variable settings
 login_cookie_check();
-$id      =  isset($_GET['id']) ? $_GET['id'] : null;
-$ptype   = isset($_GET['type']) ? $_GET['type'] : null;
-$path    = GSDATAPAGESPATH;
+$id = filter_input(INPUT_GET, 'id');
+$ptype = filter_input(INPUT_GET, 'type');
+$path = GSDATAPAGESPATH;
 $counter = '0';
-$table   = '';
+$table = '';
 
 # clone attempt happening
-if ( isset($_GET['action']) && isset($_GET['id']) && $_GET['action'] == 'clone') {
-	
+if (isset($_GET['action']) && isset($_GET['id']) && $_GET['action'] == 'clone') {
 	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
-		$nonce = $_GET['nonce'];
-		if(!check_nonce($nonce, "clone", "pages.php")) {
-			die("CSRF detected!");	
-		}
+	if (!defined('GSNOCSRF') || (GSNOCSRF == false)) {
+		if (!check_nonce($_GET['nonce'], 'clone', 'pages.php')) die('CSRF detected!');
 	}
-
 	# check to not overwrite
 	$count = 1;
-	$newfile = GSDATAPAGESPATH . $_GET['id'] ."-".$count.".xml";
+	$newfile = GSDATAPAGESPATH . $_GET['id'] . '-' . $count . '.xml';
 	if (file_exists($newfile)) {
-		while ( file_exists($newfile) ) {
+		while (file_exists($newfile)) {
 			$count++;
-			$newfile = GSDATAPAGESPATH . $_GET['id'] ."-".$count.".xml";
+			$newfile = GSDATAPAGESPATH . $_GET['id'] . '-' . $count . '.xml';
 		}
 	}
-	$newurl = $_GET['id'] .'-'. $count;
-	
+	$newurl = $_GET['id'] . '-' . $count;
 	# do the copy
-	$status = copy($path.$_GET['id'].'.xml', $path.$newurl.'.xml');
+	$status = copy($path . $_GET['id'] . '.xml', $path . $newurl . '.xml');
 	if ($status) {
-		$newxml = getXML($path.$newurl.'.xml');
+		$newxml = getXML($path . $newurl . '.xml');
 		$newxml->url = $newurl;
-		$newxml->title = $newxml->title.' ['.i18n_r('COPY').']';
+		$newxml->title = $newxml->title . ' [' . i18n_r('COPY') . ']';
 		$newxml->pubDate = date('r');
-		$status = XMLsave($newxml, $path.$newurl.'.xml');
+		$newxml->creDate = date('r');
+		$newxml->author = $USR;
+		$newxml->publisher = $USR;
+		$newxml->attributes()->revisionNumber = 1;
+		$newxml->attributes()->appName = $site_full_name;
+		$newxml->attributes()->appVersion = $site_version_no;
+		exec_action('page-clone');
+		$status = XMLsave($newxml, $path . $newurl . '.xml');
 		if ($status) {
 			create_pagesxml('true');
-			header('Location: pages.php?upd=clone-success&id='.$newurl);
-		} else {
-			$error = sprintf(i18n_r('CLONE_ERROR'), $_GET['id']);
-			header('Location: pages.php?error='.$error);
+			generate_sitemap();
+			exec_action('page-clone-success');
+			header('Location: pages.php?upd=clone-success&id=' . $newurl);
 		}
-	} else {
-		$error = sprintf(i18n_r('CLONE_ERROR'), $_GET['id']);
-		header('Location: pages.php?error='.$error);
+	}
+	if (!$status) {
+		exec_action('page-clone-error');
+		header('Location: pages.php?error=' . sprintf(i18n_r('CLONE_ERROR'), $_GET['id']));
 	}
 }
-
 
 getPagesXmlValues(true);
 
 $count = 0;
 foreach ($pagesArray as $page) {
-	if ($page['parent'] != '') { 
-		$parentTitle = returnPageField($page['parent'], "title");
-		$sort = $parentTitle .' '. $page['title'];
-		$sort = $parentTitle .' '. $page['title'];
+	if ($page['parent'] != '') {
+		$parentTitle = returnPageField($page['parent'], 'title');
+		$sort = $parentTitle . ' ' . $page['title'];
+		$sort = $parentTitle . ' ' . $page['title'];
 	} else {
 		$sort = $page['title'];
 	}
@@ -85,14 +85,11 @@ foreach ($pagesArray as $page) {
 $pagesSorted = subval_sort($pagesArray_tmp, 'sort');
 $table = get_pages_menu('', '', 0);
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('PAGE_MANAGEMENT'));
 
 ?>
-
 <?php include('template/include-nav.php'); ?>
-	
 <div class="bodycontent">
-	
 	<div id="maincontent">
 	<?php exec_action('pages-main'); ?>
 		<div class="main">
@@ -114,11 +111,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PAGE_MANAGEMENT'));
 			
 		</div>
 	</div><!-- end maincontent -->
-	
-	
 	<div id="sidebar">
 		<?php include('template/sidebar-pages.php'); ?>
 	</div>
-
 </div>
 <?php get_template('footer'); ?>
