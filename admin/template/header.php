@@ -7,14 +7,7 @@
  
 global $SITENAME, $SITEURL;
 
-$GSSTYLE         = getDef('GSSTYLE') ? GSSTYLE : '';
-$GSSTYLE_sbfixed = in_array('sbfixed', explode(',', $GSSTYLE));
-$GSSTYLE_wide    = in_array('wide', explode(',', $GSSTYLE));
-
-$bodyclass = 'class="';
-if ($GSSTYLE_sbfixed) $bodyclass .= " sbfixed";
-if ($GSSTYLE_wide) $bodyclass .= " wide";
-$bodyclass .= '"';
+$bodyclass = getDef('GSSTYLE') ? ' class="' . GSSTYLE . '"' : '';
 
 if (get_filename_id() != 'index') exec_action('admin-pre-header');
 
@@ -30,12 +23,9 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 	<?php } ?>
 	<meta name="robots" content="noindex, nofollow">
-	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo 's=' . $GSSTYLE . '&amp;v=' . GSVERSION .  (isDebug() ? '&amp;nocache' : ''); ?>" media="screen" />
+	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo '&amp;v=' . GSVERSION .  (isDebug() ? '&amp;nocache' : ''); ?>" media="screen" />
 	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="template/ie6.css?v=<?php echo GSVERSION; ?>" media="screen" /><![endif]-->
-    <?php
-		if ($GSSTYLE_sbfixed) queue_script('scrolltofixed', GSBACK);
-		get_scripts_backend();
-	?>
+	<?php get_scripts_backend(); ?>
 	<script type="text/javascript">
 		// init gs namespace and i18n
 		var GS = {};
@@ -87,7 +77,7 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<?php } ?>
 </head>
 
-<body <?php filename_id(); echo ' ' . $bodyclass; ?>>
+<body <?php filename_id(); echo $bodyclass; ?>>
 	<header class="header" id="header">
 		<div class="wrapper">
 <?php exec_action('header-body'); ?>

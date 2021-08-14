@@ -5,7 +5,7 @@
  * This file initializes up most variables for the site. It is also where most files
  * are included from. It also reads and stores certain variables.
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage init
  */
 
@@ -18,7 +18,7 @@
 header('content-type: text/html; charset=utf-8');
 
 // headers for backend
-if(!isset($base)){
+if (!isset($base)) {
 	// no-cache headers
 	$timestamp = gmdate("D, d M Y H:i:s") . " GMT";
 	header("Expires: " . $timestamp);
@@ -31,7 +31,7 @@ define('IN_GS', TRUE); // GS enviroment flag
 
 // GS Debugger
 global $GS_debug; // GS debug trace array
-if(!isset($GS_debug)) $GS_debug = array();	
+if (!isset($GS_debug)) $GS_debug = array();
 
 /**
  * Debug Console Log
@@ -48,17 +48,15 @@ function debugLog($txt = '') {
 /**
  * Set PHP enviroment
  */
-if(function_exists('mb_internal_encoding')) mb_internal_encoding("UTF-8"); // set multibyte encoding
+if (function_exists('mb_internal_encoding')) mb_internal_encoding('UTF-8'); // set multibyte encoding
 
 /**
  *  GSCONFIG definitions
  */
 
-if(!defined('GSFRONT')) define('GSFRONT',1);
-if(!defined('GSBACK'))  define('GSBACK',2);
-if(!defined('GSBOTH'))  define('GSBOTH',3);
-if(!defined('GSSTYLEWIDE')) define('GSSTYLEWIDE','wide'); // wide style sheet
-if(!defined('GSSTYLE_SBFIXED')) define('GSSTYLE_SBFIXED','sbfixed'); // fixed sidebar
+if (!defined('GSFRONT')) define('GSFRONT', 1);
+if (!defined('GSBACK')) define('GSBACK', 2);
+if (!defined('GSBOTH')) define('GSBOTH', 3);
 
 /**
  * Bad stuff protection
@@ -127,22 +125,22 @@ define('GSBACKUSERSPATH', GSROOTPATH. 'backups/users/');
 define('GSCACHEPATH', GSROOTPATH. 'data/cache/');
 define('GSAUTOSAVEPATH', GSROOTPATH. 'data/pages/autosave/');
 
-$reservedSlugs = array($GSADMIN,'data','theme','plugins','backups');
+$reservedSlugs = array($GSADMIN, 'data', 'theme', 'plugins', 'backups');
 
-require_once(GSADMININCPATH.'configuration.php');
+require_once(GSADMININCPATH . 'configuration.php');
 
 /**
  * Debugging
  */
-if ( isDebug() ) {
+if (isDebug()) {
 	error_reporting(-1);
 	ini_set('display_errors', 1);
-} else if( getDef('GSSUPPRESSERRORS',true) ||  getDef('SUPPRESSERRORS',true) ) {
+} else if (getDef('GSSUPPRESSERRORS', true) ||  getDef('SUPPRESSERRORS', true)) {
 	error_reporting(0);
 	ini_set('display_errors', 0);
 }
 ini_set('log_errors', 1);
-ini_set('error_log', GSDATAOTHERPATH .'logs/errorlog.txt');
+ini_set('error_log', GSDATAOTHERPATH . 'logs/errorlog.txt');
 
 
 /**

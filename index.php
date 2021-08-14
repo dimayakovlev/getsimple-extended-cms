@@ -11,26 +11,24 @@
 
 /* pre-common setup, load gsconfig and get GSADMIN path */
 
-	/* GSCONFIG definitions */
-	if(!defined('GSFRONT')) define('GSFRONT', 1);
-	if(!defined('GSBACK')) define('GSBACK', 2);
-	if(!defined('GSBOTH')) define('GSBOTH', 3);
-	if(!defined('GSSTYLEWIDE')) define('GSSTYLEWIDE', 'wide'); // wide style sheet
-	if(!defined('GSSTYLE_SBFIXED')) define('GSSTYLE_SBFIXED', 'sbfixed'); // fixed sidebar
+/* GSCONFIG definitions */
+if (!defined('GSFRONT')) define('GSFRONT', 1);
+if (!defined('GSBACK')) define('GSBACK', 2);
+if (!defined('GSBOTH')) define('GSBOTH', 3);
 
-	# Check and load gsconfig
-	if (file_exists('gsconfig.php')) require_once('gsconfig.php');
+# Check and load gsconfig
+if (file_exists('gsconfig.php')) require_once('gsconfig.php');
 
-	# Apply GSADMIN env
-	$GSADMIN = defined('GSADMIN') ? GSADMIN : 'admin';
+# Apply GSADMIN env
+$GSADMIN = defined('GSADMIN') ? GSADMIN : 'admin';
 
-	# setup paths 
-	# @todo wtf are these for ?
-	$admin_relative = $GSADMIN . '/inc/';
-	$lang_relative = $GSADMIN . '/';
+# setup paths 
+# @todo wtf are these for ?
+$admin_relative = $GSADMIN . '/inc/';
+$lang_relative = $GSADMIN . '/';
 
-	$load['plugin'] = true;
-	$base = true;
+$load['plugin'] = true;
+$base = true;
 
 /* end */
 

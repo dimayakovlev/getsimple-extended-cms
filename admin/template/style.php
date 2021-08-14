@@ -48,16 +48,12 @@ if (file_exists('../../theme/admin.xml')) {
 	$primary_3 = '#415A66';
 	$primary_4 = '#618899';
 	$primary_5 = '#E8EDF0';
-	$primary_6 = '#AFC5CF'; # lightest	
+	$primary_6 = '#AFC5CF'; # lightest
 	$secondary_0 = '#9F2C04'; # darkest
 	$secondary_1 = '#CF3805'; # lightest
 }
 
 include('css.php');
-
-if (isset($_GET['s']) && in_array('wide', explode(',', $_GET['s']))) {
-	include('css-wide.php');
-}
 
 if ($cacheme) {
 	file_put_contents($cachefile, compress(ob_get_contents()) . '/* Cached copy, generated ' . date('H:i') . " '" . $cachefile . "' */\n");

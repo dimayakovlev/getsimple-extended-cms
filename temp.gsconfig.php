@@ -92,17 +92,10 @@ define('GSSUPPRESSERRORS', true);
 #define('GSNOVERCHECK', true);
 
 # Enable alternate admin styles, current style constants are
-# GSSTYLE can be a comma delimied list of flags
+# GSSTYLE can be a list of styles applied to body
 # note: stylesheets are cached, flush cache after changing
-#
-# style flags:
-# GSSTYLEWIDE = wide fluid
-# GSSTYLE_SBFIXED = fixed sidemenu
-# 
-# eg. 
-# define('GSSTYLE',GSSTYLE_SBFIXED);
-# define('GSSTYLE',GSSTYLEWIDE);
-#define('GSSTYLE', implode(',',array(GSSTYLEWIDE,GSSTYLE_SBFIXED)));
+
+#define('GSSTYLE', 'gradient');
 
 # Disable Sitemap generation and menu items
 # define('GSNOSITEMAP', true);
