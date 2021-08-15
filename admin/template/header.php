@@ -4,8 +4,8 @@
  *
  * @package GetSimple Extended
  */
- 
-global $SITENAME, $SITEURL;
+
+global $SITENAME, $SITEURL, $site_full_name;
 
 $bodyclass = getDef('GSSTYLE') ? ' class="' . GSSTYLE . '"' : '';
 
@@ -17,14 +17,14 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<meta charset="utf-8">
 	<title><?php echo $title ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php if(!isAuthPage()) { ?><meta name="generator" content="GetSimple Extended - <?php echo GSVERSION; ?>" /> 
-	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
-	<link rel="author" href="humans.txt" />
-	<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+	<?php if (!isAuthPage()) { ?><meta name="generator" content="<?php echo $site_full_name; ?> - <?php echo GSVERSION; ?>">
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+	<link rel="author" href="humans.txt">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<?php } ?>
 	<meta name="robots" content="noindex, nofollow">
-	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo '&amp;v=' . GSVERSION .  (isDebug() ? '&amp;nocache' : ''); ?>" media="screen" />
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="template/ie6.css?v=<?php echo GSVERSION; ?>" media="screen" /><![endif]-->
+	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo '&amp;v=' . GSVERSION . (isDebug() ? '&amp;nocache' : ''); ?>" media="screen">
+	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="template/ie6.css?v=<?php echo GSVERSION; ?>" media="screen"><![endif]-->
 	<?php get_scripts_backend(); ?>
 	<script type="text/javascript">
 		// init gs namespace and i18n
@@ -42,13 +42,13 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<?php } ?>
 	<?php if (get_filename_id() == 'image') { ?>
 	<script type="text/javascript" src="template/js/jcrop/jquery.Jcrop.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="template/js/jcrop/jquery.Jcrop.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="template/js/jcrop/jquery.Jcrop.css" media="screen">
 	<?php } ?>
 
   <?php
 	# Plugin hook to allow insertion of stuff into the header
-	if(!isAuthPage()) exec_action('header');
-	
+	if (!isAuthPage()) exec_action('header');
+
 	function doVerCheck() {
 		return !isAuthPage() && !getDef('GSNOVERCHECK');
 	}
