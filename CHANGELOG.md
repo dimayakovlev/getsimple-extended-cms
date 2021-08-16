@@ -59,6 +59,7 @@
     * Added support for txt, svg, json and xml files in **Theme Editor**
     * Split website and user settings
     * Added option to have close button for notifications
+    * New built-in styles for Administration panel available via `GSSTYLE` constant: "lighter", "middle", "dark", "darker", "flat", "flat light", "flat middle", "flat dark", "flat darker", "flat darkest"
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`

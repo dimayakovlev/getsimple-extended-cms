@@ -95,7 +95,7 @@ define('GSSUPPRESSERRORS', true);
 # GSSTYLE can be a list of styles applied to body
 # note: stylesheets are cached, flush cache after changing
 
-#define('GSSTYLE', 'gradient');
+#define('GSSTYLE', 'flat darker');
 
 # Disable Sitemap generation and menu items
 # define('GSNOSITEMAP', true);

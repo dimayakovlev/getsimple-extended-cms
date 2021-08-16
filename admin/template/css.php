@@ -3,13 +3,12 @@
 /*
  * CSS php dynamic
  * DO NOT TIDY!
- * @uses color variables $primary0 - $primary6, $secondary_0 - $secondary_1
- *
+ * @uses color variables $primary_0 - $primary_6, $secondary_0 - $secondary_1
  */
 
 /** GLOBAL RESETS **/
 :link,:visited {
-	text-decoration: none
+	text-decoration: none;
 }
 
 h1,h2,h3,h4,h5,h6,pre,code {
@@ -120,12 +119,47 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 #header {
 	color: #FFF;
 	border-top: 1px solid <?php echo $primary_1; ?>;
-	background: <?php echo $primary_3; ?>; /* old browsers */
-		background: -moz-linear-gradient(top, <?php echo $primary_4; ?> 0%, <?php echo $primary_2; ?> 100%);	/* firefox */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,<?php echo $primary_4; ?>), color-stop(100%,<?php echo $primary_2; ?>));	/* webkit */
-		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='<?php echo $primary_4; ?>', endColorstr='<?php echo $primary_2; ?>',GradientType=0 );	/* ie */
+	background: linear-gradient(to bottom, <?php echo $primary_4?>, <?php echo $primary_2; ?>);
 	margin: 0 0 25px 0;
 }
+
+/* Start style header background */
+.flat.light #header {
+	background: <?php echo $primary_4; ?>;
+}
+
+.flat #header, .flat.middle #header {
+	background: <?php echo $primary_3; ?>;
+}
+
+.flat.dark #header {
+	background: <?php echo $primary_2; ?>;
+}
+
+.flat.darker #header {
+	background: <?php echo $primary_1; ?>;
+}
+
+.flat.darkest #header {
+	background: <?php echo $primary_0; ?>;
+}
+
+.lighter #header {
+	background: linear-gradient(to bottom, <?php echo $primary_5; ?>, <?php echo $primary_3; ?>);
+}
+
+.middle #header {
+	background: linear-gradient(to bottom, <?php echo $primary_3; ?>, <?php echo $primary_1; ?>);
+}
+
+.dark #header {
+	background: linear-gradient(to bottom, <?php echo $primary_2; ?>, <?php echo $primary_0; ?>);
+}
+
+.darker #header {
+	background: linear-gradient(to bottom, <?php echo $primary_1; ?>, <?php echo $primary_0; ?>);
+}
+/* End style header background */
 
 #header .wrapper {
 	position: relative;
@@ -228,7 +262,7 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 #load .wrapper .theme li a.theme,
 #load .wrapper .files li a.files,
 #load .wrapper .backups li a.backups,
-#load	.wrapper .support li a.support,
+#load .wrapper .support li a.support,
 #load .wrapper .nav li a.current,
 #loadtab .wrapper .nav li a.current {
 	color: <?php echo $primary_1; ?>;
@@ -372,12 +406,14 @@ div.h5 {
 	line-height: 28px;
 	display: block;
 	padding: 3px 10px;
-	background: #EEEEEE;
-		background: -moz-linear-gradient(top, #f6f6f6 3%, #EEEEEE 100%);	/* firefox */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(3%,#f6f6f6), color-stop(100%,#EEEEEE));	/* webkit */
+	background: linear-gradient(to bottom, #f6f6f6 3%, #EEEEEE 100%);
 	border: 1px solid #cccccc;
 	text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
 	color: #999;
+}
+
+.flat h5, .flat .h5 {
+	background: #EEEEEE;
 }
 
 h5 a {
@@ -421,13 +457,6 @@ h5:hover img {
 	width: 225px;
 	position: sticky;
 	top: 20px;
-}
-
-#sidebar.fixed {
-	-transition: top .2s ease-out;
-	-webkit-transition: top .2s ease-in-out;
-	-moz-transition: top .2s ease-in-out;
-	-o-transition: top .2s ease-in-out;
 }
 
 #sidebar .section {
@@ -1260,9 +1289,7 @@ table.comptable input[name$="[enabled]"] + label {
 .notify, .notification {
 	border: 1px solid #E6DB55;
 	border-radius: 2px;
-	background: #FFFBCC;
-		background: -moz-linear-gradient(top, #FFFBCC 0%, #FFFBC1 100%);	/* firefox */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFBCC), color-stop(100%,#FFFBC1));	/* webkit */
+	background: linear-gradient(to bottom, #FFFBCC, #FFFBC1);
 	line-height: 22px;
 	padding: 5px 10px;
 	margin-bottom: 20px;
@@ -1270,6 +1297,10 @@ table.comptable input[name$="[enabled]"] + label {
 	align-items: flex-start;
 	justify-content: space-between;
 	column-gap: 10px;
+}
+
+.flat .notify, .flat .notification {
+	background: #FFFBCC;
 }
 
 .notify p, .notification p {
@@ -1289,48 +1320,41 @@ table.comptable input[name$="[enabled]"] + label {
 .notify.error, .notification.error {
 	color: #990000;
 	border-color: #cc0000;
+	background: linear-gradient(to bottom, #FCF0EF, #F9DFDD);
+}
+
+.flat .notify.error, .flat .notification.error {
 	background: #F9DFDD;
-		background: -moz-linear-gradient(top, #FCF0EF 0%, #F9DFDD 100%);	/* firefox */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FCF0EF), color-stop(100%,#F9DFDD));	/* webkit */
 }
 
 .notify.ok, .notification.ok {
 	border-color: #258815;
 	color: #258815;
-	background: #f0ffed;	/* Old browsers */
-		background: -moz-linear-gradient(top,  #f0ffed 0%, #dfffd7 100%);	/* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0ffed), color-stop(100%,#dfffd7));	/* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #f0ffed 0%,#dfffd7 100%);	/* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #f0ffed 0%,#dfffd7 100%);	/* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #f0ffed 0%,#dfffd7 100%);	/* IE10+ */
-		background: linear-gradient(to bottom,  #f0ffed 0%,#dfffd7 100%);	/* W3C */
-		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f0ffed', endColorstr='#dfffd7',GradientType=0 );	/* IE6-9 */
+	background: linear-gradient(to bottom, #f0ffed, #dfffd7);
+}
+
+.flat .notify.ok, .flat .notification.ok {
+	background: #f0ffed;
 }
 
 .notify.info, .notification.info {
 	border-color: #2850C1;
 	color: #2850C1;
-	background: #edf4ff;	/* Old browsers */
-		background: -moz-linear-gradient(top,  #edf4ff 0%, #d7e7ff 100%);	/* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#edf4ff), color-stop(100%,#d7e7ff));	/* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #edf4ff 0%,#d7e7ff 100%);	/* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #edf4ff 0%,#d7e7ff 100%);	/* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #edf4ff 0%,#d7e7ff 100%);	/* IE10+ */
-		background: linear-gradient(to bottom,  #edf4ff 0%,#d7e7ff 100%);	/* W3C */
-		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#edf4ff', endColorstr='#d7e7ff',GradientType=0 );	/* IE6-9 */
+	background: linear-gradient(to bottom, #edf4ff, #d7e7ff);
+}
+
+.flat .notify.info, .flat .notification.info {
+	background: #edf4ff;
 }
 
 .notify.warning, .notification.warning {
 	border-color: #878314;
 	color: #878314;
-	background: #fffed5;	/* Old browsers */
-		background: -moz-linear-gradient(top,  #fffed5 0%, #fffdbf 100%);	/* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fffed5), color-stop(100%,#fffdbf));	/* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #fffed5 0%,#fffdbf 100%);	/* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #fffed5 0%,#fffdbf 100%);	/* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #fffed5 0%,#fffdbf 100%);	/* IE10+ */
-		background: linear-gradient(to bottom,  #fffed5 0%,#fffdbf 100%);	/* W3C */
-		filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fffed5', endColorstr='#fffdbf',GradientType=0 );	/* IE6-9 */
+	background: linear-gradient(to bottom, #fffed5, #fffdbf);
+}
+
+.flat .notify.warning, .flat .notification.warning {
+	background: #fffed5;
 }
 
 .deletedrow {
@@ -1420,7 +1444,7 @@ table td.delete a {
 }
 
 a.cancel:link, 
-a.cancel:visited {	 
+a.cancel:visited {
 	font-weight: 100;
 	color: <?php echo $secondary_1; ?> !important;
 	text-decoration: underline;
@@ -1547,7 +1571,7 @@ table.simple td.title {
 		-o-transition: opacity .2s ease-in-out;
 }
 
-#footer .gslogo a:hover  {
+#footer .gslogo a:hover {
 	opacity: 1;
 }
 
@@ -2095,7 +2119,7 @@ a.disabled:visited {
 	pointer-events: none;
 	cursor: default;
 	text-decoration: none !important;
-	color: #CCC !important;	
+	color: #CCC !important;
 }
 
 /* override handle uicolor #FFFFFF, prevents invisible seperators */
