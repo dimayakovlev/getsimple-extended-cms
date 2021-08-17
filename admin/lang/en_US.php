@@ -59,6 +59,7 @@ $i18n = array(
 "EDITPAGE_TITLE"		=>	"Edit Page",
 "VIEWPAGE_TITLE"		=>	"View Page",
 "DELETEPAGE_TITLE"	=>	"Delete Page",
+"CLONEPAGE_TITLE"	=>	"Clone Page",
 "PAGE_MANAGEMENT"		=>	"Page Management",
 "TOGGLE_STATUS"			=>	"Toggle Stat<em>u</em>s",
 "TOGGLE_URL"				=>	"Toggle UR<em>L</em>",

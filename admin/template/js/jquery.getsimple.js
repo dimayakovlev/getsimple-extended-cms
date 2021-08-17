@@ -277,6 +277,15 @@ jQuery(document).ready(function() {
 			document.querySelectorAll("[data-role='" + toggle.dataset.target + "']").forEach(target => target.style.display = display);
 			toggle.classList.toggle('current');
 		}));
+		document.querySelectorAll('[data-action="page-clone"]').forEach(element => element.addEventListener('click', function (event) {
+			loadingAjaxIndicator.show();
+			let answer = window.confirm(element.getAttribute('title') + '?');
+			if (!answer) {
+				loadingAjaxIndicator.fadeOut(500);
+				event.preventDefault();
+				return false;
+			}
+		}));
 	} else if (id == 'edit') {
 		document.getElementById('post-private').addEventListener('change', function(event) {
 			let label = event.target.labels[0];
