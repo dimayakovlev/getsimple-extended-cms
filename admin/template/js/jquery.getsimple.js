@@ -277,7 +277,7 @@ jQuery(document).ready(function() {
 			document.querySelectorAll("[data-role='" + toggle.dataset.target + "']").forEach(target => target.style.display = display);
 			toggle.classList.toggle('current');
 		}));
-		document.querySelectorAll('[data-action="page-clone"]').forEach(element => element.addEventListener('click', function (event) {
+		document.querySelectorAll('[data-action="clone-page"]').forEach(element => element.addEventListener('click', function (event) {
 			loadingAjaxIndicator.show();
 			let answer = window.confirm(element.getAttribute('title') + '?');
 			if (!answer) {
