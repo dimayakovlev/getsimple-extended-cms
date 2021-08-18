@@ -17,14 +17,13 @@ include('inc/common.php');
 $pluginid 		=  isset($_GET['set']) ? $_GET['set'] : null;
 $nonce    		= isset($_GET['nonce']) ? $_GET['nonce'] : null;
 
-if ($pluginid){
-	if(check_nonce($nonce, "set", "plugins.php")) {
-	  $plugin=antixss($pluginid);	
-	  change_plugin($plugin);
-	  redirect('plugins.php');
+if ($pluginid) {
+	if (check_nonce($nonce, "set", "plugins.php")) {
+		$plugin=antixss($pluginid);
+		change_plugin($plugin);
+		redirect('plugins.php');
 	}
 }
-
 
 // Variable settings
 login_cookie_check();
@@ -83,7 +82,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PLUGINS_MANAGEMENT'));
 		<?php  } ?>
 		
 		
-		<p><em><strong><span id="pg_counter"><?php echo $counter; ?></span></strong> <?php i18n('PLUGINS_INSTALLED'); ?></em></p>
+		<p><em><?php i18n('PLUGINS_INSTALLED'); ?>: <strong><span id="pg_counter"><?php echo $counter; ?></span></strong></em></p>
 		
 		</div>
 	</div>

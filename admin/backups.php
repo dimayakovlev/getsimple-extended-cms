@@ -2,13 +2,13 @@
 /**
  * All Backups
  *
- * Displays all available page backups. 	
+ * Displays all available page backups.
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Backups
  * @link http://get-simple.info/docs/restore-page-backup
  */
- 
+
 // Setup inclusions
 $load['plugin'] = true;
 
@@ -28,7 +28,7 @@ if (isset($_GET['deleteall'])){
 	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
 		$nonce = $_GET['nonce'];
 		if(!check_nonce($nonce, "deleteall")) {
-			die("CSRF detected!");	
+			die("CSRF detected!");
 		}
 	}
 	$filenames = getFiles($path);
@@ -97,7 +97,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT'));
 			<h3 class="floated"><?php i18n('PAGE_BACKUPS');?></h3>
 			
 			<?php if ($counter > 0) { ?>
-				<div class="edit-nav clearfix" ><a href="#" id="filtertable" accesskey="<?php echo find_accesskey(i18n_r('FILTER'));?>" ><?php i18n('FILTER'); ?></a> <a href="backups.php?deleteall&amp;nonce=<?php echo get_nonce("deleteall"); ?>" title="<?php i18n('DELETE_ALL_BAK');?>" accesskey="<?php echo find_accesskey(i18n_r('ASK_DELETE_ALL'));?>" class="confirmation"  ><?php i18n('ASK_DELETE_ALL');?></a></div>
+				<div class="edit-nav clearfix" ><a href="#" id="filtertable" accesskey="<?php echo find_accesskey(i18n_r('FILTER'));?>" ><?php i18n('FILTER'); ?></a> <a href="backups.php?deleteall&amp;nonce=<?php echo get_nonce("deleteall"); ?>" title="<?php i18n('DELETE_ALL_BAK');?>" accesskey="<?php echo find_accesskey(i18n_r('ASK_DELETE_ALL'));?>" class="confirmation"><?php i18n('ASK_DELETE_ALL');?></a></div>
 				<div id="filter-search">
 					<form><input type="text" autocomplete="off" class="text" id="q" placeholder="<?php echo strip_tags(lowercase(i18n_r('FILTER'))); ?>..." /> &nbsp; <a href="pages.php" class="cancel"><?php i18n('CANCEL'); ?></a></form>
 				</div>
@@ -107,9 +107,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT'));
 				</table>
 			<?php  } else { ?>
 				<div class="clearfix" style="height:40px;"></div>
-			<?php  }	?>
+			<?php } ?>
 		
-			<p><em><b><span id="pg_counter"><?php echo $counter; ?></span></b> <?php echo i18n_r('PAGE_BACKUPS');?></em></p>
+			<p><em><?php echo i18n_r('TOTAL_BACKUPS'); ?>: <strong><span id="pg_counter"><?php echo $counter; ?></span></strong></em></p>
 		</div>
 	</div>
 	

@@ -4,11 +4,11 @@
  *
  * Displays and uploads files to the website
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Files
  * @todo Remove relative paths
  */
- 
+
 // Setup inclusions
 $load['plugin'] = true;
 include('inc/common.php');
@@ -270,7 +270,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('FILE_MANAGEMENT'));
           $foldercount++;
         }
      }
-			if (count($filesSorted) != 0) { 			
+			if (count($filesSorted) != 0) {
 				foreach ($filesSorted as $upload) {
 					$counter++;
 					if ($upload['type'] == i18n_r('IMAGES') .' Images') {
@@ -320,22 +320,17 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('FILE_MANAGEMENT'));
 			}
 			exec_action('file-extras');
 			echo '</table>';
-			
-			if ($counter > 0) { 
-				$sizedesc = '('. fSize($totalsize) .')';
-			} else {
-				$sizedesc = '';
-			}
-			$totalcount = (int)$counter+(int)$foldercount;
-			echo '<p><em><b><span id="pg_counter">'. $totalcount .'</span></b> '.i18n_r('TOTAL_FILES').' '.$sizedesc.'</em></p>';
-		?>	
+			$sizedesc = $counter > 0 ? ' (' . fSize($totalsize) . ')' : '';
+			$totalcount = (int)$counter + (int)$foldercount;
+		?>
+			<p><em><?php echo i18n_r('TOTAL_FILES'); ?>: <strong><span id="pg_counter"><?php echo $totalcount; ?></span></strong><?php echo $sizedesc; ?></em></p>
 		</div>
 		</div>
 	</div>
-	
-	<div id="sidebar" >
+
+	<div id="sidebar">
 	<?php include('template/sidebar-files.php'); ?>
-	</div>	
-	
+	</div>
+
 </div>
 <?php get_template('footer'); ?>

@@ -63,7 +63,7 @@ $i18n = array(
 "PAGE_MANAGEMENT"		=>	"Page Management",
 "TOGGLE_STATUS"			=>	"Toggle Stat<em>u</em>s",
 "TOGGLE_URL"				=>	"Toggle UR<em>L</em>",
-"TOTAL_PAGES"				=>	"total pages",
+"TOTAL_PAGES"				=>	"Total number of pages",
 "ALL_PAGES"					=>	"Pages",
 "NO_PAGE_TITLE"     =>  "No Title",
 
@@ -111,7 +111,7 @@ $i18n = array(
 "SHOW_ALL"					=>	"Show All",
 "VIEW_FILE"					=>	"View File",
 "DELETE_FILE"				=>	"Delete File",
-"TOTAL_FILES"				=>	"total files &amp; folders",
+"TOTAL_FILES"				=>	"Total number of files &amp; folders",
 
 /* 
  * For: logout.php
@@ -287,7 +287,7 @@ $i18n = array(
 "PAGE_BACKUPS"			=>	"Page Backups",
 "ASK_DELETE_ALL"		=>	"<em>D</em>elete All",
 "DELETE_ALL_BAK"		=>	"Delete all backups?",
-"TOTAL_BACKUPS"			=>	"total backups",
+"TOTAL_BACKUPS"			=>	"Total number of backups",
 
 /* 
  * For: archive.php
@@ -301,7 +301,7 @@ $i18n = array(
 "CREATE_ARC_WAIT"		=>	"<b>Please Wait:</b> Creating website archive...",
 "DOWNLOAD_ARCHIVES"	=>	"Download Archive",
 "DELETE_ARCHIVE"		=>	"Delete Archive",
-"TOTAL_ARCHIVES"		=>	"total archives",
+"TOTAL_ARCHIVES"		=>	"Total number of archives",
 
 /* 
  * For: include-nav.php
@@ -451,7 +451,7 @@ $i18n = array(
 */
 
 "PLUGINS_MANAGEMENT"=> "Plugin Management",
-"PLUGINS_INSTALLED" => "plugins installed",
+"PLUGINS_INSTALLED" => "Total number of plugins",
 "PLUGIN_DISABLED"   => "Disabled Plugin",
 "SHOW_PLUGINS"			=> "Installed Plu<em>g</em>ins",
 "PLUGIN_NAME" 			=> "Plugin",

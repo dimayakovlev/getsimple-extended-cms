@@ -2,9 +2,9 @@
 /**
  * Archive
  *
- * Displays and starts the website archives 	
+ * Displays and starts the website archives
  *
- * @package GetSimple
+ * @package GetSimple Extended
  * @subpackage Backups
  */
 
@@ -86,7 +86,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT').' &raq
 	
 			?>
 			</table>
-			<p><em><b><span id="pg_counter"><?php echo $count; ?></span></b> <?php i18n('TOTAL_ARCHIVES');?></em></p>
+			<p><em><?php i18n('TOTAL_ARCHIVES'); ?>: <strong><span id="pg_counter"><?php echo $count; ?></span></strong></em></p>
 		</div>
 	</div>
 	

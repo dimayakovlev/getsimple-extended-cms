@@ -107,7 +107,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('PAGE_MANAGEMENT'));
 				<tr><th><?php i18n('PAGE_TITLE'); ?></th><th style="text-align:right;" ><?php i18n('DATE'); ?></th><th></th><th></th><th></th></tr>
 				<?php echo $table; ?>
 			</table>
-			<p><em><b><span id="pg_counter"><?php echo $count; ?></span></b> <?php i18n('TOTAL_PAGES'); ?></em></p>
+			<p><em><?php i18n('TOTAL_PAGES'); ?>: <strong><span id="pg_counter"><?php echo $count; ?></span></strong></em></p>
 			
 		</div>
 	</div><!-- end maincontent -->
