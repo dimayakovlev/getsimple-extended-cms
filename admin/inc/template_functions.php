@@ -605,45 +605,35 @@ function passhash($p) {
  * Lists all available pages for plugin/api use
  *
  * @since 2.0
- * @since 3.5.0 Use updated functon find_url()
- * @uses GSDATAPAGESPATH
+ * @since 3.5.0 Use updated functon find_url(). New parameter $private.
  * @uses find_url
- * @uses getXML
  * @uses subval_sort
+ * 
+ * @param bool $private Include or skip private pages. By default false, private pages are skipped
  *
- * @return array|string Type 'string' in this case will be XML 
+ * @return array Array of not private pages
  */
-function get_available_pages() {
-    $menu_extract = '';
-    
+function get_available_pages($private = false) {
 	global $pagesArray;
-    
-    $pagesSorted = subval_sort($pagesArray,'title');
-    if (count($pagesSorted) != 0) { 
-      $count = 0;
-      foreach ($pagesSorted as $page) {
-      	if ($page['private']!='Y'){
-        $text = (string)$page['menu'];
-        $pri = (string)$page['menuOrder'];
-        $parent = (string)$page['parent'];
-        $title = (string)$page['title'];
-        $slug = (string)$page['url'];
-        $menuStatus = (string)$page['menuStatus'];
-        $private = (string)$page['private'];
-				$pubDate = (string)$page['pubDate'];
-        
-        $url = find_url($slug);
-        
-        $specific = array("slug"=>$slug,"url"=>$url,"parent_slug"=>$parent,"title"=>$title,"menu_priority"=>$pri,"menu_text"=>$text,"menu_status"=>$menuStatus,"private"=>$private,"pub_date"=>$pubDate);
-        
-        $extract[] = $specific;
-      } 
-      } 
-      return $extract;
-    }
+	$items = array();
+	$pagesSorted = subval_sort($pagesArray, 'title');
+	foreach ($pagesSorted as $page) {
+		if ((string)$page['private'] && $private == false) continue;
+		$items[] = array(
+			"slug" => (string)$page['url'],
+			"url" => find_url((string)$page['url']),
+			"parent_slug" => (string)$page['parent'],
+			"title" => (string)$page['title'],
+			"menu_priority" => (string)$page['menuOrder'],
+			"menu_text" => (string)$page['menu'],
+			"menu_status" => (string)$page['menuStatus'],
+			"private" => (string)$page['private'],
+			"pub_date" => (string)$page['pubDate']
+		);
+	}
+	return $items;
 }
 
-  
 /**
  * Update Slugs
  *
