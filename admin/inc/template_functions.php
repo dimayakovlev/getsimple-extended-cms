@@ -769,7 +769,7 @@ function ckeditor_add_page_link(){
  * @author Mike
  *
  * @since 3.0
- * @since 3.5.0 Add link to clone page
+ * @since 3.5.0 Add links to clone page and create subpage
  * @uses $pagesSorted
  *
  * @param string $parent
@@ -780,25 +780,16 @@ function ckeditor_add_page_link(){
  */
 function get_pages_menu($parent, $menu, $level) {
 	global $pagesSorted;
-
 	$items = array();
 	foreach ($pagesSorted as $page) {
-		if ($page['parent'] == $parent) {
-			$items[(string)$page['url']] = $page;
-		}
+		if ($page['parent'] == $parent) $items[(string)$page['url']] = $page;
 	}
 	if (!empty($items)) {
 		foreach ($items as $page) {
 			$dash = '';
-			if ($page['parent'] != '') {
-				$page['parent'] = $page['parent'] . "/";
-			}
+			if ($page['parent'] != '') $page['parent'] .= '/';
 			for ($i = 0; $i <= $level - 1; $i++) {
-				if ($i != $level - 1) {
-					$dash .= '<span>&nbsp;&nbsp;</span>';
-				} else {
-					$dash .= '<span>&nbsp;&nbsp;&ndash;&nbsp;</span>';
-				}
+				$dash .= ($i != $level - 1) ? '<span>&nbsp;&nbsp;</span>' : '<span>&nbsp;&nbsp;&ndash;&nbsp;</span>';
 			}
 			$menu .= '<tr id="tr-' . $page['url'] . '">';
 			$pageURL = find_url($page['url']);
@@ -811,10 +802,9 @@ function get_pages_menu($parent, $menu, $level) {
 			if (isset($page['permalink']) && $page['permalink'] != '') { $page['permalink'] = ' <sup>[' . i18n_r('PERMALINK_SUBTITLE') . ']</sup>'; } else { $page['permalink'] = ''; }
 			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '">' . var_out($page['title']) . '</a><span data-role="page-url" class="toggle"> [' . $pageURL . ']</span><span data-role="page-status" class="status toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnabled'] . $page['componentContent'] . $page['permalink'] . '</span></td>';
 			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
+			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CREATE_NEW_SUBPAGE') . '" href="edit.php?parent=' . $page['url'] . '" data-action="create-subpage">&#43;</a></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CLONEPAGE_TITLE') . ': ' . var_out($page['title']) . '" href="pages.php?id=' . $page['url'] . '&amp;action=clone&amp;nonce=' . get_nonce('clone', 'pages.php') .'" data-action="clone-page">&#10697;</a></td>';
-			$menu .= '<td class="secondarylink">';
-			$menu .= '<a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . $pageURL . '">#</a>';
-			$menu .= '</td>';
+			$menu .= '<td class="secondarylink"><a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . $pageURL . '">#</a></td>';
 			if ($page['url'] != 'index') {
 				$menu .= '<td class="delete"><a class="delconfirm" href="deletefile.php?id=' . $page['url'] . '&amp;nonce=' . get_nonce("delete", "deletefile.php") . '" title="' . i18n_r('DELETEPAGE_TITLE') . ': ' . var_out($page['title']) . '">&times;</a></td>';
 			} else {

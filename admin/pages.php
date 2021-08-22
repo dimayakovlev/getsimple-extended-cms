@@ -100,11 +100,10 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('PAGE_MANAGEMENT'));
 				<a href="#" id="toggle-url" data-role="toggle" data-target="page-url" accesskey="<?php echo find_accesskey(i18n_r('TOGGLE_URL'));?>"><?php i18n('TOGGLE_URL'); ?></a>
 			</div>
 			<div id="filter-search">
-				<form><input type="text" autocomplete="off" class="text" id="q" placeholder="<?php echo strip_tags(lowercase(i18n_r('FILTER'))); ?>..." /> &nbsp; <a href="pages.php" class="cancel"><?php i18n('CANCEL'); ?></a></form>
+				<form><input type="text" autocomplete="off" class="text" id="q" placeholder="<?php echo strip_tags(lowercase(i18n_r('FILTER'))); ?>..."> &nbsp; <a href="pages.php" class="cancel"><?php i18n('CANCEL'); ?></a></form>
 			</div>
-			
 			<table id="editpages" class="edittable highlight paginate">
-				<tr><th><?php i18n('PAGE_TITLE'); ?></th><th style="text-align:right;" ><?php i18n('DATE'); ?></th><th></th><th></th><th></th></tr>
+				<tr><th><?php i18n('PAGE_TITLE'); ?></th><th style="text-align:right;"><?php i18n('DATE'); ?></th><th></th><th></th><th></th><th></th></tr>
 				<?php echo $table; ?>
 			</table>
 			<p><em><?php i18n('TOTAL_PAGES'); ?>: <strong><span id="pg_counter"><?php echo $count; ?></span></strong></em></p>

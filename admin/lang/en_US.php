@@ -66,6 +66,7 @@ $i18n = array(
 "TOTAL_PAGES"				=>	"Total number of pages",
 "ALL_PAGES"					=>	"Pages",
 "NO_PAGE_TITLE"     =>  "No Title",
+"CREATE_NEW_SUBPAGE" => "Create New Subpage",
 
 /* 
  * For: edit.php
