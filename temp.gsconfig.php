@@ -88,7 +88,7 @@ define('GSSUPPRESSERRORS', true);
 # Disable check for Apache web server, default false
 #define('GSNOAPACHECHECK', true);
 
-# Disable header version check
+# Disable header version check. Outdated
 #define('GSNOVERCHECK', true);
 
 # Enable alternate admin styles, current style constants are
