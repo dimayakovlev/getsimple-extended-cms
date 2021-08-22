@@ -495,5 +495,5 @@ function create_pagesxml($flag) {
  */
 function isPagePrivate(string $page) {
 	global $pagesArray;
-	return (isset($pagesArray[$page]) && $pagesArray[$page]['private'] == 'Y') ? true : false;
+	return (isset($pagesArray[$page]) && $pagesArray[$page]['private'] != '') ? true : false;
 }

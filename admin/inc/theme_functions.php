@@ -752,13 +752,13 @@ function get_component($id, $check = true) {
  * This function uses the menu options listed within the 'Edit Page' control panel screen
  *
  * @since 1.0
+ * @since 3.5.0 Update code
  * @uses GSDATAOTHERPATH
  * @uses getXML
  * @uses subval_sort
  * @uses find_url
  * @uses strip_quotes
  * @uses exec_filter
- * @modified Dmitry Yakovlev 15/11/2020
  *
  * @param string $currentpage This is the ID of the current page the visitor is on
  * @param string $classPrefix Prefix that gets added to the parent and slug classnames
@@ -777,7 +777,7 @@ function get_navigation($currentpage = "",$classPrefix = "") {
 			$sel = ''; $classes = '';
 			$url_nav = $page['url'];
 			
-			if ($page['menuStatus'] == 'Y') { 
+			if ($page['menuStatus'] != '') {
 				$parentClass = !empty($page['parent']) ? $classPrefix.$page['parent'] . " " : "";
 				$classes = trim( $parentClass.$classPrefix.$url_nav);
         $ariaRole = '';

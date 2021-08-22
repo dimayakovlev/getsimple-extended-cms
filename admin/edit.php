@@ -135,7 +135,7 @@ if (!getDef('GSNOHIGHLIGHT', true)) {
 	queue_style('codemirror-theme', GSBACK);
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title); 
+get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 
 ?>
 
@@ -196,7 +196,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					<label for="post-private"<?php if ($private) echo ' class="is-private"'; ?>><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
 					<select id="post-private" name="post-private" class="text autowidth">
 						<option value=""><?php i18n('NORMAL'); ?></option>
-						<option value="Y"<?php if ($private) echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
+						<option value="1"<?php if ($private) echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
 					</select>
 				</p>
 				<p class="inline clearfix">
@@ -250,7 +250,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
 					}
 				?>
 				<p class="inline post-menu clearfix">
-					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="Y" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
+					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="1" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
 				</p>
 				<div id="menu-items">
 					<span style="float:left;width:81%;"><label for="post-menu"><?php i18n('MENU_TEXT'); ?></label></span><span style="float:left;width:10%;"><label for="post-menu-order"><?php i18n('PRIORITY'); ?></label></span>

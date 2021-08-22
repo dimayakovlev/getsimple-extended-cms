@@ -82,7 +82,7 @@ if (!$data_index) {
 }
 
 // if page is private, check user
-if ($data_index->private == 'Y' && !is_logged_in()) {
+if ($data_index->private != '' && !is_logged_in()) {
 	if (file_exists(GSDATAOTHERPATH . '403.xml')) {
 		// default 403
 		$data_index = getXml(GSDATAOTHERPATH . '403.xml');
