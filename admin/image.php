@@ -56,7 +56,7 @@ if (file_exists($thumb_folder . 'thumbnail.' . $src)) {
 	}
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('FILE_MANAGEMENT').' &raquo; '.i18n_r('IMAGES')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT') . ' &raquo; ' . i18n_r('IMAGES')); 
 	
 include('template/include-nav.php'); ?>
 
@@ -116,7 +116,7 @@ if($jcrop){ ?>
 <?php } ?>
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-files.php'); ?>
 	</div>	
 

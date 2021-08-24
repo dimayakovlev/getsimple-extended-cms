@@ -41,7 +41,7 @@ if(isset($_GET['nozip'])) {
 	$error = i18n_r('NO_ZIPARCHIVE'). ' - <a href="health-check.php">'.i18n_r('WEB_HEALTH_CHECK').'</a>';
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT').' &raquo; '.i18n_r('WEBSITE_ARCHIVES')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . ' &raquo; ' . i18n_r('WEBSITE_ARCHIVES')); 
 
 ?>
 	
@@ -50,7 +50,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT').' &raq
 <div class="bodycontent">
 	
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 		<h3 class="floated"><?php i18n('WEBSITE_ARCHIVES');?></h3>
 		<div class="edit-nav clearfix" >
     	<a id="waittrigger" href="archive.php?do&amp;nonce=<?php echo get_nonce("create"); ?>" accesskey="<?php echo find_accesskey(i18n_r('ASK_CREATE_ARC'));?>" title="<?php i18n('CREATE_NEW_ARC');?>" ><?php i18n('ASK_CREATE_ARC');?></a>
@@ -90,7 +90,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT').' &raq
 		</div>
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-backups.php'); ?>
 	</div>
 

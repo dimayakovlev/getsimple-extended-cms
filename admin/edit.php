@@ -135,7 +135,7 @@ if (!getDef('GSNOHIGHLIGHT', true)) {
 	queue_style('codemirror-theme', GSBACK);
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('EDIT').' '.$title);
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 
 ?>
 

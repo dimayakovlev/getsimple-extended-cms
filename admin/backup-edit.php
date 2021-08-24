@@ -84,7 +84,7 @@ elseif ($p == 'restore') {
 	
 }
 
-get_template('header', cl($SITENAME).' &raquo; '. i18n_r('BAK_MANAGEMENT').' &raquo; '.i18n_r('VIEWPAGE_TITLE')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' .  i18n_r('BAK_MANAGEMENT') . ' &raquo; ' . i18n_r('VIEWPAGE_TITLE')); 
 
 ?>
 	
@@ -93,7 +93,7 @@ get_template('header', cl($SITENAME).' &raquo; '. i18n_r('BAK_MANAGEMENT').' &ra
 <div class="bodycontent">
 	
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 		<h3 class="floated"><?php i18n('BACKUP_OF');?> &lsquo;<em><?php echo $url; ?></em>&rsquo;</h3>
 		
 		<div class="edit-nav" >
@@ -165,7 +165,7 @@ get_template('header', cl($SITENAME).' &raquo; '. i18n_r('BAK_MANAGEMENT').' &ra
 		
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-backups.php'); ?>
 	</div>
 

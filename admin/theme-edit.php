@@ -102,7 +102,7 @@ if ($datau->enableCodeEditor == '1') {
 	queue_style('codemirror-theme', GSBACK);
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('THEME_MANAGEMENT'));
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('THEME_MANAGEMENT'));
 ?>
 <?php include('template/include-nav.php'); ?>
 <div class="bodycontent">

@@ -132,7 +132,7 @@ if (isset($_GET['newfolder'])) {
 	}
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('FILE_MANAGEMENT')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT')); 
 
 ?>
 	
@@ -140,7 +140,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('FILE_MANAGEMENT'));
 
 <div class="bodycontent">
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 		<h3 class="floated"><?php echo i18n('UPLOADED_FILES'); ?><span id="filetypetoggle">&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo i18n('SHOW_ALL'); ?></span></h3>
 		<div id="file_load">
 		<?php

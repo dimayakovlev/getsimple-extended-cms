@@ -16,7 +16,7 @@ include('inc/common.php');
 login_cookie_check();
 $php_modules = get_loaded_extensions();
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i18n_r('WEB_HEALTH_CHECK')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raquo; ' . i18n_r('WEB_HEALTH_CHECK')); 
 
 ?>
 	
@@ -370,7 +370,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 		
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-support.php'); ?>
 	</div>	
 

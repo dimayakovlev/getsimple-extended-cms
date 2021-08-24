@@ -27,7 +27,7 @@ if (count($lang_array) > 0) {
     $langs = '<option value="" selected="selected" >-- ' . i18n_r('NONE') . ' --</option>';
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('USER_SETTINGS'));
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('USER_SETTINGS'));
 
 include('template/include-nav.php');
 ?>

@@ -188,7 +188,7 @@ $redirect = cookie_check() ? "health-check.php?updated=2" : "index.php?updated=2
 if(isset($error)) $message.= i18n_r('ER_REQ_PROC_FAIL');
 else $message.= "<p><div class=\"notify notify_ok\">".i18n_r('SITE_UPDATED')."</div></p>";
 
-get_template('header', $site_full_name.' &raquo; '. i18n_r('SYSTEM_UPDATE')); 
+get_template('header', $site_full_name . ' &raquo; ' .  i18n_r('SYSTEM_UPDATE')); 
 
 ?>
 		<h1><?php echo $site_full_name; ?></h1>
@@ -198,7 +198,7 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('SYSTEM_UPDATE'));
 	<?php // include('template/error_checking.php'); ?>
 	
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 			<h3><?php i18n('SYSTEM_UPDATE'); ?></h3>
 			
 			<?php 

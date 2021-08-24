@@ -16,7 +16,7 @@ include('inc/common.php');
 login_cookie_check();
 $fullpath = suggest_site_path();
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('GENERAL_SETTINGS'));
 
 ?>
 

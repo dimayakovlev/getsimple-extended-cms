@@ -62,7 +62,7 @@ foreach ($pluginfiles as $fi) {
 }
 
 exec_action('plugin-hook');
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PLUGINS_MANAGEMENT')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('PLUGINS_MANAGEMENT'));
 
 ?>
 
@@ -71,7 +71,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PLUGINS_MANAGEMENT'));
 <div class="bodycontent">
 	
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 		<h3><?php i18n('PLUGINS_MANAGEMENT'); ?></h3>
 		
 		<?php if ($counter > 0) { ?>
@@ -87,7 +87,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PLUGINS_MANAGEMENT'));
 		</div>
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-plugins.php'); ?>
 	</div>
 

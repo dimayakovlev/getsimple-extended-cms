@@ -84,7 +84,7 @@ if (count($pagesSorted) != 0)
 	}
 }
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT')); 
 
 ?>
 	
@@ -93,7 +93,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT'));
 <div class="bodycontent">
 	
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 			<h3 class="floated"><?php i18n('PAGE_BACKUPS');?></h3>
 			
 			<?php if ($counter > 0) { ?>
@@ -113,7 +113,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('BAK_MANAGEMENT'));
 		</div>
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-backups.php'); ?>
 	</div>
 

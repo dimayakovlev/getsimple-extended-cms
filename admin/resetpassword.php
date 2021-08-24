@@ -82,7 +82,7 @@ if(isset($_POST['submitted'])){
 	}
 } 
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('RESET_PASSWORD')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('RESET_PASSWORD')); 
 
 ?>
 </div>
@@ -92,7 +92,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('RESET_PASSWORD'));
 	<?php include('template/error_checking.php'); ?>
 	
 	<div id="maincontent">
-		<div class="main" >
+		<div class="main">
 		
 		<h3><?php i18n('RESET_PASSWORD'); ?></h3>
 		<p class="desc"><?php i18n('MSG_PLEASE_EMAIL'); ?></p>

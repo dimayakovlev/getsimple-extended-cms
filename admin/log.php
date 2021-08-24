@@ -44,7 +44,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && strlen($log_name)>0
 
 if (!isset($log_data)) $log_data = getXML($log_file);
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i18n_r('LOGS')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raquo; ' . i18n_r('LOGS')); 
 
 ?>
 	
@@ -115,7 +115,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 		
 	</div>
 	
-	<div id="sidebar" >
+	<div id="sidebar">
 		<?php include('template/sidebar-support.php'); ?>
 	</div>	
 
