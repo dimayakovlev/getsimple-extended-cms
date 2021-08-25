@@ -35,7 +35,6 @@ $base = true;
 # Include common.php
 include($GSADMIN . '/inc/common.php');
 
-# Hook to load page Cache
 exec_action('index-header');
 
 # get page id (url slug) that is being passed via .htaccess mod_rewrite

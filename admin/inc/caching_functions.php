@@ -10,7 +10,6 @@
 
 $pagesArray = array();
 
-add_action('index-header', 'getPagesXmlValues', array(false));      // make $pagesArray available to the front 
 add_action('header', 'getPagesXmlValues', array(get_filename_id() != 'pages'));  // make $pagesArray available to the back
 add_action('page-delete', 'create_pagesxml', array(true));         // Create pages.array if page deleted
 add_action('page-restored', 'create_pagesxml', array(true));        // Create pages.array if page undo

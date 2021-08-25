@@ -362,7 +362,9 @@ if (isset($load['plugin']) && $load['plugin']) {
 	}
 	# include core plugin for page caching
 	include_once('caching_functions.php');
-	
+	# loadpage cache for frontend
+	if (isset($base)) getPagesXmlValues(false);
+
 	# main hook for common.php
 	exec_action('common');
 }
