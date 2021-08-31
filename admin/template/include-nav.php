@@ -12,7 +12,7 @@ if (cookie_check()) {
 		echo '<li class="mode maintenance"><a href="settings.php#maintenance">' . i18n_r('MAINTENANCE_MODE') . '</a></li>';
 	}
 	if (isDebug()) {
-		echo '<li class="mode debug"><a href="https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Debug-Mode" target="_blank">' . i18n_r('DEBUG_MODE') . '</a></li>';
+		echo '<li class="mode debug"><a href="#gsdebug">' . i18n_r('DEBUG_MODE') . '</a></li>';
 	}
 	echo '<li class="logout"><a href="logout.php" accesskey="' . find_accesskey(i18n_r('TAB_LOGOUT')) . '">' . i18n_r('TAB_LOGOUT') . '</a></li>';
 	echo '</ul>';
