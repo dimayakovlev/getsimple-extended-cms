@@ -195,7 +195,6 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 
 #header h1 {
 	font-size: 24px;
-	font-family: Georgia, Times, Times New Roman, serif;
 	text-shadow: 1px 1px 0px var(--clr-primary-dark);
 	margin: 18px 0;
 }
@@ -387,7 +386,6 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 
 .wrapper h2 {
 	font-size: 18px;
-	font-family: Georgia, Times, Times New Roman, serif;
 	color: #777;
 	margin: 0 0 20px 0;
 }
@@ -403,9 +401,7 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 
 h3 {
 	font-size: 18px;
-	font-family: Georgia, Times, Times New Roman, serif;
 	font-weight: normal;
-	font-style: italic;
 	color: var(--clr-secondary-lightest);
 	margin: 0 0 20px 0;
 	text-shadow: 1px 1px 0 #fff;
