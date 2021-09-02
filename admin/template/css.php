@@ -2081,12 +2081,12 @@ h5 .crumbs, div.h5 .crumbs {
 
 #menu-order li.placeholder-menu {
 	height: 18px;
-	background: #FFB164;
-	border: 1px solid #FF9933;
+	background: #eee;
+	border: 1px solid #eee;
 }
 
 #gsdebug{
-	border: 1px solid #FF9933;
+	border: 1px solid var(--clr-secondary-lightest);
 	padding: 5px;
 	background: white;
 	height: 200px;
