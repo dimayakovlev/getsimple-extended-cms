@@ -1540,33 +1540,9 @@ table.simple td.title {
 	color: #888;
 }
 
-#footer a:focus, 
-#footer a:hover {
+#footer a:focus, #footer a:hover {
 	font-weight: 100;
 	color: #333;
-}	
-#footer .gslogo a {
-	float: right;
-	width: 60px;
-	text-align: right;
-	opacity: .10;	
-}
-
-#footer .footer-left {
-	float: left;
-	width: 85%;
-}
-
-#footer .gslogo a:link,
-#footer .gslogo a:visited  {
-	transition: opacity .2s ease-in-out;
-		-webkit-transition: opacity .2s ease-in-out;
-		-moz-transition: opacity .2s ease-in-out;
-		-o-transition: opacity .2s ease-in-out;
-}
-
-#footer .gslogo a:hover {
-	opacity: 1;
 }
 
 .editable {
