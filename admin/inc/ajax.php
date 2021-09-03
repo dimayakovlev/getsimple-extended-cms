@@ -33,28 +33,26 @@ if (isset($TEMPLATE)) unset($TEMPLATE);
  */
 if (isset($_GET['dir'])) {
 	$TEMPLATE = '';
-	$segments = explode('/',implode('/',explode('\\',$_GET['dir'])));
-	foreach ($segments as $part) if ($part !== '..') $TEMPLATE .= $part.'/';
+	$segments = explode('/', implode('/', explode('\\', $_GET['dir'])));
+	foreach ($segments as $part) if ($part !== '..') $TEMPLATE .= $part . '/';
 	$TEMPLATE = preg_replace('/\/+/', '/', $TEMPLATE);
 	if (strlen($TEMPLATE) <= 0 || $TEMPLATE == '/') unset($TEMPLATE);
 }
 
 // Send back list of theme files from a certain directory for theme-edit.php
 if (isset($TEMPLATE)) {
-	$TEMPLATE_FILE = ''; $template = ''; $theme_templates = '';
-	if ($template == '') { $template = 'template.php'; }
+	$TEMPLATE_FILE = '';
+	$template = '';
+	$theme_templates = '';
+	if ($template == '') $template = 'template.php';
 	if(!filepath_is_safe(GSTHEMESPATH . $TEMPLATE, GSTHEMESPATH)) die();
 	$templates = directoryToArray(GSTHEMESPATH . $TEMPLATE . '/', true);
-	$theme_templates .= '<select class="text" id="theme-files" name="f" >';
 	foreach ($templates as $file) {
-		if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), array('php', 'css', 'js', 'html', 'htm', 'txt', 'svg', 'json', 'xml'))) {
-			$filename = pathinfo($file, PATHINFO_BASENAME);
-			$filenamefull = substr(strstr($file, '/theme/' . $TEMPLATE . '/'), strlen('/theme/' . $TEMPLATE . '/'));
-			$selected = ($TEMPLATE_FILE == $filename) ? 'selected ': '';
-			$templatename = ($filename == 'template.php') ? i18n_r('DEFAULT_TEMPLATE') : $filenamefull;
-			$theme_templates .= '<option ' . $selected . 'value="'.$templatename.'">'.$templatename.'</option>';
-		}
+		if (!in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), array('php', 'css', 'js', 'html', 'htm', 'txt', 'svg', 'json', 'xml'))) continue;
+		$filename = pathinfo($file, PATHINFO_BASENAME);
+		$filenamefull = substr(strstr($file, '/theme/' . $TEMPLATE . '/'), strlen('/theme/' . $TEMPLATE . '/'));
+		$selected = ($TEMPLATE_FILE == $filename) ? 'selected ': '';
+		$theme_templates .= '<option ' . $selected . 'value="' . $filenamefull . '">' . ($filename == 'template.php' ? i18n_r('DEFAULT_TEMPLATE') : $filenamefull) . '</option>';
 	}
-	 $theme_templates .= "</select>";
-	 echo $theme_templates;
+	echo $theme_templates;
 }

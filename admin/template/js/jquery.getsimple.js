@@ -529,7 +529,7 @@ jQuery(document).ready(function() {
 			type: "GET",
 			url: "inc/ajax.php?dir=" + thmfld,
 			success: function (response) {
-				$("#themefiles").html(response);
+				$("#theme-files").html(response);
 			}
 		});
 	});
