@@ -41,18 +41,14 @@ if (isset($_GET['dir'])) {
 
 // Send back list of theme files from a certain directory for theme-edit.php
 if (isset($TEMPLATE)) {
-	$TEMPLATE_FILE = '';
-	$template = '';
 	$theme_templates = '';
-	if ($template == '') $template = 'template.php';
-	if(!filepath_is_safe(GSTHEMESPATH . $TEMPLATE, GSTHEMESPATH)) die();
+	if (!filepath_is_safe(GSTHEMESPATH . $TEMPLATE, GSTHEMESPATH)) die();
 	$templates = directoryToArray(GSTHEMESPATH . $TEMPLATE . '/', true);
 	foreach ($templates as $file) {
 		if (!in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), array('php', 'css', 'js', 'html', 'htm', 'txt', 'svg', 'json', 'xml'))) continue;
 		$filename = pathinfo($file, PATHINFO_BASENAME);
 		$filenamefull = substr(strstr($file, '/theme/' . $TEMPLATE . '/'), strlen('/theme/' . $TEMPLATE . '/'));
-		$selected = ($TEMPLATE_FILE == $filename) ? 'selected ': '';
-		$theme_templates .= '<option ' . $selected . 'value="' . $filenamefull . '">' . ($filename == 'template.php' ? i18n_r('DEFAULT_TEMPLATE') : $filenamefull) . '</option>';
+		$theme_templates .= '<option ' . ($filename == 'template.php' ? 'selected ' : '') . 'value="' . $filenamefull . '">' . ($filename == 'template.php' ? i18n_r('DEFAULT_TEMPLATE') : $filenamefull) . '</option>';
 	}
 	echo $theme_templates;
 }
