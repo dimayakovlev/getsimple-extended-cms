@@ -1247,6 +1247,10 @@ table.comptable tr td code {
 	font-family: Consolas, Monaco, "Courier New", Courier, monospace;
 }
 
+table.comptable .compslugcode {
+	font-size: 11px;
+}
+
 table.comptable tr {
 	border: none !important;
 }
