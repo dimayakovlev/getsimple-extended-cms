@@ -2111,7 +2111,7 @@ a.disabled:visited {
 	margin-bottom: 20px;
 }
 
-#theme-folder {
+#theme-folder, #theme-select {
 	flex: 1;
 }
 

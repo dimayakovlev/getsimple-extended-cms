@@ -506,20 +506,20 @@ jQuery(document).ready(function() {
 	});
 
 	// theme.php
-	$("#theme_select").on('change',function(e) {
+	$("#theme-select").on('change', function(e) {
 		var theme_new = $(this).val();
-		var theme_url_old = $("#theme_preview").attr('src');
+		var theme_url_old = $("#theme-preview").attr('src');
 		// we dont have a global paths in js so work theme path out
-		var theme_path = basename(basename(basename(theme_url_old)));	
-		var theme_url_new = theme_path+'/'+theme_new+'/images/screenshot.png';
-		$("#theme_preview").attr('src',theme_url_new);
-		$("#theme_preview").css('visibility','visible');
-		$('#theme_no_img').css('visibility','hidden');
+		var theme_path = basename(basename(basename(theme_url_old)));
+		var theme_url_new = theme_path + '/' + theme_new + '/images/screenshot.png';
+		$("#theme-preview").attr('src', theme_url_new);
+		$("#theme-preview").css('visibility', 'visible');
+		$('#theme-no-img').css('visibility', 'hidden');
 	});
 
-	$("#theme_preview").on('error',function(e) {
-		$(this).css('visibility','hidden');
-		$('#theme_no_img').css('visibility','visible');
+	$("#theme-preview").on('error', function(e) {
+		$(this).css('visibility', 'hidden');
+		$('#theme-no-img').css('visibility', 'visible');
 	});
 
 	// theme-edit.php
