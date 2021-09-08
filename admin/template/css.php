@@ -879,10 +879,6 @@ textarea#codetext {
 	 
 }
 
-#menu-items span {
-	text-transform: lowercase;
-}
-
 label {
 	padding: 0;
 	margin: 0;
@@ -1003,12 +999,23 @@ label span.right a:hover {
 }
 
 #metadata_window #menu-items {
-	height: 50px;
+	box-sizing: border-box;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	column-gap: 10px;
+	text-transform: lowercase;
 	background: #222;
 	clip-path: polygon(15px 5px, 100% 5px, 100% 100%, 0px 100%, 0px 5px, 5px 5px, 10px 0px);
-	padding: 10px 10px 0 10px;
-	position: relative;
+	padding: 10px;
 	margin-top: -5px;
+}
+
+#metadata_window #menu-items div:first-child {
+	flex: 1;
+}
+#metadata_window #menu-items div:last-child {
+	width: 20%;
 }
 
 #metadata_window #menu-items input, 
@@ -1017,9 +1024,8 @@ label span.right a:hover {
 	border-radius: 0;
 }
 
-#metadata_window #menu-items span label {
+#metadata_window #menu-items label {
 	text-shadow: none;
-	display: inline-block;
 	font-size: 11px;
 	line-height: 16px;
 	color: #e3e3e3;

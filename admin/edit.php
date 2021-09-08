@@ -253,18 +253,21 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="1" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
 				</p>
 				<div id="menu-items">
-					<span style="float:left;width:81%;"><label for="post-menu"><?php i18n('MENU_TEXT'); ?></label></span><span style="float:left;width:10%;"><label for="post-menu-order"><?php i18n('PRIORITY'); ?></label></span>
-					<div class="clear"></div>
-					<input class="text" style="width:73%;" id="post-menu" name="post-menu" type="text" value="<?php echo $menu; ?>"/>&nbsp;&nbsp;&nbsp;&nbsp;<select class="text"  style="width:16%" id="post-menu-order" name="post-menu-order">
-						<option value=""<?php echo $menuOrder == 0 ? ' selected' : ''; ?>>-</option>
-						<?php
-						$i = 1;
-						while ($i <= 30) {
-							echo '<option value="' . $i . '"' . ($menuOrder == $i ? ' selected' : '') . '>' . $i . '</option>';
-							$i++;
-						}
-						?>
-					</select>
+					<div>
+						<label for="post-menu"><?php i18n('MENU_TEXT'); ?></label><input class="text" id="post-menu" name="post-menu" type="text" value="<?php echo $menu; ?>">
+					</div>
+					<div>
+						<label for="post-menu-order"><?php i18n('PRIORITY'); ?></label><select class="text" id="post-menu-order" name="post-menu-order">
+							<option value=""<?php echo $menuOrder == 0 ? ' selected' : ''; ?>>-</option>
+							<?php
+							$i = 1;
+							while ($i <= 30) {
+								echo '<option value="' . $i . '"' . ($menuOrder == $i ? ' selected' : '') . '>' . $i . '</option>';
+								$i++;
+							}
+							?>
+						</select>
+					</div>
 				</div>
 			</div>
 
