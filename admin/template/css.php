@@ -158,12 +158,12 @@ a img,
 }
 
 ::placeholder {
-	color: #c3c3c3;
+	color: #999;
 }
 
 /* hide input placeholders on focus */
 input:focus::placeholder {
-	color:transparent;
+	color: transparent;
 }
 
 /** HEADER / NAVIGATION **/
