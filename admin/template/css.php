@@ -27,6 +27,10 @@ html {
 	scroll-behavior: smooth;
 }
 
+textarea {
+	resize: none;
+}
+
 :root {
 	--clr-primary-darkest: <?php echo $primary_0; ?>;
 	--clr-primary-darker: <?php echo $primary_1; ?>;
@@ -47,6 +51,8 @@ html {
 	--bg-notification-ok: linear-gradient(to bottom, #f0ffed, #dfffd7);
 	--bg-notification-info: linear-gradient(to bottom, #edf4ff, #d7e7ff);
 	--bg-notification-warning: linear-gradient(to bottom, #fffed5, #fffdbf);
+	--bg-btn: linear-gradient(to bottom, #eee, #ddd 30%);
+	--bg-btn-hover: linear-gradient(to top, #eee, #ddd 70%);
 }
 
 body {
@@ -77,6 +83,8 @@ body.flat {
 	--bg-notification-ok: #f0ffed;
 	--bg-notification-info: #edf4ff;
 	--bg-notification-warning: #fffed5;
+	--bg-btn: #ddd;
+	--bg-btn-hover: #eee;
 }
 body.flat.light {
 	--bg-header: var(--clr-primary-light);
@@ -143,35 +151,20 @@ a img,
 	clear: both;
 }
 
-.clearfix {
-	zoom: 1;
-}
-
-:: selection {
+::selection {
 	text-shadow: none !important;
 	background: #a8d1ff;
 	color: #111;
 }
 
-:: -moz-selection {
-	text-shadow: none !important;
-	background: #a8d1ff;
-	color: #111;
-}
-
-:: -webkit-input-placeholder {
-	color: #c3c3c3;
-}
-
-: -moz-placeholder {
+::placeholder {
 	color: #c3c3c3;
 }
 
 /* hide input placeholders on focus */
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
-input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
-input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+input:focus::placeholder {
+	color:transparent;
+}
 
 /** HEADER / NAVIGATION **/
 #header {
@@ -289,8 +282,6 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 	font-weight: bold !important;
 	text-shadow: 1px 1px 0px rgba(255,244,255,.2);
 	box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;
-		-moz-box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;
-		-webkit-box-shadow: rgba(0,0,0, 0.10) 2px -2px 2px;
 }
 
 #header .nav a:active,
@@ -534,9 +525,6 @@ h5:hover img {
 	background: var(--clr-primary-darker);
 	text-shadow: 1px 1px 0px var(--clr-primary-darkest);
 	transition: all .2s ease-in-out;
-		-webkit-transition: all .2s ease-in-out;
-		-moz-transition: all .2s ease-in-out;
-		-o-transition: all .2s ease-in-out;
 }
 
 #sidebar .snav li a.current {
@@ -597,8 +585,6 @@ h5:hover img {
 	float: right;
 	margin: 0 0 0 5px;
 	border-radius: 3px;
-		-moz-border-radius: 3px;
-		-webkit-border-radius: 3px;
 }
 
 .edit-nav select {
@@ -608,8 +594,6 @@ h5:hover img {
 	border: 1px solid #999;
 	font-size: 11px;
 	border-radius: 2px;
-		-moz-border-radius: 2px;
-		-webkit-border-radius: 2px;
 }
 
 .edit-nav p {
@@ -647,9 +631,6 @@ h5:hover img {
 	text-decoration: none;
 	text-shadow: 1px 1px 0px rgba(0,0,0,.2);
 	transition: all .10s ease-in-out;
-		-webkit-transition: all .10s ease-in-out;
-		-moz-transition: all .10s ease-in-out;
-		-o-transition: all .10s ease-in-out;
 }
 
 .edit-nav a:hover, 
@@ -735,9 +716,6 @@ h5:hover img {
 	border-bottom: 1px solid #eee;
 	border-top: 1px solid #eee;
 	transition: background-color .1s ease-in-out;
-		-webkit-transition: background-color .1s ease-in-out;
-		-moz-transition: background-color .1s ease-in-out;
-		-o-transition: background-color .1s ease-in-out;
 }
 
 table td a {
@@ -780,8 +758,6 @@ sup {
 	border: 1px solid #c8c8c8;
 	margin: 0 0 30px 0;
 	box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
-		-moz-box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
-		-webkit-box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
 }
 
 #maincontent .main .section {
@@ -795,8 +771,6 @@ sup {
 	border: 1px solid #C8C8C8;
 	margin: 0 0 30px 0;
 	box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
-		-moz-box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
-		-webkit-box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
 	border-image: initial;
 }
 
@@ -826,8 +800,6 @@ textarea.text:focus {
 	outline: none;
 	border: 1px solid #666 !important;
 	box-shadow: rgba(0,0,0, 0.10) 0px 0px 6px;
-		-moz-box-shadow: rgba(0,0,0, 0.10) 0px 0px 6px;
-		-webkit-box-shadow: rgba(0,0,0, 0.10) 0px 0px 6px;
 }
 
 form textarea {
@@ -841,9 +813,7 @@ form textarea {
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 12px;
 	border-radius: 2px;
-	tab-size:4; 
-	-moz-tab-size:4; 
-	-o-tab-size:4; 
+	tab-size:4;
 	resize: vertical;
 }
 
@@ -1116,46 +1086,26 @@ p.backuplink a {
 }
 
 /* form submit button style */
-/*
-input.submit {
-	padding: 5px 12px;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-weight: bold;
-	cursor: pointer;
-}*/
-
-input.submit, .button {
+input[type="submit"], input[type=reset], input[type=button], button, .button {
 	font: bold 13px Helvetica, Arial, sans-serif;
 	text-decoration: none !important;
 	padding: 7px 15px;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
 	transition: all .218s;
-		-webkit-transition: all .218s;
-		-moz-transition: all .218s;
-		-o-transition: all .218s;
 	color: #333333 !important;
-	background: #dddddd;
-		background: -webkit-gradient(linear,0% 40%,0% 70%,from(#eeeeee),to(#e1e1e1));
-		background: -moz-linear-gradient(linear,0% 40%,0% 70%,from(#eeeeee),to(#e1e1e1));
+	background: var(--bg-btn);
 	border: solid 1px #acacac;
 	border-radius: 2px;
-		-webkit-border-radius: 2px;
-		-moz-border-radius: 2px;
 	cursor: pointer;
 	box-shadow: rgba(0,0,0, 0.06) 0px 0px 3px;
-		-moz-box-shadow: rgba(0,0,0, 0.06) 0px 0px 3px;
-		-webkit-box-shadow: rgba(0,0,0, 0.06) 0px 0px 3px;
 }
 
-input.submit:focus, input.submit:hover, .button:hover {
+:is(input[type="submit"], input[type=reset], input[type=button], button, .button):focus,
+:is(input[type="submit"], input[type=reset], input[type=button], button, .button):hover {
 	color: #111111;
-	background: #eeeeee;
-		background: -webkit-gradient(linear,0% 40%,0% 70%,from(#eeeeee),to(#dddddd));
-		background: -moz-linear-gradient(linear,0% 40%,0% 70%,from(#eeeeee),to(#dddddd));
+	background: var(--bg-btn-hover);
 	border: solid 1px #aaaaaa;
 	box-shadow: rgba(0,0,0, 0.15) 0px 0px 4px;
-		-moz-box-shadow: rgba(0,0,0, 0.15) 0px 0px 4px;
-		-webkit-box-shadow: rgba(0,0,0, 0.15) 0px 0px 4px;	  
 }
 
 .button {
@@ -1276,9 +1226,6 @@ table.comptable input[name$="[enabled]"] + label {
 	padding: 3px 10px;
 	text-decoration: none;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
 }
 
 .wrapper a.component:link, .wrapper a.component:visited {
@@ -1429,9 +1376,6 @@ table td.delete a {
 	line-height: 16px;
 	font-size: 12px;
 	font-weight: normal;
-	-webkit-transition: all .02s ease-in-out;
-	-moz-transition: all .02s ease-in-out;
-	-o-transition: all .02s ease-in-out;
 	transition: all .02s ease-in-out;
 	font-style:normal;
 }
@@ -1455,9 +1399,6 @@ a.cancel:visited {
 	padding: 1px 3px;
 	background: none !important;
 	line-height: 16px;
-	-webkit-transition: all .02s ease-in-out;
-	-moz-transition: all .02s ease-in-out;
-	-o-transition: all .02s ease-in-out;
 	transition: all .02s ease-in-out;
 }
 
@@ -1485,13 +1426,10 @@ a.cancel em {
 .wrapper .secondarylink a:visited {
 	color: #aaa;
 	text-decoration: none;
-		font-weight: normal;
+	font-weight: normal;
 	padding: 1px;
 	display: block;
 	line-height: 16px;
-	-webkit-transition: all .15s ease-in-out;
-	-moz-transition: all .15s ease-in-out;
-	-o-transition: all .15s ease-in-out;
 	transition: all .15s ease-in-out;
 }
 
@@ -1558,9 +1496,6 @@ table.simple td.title {
 .editable {
 	cursor: pointer;
 	transition: background-color .3s ease-in-out;
-		-webkit-transition: background-color .3s ease-in-out;
-		-moz-transition: background-color .3s ease-in-out;
-		-o-transition: background-color .3s ease-in-out;
 }
 
 .editable:hover {
@@ -1644,9 +1579,6 @@ table.simple td.title {
 #sidebar .snav li.upload {
 	display: block;
 	border-radius: 4px;
-		-moz-border-radius: 4px;
-		-khtml-border-radius: 4px;
-		-webkit-border-radius: 4px;
 	margin-left: 13px;
 	color: #FFF;
 	background: var(--clr-primary-darker);
@@ -1712,9 +1644,6 @@ textarea.copykit {
 	line-height: 17px;
 	padding: 4px;
 	border-radius: 2px;
-		-moz-border-radius: 2px;
-		-khtml-border-radius: 2px;
-		-webkit-border-radius: 2px;
 	width: 98%;
 	height: 70px;
 	margin-bottom: 10px;
@@ -1737,7 +1666,7 @@ textarea.copykit {
 	font-weight: bold;
 }
 
-#jcropform .submit {
+#jcropform input[type="submit"] {
 	margin: 20px 0 0 0;
 }
 
@@ -1813,12 +1742,7 @@ body#index {
 	float: none;
 	text-align: left;
 	border-radius: 5px;
-		-moz-border-radius: 5px;
-		-khtml-border-radius: 5px;
-		-webkit-border-radius: 5px;
 	box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
-		-moz-box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
-		-webkit-box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
 	background: #FFF;
 	width: 645px;
 }
@@ -1848,9 +1772,6 @@ body#index {
 	font-size: 18px;
 	padding: 5px;
 	margin-top: 2px;
-}
-
-#index form input.submit {
 }
 
 #index p.cta,
@@ -1940,7 +1861,7 @@ h5 .crumbs, div.h5 .crumbs {
 	text-shadow: none !important;
 }
 
-#new-folder input.submit {
+#new-folder input[type="submit"] {
 	font-size: 11px;
 	padding: 3px;
 }
@@ -1986,16 +1907,8 @@ h5 .crumbs, div.h5 .crumbs {
 	left: 5px;
 	min-width: 100px;
 	border-radius: 2px;
-		-moz-border-radius: 2px;
-		-khtml-border-radius: 2px;
-		-webkit-border-radius: 2px;
 	transition: opacity .3s ease-in-out;
-		-webkit-transition: opacity .3s ease-in-out;
-		-moz-transition: opacity .3s ease-in-out;
-		-o-transition: opacity .3s ease-in-out;
 	box-shadow: rgba(0,0,0, 0.2) 1px 1px 3px 0;
-		-moz-box-shadow: rgba(0,0,0, 0.2) 1px 1px 3px 0;
-		-webkit-box-shadow: rgba(0,0,0, 0.2) 1px 1px 3px 0;
 	overflow: hidden;
 }
 
