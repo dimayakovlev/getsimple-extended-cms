@@ -454,12 +454,12 @@ h5:hover img {
 }
 
 #maincontent {
-	width: 690px;
+	width: 710px;
 	text-align: left;
 }
 
 #sidebar {
-	width: 225px;
+	width: 230px;
 	position: sticky;
 	top: 20px;
 }
