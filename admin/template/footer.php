@@ -11,7 +11,7 @@
 	include(GSADMININCPATH . 'configuration.php');
 	if (cookie_check()) echo '<p><a href="pages.php">' . i18n_r('PAGE_MANAGEMENT') . '</a> &nbsp;&bull;&nbsp; <a href="upload.php">' . i18n_r('FILE_MANAGEMENT') . '</a> &nbsp;&bull;&nbsp; <a href="theme.php">' . i18n_r('THEME_MANAGEMENT') . '</a> &nbsp;&bull;&nbsp; <a href="backups.php">' . i18n_r('BAK_MANAGEMENT') . '</a> &nbsp;&bull;&nbsp; <a href="plugins.php">' . i18n_r('PLUGINS_MANAGEMENT') . '</a> &nbsp;&bull;&nbsp; <a href="settings.php">' . i18n_r('GENERAL_SETTINGS') . '</a> &nbsp;&bull;&nbsp; <a href="support.php">' . i18n_r('SUPPORT') . '</a></p>';
 	if (!isAuthPage()) {
-		echo '<p>&copy; 2009 - ' . date('Y') . '<a href="' . $site_link_back_url . '" target="_blank">' . $site_full_name . '</a> &ndash; ' . i18n_r('VERSION') . ' ' . $site_version_no . '</p>';
+		echo '<p>&copy; 2009 - ' . date('Y') . ' <a href="' . $site_link_back_url . '" target="_blank">' . $site_full_name . '</a> &ndash; ' . i18n_r('VERSION') . ' ' . $site_version_no . '</p>';
 		get_scripts_backend(true);
 		exec_action('footer');
 	}
