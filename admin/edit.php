@@ -103,12 +103,10 @@ if ($id) {
 if ($template == '') $template = 'template.php';
 
 $themes_path = GSTHEMESPATH . $TEMPLATE;
-$themes_handle = opendir($themes_path) or die("Unable to open ". GSTHEMESPATH);
+$themes_handle = opendir($themes_path) or die('Unable to open ' . GSTHEMESPATH);
 while ($file = readdir($themes_handle)) {
 	if (isFile($file, $themes_path, 'php')) {
-		if ($file != 'functions.php' && substr(strtolower($file), -8) != '.inc.php' && substr($file, 0, 1) !== '.') {
-			$templates[] = $file;
-		}
+		if ($file != 'functions.php' && substr(strtolower($file), -8) != '.inc.php' && substr($file, 0, 1) !== '.') $templates[] = $file;
 	}
 }
 
@@ -135,11 +133,11 @@ if (!getDef('GSNOHIGHLIGHT', true)) {
 	queue_style('codemirror-theme', GSBACK);
 }
 
-get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $title);
 
 ?>
 
-<noscript><style>#metadata_window {display:block !important}</style></noscript>
+<noscript><style>#metadata_window {display: block !important}</style></noscript>
 
 <?php include('template/include-nav.php'); ?>
 
@@ -148,7 +146,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 	<div id="maincontent">
 		<div class="main">
 		
-		<h3 class="floated"><?php if(isset($data_edit)) { i18n('PAGE_EDIT_MODE'); } else { i18n('CREATE_NEW_PAGE'); } ?></h3>
+		<h3 class="floated"><?php if (isset($data_edit)) { i18n('PAGE_EDIT_MODE'); } else { i18n('CREATE_NEW_PAGE'); } ?></h3>
 
 		<!-- pill edit navigation -->
 		<div class="edit-nav">
@@ -328,81 +326,67 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 				<textarea id="post-content" name="post-content"><?php echo $content; ?></textarea>
 			</p>
 
-			<?php exec_action('edit-content'); ?> 
+			<?php exec_action('edit-content'); ?>
 
 			<?php if (isset($data_edit)) echo '<input type="hidden" name="existing-url" value="' . $url . '">'; ?>
 
-			<span class="editing"><?php echo i18n_r('EDITPAGE_TITLE') .': ' . $title; ?></span>
+			<span class="editing"><?php echo i18n_r('EDITPAGE_TITLE') . ': ' . $title; ?></span>
 			<div id="submit_line">
 				<input type="hidden" name="redirectto" value="">
-				
 				<span><input id="page_submit" class="submit" type="submit" name="submitted" value="<?php echo $buttonname; ?>"></span>
-				
 				<div id="dropdown">
 					<h6 class="dropdownaction"><?php i18n('ADDITIONAL_ACTIONS'); ?></h6>
 					<ul class="dropdownmenu">
 						<li id="save-close"><a href="#"><?php i18n('SAVE_AND_CLOSE'); ?></a></li>
 						<?php if ($url != '') { ?>
-							<li><a href="pages.php?id=<?php echo $url; ?>&amp;action=clone&amp;nonce=<?php echo get_nonce("clone","pages.php"); ?>"><?php i18n('CLONE'); ?></a></li>
+						<li><a href="pages.php?id=<?php echo $url; ?>&amp;action=clone&amp;nonce=<?php echo get_nonce('clone', 'pages.php'); ?>"><?php i18n('CLONE'); ?></a></li>
 						<?php } ?>
 						<li id="cancel-updates" class="alertme"><a href="pages.php?cancel"><?php i18n('CANCEL'); ?></a></li>
 						<?php if ($url != 'index' && $url != '') { ?>
-							<li class="alertme"><a href="deletefile.php?id=<?php echo $url; ?>&amp;nonce=<?php echo get_nonce("delete","deletefile.php"); ?>"><?php echo strip_tags(i18n_r('ASK_DELETE')); ?></a></li>
+						<li class="alertme"><a href="deletefile.php?id=<?php echo $url; ?>&amp;nonce=<?php echo get_nonce('delete', 'deletefile.php'); ?>"><?php echo strip_tags(i18n_r('ASK_DELETE')); ?></a></li>
 						<?php } ?>
 					</ul>
 				</div>
-				
 			</div>
 
 			<?php if ($url != '') { ?>
 				<p class="backuplink"><?php
-					if (isset($pubDate)) {
-						echo sprintf(i18n_r('LAST_SAVED'), '<em>' . ($publisher ?: '-') . '</em>', lngDate($pubDate));
-					}
+					if (isset($pubDate)) echo sprintf(i18n_r('LAST_SAVED'), '<em>' . ($publisher ?: '-') . '</em>', lngDate($pubDate));
 					if (exists_bak($url)) echo ' &bull; <a href="backup-edit.php?p=view&amp;id=' . $url . '" target="_blank">' . i18n_r('BACKUP_AVAILABLE') . '</a>';
 				?></p>
 			<?php } ?>
 
 		</form>
 
-		<?php 
-
-			if(isset($EDTOOL)) $EDTOOL = returnJsArray($EDTOOL);
-			if(isset($toolbar)) $toolbar = returnJsArray($toolbar); // handle plugins that corrupt this
-
-			else if(strpos(trim($EDTOOL),'[[')!==0 && strpos(trim($EDTOOL),'[')===0){ $EDTOOL = "[$EDTOOL]"; }
-
-			if(isset($toolbar) && strpos(trim($toolbar),'[[')!==0 && strpos($toolbar,'[')===0){ $toolbar = "[$toolbar]"; }
-			$toolbar = isset($EDTOOL) ? ",toolbar: ".trim($EDTOOL,",") : '';
-			$options = isset($EDOPTIONS) ? ','.trim($EDOPTIONS,",") : '';
-
+		<?php
+			if (isset($EDTOOL)) $EDTOOL = returnJsArray($EDTOOL);
+			if (isset($toolbar)) $toolbar = returnJsArray($toolbar); // handle plugins that corrupt this
+			else if (strpos(trim($EDTOOL), '[[') !== 0 && strpos(trim($EDTOOL), '[') === 0) { $EDTOOL = '[$EDTOOL]'; }
+			if(isset($toolbar) && strpos(trim($toolbar), '[[') !== 0 && strpos($toolbar, '[') === 0) { $toolbar = '[$toolbar]'; }
+			$toolbar = isset($EDTOOL) ? ', toolbar: ' . trim($EDTOOL, ',') : '';
+			$options = isset($EDOPTIONS) ? ',' . trim($EDOPTIONS, ',') : '';
 		?>
 		<?php if ($HTMLEDITOR == '1' && $attributes['disable-html-editor'] == false) { ?>
-		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef("GSCKETSTAMP",true) ? "?t=".getDef("GSCKETSTAMP") : ""; ?>"></script>
-
-			<script type="text/javascript">
-			<?php if(getDef("GSCKETSTAMP",true)) echo "CKEDITOR.timestamp = '".getDef("GSCKETSTAMP") . "';\n"; ?>
+		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef('GSCKETSTAMP', true) ? '?t=' . getDef('GSCKETSTAMP') : ''; ?>"></script>
+		<script type="text/javascript">
+			<?php if (getDef('GSCKETSTAMP', true)) echo "CKEDITOR.timestamp = '" . getDef("GSCKETSTAMP") . "';\n"; ?>
 			var editor = CKEDITOR.replace('post-content', {
-					skin : 'getsimple',
-					forcePasteAsPlainText : true,
-					language : '<?php echo $EDLANG; ?>',
-					defaultLanguage : 'en',
-					<?php if (file_exists(GSTHEMESPATH .$TEMPLATE."/editor.css")) {
-						$fullpath = suggest_site_path();
-						?>
-						contentsCss: '<?php echo $fullpath; ?>theme/<?php echo $TEMPLATE; ?>/editor.css',
-					<?php } ?>
-					entities : false,
-					// uiColor : '#FFFFFF',
-					height: '<?php echo $EDHEIGHT; ?>',
-					baseHref : '<?php echo $SITEURL; ?>',
-					tabSpaces:10,
-					filebrowserBrowseUrl : 'filebrowser.php?type=all',
-					filebrowserImageBrowseUrl : 'filebrowser.php?type=images',
-					filebrowserWindowWidth : '730',
-					filebrowserWindowHeight : '500'
-					<?php echo $toolbar; ?>
-					<?php echo $options; ?>
+				skin : 'getsimple',
+				forcePasteAsPlainText : true,
+				language : '<?php echo $EDLANG; ?>',
+				defaultLanguage : 'en',
+				<?php if (file_exists(GSTHEMESPATH . $TEMPLATE . '/editor.css')) { ?>contentsCss: '<?php echo suggest_site_path(); ?>theme/<?php echo $TEMPLATE; ?>/editor.css',<?php } ?>
+				entities : false,
+				// uiColor : '#FFFFFF',
+				height: '<?php echo $EDHEIGHT; ?>',
+				baseHref : '<?php echo $SITEURL; ?>',
+				tabSpaces:10,
+				filebrowserBrowseUrl : 'filebrowser.php?type=all',
+				filebrowserImageBrowseUrl : 'filebrowser.php?type=images',
+				filebrowserWindowWidth : '730',
+				filebrowserWindowHeight : '500'
+				<?php echo $toolbar; ?>
+				<?php echo $options; ?>
 			});
 
 			CKEDITOR.instances["post-content"].on("instanceReady", InstanceReadyEvent);
@@ -431,7 +415,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 			};
 
 			</script>
-			
+
 			<?php
 				# CKEditor setup functions
 				ckeditor_add_page_link();
@@ -466,7 +450,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 				}
 			}
 
-			jQuery(document).ready(function(){
+			jQuery(document).ready(function() {
 
 			<?php if (defined('GSAUTOSAVE') && (int)GSAUTOSAVE != 0) { /* IF AUTOSAVE IS TURNED ON via GSCONFIG.PHP */ ?>
 
@@ -525,7 +509,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 					});
 
 					// We register all other form elements to detect changes of any type by using bind
-					$('#editform input,#editform textarea,#editform select').not('#post-title').not('#post-id').bind('change keypress paste textInput input', function(){
+					$('#editform input, #editform textarea, #editform select').not('#post-title').not('#post-id').bind('change keypress paste textInput input', function() {
 						pageisdirty = true;
 						warnme = true;
 						autoSaveInd();
@@ -534,17 +518,16 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT').' '.$title);
 				setInterval(autoSaveIntvl, <?php echo (int)GSAUTOSAVE * 1000; ?>);
 
 				<?php } else { /* AUTOSAVE IS NOT TURNED ON */ ?>
-					$('#editform').bind('change keypress paste focus textInput input', function(){
+					$('#editform').bind('change keypress paste focus textInput input', function() {
 						warnme = true;
 						pageisdirty = false;
 						autoSaveInd();
 					});
-					<?php } ?>
-
+				<?php } ?>
 					function autoSaveInd() {
 						$('#pagechangednotify').show();
 						$('#pagechangednotify').text("<?php i18n('PAGE_UNSAVED')?>");
-						$('input[type=submit]').css('border-color','#CC0000');
+						$('input[type=submit]').addClass('warning');
 						$('#cancel-updates').show();
 					}
 

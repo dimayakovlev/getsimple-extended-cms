@@ -1056,8 +1056,7 @@ table.cleantable tr td {
 #pagechangednotify {
 	margin: 0px;
 	padding: 15px 0 0 13px;
-	color: #CC0000;
-	text-shadow: 1px 1px 0 #fff;
+	color: var(--clr-secondary-lightest);
 	font-size: 11px;
 }
 
@@ -1110,6 +1109,10 @@ input[type="submit"], input[type=reset], input[type=button], button, .button {
 
 .button {
 	padding: 3px 7px;
+}
+
+:is(input[type="submit"], input[type="submit"]:hover, input[type="submit"]:focus).warning {
+	border-color: var(--clr-secondary-lightest);
 }
 
 .leftsec {
