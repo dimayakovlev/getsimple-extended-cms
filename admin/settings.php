@@ -26,13 +26,13 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('GENERAL_SETTINGS'))
 
 	<div id="maincontent">
 		<div class="main">
+			<h3><?php i18n('WEBSITE_SETTINGS');?></h3>
 			<form class="largeform" action="changedata.php" method="post" accept-charset="utf-8">
 				<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce('save', 'settings.php'); ?>">
 				<input type="hidden" name="created" value="<?php echo $dataw->attributes()->created; ?>">
 				<input id="revision-number" name="revision-number" type="hidden" value="<?php echo (string)$dataw->attributes()->revisionNumber ?: '0'; ?>">
 				<input type="hidden" name="theme" value="<?php echo $dataw->theme ?: $dataw->TEMPLATE; ?>">
 				<input id="action" name="action" type="hidden" value="save">
-				<h3><?php i18n('WEBSITE_SETTINGS');?></h3>
 				<div class="leftsec">
 					<p><label for="title"><?php i18n('LABEL_WEBSITE');?>:</label><input class="text" name="title" type="text" value="<?php echo $dataw->title ?: $dataw->SITENAME; ?>"></p>
 				</div>

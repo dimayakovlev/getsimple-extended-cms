@@ -34,12 +34,12 @@ include('template/include-nav.php');
 <div class="bodycontent">
     <div id="maincontent">
         <div class="main">
+            <h3><?php i18n('USER_SETTINGS');?></h3>
             <form class="largeform" action="changedata.php" method="post" accept-charset="utf-8">
                 <input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce('save', 'user.php'); ?>">
                 <input type="hidden" name="created" value="<?php echo $datau->attributes()->created; ?>">
                 <input id="revision-number" name="revision-number" type="hidden" value="<?php echo (string)$datau->attributes()->revisionNumber ?: '0'; ?>">
                 <input id="action" name="action" type="hidden" value="save">
-                <h3><?php i18n('USER_SETTINGS');?></h3>
                 <div class="leftsec">
                     <p><label for="user"><?php i18n('LABEL_USERNAME');?>:</label><input class="text" name="user" type="text" readonly value="<?php echo $USR; ?>"></p>
                 </div>
