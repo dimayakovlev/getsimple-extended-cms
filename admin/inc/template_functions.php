@@ -427,18 +427,17 @@ function pingGoogleSitemaps($url_xml) {
  *
  * @since 1.0
  *
- * @param string $s 
+ * @param string $s
  * @return string
  */
 function fSize($s) {
-	$size = '<span>'. ceil(round(($s / 1024), 1)) .'</span> KB'; // in kb
+	$size = '<span>' . ceil(round(($s / 1024), 1)) .'</span> KB'; // in kb
 	if ($s >= "1000000") {
-		$size = '<span>'. round(($s / 1048576), 1) .'</span> MB'; // in mb
+		$size = '<span>' . round(($s / 1048576), 1) .'</span> MB'; // in mb
 	}
 	if ($s <= "999") {
 		$size = '<span>&lt; 1</span> KB'; // in kb
 	}
-	
 	return $size;
 }
 
@@ -508,9 +507,9 @@ function valid_xml($file) {
 	$xmlv = getXML($file);
 	global $i18n;
 	if (is_object($xmlv)) {
-		return '<span class="OKmsg" >'.i18n_r('XML_VALID').' - '.i18n_r('OK').'</span>';
+		return '<span class="OKmsg">' . i18n_r('XML_VALID') . ' - ' . i18n_r('OK') . '</span>';
 	} else {
-		return '<span class="ERRmsg" >'.i18n_r('XML_INVALID').' - '.i18n_r('ERROR').'!</span>';
+		return '<span class="ERRmsg">' . i18n_r('XML_INVALID') . ' - ' . i18n_r('ERROR') . '!</span>';
 	}
 }
 
@@ -519,20 +518,14 @@ function valid_xml($file) {
  *
  * Returns a new unique salt
  * @updated 3.0
+ * @updated 3.5.0
  *
  * @return string
  */
 function generate_salt() {
-  if(version_compare(PHP_VERSION, '5.3.0') >= 0 && function_exists("openssl_random_pseudo_bytes")){
-    return bin2hex(openssl_random_pseudo_bytes(16));
-  }else{
-     /* Known to be terribly insecure. Default seeded with an cryptographically
-      * insecure, 32 bit integer, and PHP versions prior to 5.3 lack built in access
-      * to secure random.
-      */
-     return sha1(mt_rand());
-  }
-} 
+	if (version_compare(PHP_VERSION, '5.3.0') >= 0 && function_exists('openssl_random_pseudo_bytes')) return bin2hex(openssl_random_pseudo_bytes(16));
+	return sha1(mt_rand());
+}
 
 /**
  * Get Admin Path
@@ -620,15 +613,15 @@ function get_available_pages($private = false) {
 	foreach ($pagesSorted as $page) {
 		if ((string)$page['private'] && $private == false) continue;
 		$items[] = array(
-			"slug" => (string)$page['url'],
-			"url" => find_url((string)$page['url']),
-			"parent_slug" => (string)$page['parent'],
-			"title" => (string)$page['title'],
-			"menu_priority" => (string)$page['menuOrder'],
-			"menu_text" => (string)$page['menu'],
-			"menu_status" => (string)$page['menuStatus'],
-			"private" => (string)$page['private'],
-			"pub_date" => (string)$page['pubDate']
+			'slug' => (string)$page['url'],
+			'url' => find_url((string)$page['url']),
+			'parent_slug' => (string)$page['parent'],
+			'title' => (string)$page['title'],
+			'menu_priority' => (string)$page['menuOrder'],
+			'menu_text' => (string)$page['menu'],
+			'menu_status' => (string)$page['menuStatus'],
+			'private' => (string)$page['private'],
+			'pub_date' => (string)$page['pubDate']
 		);
 	}
 	return $items;
@@ -643,72 +636,65 @@ function get_available_pages($private = false) {
  * @uses XMLsave
  *
  */
-function updateSlugs($existingUrl, $newurl=null){
+function updateSlugs($existingUrl, $newurl = null) {
 	global $pagesArray;
 	getPagesXmlValues();
-      
-      if (!$newurl){
-      	global $url;
-      } else {
-      	$url = $newurl;
-      }
+	if (!$newurl) {
+		global $url;
+	} else {
+		$url = $newurl;
+	}
 
-	foreach ($pagesArray as $page){
-		if ( $page['parent'] == $existingUrl ){
-			$thisfile = @file_get_contents(GSDATAPAGESPATH.$page['filename']);
-        		$data = simplexml_load_string($thisfile);
-            		$data->parent=$url;
-            		XMLsave($data, GSDATAPAGESPATH.$page['filename']);
-        }
-      }
+	foreach ($pagesArray as $page) {
+		if ($page['parent'] == $existingUrl) {
+			$thisfile = @file_get_contents(GSDATAPAGESPATH . $page['filename']);
+			$data = simplexml_load_string($thisfile);
+			$data->parent = $url;
+			XMLsave($data, GSDATAPAGESPATH.$page['filename']);
+		}
+	}
 }
 
 /**
  * Get Link Menu Array
- * 
+ *
  * get an array of menu links sorted by heirarchy and indented
- * 
+ *
  * @uses $pagesSorted
  *
- * @since  3.3.0
+ * @since 3.3.0
  * @param string $parent
  * @param array $array
  * @param int $level
  * @return array menuitems title,url,parent
  */
-function get_link_menu_array($parent='', $array=array(), $level=0) {
-	
+function get_link_menu_array($parent = '', $array = array(), $level = 0) {
 	global $pagesSorted;
-	
-	$items=array();
-	// $pageList=array();
+
+	$items = array();
 
 	foreach ($pagesSorted as $page) {
-		if ($page['parent']==$parent){
-			$items[(string)$page['url']]=$page;
-		}	
-	}	
+		if ($page['parent'] == $parent) $items[(string)$page['url']] = $page;
+	}
 
-	if (count($items)>0){
+	if (count($items) > 0) {
 		foreach ($items as $page) {
-		  	$dash="";
-		  	if ($page['parent'] != '') {
-	  			$page['parent'] = $page['parent']."/";
-	  		}
-			for ($i=0;$i<=$level-1;$i++){
-				if ($i!=$level-1){
-	  				$dash .= utf8_encode("\xA0\xA0"); // outer level
-          } else {
+			$dash="";
+			if ($page['parent'] != '') $page['parent'] = $page['parent'] . '/';
+			for ($i = 0; $i <= $level-1; $i++) {
+				if ($i != $level - 1) {
+					$dash .= utf8_encode("\xA0\xA0"); // outer level
+				} else {
 					$dash .= '- '; // inner level
-            }   
-          } 
+				}
+			}
 			array_push($array, array( $dash . $page['title'], find_url($page['url'])));
 			// recurse submenus
-			$array=get_link_menu_array((string)$page['url'], $array,$level+1);	 
-        }
-      }
+			$array = get_link_menu_array((string)$page['url'], $array, $level + 1);
+		}
+	}
 	return $array;
-} 
+}
 
 /**
  * List Pages Json
@@ -723,29 +709,29 @@ function get_link_menu_array($parent='', $array=array(), $level=0) {
  * @uses GSDATAPAGESPATH
  * @uses getXML
  *
- * @returns array
+ * @return array
  */
 function list_pages_json() {
-	GLOBAL $pagesArray,$pagesSorted;
+	global $pagesArray,$pagesSorted;
 
 	$pagesArray_tmp = array();
 	$count = 0;
 	foreach ($pagesArray as $page) {
-		if ($page['parent'] != '') { 
-			$parentTitle = returnPageField($page['parent'], "title");
-			$sort = $parentTitle .' '. $page['title'];		
-			} else {
+		if ($page['parent'] != '') {
+			$parentTitle = returnPageField($page['parent'], 'title');
+			$sort = $parentTitle . ' ' . $page['title'];
+		} else {
 			$sort = $page['title'];
-			}
+		}
 		$page = array_merge($page, array('sort' => $sort));
 		$pagesArray_tmp[$count] = $page;
-			$count++;
-			}
-	$pagesSorted = subval_sort($pagesArray_tmp,'sort');
+		$count++;
+	}
+	$pagesSorted = subval_sort($pagesArray_tmp, 'sort');
 
-	$links = exec_filter('editorlinks',get_link_menu_array());
+	$links = exec_filter('editorlinks', get_link_menu_array());
 	return json_encode($links);
-		}
+}
 
 /**
  * @deprecated since 3.3.0
@@ -769,7 +755,7 @@ function ckeditor_add_page_link(){
  * @author Mike
  *
  * @since 3.0
- * @since 3.5.0 Add links to clone page and create subpage
+ * @since 3.5.0 Add pages URLs, links to clone page and create subpage
  * @uses $pagesSorted
  *
  * @param string $parent
@@ -800,7 +786,7 @@ function get_pages_menu($parent, $menu, $level) {
 			if (getDef('GSPAGECOMPONENT', true) && isset($page['componentEnabled']) && $page['componentEnabled'] == '1') { $page['componentEnabled'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnabled'] = ''; }
 			if (getDef('GSPAGECOMPONENT', true) && $page['componentEnabled'] != '' && isset($page['componentContent']) && $page['componentContent'] == '1') { $page['componentContent'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_CONTENT_SUBTITLE') . ']</sup>'; } else { $page['componentContent'] = ''; }
 			if (isset($page['permalink']) && $page['permalink'] != '') { $page['permalink'] = ' <sup>[' . i18n_r('PERMALINK_SUBTITLE') . ']</sup>'; } else { $page['permalink'] = ''; }
-			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '">' . var_out($page['title']) . '</a><span data-role="page-url" class="toggle"> [' . $pageURL . ']</span><span data-role="page-status" class="status toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnabled'] . $page['componentContent'] . $page['permalink'] . '</span></td>';
+			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '">' . var_out($page['title']) . '</a><span data-role="page-url" class="url toggle"> [' . $pageURL . ']</span><span data-role="page-status" class="status toggle">' . $homepage . $page['menuStatus'] . $page['private'] . $page['componentEnabled'] . $page['componentContent'] . $page['permalink'] . '</span></td>';
 			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CREATE_NEW_SUBPAGE') . '" href="edit.php?parent=' . $page['url'] . '" data-action="create-subpage">&#43;</a></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CLONEPAGE_TITLE') . ': ' . var_out($page['title']) . '" href="pages.php?id=' . $page['url'] . '&amp;action=clone&amp;nonce=' . get_nonce('clone', 'pages.php') .'" data-action="clone-page">&#10697;</a></td>';
