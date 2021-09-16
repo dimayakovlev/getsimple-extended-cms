@@ -8,10 +8,9 @@
  * @subpackage Language
  */
 
-
 $i18n = array(
 
-/* 
+/*
  * For: install.php
 */
 "PHPVER_ERROR"			=>	"<b>Unable to continue:</b> PHP 5.3.0 or greater is required, you have ",
@@ -47,12 +46,13 @@ $i18n = array(
 "SITE_UPDATED"			=>	"Your site has been updated",
 "SERVICE_UNAVAILABLE"	=>	"This page is temporarily unavailable",
 
-/* 
+/*
  * For: pages.php
 */
 "MENUITEM_SUBTITLE"	=>	"menu",
 "HOMEPAGE_SUBTITLE"	=>	"homepage",
 "PRIVATE_SUBTITLE"	=>	"private",
+"NOT_PUBLISHED_SUBTITLE"	=>	"not published",
 "PAGE_COMPONENT_SUBTITLE" => "component",
 "PAGE_COMPONENT_CONTENT_SUBTITLE" => "dynamic",
 "PERMALINK_SUBTITLE" => 'permalink',
@@ -68,7 +68,7 @@ $i18n = array(
 "NO_PAGE_TITLE"     =>  "No Title",
 "CREATE_NEW_SUBPAGE" => "Create New Subpage",
 
-/* 
+/*
  * For: edit.php
 */
 "PAGE_NOTEXIST"			=>	"The requested page does not exist",
@@ -102,7 +102,7 @@ $i18n = array(
 "PAGE_DISABLE_HTML_EDITOR" => 'Disable the HTML Editor for this page',
 "PAGE_DISABLE_CODE_EDITOR" => 'Disable the Code Editor for this page',
 
-/* 
+/*
  * For: upload.php
 */
 "ERROR_UPLOAD"			=>	"There was a problem with the file upload",
@@ -114,12 +114,12 @@ $i18n = array(
 "DELETE_FILE"				=>	"Delete File",
 "TOTAL_FILES"				=>	"Total number of files &amp; folders",
 
-/* 
+/*
  * For: logout.php
 */
 "MSG_LOGGEDOUT"			=>	"You are now logged out.",
 
-/* 
+/*
  * For: index.php
 */
 "LOGIN"							=>	"Login",
@@ -128,13 +128,13 @@ $i18n = array(
 "FORGOT_PWD"				=>	"Forgot your password?",
 "CONTROL_PANEL"			=>	"Control Panel Login",
 
-/* 
+/*
  * For: navigation.php
 */
 "CURRENT_MENU" 			=> 	"Current Menu",
 "NO_MENU_PAGES" 		=> 	"There are no pages that are set to appear within the main menu",
 
-/* 
+/*
  * For: theme-edit.php
 */
 "TEMPLATE_FILE" 		=> 	"Template file <b>%s</b> has successfully been updated!",
@@ -144,7 +144,7 @@ $i18n = array(
 "BTN_SAVECHANGES" 	=> 	"Save Changes",
 "EDIT" 							=> 	"Edit",
 
-/* 
+/*
  * For: support.php
 */
 "SETTINGS_UPDATED"	=> 	"Your settings have been updated",
@@ -156,7 +156,7 @@ $i18n = array(
 "VIEW_FAILED_LOGIN"	=> 	"View Failed Login Attempts",
 
 
-/* 
+/*
  * For: log.php
 */
 "MSG_HAS_BEEN_CLR" 	=> 	" has been cleared",
@@ -168,7 +168,7 @@ $i18n = array(
 "LOG_FILE_ENTRY" 		=> 	"LOG FILE ENTRY",
 "THIS_COMPUTER"			=>	"This Computer",
 
-/* 
+/*
  * For: backup-edit.php
 */
 "BAK_MANAGEMENT"		=>	"Backup Management",
@@ -182,7 +182,7 @@ $i18n = array(
 "DATE"							=>	"Date",
 "PERMS"							=>  "Perms",
 
-/* 
+/*
  * For: components.php
 */
 "COMPONENTS"				=>	"Components",
@@ -193,7 +193,7 @@ $i18n = array(
 "ENABLE_COMPONENT"  => "Enable component",
 'COMPONENT_CODE'  => 'Component code',
 
-/* 
+/*
  * For: sitemap.php
 */
 "SITEMAP_CREATED"		=>	"Sitemap Created! We also successfully pinged 4 search engines of the update",
@@ -201,7 +201,7 @@ $i18n = array(
 "SITEMAP_ERROR"			=>	"Your sitemap could not be generated",
 "SITEMAP_WAIT"			=>	"<b>Please Wait:</b> Creating website sitemap",
 
-/* 
+/*
  * For: theme.php
 */
 "THEME_CHANGED"			=>	"Your theme has been changed successfully",
@@ -211,7 +211,7 @@ $i18n = array(
 "THEME_SCREENSHOT"	=>	"Theme Screenshot",
 "THEME_PATH"				=>	"Theme Folder Location",
 
-/* 
+/*
  * For: resetpassword.php
 */
 "RESET_PASSWORD"		=>	"Reset Password",
@@ -221,7 +221,7 @@ $i18n = array(
 "MSG_PLEASE_EMAIL"	=>	"Please enter the username registered on this system, and a new password will be sent to its email address.",
 "SEND_NEW_PWD"			=>	"Send New Password",
 
-/* 
+/*
  * For: settings.php
 */
 "GENERAL_SETTINGS"	=>	"General Settings",
@@ -277,12 +277,12 @@ $i18n = array(
 "WRITABLE"					=>	"Writable",
 "NOT_WRITABLE"			=>	"Not Writable",
 
-/* 
+/*
  * For: footer.php
 */
 "POWERED_BY"				=>	"Powered by",
 
-/* 
+/*
  * For: backups.php
 */
 "PAGE_BACKUPS"			=>	"Page Backups",
@@ -290,7 +290,7 @@ $i18n = array(
 "DELETE_ALL_BAK"		=>	"Delete all backups?",
 "TOTAL_BACKUPS"			=>	"Total number of backups",
 
-/* 
+/*
  * For: archive.php
 */
 "SUCC_WEB_ARCHIVE"	=>	"An archive of your website has been successfully created",
@@ -304,7 +304,7 @@ $i18n = array(
 "DELETE_ARCHIVE"		=>	"Delete Archive",
 "TOTAL_ARCHIVES"		=>	"Total number of archives",
 
-/* 
+/*
  * For: include-nav.php
 */
 "WELCOME"						=>	"Welcome", // used as 'Welcome USERNAME!'
@@ -317,13 +317,13 @@ $i18n = array(
 "TAB_SUPPORT"				=>	"Supp<em>o</em>rt",
 "TAB_LOGOUT"				=>	"<em>L</em>ogout",
 
-/* 
+/*
  * For: sidebar-files.php
 */
 "BROWSE_COMPUTER"		=>	"Browse Your Computer",
 "UPLOAD"						=>	"Upload",
 
-/* 
+/*
  * For: sidebar-support.php
 */
 "SIDE_SUPPORT_LOG"	=>	"Supp<em>o</em>rt",
@@ -331,7 +331,7 @@ $i18n = array(
 "SIDE_DOCUMENTATION"=>	"Wiki Documentation",
 "SIDE_VIEW_LOG"=>	"<em>V</em>iew Log",
 
-/* 
+/*
  * For: sidebar-theme.php
 */
 "SIDE_VIEW_SITEMAP"	=>	"<em>V</em>iew Sitemap",
@@ -340,26 +340,26 @@ $i18n = array(
 "SIDE_EDIT_THEME"		=>	"Edit T<em>h</em>eme",
 "SIDE_CHOOSE_THEME"	=>	"Choose <em>T</em>heme",
 
-/* 
+/*
  * For: sidebar-pages.php
 */
 "SIDE_CREATE_NEW"		=>	"Create Ne<em>w</em> Page",
 "SIDE_VIEW_PAGES"		=>	"View All <em>P</em>ages",
 
-/* 
+/*
  * For: sidebar-settings.php
 */
 "SIDE_GEN_SETTINGS"	=>	"General <em>S</em>ettings",
 "SIDE_USER_PROFILE"	=>	"<em>U</em>ser Profile Settings",
 
-/* 
+/*
  * For: sidebar-backups.php
 */
 "SIDE_VIEW_BAK"			=>	"View Page Backup",
 "SIDE_WEB_ARCHIVES"	=>	"<em>W</em>ebsite Archives",
 "SIDE_PAGE_BAK"			=>	"Page <em>B</em>ackups",
 
-/* 
+/*
  * For: error_checking.php
 */
 "ER_PWD_CHANGE"			=>	"Don't forget to <a href=\"user.php#password\">change your password</a> from that random generated one you have now...",
@@ -388,13 +388,13 @@ $i18n = array(
 "ER_CANCELLED_FAIL"	=>	"<b>Cancelled:</b> This update has been cancelled",
 "ER_COMPONENT_ACTION" => "<strong>Enabled use of components with actions!</strong> Each enabled component named like <strong>action_action-name</strong> will be executed on call corresponding action.",
 
-/* 
+/*
  * For: changedata.php
 */
 "CANNOT_SAVE_EMPTY"	=>	"You cannot save a page with an empty title",
 "META_DESC" 				=>  "Meta Description",
 
-/* 
+/*
  * For: template_functions.php
 */
 "FTYPE_COMPRESSED"	=>	"Compressed", //a file-type
@@ -408,26 +408,26 @@ $i18n = array(
 "FTYPE_MISC"				=>	"Misc", //a file-type
 "IMAGES"						=>	"Images",
 
-/* 
+/*
  * For: login_functions.php
 */
 "FILL_IN_REQ_FIELD"	=>	"Please fill in all the required fields",
 "LOGIN_FAILED"			=>	"Login failed. Please double check your Username and Password",
 
-/* 
+/*
  * For: Date Format
 */
 "DATE_FORMAT"									=>	"M j, Y", //please keep short
 "DATE_AND_TIME_FORMAT"				=>	"F jS, Y - g:i A", //date and time
 
-/* 
+/*
  * For: support.php
 */
 "WELCOME_MSG"				=>	"Thank you for choosing <strong>GetSimple Extended CMS</strong> as your content management system!",
 "WELCOME_P"					=>	"<strong>GetSimple Extended CMS</strong> makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><strong>Some first steps that might be useful:</strong></p>",
 "GETTING_STARTED"		=>	"Getting Started",
 
-/* 
+/*
  * For: image.php
 */
 
@@ -447,7 +447,7 @@ $i18n = array(
 "LINK_THUMBNAIL" 		=> "Thumbnail Link",
 "HTML_THUMB_ORIG" 	=> "Thumbnail-to-Image HTML",
 
-/* 
+/*
  * For: plugins.php
 */
 
@@ -466,7 +466,7 @@ $i18n = array(
  * SINCE Version 3.0
 ***********************************************************************************/
 
-/* 
+/*
  * For: setup.php
  */
 
@@ -543,7 +543,7 @@ $i18n = array(
 'MENU_MANAGER_ERROR' => 'The new menu order has not been saved',
 
 
-/* 
+/*
  * For: api related pages
  */
 "API_ERR_MISSINGPARAM" => 'parameter data does not exist',
@@ -603,7 +603,7 @@ $i18n = array(
   "й"=>"y","к"=>"k","л"=>"l","м"=>"m","н"=>"n",
   "о"=>"o","п"=>"p","р"=>"r","с"=>"s","т"=>"t",
   "у"=>"u","ф"=>"f","х"=>"kh","ц"=>"ts","ч"=>"ch",
-  "ш"=>"sh","щ"=>"sch","ъ"=>"","ы"=>"y","ь"=>"",  
+  "ш"=>"sh","щ"=>"sch","ъ"=>"","ы"=>"y","ь"=>"",
   "э"=>"e","ю"=>"yu","я"=>"ya"
 ),
 

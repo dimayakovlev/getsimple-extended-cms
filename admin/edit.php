@@ -194,7 +194,8 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 					<label for="post-private"<?php if ($private) echo ' class="is-private"'; ?>><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
 					<select id="post-private" name="post-private" class="text autowidth">
 						<option value=""><?php i18n('NORMAL'); ?></option>
-						<option value="1"<?php if ($private) echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
+						<option value="1"<?php if ($private == 'Y' || $private == '1') echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
+						<option value="2"<?php if ($private == '2') echo ' selected'; ?>><?php echo ucwords(i18n_r('NOT_PUBLISHED_SUBTITLE')); ?></option>
 					</select>
 				</p>
 				<p class="inline clearfix">

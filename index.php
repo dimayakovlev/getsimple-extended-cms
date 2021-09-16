@@ -67,7 +67,7 @@ if ($dataw->maintenance == '1' && (!is_logged_in() || $datau->accessFrontMainten
 $data_index = exec_filter('data_index', $data_index);
 
 // page not found handling
-if (!$data_index) {
+if (!$data_index || $data_index->private == '2') {
 	if (file_exists(GSDATAOTHERPATH . '404.xml')) {
 		// default 404
 		$data_index = getXml(GSDATAOTHERPATH . '404.xml');
@@ -81,7 +81,7 @@ if (!$data_index) {
 }
 
 // if page is private, check user
-if ($data_index->private != '' && !is_logged_in()) {
+if ($data_index->private == 'Y' || $data_index->private == '1' && !is_logged_in()) {
 	if (file_exists(GSDATAOTHERPATH . '403.xml')) {
 		// default 403
 		$data_index = getXml(GSDATAOTHERPATH . '403.xml');
@@ -109,23 +109,18 @@ exec_action('index-post-dataindex');
 
 # check for correctly formed url
 if ($GSCANONICAL == true) {
-	if (strpos($_SERVER['REQUEST_URI'], find_url($url, false)) !== 0) {
-		redirect(find_url($url, true));
-	}
+	if (strpos($_SERVER['REQUEST_URI'], find_url($url, false)) !== 0) redirect(find_url($url, true));
 }
 
 # include the functions.php page if it exists within the theme
-if (file_exists(GSTHEMESPATH . $TEMPLATE . '/functions.php')) {
-	include(GSTHEMESPATH . $TEMPLATE . '/functions.php');
-}
+if (file_exists(GSTHEMESPATH . $TEMPLATE . '/functions.php')) include(GSTHEMESPATH . $TEMPLATE . '/functions.php');
 
 # call pretemplate Hook
 exec_action('index-pretemplate');
 
 # include the template and template file set within theme.php and each page
-if ((!file_exists(GSTHEMESPATH . $TEMPLATE . '/' . $template_file)) || ($template_file == '')) {
-	$template_file = 'template.php';
-}
+if ((!file_exists(GSTHEMESPATH . $TEMPLATE . '/' . $template_file)) || ($template_file == '')) $template_file = 'template.php';
+
 include(GSTHEMESPATH . $TEMPLATE . '/' . $template_file);
 
 # call posttemplate Hook

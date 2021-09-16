@@ -755,7 +755,7 @@ function ckeditor_add_page_link(){
  * @author Mike
  *
  * @since 3.0
- * @since 3.5.0 Add pages URLs, links to clone page and create subpage
+ * @since 3.5.0 Add pages URLs, links to clone page and create subpage. Add support for not published private status
  * @uses $pagesSorted
  *
  * @param string $parent
@@ -781,7 +781,7 @@ function get_pages_menu($parent, $menu, $level) {
 			$pageURL = find_url($page['url']);
 			if ($page['title'] == '') { $page['title'] = '[' . i18n_r('NO_PAGE_TITLE') . '] &nbsp;&raquo;&nbsp; <em>' . $page['url'] . '</em>'; }
 			if ($page['menuStatus'] != '') { $page['menuStatus'] = ' <sup>[' . i18n_r('MENUITEM_SUBTITLE') . ']</sup>'; } else { $page['menuStatus'] = ''; }
-			if ($page['private'] != '') { $page['private'] = ' <sup class="is-private">[' . i18n_r('PRIVATE_SUBTITLE') . ']</sup>'; } else { $page['private'] = ''; }
+			if ($page['private'] != '') { $page['private'] = ' <sup class="is-private">[' . (($page['private'] == '2') ? i18n_r('NOT_PUBLISHED_SUBTITLE') : i18n_r('PRIVATE_SUBTITLE')) . ']</sup>'; } else { $page['private'] = ''; }
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
 			if (getDef('GSPAGECOMPONENT', true) && isset($page['componentEnabled']) && $page['componentEnabled'] == '1') { $page['componentEnabled'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnabled'] = ''; }
 			if (getDef('GSPAGECOMPONENT', true) && $page['componentEnabled'] != '' && isset($page['componentContent']) && $page['componentContent'] == '1') { $page['componentContent'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_CONTENT_SUBTITLE') . ']</sup>'; } else { $page['componentContent'] = ''; }
@@ -1041,10 +1041,9 @@ function debug_api_details($msg = null ,$prefix = "API: "){
  * @returns string
  */
 function get_gs_version() {
-	include(GSADMININCPATH.'configuration.php');
+	include(GSADMININCPATH . 'configuration.php');
 	return GSVERSION;
 }
-
 
 /**
  * Creates Sitemap
@@ -1052,41 +1051,28 @@ function get_gs_version() {
  * Creates sitemap.xml in the site's root.
  */
 function generate_sitemap() {
-	
 	if (getDef('GSNOSITEMAP', true)) return;
-
 	// Variable settings
 	global $SITEURL;
 	$path = GSDATAPAGESPATH;
-	
 	global $pagesArray;
 	getPagesXmlValues(false);
 	$pagesSorted = subval_sort($pagesArray, 'menuStatus');
-	
 	if (count($pagesSorted) != 0) {
 		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset></urlset>');
 		$xml->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd', 'http://www.w3.org/2001/XMLSchema-instance');
 		$xml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-		
 		foreach ($pagesSorted as $page) {
-			if ($page['private'] != 'Y') {
+			if ($page['private'] != 'Y' || $page['private'] != '1' || $page['private'] != '2') {
 				// set <loc>
 				$pageLoc = find_url($page['url']);
-				
 				// set <lastmod>
-					$tmpDate = date("Y-m-d H:i:s", strtotime($page['pubDate']));
+				$tmpDate = date("Y-m-d H:i:s", strtotime($page['pubDate']));
 				$pageLastMod = makeIso8601TimeStamp($tmpDate);
-				
 				// set <changefreq>
 				$pageChangeFreq = 'weekly';
-				
 				// set <priority>
-				if ($page['menuStatus'] == 'Y') {
-					$pagePriority = '1.0';
-				} else {
-					$pagePriority = '0.5';
-				}
-				
+				$pagePriority = ($page['menuStatus'] == 'Y' || $page['menuStatus'] == '1') ? '1.0' : '0.5';
 				//add to sitemap
 				$url_item = $xml->addChild('url');
 				$url_item->addChild('loc', $pageLoc);
@@ -1095,17 +1081,15 @@ function generate_sitemap() {
 				$url_item->addChild('priority', $pagePriority);
 			}
 		}
-		
 		//create xml file
-		$file = GSROOTPATH .'sitemap.xml';
-		$xml = exec_filter('sitemap',$xml);
+		$file = GSROOTPATH . 'sitemap.xml';
+		$xml = exec_filter('sitemap', $xml);
 		XMLsave($xml, $file);
 		exec_action('sitemap-aftersave');
 	}
-	
 	if (!defined('GSDONOTPING')) {
-		if (file_exists(GSROOTPATH .'sitemap.xml')) {
-			if (200 === ($status=pingGoogleSitemaps($SITEURL.'sitemap.xml')))	{
+		if (file_exists(GSROOTPATH . 'sitemap.xml')) {
+			if (200 === ($status=pingGoogleSitemaps($SITEURL . 'sitemap.xml'))) {
 				#sitemap successfully created & pinged
 				return true;
 			} else {
@@ -1121,7 +1105,6 @@ function generate_sitemap() {
 		return true;
 	}
 }
-
 
 /**
  * Creates tar.gz Archive 
