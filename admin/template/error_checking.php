@@ -129,10 +129,9 @@ switch ($update) {
 		break;
 	/**/
 	default:
-		if (isset( $error )) create_notification('<strong>' . i18n_r('ERROR') . ':</strong> ' . $error, 'error', false);
-		else if (isset($_GET['rest']) && $_GET['rest'] == 'true') create_notification(i18n_r('ER_OLD_RESTORED') . '. <a href="support.php?undo&nonce=' . get_nonce("undo", "support.php") . '">' . i18n_r('UNDO') . '</a>', 'updated', false);
+		if (isset($error)) create_notification('<strong>' . i18n_r('ERROR') . ':</strong> ' . $error, 'error', false);
+		elseif (isset($_GET['rest']) && $_GET['rest'] == 'true') create_notification(i18n_r('ER_OLD_RESTORED') . '. <a href="support.php?undo&nonce=' . get_nonce('undo', 'support.php') . '">' . i18n_r('UNDO') . '</a>', 'updated', false);
 		elseif (isset($_GET['cancel'])) create_notification(i18n_r('ER_CANCELLED_FAIL'), 'error', false);
-		elseif (isset($error)) create_notification($error, 'error', false);
 		elseif (!empty($err)) create_notification('<strong>' . i18n_r('ERROR') . ':</strong> ' . $err, 'error', false);
 		elseif (isset($success)) create_notification($success, 'updated', false);
 		break;
