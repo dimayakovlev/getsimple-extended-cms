@@ -24,7 +24,6 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<?php } ?>
 	<meta name="robots" content="noindex, nofollow">
 	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo '&amp;v=' . GSVERSION . (isDebug() ? '&amp;nocache' : ''); ?>" media="screen">
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="template/ie6.css?v=<?php echo GSVERSION; ?>" media="screen"><![endif]-->
 	<?php get_scripts_backend(); ?>
 	<script type="text/javascript">
 		// init gs namespace and i18n
@@ -35,8 +34,6 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 		GS.i18n['CLOSE'] = '<?php i18n("CLOSE"); ?>';
 	</script>
 	<script type="text/javascript" src="template/js/jquery.getsimple.js?v=<?php echo GSVERSION; ?>"></script>
-
-	<!--[if lt IE 9]><script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js" ></script><![endif]-->
 	<?php if (get_filename_id() == 'image') { ?>
 	<script type="text/javascript" src="template/js/jcrop/jquery.Jcrop.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="template/js/jcrop/jquery.Jcrop.css" media="screen">
