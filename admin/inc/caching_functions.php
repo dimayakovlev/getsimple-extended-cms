@@ -1,4 +1,4 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')) { die('you cannot load this page directly.'); }
 /****************************************************
 *
 * @File:  caching_functions.php
@@ -16,35 +16,6 @@ add_action('page-restored', 'create_pagesxml', array(true));        // Create pa
 add_action('changedata-aftersave', 'create_pagesxml', array(true));     // Create pages.array if page is updated
 
 /**
- * Get Page Component
- *
- * Retrieve and eval the component code of the requested page. 
- * As the Page component is not cached the page file is readed.
- *
- * @since 3.5.0
- * 
- * @uses GSDATAPAGESPATH
- * @uses strip_decode()
- * @uses returnPageField()
- * @uses getDef()
- *
- * @param string $page Slug of the page to retrive component code
- * @param bool $check Check if page component enabled
- * @return mixed Return result of evaluation of page component code or null
- */
-function getPageComponent($page, $check = true) {
-	if (!getDef('GSPAGECOMPONENT', true) || ($check && (bool)returnPageField($page, 'componentEnabled') == false)) return null;
-	$file = GSDATAPAGESPATH . $page . '.xml';
-	if (!file_exists($file)) return null;
-	$xml = simplexml_load_file($file);
-	if (!$xml) return null;
-	$component = stripslashes(htmlspecialchars_decode($xml->component, ENT_QUOTES));
-	if ($component) {
-		eval('?>' . strip_decode($component) . '<?php ');
-	}
-}
-
-/**
  * Get Page Content
  *
  * Retrieve and display the content of the requested page.
@@ -56,114 +27,96 @@ function getPageComponent($page, $check = true) {
  * @param bool $filter Optional, default is true. If true content filtered with content filter
  * @return null Echo content of the page
  */
-function getPageContent($page, $filter = true) {
+function getPageContent(string $page, $filter = false) {
 	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
 	$data = simplexml_load_string($thisfile);
 	$content = stripslashes(htmlspecialchars_decode($data->content, ENT_QUOTES));
-	if ($filter === true) $content = exec_filter('content', $content);
+	if ($data->type == '1') {
+		ob_start();
+		eval('?>' . $content . '<?php ');
+		$content = ob_get_contents();
+		ob_end_clean();
+	}
+	if ($filter == true) $content = exec_filter('content', $content);
 	echo $content;
 }
 
 /**
  * Get Page Field
  *
- * Retrieve and display the requested field from the given page. 
+ * Retrieve and display the requested field from the given page.
+ * If field name is "content" then get content of the given page with no filter applied.
  *
  * @since 3.1
  * @since 3.5.0 Removed check for global variable $pagesArray
- * @param $page - slug of the page to retrieve content
- * @param $field - the Field to display
+ * @param string $page Slug of the page
+ * @param string $field Name of the field to display
  */
-function getPageField($page, $field) {
+function getPageField(string $page, string $field) {
 	global $pagesArray;
 	if ($field == 'content') {
 		getPageContent($page);
 	} else {
-		if (array_key_exists($field, $pagesArray[(string)$page])) {
-			echo strip_decode($pagesArray[(string)$page][(string)$field]);
-		} else {
-			getPageContent($page, $field);
-		}
+		echo isset($pagesArray[$page][$field]) ? strip_decode($pagesArray[$page][$field]) : '';
 	}
 }
 
 /**
  * Echo Page Field
  *
- * Retrieve and display the requested field from the given page. 
+ * Retrieve and display the requested field from the given page.
+ * If field name is "content" then get content of the given page with no filter applied.
  *
  * @since 3.1
- * 
  * @uses getPageField
- * 
- * @param $page - slug of the page to retrieve content
- * @param $field - the Field to display
+ * @param string $page Slug of the page
+ * @param string $field Name of the field to display
  */
-function echoPageField($page, $field) {
-	getPageField($page,$field);
-}
-
-/**
- * Return Page Component
- *
- * Retrieve and return the component code of the requested page as text. 
- * As the Page component is not cached the page file is readed.
- *
- * @since 3.5.0
- * 
- * @uses GSDATAPAGESPATH
- *
- * @param $page Slug of the page to retrive component code
- * @return string Return page component code in plain text
- */
-function returnPageComponent($page) {
-	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
-	$data = simplexml_load_string($thisfile);
-	if (!$data) return '';
-	$component = stripslashes($data->component);
-	return (string)$component;
+function echoPageField(string $page, string $field) {
+	getPageField($page, $field);
 }
 
 /**
  * Return Page Content
  *
- * Return the content of the requested page. 
- * As the Content is not cahed the file is read in.
+ * Return the content of the requested page.
+ * As the content is not cahed the file is read in.
  *
  * @since 3.1
+ * @since 3.5.0 Change signature, removed $field parameter
  * @param string $page Slug of the page to retrieve content
- * @param string $field Name of field. Default is content
+ * @param bool $filter If true execute filter content. Default is false
  * @param bool $raw If true return raw xml. Default is false
- * @param bool $nofilter If true skip content filter execution. Default is false
- * 
  * @return string Content of the requested page
  */
-function returnPageContent(string $page, $field = 'content', $raw = false, $nofilter = false) {
+function returnPageContent(string $page, $filter = false, $raw = false) {
 	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
 	$data = simplexml_load_string($thisfile);
 	if (!$data) return '';
-	$content = $data->$field;
-	if (!$raw) $content = stripslashes(htmlspecialchars_decode($content, ENT_QUOTES));
-	if ($field == 'content' and !$nofilter) {
-		$content = exec_filter('content', $content);
+	$content = $data->content;
+	if ($raw == true) return $content;
+	$content = stripslashes(htmlspecialchars_decode($content, ENT_QUOTES));
+	if ($data->type == '1') {
+		ob_start();
+		eval('?>' . $content . '<?php ');
+		$content = ob_get_contents();
+		ob_end_clean();
 	}
+	if ($filter == true) $content = exec_filter('content', $content);
 	return $content;
 }
 
 /**
  * Get Page Field
  *
- * Retrieve and display the requested field from the given page. 
- * If the field is "content" it will call returnPageContent()
+ * Retrieve and display the requested field from the given page.
+ * If field namd is "content" then return processed content of the given page with no filter applied.
  *
  * @since 3.1
  * @since 3.5.0 Removed check for global variable $pagesArray
- * 
  * @global $pagesArray
- * 
  * @uses returnPageContent
  * @uses getPagesXmlValues
- * 
  * @param string $page Slug of the page to retrieve field
  * @param string $field Field name to return value
  */
@@ -180,14 +133,11 @@ function returnPageField(string $page, string $field) {
  *
  * @since 3.1
  * @since 3.5.0 Removed check for global variable $pagesArray
- * 
  * @global $pagesArray
- * 
- * @param $page Slug of the page to retrieve content
- * 
+ * @param string $page Slug of the page to retrieve content
  * @return array Array of slug names
  */
-function getChildren($page) {
+function getChildren(string $page) {
 	global $pagesArray;
 	$returnArray = array();
 	foreach ($pagesArray as $key => $value) {
@@ -205,12 +155,9 @@ function getChildren($page) {
  *
  * @since 3.1
  * @since 3.5.0 Return associative array with children slugs as keys
- * 
  * @global $pagesArray
- * 
  * @param string $page Slug of the page to retrieve children
  * @param array $options Array of optional fields to return
- * 
  * @return array Array of children slugs as keys and values as array of values of optional fields
  */
 function getChildrenMulti(string $page, $options = array()) {
@@ -229,15 +176,12 @@ function getChildrenMulti(string $page, $options = array()) {
 
 /**
  * Get Parent Page
- * 
+ *
  * Return slug of the parent page of the requested page
- * 
+ *
  * @since 3.5.0
- * 
  * @global $pagesArray
- * 
  * @param string $page Slug of the page retrieve parent page slug
- * 
  * @return string Slug of the parent page. If page has no parent returns empty string
  */
 function getParent(string $page) {
@@ -250,16 +194,13 @@ function getParent(string $page) {
 
 /**
  * Get Parents Pages
- * 
+ *
  * Return an array of pages that are parents of the requested page
- * 
+ *
  * @since 3.5.0
- * 
  * @global $pagesArray
- * 
  * @param string $page Slug of the page retrive parents pages slugs
  * @param bool $reverse Reverse order of parents. By default direct parent is the first
- * 
  * @return array Array of slug names
  */
 function getParents(string $page, $reverse = false) {
@@ -282,13 +223,11 @@ function getParents(string $page, $reverse = false) {
 
 /**
  * Get Parents Pages with Multi Fields
- * 
+ *
  * Return an array of pages that are parents of the requested page with optional fields
- * 
+ *
  * @since 3.5.0
- * 
  * @global $pagesArray
- * 
  * @param string $page Slug of the page retrive parents pages slugs
  * @param array $options Array of optional fields to return
  * @param $bool $reverse Reverse order of parents. By default direct parent is the first
@@ -308,9 +247,7 @@ function getParentsMulti(string $page, $options = array(), $reverse = false) {
 			$page = $parent;
 		}
 	} while ($parent);
-	if ($parents && $reverse == true) {
-		$parents = array_reverse($parents);
-	}
+	if ($parents && $reverse == true) $parents = array_reverse($parents);
 	return $parents;
 }
 /**
@@ -320,11 +257,8 @@ function getParentsMulti(string $page, $options = array(), $reverse = false) {
  * If the file does not exist it is created the first time. 
  *
  * @since 3.1
- *
  * @global $pagesArray
- *
  * @uses GSDATAOTHERPATH
- * 
  * @param bool $chkcount
  */
 function getPagesXmlValues($chkcount = false) {
@@ -382,10 +316,8 @@ function getPagesXmlValues($chkcount = false) {
  * data/pages/pages.array 
  *
  * @since 3.1
- * 
  * @global $pagesArray
  * @global $USR
- * 
  * @uses GSDATAOTHERPATH
  * @uses GSDATAPAGESPATH
  * @uses SimpleXMLExtended
@@ -393,9 +325,7 @@ function getPagesXmlValues($chkcount = false) {
  * @uses debugLog
  * @uses exec_filter
  * @uses exec_action
- * 
  * @param mixed $flag
- * 
  * @return bool|null Return boolean result of XMLsave function or null
  */
 function create_pagesxml($flag) {
@@ -443,7 +373,7 @@ function create_pagesxml($flag) {
 					$pages = $xml->addChild('item');
 
 					foreach ($data->children() as $item => $itemdata) {
-						if ($item != 'content' && $item != 'component') {
+						if ($item != 'content') {
 							if (in_array($item, array('title', 'meta', 'metad', 'menu', 'permalink', 'lang'))) {
 								$pages->addChild($item)->addCData($itemdata);
 							} else {
@@ -480,16 +410,13 @@ function create_pagesxml($flag) {
 }
 
 /**
- * Private Page
- * 
+ * Is Page Private
+ *
  * Check if requested page is private
- * 
+ *
  * @since 3.5.0
- * 
  * @global $pagesArray
- * 
  * @param string $page Slug of the page
- * 
  * @return bool Return true if page is private
  */
 function isPagePrivate(string $page) {

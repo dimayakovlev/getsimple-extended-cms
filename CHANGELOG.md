@@ -14,10 +14,6 @@
     * Added `DATECREATED` and `DATEMODIFIED` user fields
     * Added `DATECREATED` and `DATEMODIFIED` website fields
     * Added handling of the time of the last website update
-    * Added **Page Component** feature. Disabled by default. Need to uncomment `# define('GSPAGECOMPONENT', true);` in *gsconfig.php* to enable it
-    * Added `get_page_component()` theme function to eval page component code stored in `component` field of the current page
-    * Added `getPageComponent()` cache function to eval page component code of the requested page
-    * Added `returnPageComponent()` cache function to return component code of the requested page in plain text
     * Added option to enable/disable code editor from settings page
     * Added option to enable/disable components
     * Added support for special templates for `403` and `404` errors handling pages
@@ -32,7 +28,6 @@
     * Added `getParentsMulti()` cache function to get parents of page with optional data
     * Added option to replace page content with page component output
     * Added save state and auto open metadata and component windows in page editor
-    * Added option to disable HTML and Code Editors on page level
     * Added page image support
     * Added `get_page_image()` theme function to echo or return page image
     * Added toggle to display URLs of pages on Page Management
@@ -40,6 +35,8 @@
     * Added automatic execution of enabled Components named like `action_action-name` on call corresponding actions
     * Added actions `page-clone`, `page-clone-success`, `page-clone-error`
     * Added new page visibility status **Not Published**
+    * Added new pages type **Dynamic**
+    * Added option to disable HTML and Code Editors on page level
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

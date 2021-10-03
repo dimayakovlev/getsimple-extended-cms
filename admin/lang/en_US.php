@@ -53,8 +53,7 @@ $i18n = array(
 "HOMEPAGE_SUBTITLE"	=>	"homepage",
 "PRIVATE_SUBTITLE"	=>	"private",
 "NOT_PUBLISHED_SUBTITLE"	=>	"not published",
-"PAGE_COMPONENT_SUBTITLE" => "component",
-"PAGE_COMPONENT_CONTENT_SUBTITLE" => "dynamic",
+"PAGE_TYPE_DYNAMIC_SUBTITLE" => "dynamic content",
 "PERMALINK_SUBTITLE" => 'permalink',
 "EDITPAGE_TITLE"		=>	"Edit Page",
 "VIEWPAGE_TITLE"		=>	"View Page",
@@ -344,6 +343,7 @@ $i18n = array(
  * For: sidebar-pages.php
 */
 "SIDE_CREATE_NEW"		=>	"Create Ne<em>w</em> Page",
+"SIDE_CREATE_NEW_DYNAMIC"		=>	"Create New <em>D</em>ynamic Page",
 "SIDE_VIEW_PAGES"		=>	"View All <em>P</em>ages",
 
 /*
@@ -618,8 +618,6 @@ $i18n = array(
 # new to 3.5.0
 
 'TITLE' => 'Title', // common string, components.php
-"PAGE_COMPONENT" => "Page <em>C</em>omponent", // edit.php
-"PAGE_COMPONENT_REPLACE_CONTENT" => 'Replace content - <span style="font-weight:100">Make the page dynamic by replacing content with component output</span>',
 "ENABLE_CODE_ED"		=>	"Enable the Code Editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
 "MAINTENANCE_MODE" => "MAINTENANCE MODE",
 "MAINTENANCE_WARNING" => "Website is working in <strong>Maintenance Mode</strong> and not available for visitors",

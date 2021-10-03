@@ -390,6 +390,10 @@ input:focus::placeholder {
 	color: var(--clr-secondary-lightest);
 }
 
+.disabled, .disabled label {
+	color: #999;
+}
+
 h3 {
 	font-size: 18px;
 	font-weight: normal;
@@ -611,14 +615,14 @@ h5:hover img {
 	padding: 0;
 }
 
-.edit-nav a#metadata_toggle::after, .edit-nav a#component_toggle::after {
+.edit-nav a#metadata_toggle::after {
 	display: inline-block;
 	width: 1ch;
 	margin-left: 1ch;
 	content: '+';
 }
 
-.edit-nav a#metadata_toggle.current::after, .edit-nav a#component_toggle.current::after {
+.edit-nav a#metadata_toggle.current::after {
 	content: '-';
 }
 
@@ -890,7 +894,7 @@ label span.right a:hover {
 }
 
 /* meta dropdown style */
-#metadata_window, #component_window {
+#metadata_window {
 	margin: 0 2px 20px 0;
 	background: #f9f9f9;
 	border: 1px solid #e8e8e8;
@@ -1006,11 +1010,6 @@ label span.right a:hover {
 
 #metadata_window #menu-items select {
 	padding: 2px 3px;
-}
-
-#component_window textarea {
-	width: 612px;
-	height: 200px;
 }
 
 #metadata_window label span.right {

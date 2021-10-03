@@ -32,6 +32,7 @@ if ($_GET['id'] != '') {
 	$menu = htmldecode($data->menu);
 	$menuStatus = $data->menuStatus;
 	$menuOrder = $data->menuOrder;
+	$pageType = (int)$data->type;
 } else {
 	redirect('backups.php?upd=bak-err');
 }
@@ -74,7 +75,7 @@ if ($p == 'delete') {
 	}
 }
 
-get_template('header', cl($SITENAME) . ' &raquo; ' .  i18n_r('BAK_MANAGEMENT') . ' &raquo; ' . i18n_r('VIEWPAGE_TITLE')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . ' &raquo; ' . i18n_r('VIEWPAGE_TITLE')); 
 
 ?>
 
@@ -98,7 +99,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' .  i18n_r('BAK_MANAGEMENT') .
 		</div>
 
 		<table class="simple highlight">
-		<tr><td class="title"><?php i18n('PAGE_TITLE');?>:</td><td><b><?php echo cl($title); ?></b><?php if ($private) echo ' <span class="is-private">(' . (($private == '2') ? i18n_r('NOT_PUBLISHED_SUBTITLE') : i18n_r('PRIVATE_SUBTITLE')) . ')</span>'; ?></td></tr>
+		<tr><td class="title"><?php i18n('PAGE_TITLE');?>:</td><td><strong><?php echo cl($title); ?></strong><?php if ($private) echo ' <span class="is-private">(' . (($private == '2') ? i18n_r('NOT_PUBLISHED_SUBTITLE') : i18n_r('PRIVATE_SUBTITLE')) . ')</span>'; if ($pageType == 1) echo ' <span class="attention">(' . i18n_r('PAGE_TYPE_DYNAMIC_SUBTITLE') . ')</span>'; ?></td></tr>
 		<tr><td class="title"><?php i18n('BACKUP_OF');?>:</td><td>
 			<?php
 			if (isset($id)) {
@@ -118,38 +119,6 @@ get_template('header', cl($SITENAME) . ' &raquo; ' .  i18n_r('BAK_MANAGEMENT') .
 		<textarea id="codetext" wrap='off' style="background:#f4f4f4;padding:4px;width:635px;color:#444;border:1px solid #666;" readonly><?php echo strip_decode($content); ?></textarea>
 
 		</div>
-
-		<?php if ($HTMLEDITOR != '') { ?>
-		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef("GSCKETSTAMP",true) ? "?t=".getDef("GSCKETSTAMP") : ""; ?>"></script>
-		<script type="text/javascript">
-		<?php if(getDef("GSCKETSTAMP",true)) echo "CKEDITOR.timestamp = '".getDef("GSCKETSTAMP") . "';\n"; ?>
-		var editor = CKEDITOR.replace( 'codetext', {
-			skin : 'getsimple',
-			language : '<?php echo $EDLANG; ?>',
-			defaultLanguage : '<?php echo $EDLANG; ?>',
-			<?php if (file_exists(GSTHEMESPATH . $TEMPLATE . '/editor.css')) {
-				$fullpath = suggest_site_path();
-			?>
-			contentsCss: '<?php echo $fullpath; ?>theme/<?php echo $TEMPLATE; ?>/editor.css',
-			<?php } ?>
-			entities : false,
-			// uiColor : '#FFFFFF',
-			height: '<?php echo $EDHEIGHT; ?>',
-			baseHref : '<?php echo $SITEURL; ?>',
-			toolbar : [['Source']],
-			removePlugins: 'image, link, elementspath, resize'
-		});
-		// set editor to read only mode
-		editor.on('mode', function (ev) {
-			if (ev.editor.mode == 'source') {
-				$('#cke_contents_codetext .cke_source').attr("readonly", "readonly");
-			} else {
-				var bodyelement = ev.editor.document.$.body;
-				bodyelement.setAttribute("contenteditable", false);
-			}
-		});
-		</script>
-		<?php } ?>
 
 	</div>
 

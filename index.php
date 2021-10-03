@@ -99,10 +99,18 @@ $date          = $data_index->pubDate;
 $metak         = $data_index->meta;
 $metad         = $data_index->metad;
 $url           = $data_index->url;
-$content       = $data_index->content;
 $parent        = $data_index->parent;
 $template_file = $data_index->template;
 $private       = $data_index->private;
+# set $content global variable
+if ($data_index->type == '1') {
+	ob_start();
+	eval('?>' . strip_decode($data_index->content) . '<?php ');
+	$content = ob_get_contents();
+	ob_end_clean();
+} else {
+	$content = $data_index->content;
+}
 
 // after fields from dataindex, can modify globals here or do whatever by checking them
 exec_action('index-post-dataindex');

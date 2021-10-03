@@ -634,7 +634,6 @@ function get_available_pages($private = false) {
  * @uses $url
  * @uses GSDATAPAGESPATH
  * @uses XMLsave
- *
  */
 function updateSlugs($existingUrl, $newurl = null) {
 	global $pagesArray;
@@ -644,7 +643,6 @@ function updateSlugs($existingUrl, $newurl = null) {
 	} else {
 		$url = $newurl;
 	}
-
 	foreach ($pagesArray as $page) {
 		if ($page['parent'] == $existingUrl) {
 			$thisfile = @file_get_contents(GSDATAPAGESPATH . $page['filename']);
@@ -661,7 +659,6 @@ function updateSlugs($existingUrl, $newurl = null) {
  * get an array of menu links sorted by heirarchy and indented
  *
  * @uses $pagesSorted
- *
  * @since 3.3.0
  * @param string $parent
  * @param array $array
@@ -670,13 +667,10 @@ function updateSlugs($existingUrl, $newurl = null) {
  */
 function get_link_menu_array($parent = '', $array = array(), $level = 0) {
 	global $pagesSorted;
-
 	$items = array();
-
 	foreach ($pagesSorted as $page) {
 		if ($page['parent'] == $parent) $items[(string)$page['url']] = $page;
 	}
-
 	if (count($items) > 0) {
 		foreach ($items as $page) {
 			$dash="";
@@ -753,15 +747,12 @@ function ckeditor_add_page_link(){
  * Returns a recursive list of items for the main page
  *
  * @author Mike
- *
  * @since 3.0
- * @since 3.5.0 Add pages URLs, links to clone page and create subpage. Add support for not published private status
+ * @since 3.5.0 Add pages URLs, links to clone page and create subpage. Add support for not published private status and dynamic pages
  * @uses $pagesSorted
- *
  * @param string $parent
  * @param string $menu
  * @param int $level
- * 
  * @return string
  */
 function get_pages_menu($parent, $menu, $level) {
@@ -783,10 +774,9 @@ function get_pages_menu($parent, $menu, $level) {
 			if ($page['menuStatus'] != '') { $page['menuStatus'] = ' <sup>[' . i18n_r('MENUITEM_SUBTITLE') . ']</sup>'; } else { $page['menuStatus'] = ''; }
 			if ($page['private'] != '') { $page['private'] = ' <sup class="is-private">[' . (($page['private'] == '2') ? i18n_r('NOT_PUBLISHED_SUBTITLE') : i18n_r('PRIVATE_SUBTITLE')) . ']</sup>'; } else { $page['private'] = ''; }
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
-			if (getDef('GSPAGECOMPONENT', true) && isset($page['componentEnabled']) && $page['componentEnabled'] == '1') { $page['componentEnabled'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_SUBTITLE') . ']</sup>'; } else { $page['componentEnabled'] = ''; }
-			if (getDef('GSPAGECOMPONENT', true) && $page['componentEnabled'] != '' && isset($page['componentContent']) && $page['componentContent'] == '1') { $page['componentContent'] = ' <sup>[' . i18n_r('PAGE_COMPONENT_CONTENT_SUBTITLE') . ']</sup>'; } else { $page['componentContent'] = ''; }
+			if (isset($page['type']) && $page['type'] == 1) { $page['type'] = ' <sup class="attention">[' . i18n_r('PAGE_TYPE_DYNAMIC_SUBTITLE') . ']</sup>'; } else { $page['type'] = ''; }
 			if (isset($page['permalink']) && $page['permalink'] != '') { $page['permalink'] = ' <sup>[' . i18n_r('PERMALINK_SUBTITLE') . ']</sup>'; } else { $page['permalink'] = ''; }
-			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '">' . var_out($page['title']) . '</a><span data-role="page-url" class="url toggle"> [' . $pageURL . ']</span><span data-role="page-status" class="status toggle">' . $homepage . $page['private'] . $page['menuStatus'] . $page['componentEnabled'] . $page['componentContent'] . $page['permalink'] . '</span></td>';
+			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '">' . var_out($page['title']) . '</a><span data-role="page-url" class="url toggle"> [' . $pageURL . ']</span><span data-role="page-status" class="status toggle">' . $homepage . $page['private'] . $page['type'] . $page['menuStatus'] . $page['permalink'] . '</span></td>';
 			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CREATE_NEW_SUBPAGE') . '" href="edit.php?parent=' . $page['url'] . '" data-action="create-subpage">&#43;</a></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CLONEPAGE_TITLE') . ': ' . var_out($page['title']) . '" href="pages.php?id=' . $page['url'] . '&amp;action=clone&amp;nonce=' . get_nonce('clone', 'pages.php') .'" data-action="clone-page">&#10697;</a></td>';

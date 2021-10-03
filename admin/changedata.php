@@ -120,8 +120,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 					$bakfile = GSBACKUPSPATH . 'pages/'. $existingurl . '.bak.xml';
 					copy($existing, $bakfile);
 					unlink($existing);
-				} 
-			} 
+				}
+			}
 		}
 
 		$file = GSDATAPAGESPATH . $url . '.xml';
@@ -139,13 +139,12 @@ if ($referer == 'edit.php' && $action == 'save') {
 		}
 
 		// if we are editing an existing page, create a backup
-		if (file_exists($file)) {
-			copy($file, GSBACKUPSPATH . 'pages/' . $url . '.bak.xml');
-		}
+		if (file_exists($file)) copy($file, GSBACKUPSPATH . 'pages/' . $url . '.bak.xml');
 
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('pubDate', date('r'));
 		$xml->addChild('creDate', filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_STRING) ?: date('r'));
+		$xml->addChild('type', filter_input(INPUT_POST, 'post-type', FILTER_SANITIZE_NUMBER_INT) ?: 0);
 		$xml->addChild('title')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('url', $url);
 		$xml->addChild('meta')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-metak')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -156,9 +155,6 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addChild('template', filter_input(INPUT_POST, 'post-template', FILTER_SANITIZE_STRING));
 		$xml->addChild('parent', filter_input(INPUT_POST, 'post-parent', FILTER_SANITIZE_STRING));
 		$xml->addChild('content')->addCData(filter_input(INPUT_POST, 'post-content', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-		$xml->addChild('component')->addCData(filter_input(INPUT_POST, 'post-component', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-		$xml->addChild('componentEnabled', (string)filter_input(INPUT_POST, 'post-component-enable', FILTER_VALIDATE_BOOLEAN));
-		$xml->addChild('componentContent', (string)filter_input(INPUT_POST, 'post-component-content', FILTER_VALIDATE_BOOLEAN));
 		$xml->addChild('private', filter_input(INPUT_POST, 'post-private', FILTER_SANITIZE_STRING));
 		$xml->addChild('author', filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_STRING) ?: $USR);
 		$xml->addChild('publisher', $USR);
@@ -166,9 +162,7 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addChild('permalink')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('image')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-image', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addAttribute('autoOpenMetadata', (string)filter_input(INPUT_POST, 'auto-open-metadata', FILTER_VALIDATE_BOOLEAN));
-		$xml->addAttribute('autoOpenComponent', (string)filter_input(INPUT_POST, 'auto-open-component', FILTER_VALIDATE_BOOLEAN));
-		$xml->addAttribute('disableHTMLEditor', (string)filter_input(INPUT_POST, 'disable-html-editor', FILTER_VALIDATE_BOOLEAN));
-		$xml->addAttribute('disableCodeEditor', (string)filter_input(INPUT_POST, 'disable-code-editor', FILTER_VALIDATE_BOOLEAN));
+		$xml->addAttribute('disableEditor', (string)filter_input(INPUT_POST, 'disable-editor', FILTER_VALIDATE_BOOLEAN));
 		$xml->addAttribute('revisionNumber', (int)filter_input(INPUT_POST, 'revision-number', FILTER_SANITIZE_NUMBER_INT) + 1);
 		$xml->addAttribute('appName', $site_full_name);
 		$xml->addAttribute('appVersion', $site_version_no);

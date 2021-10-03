@@ -54,7 +54,7 @@ function get_page_publisher($echo = true) {
  * Get Page Content
  *
  * @since 1.0
- * @since 3.5.0 Use page component to generate dynamic content
+ * @since 3.5.0 Don't change global $content. Support for dynamic content pages
  * @global $content
  * @global $data_index
  * @uses exec_action()
@@ -62,45 +62,17 @@ function get_page_publisher($echo = true) {
  * @uses strip_decode()
  * @uses getDef()
  * @uses get_page_component()
- * 
- * @param bool $component If false disable page component. Default is true
  *
  * @return null Echo page content
  */
-function get_page_content($component = true) {
+function get_page_content() {
 	global $content;
 	global $data_index;
-	if ($component && getDef('GSPAGECOMPONENT', true) && $data_index->componentContent == '1' && $data_index->componentEnabled == '1') {
-		get_page_component();
-	} else {
-		exec_action('content-top');
-		$content = strip_decode($content);
-		$content = exec_filter('content', $content);
-		if(getDef('GSCONTENTSTRIP',true)) $content = strip_content($content);
-		echo $content;
-		exec_action('content-bottom');
-	}
-}
-
-/**
- * Get Page Component
- *
- * @since 3.5.0
- * @global $data_index
- * @uses getDef()
- * @uses strip_decode()
- * 
- * @param bool $check Check if page component enabled
- *
- * @return mixed Return result of processed code from page component
- */
-function get_page_component($check = true) {
-	global $data_index;
-	if (!getDef('GSPAGECOMPONENT', true)) return null;
-	if ($check && $data_index->componentEnabled != '1') return null;
-	if ($data_index->component) {
-		eval('?>' . strip_decode($data_index->component) . '<?php ');
-	}
+	exec_action('content-top');
+	$content_e = exec_filter('content', ($data_index->type == '1') ? $content : strip_decode($content));
+	if (getDef('GSCONTENTSTRIP', true)) $content_e = strip_content($content_e);
+	echo $content_e;
+	exec_action('content-bottom');
 }
 
 /**
@@ -116,12 +88,12 @@ function get_page_component($check = true) {
  * @param string $ellipsis Optional, Default '…', specify an ellipsis
  * @return string Echos.
  */
-function get_page_excerpt($len=200, $striphtml=true, $ellipsis = '…') {
-	GLOBAL $content;
-	if ($len<1) return '';
+function get_page_excerpt($len = 200, $striphtml = true, $ellipsis = '…') {
+	global $content;
+	if ($len < 1) return '';
 	$content_e = strip_decode($content);
-	$content_e = exec_filter('content',$content_e);
-	if(getDef('GSCONTENTSTRIP',true)) $content_e = strip_content($content_e);	
+	$content_e = exec_filter('content', $content_e);
+	if (getDef('GSCONTENTSTRIP',true)) $content_e = strip_content($content_e);
 	echo getExcerpt($content_e, $len, $striphtml, $ellipsis);
 }
 
@@ -142,7 +114,6 @@ function get_page_field($field, $echo = true) {
 	global $data_index;
 	if ($echo) {
 		echo strip_decode($data_index->$field);
-		return null;
 	} else {
 		return strip_decode($data_index->$field);
 	}
@@ -165,7 +136,6 @@ function get_page_lang($echo = true) {
 	global $data_index;
 	if ($echo) {
 		echo strip_decode($data_index->lang);
-		return null;
 	} else {
 		return strip_decode($data_index->lang);
 	}
@@ -187,7 +157,6 @@ function get_page_image($echo = true) {
 	global $data_index;
 	if ($echo) {
 		echo strip_decode($data_index->image);
-		return null;
 	} else {
 		return strip_decode($data_index->image);
 	}
@@ -203,7 +172,7 @@ function get_page_image($echo = true) {
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
-function get_page_meta_keywords($echo=true) {
+function get_page_meta_keywords($echo = true) {
 	global $metak;
 	$myVar = encode_quotes(strip_decode($metak));
 	if ($echo) {
@@ -223,7 +192,7 @@ function get_page_meta_keywords($echo=true) {
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
-function get_page_meta_desc($echo=true) {
+function get_page_meta_desc($echo = true) {
 	global $metad;
 	$myVar = encode_quotes(strip_decode($metad));
 	if ($echo) {
@@ -246,7 +215,6 @@ function get_page_title($echo = true) {
 	global $title;
 	if ($echo) {
 		echo strip_decode($title);
-		return null;
 	} else {
 		return strip_decode($title);
 	}
@@ -263,10 +231,9 @@ function get_page_title($echo = true) {
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return string Echos or returns based on param $echo
  */
-function get_page_clean_title($echo=true) {
+function get_page_clean_title($echo = true) {
 	global $title;
 	$myVar = strip_tags(strip_decode($title));
-	
 	if ($echo) {
 		echo $myVar;
 	} else {
@@ -289,7 +256,6 @@ function get_page_slug($echo = true) {
 	global $url;
 	if ($echo) {
 		echo $url;
-		return null;
 	} else {
 		return $url;
 	}
@@ -306,11 +272,10 @@ function get_page_slug($echo = true) {
  * @param bool $echo Optional, default is true. False will 'return' value
  * @return null|string Echos or returns based on param $echo
  */
-function get_parent($echo=true) {
+function get_parent($echo = true) {
 	global $parent;
 	if ($echo) {
 		echo $parent;
-		return null;
 	} else {
 		return $parent;
 	}
@@ -332,12 +297,9 @@ function get_parent($echo=true) {
 function get_page_date($i = 'l, F jS, Y - g:i A', $echo = true) {
 	global $date;
 	global $TIMEZONE;
-	if ($TIMEZONE != '' && function_exists('date_default_timezone_set')) {
-		date_default_timezone_set($TIMEZONE);
-	}
+	if ($TIMEZONE != '' && function_exists('date_default_timezone_set')) date_default_timezone_set($TIMEZONE);
 	if ($echo) {
 		echo date($i, strtotime($date));
-		return null;
 	} else {
 		return date($i, strtotime($date));
 	}
@@ -349,7 +311,7 @@ function get_page_date($i = 'l, F jS, Y - g:i A', $echo = true) {
  * This will return the full url
  *
  * @since 1.0
- * @sinde 3.5.0 Use updated function find_url()
+ * @since 3.5.0 Use updated function find_url()
  * @uses $url
  * @uses find_url
  *
@@ -360,7 +322,6 @@ function get_page_url($echo = false) {
 	global $url;
 	if ($echo) {
 		echo find_url($url);
-		return null;
 	} else {
 		return find_url($url);
 	}
@@ -454,7 +415,6 @@ function get_site_url($echo = true) {
 	global $SITEURL;
 	if ($echo) {
 		echo $SITEURL;
-		return null;
 	} else {
 		return $SITEURL;
 	}
@@ -476,7 +436,6 @@ function get_site_lang($echo = true) {
 	global $dataw;
 	if ($echo) {
 		echo $dataw->lang;
-		return null;
 	} else {
 		return (string)$dataw->lang;
 	}
@@ -507,7 +466,6 @@ function get_lang($echo = true, $lang = 'en') {
 	}
 	if ($echo) {
 		echo $value;
-		return null;
 	} else {
 		return $value;
 	}
@@ -528,10 +486,9 @@ function get_lang($echo = true, $lang = 'en') {
 function get_theme_url($echo = true) {
 	global $SITEURL;
 	global $TEMPLATE;
-	$value = trim($SITEURL . "theme/" . $TEMPLATE);
+	$value = trim($SITEURL . 'theme/' . $TEMPLATE);
 	if ($echo) {
 		echo $value;
-		return null;
 	} else {
 		return $value;
 	}
@@ -552,7 +509,6 @@ function get_site_name($echo = true) {
 	global $SITENAME;
 	if ($echo) {
 		echo cl($SITENAME);
-		return null;
 	} else {
 		return cl($SITENAME);
 	}
@@ -573,7 +529,6 @@ function get_site_description($echo = true) {
 	global $dataw;
 	if ($echo) {
 		echo cl($dataw->description);
-		return null;
 	} else {
 		return cl($dataw->description);
 	}
@@ -595,7 +550,6 @@ function get_site_description($echo = true) {
 function get_site_email($echo = true) {
 	global $EMAIL;
 	$myVar = trim(stripslashes($EMAIL));
-	
 	if ($echo) {
 		echo $myVar;
 	} else {
@@ -621,7 +575,7 @@ function get_site_email($echo = true) {
  * @return string 
  */
 function get_site_credits($text ='Powered by ') {
-	include(GSADMININCPATH.'configuration.php');
+	include(GSADMININCPATH . 'configuration.php');
 	$site_credit_link = '<a href="' . $site_link_back_url . '" target="_blank" >' . $text . ' ' . $site_full_name . '</a>';
 	echo stripslashes($site_credit_link);
 }
@@ -632,7 +586,7 @@ function get_site_credits($text ='Powered by ') {
  * This will return data to be used in custom navigation functions
  *
  * @since 2.0
- * @since 3.5.0 Used updated function find_url()
+ * @since 3.5.0 Use updated function find_url()
  * @uses GSDATAPAGESPATH
  * @uses find_url
  * @uses getXML

@@ -459,19 +459,6 @@ jQuery(document).ready(function() {
 		var autoopen = document.getElementById('auto-open-metadata');
 		autoopen.value = (autoopen.value == 1 ? '' : 1);
 	});
-	// Toggle page component window
-	$("#component_toggle").live("click", function(e) {
-		e.preventDefault();
-		$('#component_window').slideToggle('fast');
-		if ($('#component_window').is(':visible')) {
-			if ($('#post-component').is(':visible')) {
-				$('#post-component').focus();
-			}
-		}
-		$(this).toggleClass('current');
-		var autoopen = document.getElementById('auto-open-component');
-		autoopen.value = (autoopen.value == 1 ? '' : 1);
-	});
 	$("#post-menu-enable").live("click", function() {
 		$("#menu-items").slideToggle("fast");
 	});
