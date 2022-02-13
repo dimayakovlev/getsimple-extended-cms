@@ -134,7 +134,6 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT'));
 	<div id="maincontent">
 		<div class="main">
 		<h3><?php echo i18n('UPLOADED_FILES'); ?><span id="filetypetoggle">&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo i18n('SHOW_ALL'); ?></span></h3>
-		<div id="file_load">
 		<?php
 			$count = 0;
 			$dircount = 0;
@@ -194,7 +193,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT'));
 					}
 				}
 			}
-			echo '</select></div>';
+			echo '</select></div><div id="file_load">';
 
 		$pathParts = explode('/', $subPath);
 		$urlPath = null;
