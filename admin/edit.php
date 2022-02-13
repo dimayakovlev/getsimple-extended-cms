@@ -146,7 +146,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 	<div id="maincontent">
 		<div class="main">
 
-		<h3 class="floated"><?php if (isset($data_edit)) { i18n('PAGE_EDIT_MODE'); } else { i18n('CREATE_NEW_PAGE'); } ?></h3>
+		<h3><?php if (isset($data_edit)) { i18n('PAGE_EDIT_MODE'); } else { i18n('CREATE_NEW_PAGE'); } ?></h3>
 
 		<!-- pill edit navigation -->
 		<div class="edit-nav">
@@ -154,7 +154,6 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 				if (isset($id)) echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
 			?>
 			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($attributes['auto-open-metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
-			<div class="clear"></div>
 		</div>
 
 		<form class="largeform" id="editform" action="changedata.php" method="post" accept-charset="utf-8">

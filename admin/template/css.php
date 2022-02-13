@@ -471,11 +471,6 @@ h3 {
 	text-shadow: 1px 1px 0 #fff;
 }
 
-h3.floated {
-	float: left;
-	margin: 0 0 5px 0;
-}
-
 h5,
 div.h5 {
 	margin: 10px 0 10px 0;
@@ -651,34 +646,32 @@ h5:hover img {
 }
 
 .edit-nav {
-	margin: 0 0 15px 0;
-	height: 1%;
+	position: absolute;
+	top: var(--gap);
+	right: var(--gap);
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .edit-nav a {
 	font-size: 10px;
 	text-transform: uppercase;
-	display: block;
 	padding: 3px 10px;
-	float: right;
 	margin: 0 0 0 5px;
 	border-radius: 3px;
 }
 
 .edit-nav select {
-	float: right;
 	width: auto;
 }
 
 .edit-nav p {
-	float: right;
 	font-size: 11px;
 	margin: 0;
 }
 
 .edit-nav label {
-	font-weight: 100;
-	display: inline;
+	font-weight: normal;
 	font-size: 11px;
 	color: #666;
 	margin: 0;
@@ -831,10 +824,11 @@ sup {
 	background: #fff;
 	border: 1px solid #c8c8c8;
 	box-shadow: rgba(0,0,0, 0.06) 0px 0px 4px;
+	position: relative;
 }
 
 #maincontent .main .section {
-	padding-top: 40px;
+	padding-top: calc(var(--gap) * 2);
 }
 
 form p {
