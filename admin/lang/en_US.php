@@ -203,9 +203,9 @@ $i18n = array(
 /*
  * For: theme.php
 */
-"THEME_CHANGED"			=>	"Your theme has been changed successfully",
-"THEME_CHANGED_ERROR" => "There was a problem changing your theme",
-"CHOOSE_THEME"			=>	"Choose Your Theme",
+"THEME_CHANGED"			=>	"Website theme has been changed successfully",
+"THEME_CHANGED_ERROR" => "There was a problem changing website theme",
+"CHOOSE_THEME"			=>	"Choose Website Theme",
 "ACTIVATE_THEME"		=>	"Activate Theme",
 "THEME_SCREENSHOT"	=>	"Theme Screenshot",
 "THEME_PATH"				=>	"Theme Folder Location",
