@@ -173,17 +173,17 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 			<!-- metadata toggle screen -->
 			<div style="display: <?php echo ($attributes['auto-open-metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
 			<div class="leftopt">
-				<p class="inline clearfix" id="post-private-wrap">
+				<p id="post-private-wrap">
 					<label for="post-private"<?php if ($private) echo ' class="is-private"'; ?>><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
-					<select id="post-private" name="post-private" class="text autowidth">
+					<select id="post-private" name="post-private">
 						<option value=""><?php i18n('NORMAL'); ?></option>
 						<option value="1"<?php if ($private == 'Y' || $private == '1') echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
 						<option value="2"<?php if ($private == '2') echo ' selected'; ?>><?php echo ucwords(i18n_r('NOT_PUBLISHED_SUBTITLE')); ?></option>
 					</select>
 				</p>
-				<p class="inline clearfix">
+				<p>
 					<label for="post-parent"><?php i18n('PARENT_PAGE'); ?>:</label>
-					<select class="text autowidth" id="post-parent" name="post-parent">
+					<select id="post-parent" name="post-parent">
 					<?php
 						getPagesXmlValues();
 						$count = 0;
@@ -195,15 +195,15 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 						}
 						// $pagesArray = $pagesArray_tmp;
 						$pagesSorted = subval_sort($pagesArray_tmp,'sort');
-						$ret=get_pages_menu_dropdown('', '', 0);
-						$ret=str_replace('value="' . $id . '"', 'value="' . $id . '" disabled', $ret);
+						$ret = get_pages_menu_dropdown('', '', 0);
+						$ret = str_replace('value="' . $id . '"', 'value="' . $id . '" disabled', $ret);
 
 						// handle 'no parents' correctly
 						if ($parent == '') {
 							$none = 'selected';
 							$noneText = '<' . i18n_r('NO_PARENT') . '>';
 						} else {
-							$none = null; 
+							$none = null;
 							$noneText = '<' . i18n_r('NO_PARENT') . '>';
 						}
 
@@ -213,11 +213,9 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 					?>
 					</select>
 				</p>
-				<p class="inline clearfix">
+				<p>
 					<label for="post-template"><?php i18n('TEMPLATE'); ?>:</label>
-					<select class="text autowidth" id="post-template" name="post-template">
-						<?php echo $theme_templates; ?>
-					</select>
+					<select id="post-template" name="post-template"><?php echo $theme_templates; ?></select>
 				</p>
 				<p class="inline clearfix<?php echo !$editorEnabled ? ' disabled' : ''; ?>"><?php if (!$editorEnabled) { ?><input id="disable-editor" name="disable-editor" type="hidden" value="<?php echo (string)$attributes['disable-editor']; ?>"><?php } ?>
 					<input type="checkbox" id="disable-editor<?php echo !$editorEnabled ? '-1' : ''; ?>" name="disable-editor<?php echo !$editorEnabled ? '-1' : ''; ?>" value="1"<?php echo $attributes['disable-editor'] ? ' checked="checked"' : ''; echo !$editorEnabled ? ' disabled="disabled"' : ''; ?>> <label for="disable-editor"><?php ($pageType == 1) ? i18n('PAGE_DISABLE_CODE_EDITOR') : i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>

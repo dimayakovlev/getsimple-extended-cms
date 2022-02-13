@@ -33,22 +33,21 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('THEME_MANAGEMENT'))
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent">
-
 	<div id="maincontent">
 		<div class="main">
 		<h3><?php i18n('CHOOSE_THEME');?></h3>
 		<form action="changedata.php" method="post" accept-charset="utf-8" id="theme-selector">
 			<input name="nonce" type="hidden" value="<?php echo get_nonce('save', 'theme.php'); ?>">
 			<input id="action" name="action" type="hidden" value="save">
-			<select id="theme-select" class="text" name="theme"><?php echo $theme_options; ?></select>
-			<input class="submit" type="submit" name="submitted" value="<?php i18n('ACTIVATE_THEME');?>">
+			<select id="theme-select" name="theme"><?php echo $theme_options; ?></select>
+			<input type="submit" name="submitted" value="<?php i18n('ACTIVATE_THEME');?>">
 		</form>
 		<?php
 			$theme_path = str_replace(GSROOTPATH, '' ,GSTHEMESPATH);
 			if ($SITEURL) {
 				echo '<p><strong>' . i18n_r('THEME_PATH') . ':</strong> <code>' . $SITEURL . $theme_path . $TEMPLATE . '/</code></p>';
 			}
-		 	if (file_exists('../theme/' . $TEMPLATE . '/images/screenshot.png')) {
+			if (file_exists('../theme/' . $TEMPLATE . '/images/screenshot.png')) {
 				echo '<p><img id="theme-preview" src="../' . $theme_path . $TEMPLATE . '/images/screenshot.png" alt="' . i18n_r('THEME_SCREENSHOT') . '"></p>';
 				echo '<span id="theme-no-img" style="visibility:hidden"><p><em>' . i18n_r('NO_THEME_SCREENSHOT') . '</em></p></span>';
 			} else {
@@ -57,14 +56,9 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('THEME_MANAGEMENT'))
 			}
 			exec_action('theme-extras');
 		?>
-
 		</div>
 
 	</div>
-
-	<div id="sidebar">
-		<?php include('template/sidebar-theme.php'); ?>
-	</div>
-
+	<div id="sidebar"><?php include('template/sidebar-theme.php'); ?></div>
 </div>
 <?php get_template('footer'); ?>

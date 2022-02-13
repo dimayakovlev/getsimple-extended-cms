@@ -36,7 +36,7 @@ include('template/include-nav.php');
 						if ($page['menuStatus'] == '') continue;
 						if ($page['menuOrder'] == '') $page['menuOrder'] = 'N/A';
 						if ($page['menu'] == '') $page['menu'] = $page['title'];
-						echo '<li class="clearfix" rel="' . $page['slug'] . '"><strong>#' . $page['menuOrder'] . '</strong>&nbsp;&nbsp;' . $page['menu'] . ' <em>' . $page['title'] . '</em></li>';
+						echo '<li rel="' . $page['slug'] . '"><span class="order">#' . $page['menuOrder'] . '</span><span class="menu">' . $page['menu'] . '</span><span class="title">' . $page['title'] . '</span></li>';
 					}
 					echo '</ul>';
 					echo '<input type="hidden" name="action" value="save">';
@@ -52,7 +52,8 @@ include('template/include-nav.php');
 			<script>
 				$("#menu-order").sortable({
 					cursor: 'move',
-					placeholder: "placeholder-menu",
+					placeholder: 'placeholder-menu',
+					forcePlaceholderSize: true,
 					update: function() {
 						var order = '';
 						$('#menu-order li').each(function(index) {
