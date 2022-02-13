@@ -522,12 +522,11 @@ h5:hover img {
 }
 
 #maincontent {
-	/*width: 710px;*/
-	flex: 1;
+	width: 710px;
 }
 
 #sidebar {
-	flex: 0 0 230px;
+	width: 230px;
 	position: sticky;
 	top: var(--gap);
 }
