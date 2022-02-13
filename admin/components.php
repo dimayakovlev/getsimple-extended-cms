@@ -83,10 +83,9 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 
 	<div id="maincontent">
 	<div class="main">
-	<h3 class="floated"><?php echo i18n('EDIT_COMPONENTS');?></h3>
-	<div class="edit-nav" >
+	<h3><?php echo i18n('EDIT_COMPONENTS');?></h3>
+	<div class="edit-nav">
 		<a href="#" id="addcomponent" data-action="component-add" accesskey="<?php echo find_accesskey(i18n_r('ADD_COMPONENT'));?>"><?php i18n('ADD_COMPONENT');?></a>
-		<div class="clear"></div>
 	</div>
 
 	<form class="manyinputs" action="changedata.php" method="post" accept-charset="utf-8">
@@ -133,7 +132,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 	</form>
 	</div>
 	</div>
-	
+
 	<div id="sidebar">
 		<?php include('template/sidebar-theme.php'); ?>
 		<?php if ($listc != '') { echo '<div class="compdivlist">' . $listc . '</div>'; } ?>

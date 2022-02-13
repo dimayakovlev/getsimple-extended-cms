@@ -81,88 +81,80 @@ if (isset($_FILES['file'])) {
 			} else {
 				$errors[] = $_FILES["file"]["name"][$i] .' - '.i18n_r('ERROR_UPLOAD');
 			}
-			
 			//successfull message
-			
 		}
-	 }
-	 // after uploading all files process messages
-		if(sizeof($messages) != 0) { 
+	}
+	// after uploading all files process messages
+		if(sizeof($messages) != 0) {
 			foreach($messages as $msg) {
-				$success = $msg.'<br />';
+				$success = $msg . '<br />';
 			}
 		}
 		if(sizeof($errors) != 0) {
 			foreach($errors as $msg) {
-				$error = $msg.'<br />';
+				$error = $msg . '<br />';
 			}
 		}
 	}
 }
 // if creating new folder
 if (isset($_GET['newfolder'])) {
-	
+
 	// check for csrf
 	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
 		$nonce = $_GET['nonce'];
-		if(!check_nonce($nonce, "createfolder")) {
-			die("CSRF detected!");
-		}
+		if (!check_nonce($nonce, 'createfolder')) die('CSRF detected!');
 	}
-	
+
 	$newfolder = $_GET['newfolder'];
 	// check for invalid chars
-	$cleanname = clean_url(to7bit(strippath($newfolder), "UTF-8"));
+	$cleanname = clean_url(to7bit(strippath($newfolder), 'UTF-8'));
 	if (file_exists($path.$cleanname) || $cleanname=='') {
 			$error = i18n_r('ERROR_FOLDER_EXISTS');
 	} else {
-		if (defined('GSCHMOD')) { 
-			$chmod_value = GSCHMOD; 
-		} else {
-			$chmod_value = 0755;
-		}
+		$chmod_value = defined('GSCHMOD') ? GSCHMOD : 0755;
 		if (mkdir($path . $cleanname, $chmod_value)) {
 			//create folder for thumbnails
 			$thumbFolder = GSTHUMBNAILPATH.$subFolder.$cleanname;
-			if (!(file_exists($thumbFolder))) { mkdir($thumbFolder, $chmod_value); }
+			if (!(file_exists($thumbFolder))) mkdir($thumbFolder, $chmod_value);
 			$success = sprintf(i18n_r('FOLDER_CREATED'), $cleanname);
-		}	else { 
-			$error = i18n_r('ERROR_CREATING_FOLDER'); 
+		} else {
+			$error = i18n_r('ERROR_CREATING_FOLDER');
 		}
 	}
 }
 
-get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT'));
 
 ?>
-	
+
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent">
 	<div id="maincontent">
 		<div class="main">
-		<h3 class="floated"><?php echo i18n('UPLOADED_FILES'); ?><span id="filetypetoggle">&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo i18n('SHOW_ALL'); ?></span></h3>
+		<h3><?php echo i18n('UPLOADED_FILES'); ?><span id="filetypetoggle">&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo i18n('SHOW_ALL'); ?></span></h3>
 		<div id="file_load">
 		<?php
-			$count="0";
-      		$dircount="0";
-			$counter = "0";
+			$count = 0;
+			$dircount = 0;
+			$counter = 0;
 			$totalsize = 0;
 			$filesArray = array();
-      		$dirsArray = array();
-      
+			$dirsArray = array();
+
 			$filenames = getFiles($path);
 
-			if (count($filenames) != 0) { 
+			if (count($filenames) != 0) {
 				foreach ($filenames as $file) {
-					if ($file == "." || $file == ".." || $file == ".htaccess" || $file == "index.php"){
-            // not a upload file
-          	} elseif (is_dir($path . $file)) {
-            $dirsArray[$dircount]['name'] = $file;
-            clearstatcache();
+					if ($file == "." || $file == ".." || $file == ".htaccess" || $file == "index.php") {
+					// not a upload file
+					} elseif (is_dir($path . $file)) {
+						$dirsArray[$dircount]['name'] = $file;
+						clearstatcache();
 						$ss = @stat($path . $file);
 						$dirsArray[$dircount]['date'] = @date('M j, Y',$ss['mtime']);
-            $dircount++;
+						$dircount++;
 					} else {
 						$filesArray[$count]['name'] = $file;
 							$ext = substr($file, strrpos($file, '.') + 1);
@@ -177,20 +169,19 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT'));
 					}
 				}
 				$filesSorted = subval_sort($filesArray,'name');
-        $dirsSorted = subval_sort($dirsArray,'name');
+				$dirsSorted = subval_sort($dirsArray,'name');
 			}
-			echo '<div class="edit-nav" >';
+			echo '<div class="edit-nav">';
 			echo '<select id="imageFilter">';
-			echo '<option value="All">'.i18n_r('SHOW_ALL').'</option>';
+			echo '<option value="All">' . i18n_r('SHOW_ALL') . '</option>';
 			if (count($filesSorted) > 0) {
 				foreach ($filesSorted as $filter) {
 					$filterArr[] = $filter['type'];
 				}
-				if (count($filterArr) != 0) { 
+				if (count($filterArr) != 0) {
 					$filterArray = array_unique($filterArr);
 					$filterArray = subval_sort($filterArray,'type');
 					foreach ($filterArray as $type) {
-						
 						# check for image type
 						if (strstr($type, ' Images')) { 
 							$typeCleaned = 'Images';
@@ -199,18 +190,15 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('FILE_MANAGEMENT'));
 							$typeCleaned = $type;
 							$typeCleaned_2 = $type;
 						}
-						 
-						echo '<option value="'.$typeCleaned.'">'.$typeCleaned_2.'</option>';
+						echo '<option value="' . $typeCleaned . '">' . $typeCleaned_2 . '</option>';
 					}
 				}
 			}
-			echo '</select><div class="clear" ></div></div>';
+			echo '</select></div>';
 
-     
-      $pathParts = explode("/",$subPath);
-      $urlPath = null;
-     
-      echo '<div class="h5 clearfix"><div class="crumbs">/ <a href="upload.php">uploads</a> / ';
+		$pathParts = explode('/', $subPath);
+		$urlPath = null;
+		echo '<div class="h5 clearfix"><div class="crumbs">/ <a href="upload.php">uploads</a> / ';
 
       foreach ($pathParts as $pathPart){
 	       if ($pathPart!=''){

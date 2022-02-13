@@ -44,19 +44,19 @@ if(isset($_GET['nozip'])) {
 get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . ' &raquo; ' . i18n_r('WEBSITE_ARCHIVES')); 
 
 ?>
-	
+
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent">
-	
+
 	<div id="maincontent">
 		<div class="main">
-		<h3 class="floated"><?php i18n('WEBSITE_ARCHIVES');?></h3>
-		<div class="edit-nav clearfix" >
-    	<a id="waittrigger" href="archive.php?do&amp;nonce=<?php echo get_nonce("create"); ?>" accesskey="<?php echo find_accesskey(i18n_r('ASK_CREATE_ARC'));?>" title="<?php i18n('CREATE_NEW_ARC');?>" ><?php i18n('ASK_CREATE_ARC');?></a>
+		<h3><?php i18n('WEBSITE_ARCHIVES');?></h3>
+		<div class="edit-nav">
+			<a id="waittrigger" href="archive.php?do&amp;nonce=<?php echo get_nonce('create'); ?>" accesskey="<?php echo find_accesskey(i18n_r('ASK_CREATE_ARC'));?>" title="<?php i18n('CREATE_NEW_ARC');?>"><?php i18n('ASK_CREATE_ARC');?></a>
 		</div>
 		<p style="display:none" id="waiting" ><?php i18n('CREATE_ARC_WAIT');?></p>
-		
+
 		<table class="highlight paginate">
 			<tr><th><?php i18n('ARCHIVE_DATE'); ?></th><th style="text-align:right;" ><?php i18n('FILE_SIZE'); ?></th><th></th></tr>
 			<?php
@@ -83,13 +83,13 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . 
 						$count++;
 					}
 				}
-	
+
 			?>
 			</table>
 			<p><em><?php i18n('TOTAL_ARCHIVES'); ?>: <strong><span id="pg_counter"><?php echo $count; ?></span></strong></em></p>
 		</div>
 	</div>
-	
+
 	<div id="sidebar">
 		<?php include('template/sidebar-backups.php'); ?>
 	</div>

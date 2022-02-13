@@ -85,8 +85,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . 
 
 	<div id="maincontent">
 		<div class="main">
-		<h3 class="floated"><?php i18n('BACKUP_OF');?> &lsquo;<em><?php echo $url; ?></em>&rsquo;</h3>
-
+		<h3><?php i18n('BACKUP_OF');?> &lsquo;<em><?php echo $url; ?></em>&rsquo;</h3>
 		<div class="edit-nav">
 			<a href="backup-edit.php?p=restore&amp;id=<?php echo var_out($id); ?>&amp;nonce=<?php echo get_nonce("restore", "backup-edit.php"); ?>" 
 				accesskey="<?php echo find_accesskey(i18n_r('ASK_RESTORE'));?>" ><?php i18n('ASK_RESTORE');?></a>
@@ -94,8 +93,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . 
 				title="<?php i18n('DELETEPAGE_TITLE'); ?>: <?php echo var_out($title); ?>?" 
 				id="delback" 
 				accesskey="<?php echo find_accesskey(i18n_r('ASK_DELETE'));?>" 
-				class="delconfirm noajax" ><?php i18n('ASK_DELETE');?></a>
-			<div class="clear"></div>
+				class="delconfirm noajax"><?php i18n('ASK_DELETE');?></a>
 		</div>
 
 		<table class="simple highlight">
