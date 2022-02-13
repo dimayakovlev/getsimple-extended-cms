@@ -1251,3 +1251,15 @@ function create_notification($text, $type = 'error', $close = false, $echo = tru
 		return $html;
 	}
 }
+
+/**
+ * Get reserved slugs
+ * 
+ * @since 3.5.0
+ * @uses $GSADMIN
+ * @return array Array of reserved slugs
+ */
+function getReservedSlugs() {
+	global $GSADMIN;
+	return array($GSADMIN, 'data', 'theme', 'plugins', 'backups');
+}

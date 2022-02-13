@@ -128,7 +128,7 @@ if ($referer == 'edit.php' && $action == 'save') {
 
 		// If saving a new file do not overwrite existing, get next incremental filename, file-count.xml
 		// @todo this is a mess, new file existing file should all be determined at beginning of block and defined
-		if ((file_exists($file) && $url != $existingurl) ||  in_array($url, $reservedSlugs)) {
+		if ((file_exists($file) && $url != $existingurl) || in_array($url, getReservedSlugs())) {
 			$count = 1;
 			$file = GSDATAPAGESPATH . $url . '-' . $count . '.xml';
 			while (file_exists($file)) {
