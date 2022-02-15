@@ -122,7 +122,7 @@ switch ($update) {
 		create_notification('<strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('ER_USER_PASSWORD_MISMATCH'), 'error', false);
 		break;
 	case 'theme-success':
-		create_notificaton(i18n_r('THEME_CHANGED'), 'updated', false);
+		create_notification(i18n_r('THEME_CHANGED'), 'updated', false);
 		break;
 	case 'theme-error':
 		create_notification('<strong>' . i18n_r('ERROR') . ':</strong> ' . i18n_r('THEME_CHANGED_ERROR'), 'error', false);
