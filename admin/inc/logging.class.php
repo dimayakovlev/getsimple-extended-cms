@@ -75,12 +75,13 @@ class GS_Logging_Class {
         /* 
          * Add default fields to log
          * Adds Username(If logged in),IP Address
+         * @since 3.5.0 Check if $USR is not empty string
          * 
-         */   
+         */
         private function defaults(){
                 GLOBAL $USR;
                 
-                if(isset($USR)){
+                if (isset($USR) && $USR != '') {
                   $cdata = $this->_entry->addChild('Username');
                   $cdata->addCData(htmlentities($USR, ENT_QUOTES));
                 }

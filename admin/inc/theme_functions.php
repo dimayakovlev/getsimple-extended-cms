@@ -756,6 +756,7 @@ function get_navigation($currentpage = "",$classPrefix = "") {
  * This will return true if user is logged in
  *
  * @since 3.2
+ * @since 3.5.0 Check if $USR is not emptry string
  * 
  * @global $USR
  * @uses get_cookie();
@@ -764,7 +765,7 @@ function get_navigation($currentpage = "",$classPrefix = "") {
  */
 function is_logged_in() {
 	global $USR;
-	return (isset($USR) && $USR == get_cookie('GS_ADMIN_USERNAME'));
+	return (isset($USR) && $USR != '' && $USR == get_cookie('GS_ADMIN_USERNAME'));
 }
 
 /**
