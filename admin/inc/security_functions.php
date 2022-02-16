@@ -250,10 +250,10 @@ function server_is_apache() {
  * @return string Filtered string
  */
 function var_out(string $string, $filter = 'full') {
+	if ($filter == 'string') return htmlspecialchars($string);
 	$filters = array(
 		'default' => FILTER_DEFAULT,
 		'encoded' => FILTER_SANITIZE_ENCODED,
-		'string' => FILTER_SANITIZE_STRING,
 		'int' => FILTER_SANITIZE_NUMBER_INT,
 		'float' => FILTER_SANITIZE_NUMBER_FLOAT,
 		'url' => FILTER_SANITIZE_URL,
