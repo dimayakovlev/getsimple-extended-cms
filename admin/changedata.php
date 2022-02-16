@@ -143,7 +143,7 @@ if ($referer == 'edit.php' && $action == 'save') {
 
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('pubDate', date('r'));
-		$xml->addChild('creDate', filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_STRING) ?: date('r'));
+		$xml->addChild('creDate', filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: date('r'));
 		$xml->addChild('type', filter_input(INPUT_POST, 'post-type', FILTER_SANITIZE_NUMBER_INT) ?: 0);
 		$xml->addChild('title')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('url', $url);
@@ -151,14 +151,14 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml->addChild('metad')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-metad'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('menu')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-menu'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('menuOrder', filter_input(INPUT_POST, 'post-menu-order', FILTER_SANITIZE_NUMBER_INT) ?: '0');
-		$xml->addChild('menuStatus', filter_input(INPUT_POST, 'post-menu-enable', FILTER_SANITIZE_STRING));
-		$xml->addChild('template', filter_input(INPUT_POST, 'post-template', FILTER_SANITIZE_STRING));
-		$xml->addChild('parent', filter_input(INPUT_POST, 'post-parent', FILTER_SANITIZE_STRING));
+		$xml->addChild('menuStatus', filter_input(INPUT_POST, 'post-menu-enable', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('template', filter_input(INPUT_POST, 'post-template', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('parent', filter_input(INPUT_POST, 'post-parent', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('content')->addCData(filter_input(INPUT_POST, 'post-content', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-		$xml->addChild('private', filter_input(INPUT_POST, 'post-private', FILTER_SANITIZE_STRING));
-		$xml->addChild('author', filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_STRING) ?: $USR);
+		$xml->addChild('private', filter_input(INPUT_POST, 'post-private', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('author', filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: $USR);
 		$xml->addChild('publisher', $USR);
-		$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+		$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-lang')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('permalink')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('image')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-image', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addAttribute('autoOpenMetadata', (string)filter_input(INPUT_POST, 'auto-open-metadata', FILTER_VALIDATE_BOOLEAN));
@@ -281,10 +281,10 @@ if ($referer == 'edit.php' && $action == 'save') {
 	$xml->addChild('title')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 	$xml->addChild('description')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'description'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 	$xml->addChild('url')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'url', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-	$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'lang', FILTER_SANITIZE_STRING)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+	$xml->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'lang')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 	$xml->addChild('prettyurls', (string)filter_input(INPUT_POST, 'prettyurls', FILTER_VALIDATE_BOOLEAN));
 	$xml->addChild('permalink')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-	$xml->addChild('theme', filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_STRING));
+	$xml->addChild('theme', filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 	$xml->addChild('maintenance', (string)filter_input(INPUT_POST, 'maintenance', FILTER_VALIDATE_BOOLEAN));
 	$xml->addAttribute('revisionNumber', (int)filter_input(INPUT_POST, 'revision-number', FILTER_SANITIZE_NUMBER_INT) + 1);
 	$xml->addAttribute('created', filter_input(INPUT_POST, 'created') ?: date('r'));
@@ -310,7 +310,7 @@ if ($referer == 'edit.php' && $action == 'save') {
 	redirect($referer . '?upd=flushcache-success');
 } elseif ($referer == 'theme.php' && $action == 'save') {
 	// Change website theme
-	$theme = filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_STRING);
+	$theme = filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	if (!$theme) die('Wrong data submitted');
 	$file = 'website.xml';
 	if (!file_exists(GSDATAOTHERPATH . $file)) die('Website data file not exists!');
@@ -339,8 +339,8 @@ if ($referer == 'edit.php' && $action == 'save') {
 	$xml->addChild('description')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'description'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 	$xml->addChild('email')->addCData(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
 	$xml->addChild('password', $password);
-	$xml->addChild('timezone', filter_input(INPUT_POST, 'timezone', FILTER_SANITIZE_STRING));
-	$xml->addChild('lang', filter_input(INPUT_POST, 'lang', FILTER_SANITIZE_STRING));
+	$xml->addChild('timezone', filter_input(INPUT_POST, 'timezone', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+	$xml->addChild('lang', filter_input(INPUT_POST, 'lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 	$xml->addChild('enableHTMLEditor', (string)filter_input(INPUT_POST, 'enable-html-editor', FILTER_VALIDATE_BOOLEAN));
 	$xml->addChild('enableCodeEditor', (string)filter_input(INPUT_POST, 'enable-code-editor', FILTER_VALIDATE_BOOLEAN));
 	$xml->addChild('accessFrontMaintenance', (string)filter_input(INPUT_POST, 'access-front-maintenance', FILTER_VALIDATE_BOOLEAN));
