@@ -256,7 +256,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 				</p>
 				<p>
 					<label for="post-lang"><?php i18n('LABEL_PAGELANG'); ?>:</label>
-					<input class="text short" id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ($dataw->lang != '') { echo $dataw->lang; } else { i18n('PLACEHOLDER_LANG'); } ?>">
+					<input class="text short" id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ($dataw->lang != '') { echo $dataw->lang; } else { echo substr($LANG, 0, 2); } ?>">
 				</p>
 				<p>
 					<label for="post-metak"><?php i18n('TAG_KEYWORDS'); ?>:</label>

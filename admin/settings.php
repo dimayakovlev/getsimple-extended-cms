@@ -44,7 +44,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('GENERAL_SETTINGS'))
 					<p>
 						<label for="lang" ><?php i18n('LABEL_WEBSITELANG');?>:</label>
 						<span class="hint"><?php i18n('DISPLAY_WEBSITELANG');?></span>
-						<input name="lang" type="text" placeholder="<?php i18n('PLACEHOLDER_LANG'); ?>" value="<?php echo $dataw->lang; ?>">
+						<input name="lang" type="text" placeholder="<?php echo substr($LANG, 0, 2); ?>" value="<?php echo $dataw->lang; ?>">
 					</p>
 					<p>
 						<label for="description"><?php i18n('LABEL_WEBSITEDESCRIPTION'); ?>:</label><textarea name="description"><?php echo $dataw->description; ?></textarea>
