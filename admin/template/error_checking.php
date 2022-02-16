@@ -19,10 +19,6 @@ if ((!defined('GSNOAPACHECHECK') || GSNOAPACHECHECK == false) and !server_is_apa
 	create_notification('<strong>' . i18n_r('WARNING') . ':</strong> <a href="health-check.php">' . i18n_r('SERVER_SETUP') . ' non-Apache</a>', 'error', false);
 }
 
-if ((string)$dataw->maintenance == '1') {
-	create_notification('<strong>' . i18n_r('WARNING') . ':</strong> ' . i18n_r('MAINTENANCE_WARNING'), 'error', false);
-}
-
 if (get_filename_id() == 'components' && getDef('GSCOMPONENTACTION', true)) {
 	create_notification(i18n_r('ER_COMPONENT_ACTION'), 'info', false);
 }
