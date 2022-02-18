@@ -197,17 +197,8 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 						$ret = get_pages_menu_dropdown('', '', 0);
 						$ret = str_replace('value="' . $id . '"', 'value="' . $id . '" disabled', $ret);
 
-						// handle 'no parents' correctly
-						if ($parent == '') {
-							$none = 'selected';
-							$noneText = '<' . i18n_r('NO_PARENT') . '>';
-						} else {
-							$none = null;
-							$noneText = '<' . i18n_r('NO_PARENT') . '>';
-						}
-
 						// Create base option
-						echo '<option '. $none . ' value="">' . $noneText . '</option>';
+						echo '<option '. ($parent == '' ? 'selected' : '') . ' value="">' . htmlspecialchars('< ' . i18n_r('NO_PARENT') . ' >') . '</option>';
 						echo $ret;
 					?>
 					</select>
