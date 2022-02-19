@@ -1118,11 +1118,22 @@ function archive_targz() {
 
 /**
  * Check if a page is a public admin page
- * @return boolean true if page is non protected admin page
+ * @return bool True if a page is non protected admin page
  */
 function isAuthPage() {
-	$page = get_filename_id(); 
+	$page = get_filename_id();
 	return $page == 'index' || $page == 'resetpassword';
+}
+
+/**
+ * Check if a page is one of the installation page (install.php or setup.php)
+ * 
+ * @since 3.5.0
+ * @return bool True if a page is one of the installation page
+ */
+function isInstallPage() {
+	$page = get_filename_id();
+	return $page == 'install' || $page == 'setup';
 }
 
 /**
@@ -1138,7 +1149,6 @@ function filter_queryString($allowed = array()) {
 	$new_qstring = http_build_query($qstring_filtered, '', '&amp;');
 	return $new_qstring;
 }
-
 
 /**
  * Get String Excerpt
@@ -1183,7 +1193,7 @@ function getExcerpt($str, $len = 200, $striphtml = true, $ellipsis = '…', $bre
 	$str = $substr($str, 0, $lastWordBoundaryIndex); 
 
 	if(!$striphtml && $cleanhtml) return trim(cleanHtml($str)) . $ellipsis;
-	return trim($str) . $ellipsis;	
+	return trim($str) . $ellipsis;
 }
 
 /**

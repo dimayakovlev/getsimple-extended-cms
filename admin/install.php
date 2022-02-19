@@ -107,13 +107,14 @@ if (empty($APIKEY)) $kill = i18n_r('CHMOD_ERROR');
 get_template('header', $site_full_name . ' &raquo; ' . i18n_r('INSTALLATION'));
 
 ?>
-	<h1><?php echo $site_full_name; ?></h1>
-</div>
-</header>
 <div class="wrapper">
 
 <?php
-	if ($kill != '') echo '<div class="error">' . $kill . '</div>';
+	if ($kill != '') {
+		echo '<div id="notifications">';
+		create_notification($kill, 'error');
+		echo '</div>';
+	}
 ?>
 
 	<div id="maincontent">
@@ -184,19 +185,15 @@ get_template('header', $site_full_name . ' &raquo; ' . i18n_r('INSTALLATION'));
 		<p><?php i18n('KILL_CANT_CONTINUE');?> <a href="./" ><?php i18n('REFRESH');?></a></p>
 		<?php } else {?>
 		<form action="setup.php" method="post" accept-charset="utf-8" >
-			<div class="leftsec">
+			<div>
 				<p>
 					<?php echo $langs; ?><a href="https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Languages" target="_blank" ><?php i18n('DOWNLOAD_LANG');?></a>
 					<noscript><a href="install.php?lang=" id="refreshlanguage" ><?php i18n('REFRESH');?></a> &nbsp;|&nbsp;</noscript> 
 				</p>
 			</div>
-			<div class="clear"></div>
 			<p><input class="submit" type="submit" name="continue" value="<?php i18n('CONTINUE_SETUP');?> &raquo;"></p>
 		</form>
-		<small class="hint"></small>
 		<?php } ?>
 	</div>
 </div>
-
-<div class="clear"></div>
 <?php get_template('footer'); ?>
