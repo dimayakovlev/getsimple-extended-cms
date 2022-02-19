@@ -24,7 +24,9 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<?php } ?>
 	<meta name="robots" content="noindex, nofollow">
 	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo '&amp;v=' . GSVERSION . (isDebug() ? '&amp;nocache' : ''); ?>" media="screen">
-	<?php get_scripts_backend(); ?>
+	<?php if (!isAuthPage()) {
+		get_scripts_backend();
+	?>
 	<script type="text/javascript">
 		// init gs namespace and i18n
 		var GS = {};
@@ -34,17 +36,25 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 		GS.i18n['CLOSE'] = '<?php i18n("CLOSE"); ?>';
 	</script>
 	<script type="text/javascript" src="template/js/jquery.getsimple.js?v=<?php echo GSVERSION; ?>"></script>
-	<?php if (get_filename_id() == 'image') { ?>
+	<?php
+		if (get_filename_id() == 'image') {
+	?>
 	<script type="text/javascript" src="template/js/jcrop/jquery.Jcrop.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="template/js/jcrop/jquery.Jcrop.css" media="screen">
-	<?php } ?>
-<?php
-	# Plugin hook to allow insertion of stuff into the header
-	if (!isAuthPage()) exec_action('header');
-?>
+	<?php
+		}
+		# Plugin hook to allow insertion of stuff into the header
+		exec_action('header');
+	} else {
+		get_scripts_frontend();
+		get_styles_frontend();
+	}
+	?>
 </head>
 
 <body <?php filename_id(); echo $bodyclass; ?>>
-	<header class="header" id="header">
-		<div class="wrapper">
-<?php exec_action('header-body'); ?>
+<?php if (!isAuthPage()) {
+	echo '<header class="header" id="header"><div class="wrapper">';
+	exec_action('header-body');
+}
+

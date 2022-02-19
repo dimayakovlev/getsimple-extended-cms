@@ -27,6 +27,7 @@ ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input {
 html {
 	overflow-y: scroll;
 	scroll-behavior: smooth;
+	height: 100%;
 }
 /** End GLOBAL RESETS **/
 
@@ -522,12 +523,11 @@ h5:hover img {
 }
 
 #maincontent {
-	/*width: 710px;*/
-	flex: 1;
+	width: 710px;
 }
 
 #sidebar {
-	flex: 0 0 230px;
+	width: 230px;
 	position: sticky;
 	top: var(--gap);
 }
@@ -811,7 +811,7 @@ table td a {
 
 sup {
 	color: #666;
-	font-weight: 100 !important;
+	font-weight: normal !important;
 	vertical-align: baseline;
 	font-size: 0.8em;
 	position: relative;
@@ -1316,7 +1316,7 @@ table td.delete a {
 
 a.cancel:link,
 a.cancel:visited {
-	font-weight: 100;
+	font-weight: normal;
 	color: var(--clr-secondary-lightest) !important;
 	text-decoration: underline;
 	padding: 1px 3px;
@@ -1326,7 +1326,7 @@ a.cancel:visited {
 }
 
 a.cancel:hover {
-	font-weight: 100;
+	font-weight: normal;
 	background: var(--clr-secondary-lightest) !important;
 	color: #fff !important;
 	text-decoration: none !important;
@@ -1407,12 +1407,12 @@ table.simple td.title {
 
 #footer a:link,
 #footer a:visited {
-	font-weight: 100;
+	font-weight: normal;
 	color: #888;
 }
 
 #footer a:focus, #footer a:hover {
-	font-weight: 100;
+	font-weight: normal;
 	color: #333;
 }
 
@@ -1505,7 +1505,7 @@ table.simple td.title {
 	margin-left: 13px;
 	color: #FFF;
 	background: var(--clr-primary-darker);
-	font-weight: 100;
+	font-weight: normal;
 }
 
 .uploadifyButton {
@@ -1609,12 +1609,10 @@ a.updatelink:focus {
 	padding: 1px 3px;
 }
 
-
 /* File Browser Styles */
 #filebrowser {
 	background: #fff;
 }
-
 
 /* plugin styles */
 table tr.enabled {
@@ -1633,21 +1631,10 @@ table tr.disabled td b {
 	color: #666;
 }
 
-
 /* Logged out specific styles */
-body#index {
+body#index, body#resetpassword {
 	background: #f9f9f9;
-}
-
-#index .header,
-#resetpassword .header,
-#setup .header,
-#install .header,
-#setup .gslogo,
-#install .gslogo,
-#index .gslogo,
-#resetpassword .gslogo {
-	display: none;
+	padding-top: calc(var(--gap) * 2);
 }
 
 #index #maincontent,
@@ -1657,8 +1644,6 @@ body#index {
 	width: 100%;
 }
 
-#index #maincontent .main,
-#resetpassword #maincontent .main,
 #setup #maincontent .main,
 #install #maincontent .main {
 	margin: 50px auto 0 auto;
@@ -1666,25 +1651,21 @@ body#index {
 	text-align: left;
 	border-radius: 5px;
 	box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
-	background: #FFF;
-	width: 645px;
+	background: #fff;
+}
+
+:is(#index, #resetpassword) .wrapper {
+	width: 480px;
 }
 
 :is(#setup, #index, #resetpassword) #maincontent .main {
-	width: 50%;
+	width: 100%;
 	border-bottom: 1px solid #999;
 	border-right: 1px solid #999;
 	text-shadow: 1px 1px 0 #fff;
-	background: #FFF;
+	background: #fff;
 		background: -moz-linear-gradient(top, #f9f9f9 5%, #eeeeee 100%);	/* firefox */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#f9f9f9), color-stop(100%,#eeeeee));	/* webkit */
-}
-
-#resetpassword form input.text,
-#index form input.text {
-	font-size: 18px;
-	padding: 5px;
-	margin-top: 2px;
 }
 
 #index p.cta,
@@ -1697,38 +1678,28 @@ body#index {
 
 #index form p,
 #resetpassword form p {
-	margin-bottom: 15px;
+	margin-bottom: var(--gap);
 }
 
 #index p.cta a,
 #resetpassword p.cta a {
-	font-weight: 100;
+	font-weight: normal;
 }
 
 #setup .error,
 #setup .updated,
 #install .error,
-#install .updated,
-#index .error,
-#index .updated,
-#resetpassword .error,
-#resetpassword .updated {
+#install .updated {
 	margin: 25px auto -23px auto;
-	width: 290px;
 	line-height: 18px;
 	padding: 5px 10px;
 }
 
-#setup #footer,#install #footer,#index #footer, #resetpassword #footer {
+#setup #footer,#install #footer {
 	width: 270px;
 	border-top: none;
 	margin: 0 auto 20px auto;
 	text-align: center;
-}
-
-#index .footer-left,#resetpassword .footer-left  {
-	float: none;
-	width: 100%;
 }
 
 .desc {
@@ -1751,7 +1722,7 @@ body#index {
 }
 
 #createfolder {
-	font-weight: 100;
+	font-weight: normal;
 	font-size: 11px;
 	text-decoration: underline !important;
 }
@@ -1796,7 +1767,7 @@ h5 .crumbs, div.h5 .crumbs {
 	font-size: 11px;
 	color: #777;
 	margin-bottom: 5px;
-	font-weight: 100;
+	font-weight: normal;
 	padding-right: 15px;
 	display: inline-block;
 	background: transparent url('images/utick.png') right center no-repeat;
@@ -1838,7 +1809,7 @@ h5 .crumbs, div.h5 .crumbs {
 #edit #dropdown li a:link,
 #edit #dropdown li a:visited,
 #edit #dropdown li a:hover {
-	font-weight: 100;
+	font-weight: normal;
 	color: #666;
 	text-decoration: none;
 	display: block;

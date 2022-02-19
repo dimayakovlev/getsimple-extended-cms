@@ -82,23 +82,20 @@ if (isset($_POST['submitted'])) {
 get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('RESET_PASSWORD'));
 
 ?>
-</div>
-</header>
-<div class="wrapper clearfix">
-
+<div class="wrapper">
 	<?php include('template/error_checking.php'); ?>
-
 	<div id="maincontent">
 		<div class="main">
 			<h3><?php i18n('RESET_PASSWORD'); ?></h3>
 			<p class="desc"><?php i18n('MSG_PLEASE_EMAIL'); ?></p>
 			<form class="login" action="<?php myself(); ?>" method="post">
 				<input name="nonce" id="nonce" type="hidden" value="<?php echo get_nonce("reset_password");?>">
-				<p><strong><?php i18n('LABEL_USERNAME'); ?>:</strong><br /><input class="text" name="username" type="text" value=""></p>
+				<p><label for="username"><?php i18n('LABEL_USERNAME'); ?>:</label><input name="username" type="text" value=""></p>
 				<p><input class="submit" type="submit" name="submitted" value="<?php echo i18n('SEND_NEW_PWD'); ?>"></p>
 			</form>
 			<p class="cta"><b>&laquo;</b> <a href="<?php echo $SITEURL; ?>"><?php i18n('BACK_TO_WEBSITE'); ?></a> &nbsp; | &nbsp; <a href="index.php"><?php i18n('CONTROL_PANEL'); ?></a> &raquo;</p>
 		</div>
 	</div>
-
-<?php get_template('footer'); ?>
+</div>
+</body>
+</html>
