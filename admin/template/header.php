@@ -17,14 +17,14 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	<meta charset="utf-8">
 	<title><?php echo $title ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php if (!isAuthPage()) { ?><meta name="generator" content="<?php echo $site_full_name; ?> - <?php echo GSVERSION; ?>">
+	<?php if (!isAuthPage() && !isInstallPage()) { ?><meta name="generator" content="<?php echo $site_full_name; ?> - <?php echo GSVERSION; ?>">
 	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 	<link rel="author" href="humans.txt">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 	<?php } ?>
 	<meta name="robots" content="noindex, nofollow">
 	<link rel="stylesheet" type="text/css" href="template/style.php?<?php echo '&amp;v=' . GSVERSION . (isDebug() ? '&amp;nocache' : ''); ?>" media="screen">
-	<?php if (!isAuthPage()) {
+	<?php if (!isAuthPage() && !isInstallPage()) {
 		get_scripts_backend();
 	?>
 	<script type="text/javascript">
@@ -53,7 +53,7 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 </head>
 
 <body <?php filename_id(); echo $bodyclass; ?>>
-<?php if (!isAuthPage()) {
+<?php if (!isAuthPage() && !isInstallPage()) {
 	echo '<header class="header" id="header"><div class="wrapper">';
 	exec_action('header-body');
 }

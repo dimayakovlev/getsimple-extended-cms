@@ -1632,42 +1632,33 @@ table tr.disabled td b {
 }
 
 /* Logged out specific styles */
-body#index, body#resetpassword {
+body#install, body#setup, body#index, body#resetpassword {
 	background: #f9f9f9;
 	padding-top: calc(var(--gap) * 2);
+	height: auto;
 }
 
-#index #maincontent,
-#resetpassword #maincontent,
-#setup #maincontent,
-#install #maincontent {
+:is(#index, #resetpassword, #install, #setup) #maincontent {
 	width: 100%;
 }
 
-#setup #maincontent .main,
-#install #maincontent .main {
-	margin: 50px auto 0 auto;
-	float: none;
-	text-align: left;
-	border-radius: 5px;
-	box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
-	background: #fff;
-}
-
-:is(#index, #resetpassword) .wrapper {
+:is(#index, #resetpassword, #install, #setup) .wrapper {
 	width: 480px;
 }
 
-:is(#setup, #index, #resetpassword) #maincontent .main {
+:is(#install, #setup, #index, #resetpassword) .main {
 	width: 100%;
-	border-bottom: 1px solid #999;
-	border-right: 1px solid #999;
 	text-shadow: 1px 1px 0 #fff;
 	background: #fff;
-		background: -moz-linear-gradient(top, #f9f9f9 5%, #eeeeee 100%);	/* firefox */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#f9f9f9), color-stop(100%,#eeeeee));	/* webkit */
+	background: -moz-linear-gradient(top, #f9f9f9 5%, #eeeeee 100%);	/* firefox */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#f9f9f9), color-stop(100%,#eeeeee));	/* webkit */
 }
 
+:is(#setup, #install) .main {
+	border-radius: 3px;
+	box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
+	background: #fff;
+}
 #index p.cta,
 #resetpassword p.cta {
 	font-size: 11px;
@@ -1686,17 +1677,7 @@ body#index, body#resetpassword {
 	font-weight: normal;
 }
 
-#setup .error,
-#setup .updated,
-#install .error,
-#install .updated {
-	margin: 25px auto -23px auto;
-	line-height: 18px;
-	padding: 5px 10px;
-}
-
 #setup #footer,#install #footer {
-	width: 270px;
 	border-top: none;
 	margin: 0 auto 20px auto;
 	text-align: center;
