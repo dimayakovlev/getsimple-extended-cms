@@ -27,6 +27,7 @@ ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input {
 html {
 	overflow-y: scroll;
 	scroll-behavior: smooth;
+	height: 100%;
 }
 /** End GLOBAL RESETS **/
 
@@ -1608,12 +1609,10 @@ a.updatelink:focus {
 	padding: 1px 3px;
 }
 
-
 /* File Browser Styles */
 #filebrowser {
 	background: #fff;
 }
-
 
 /* plugin styles */
 table tr.enabled {
@@ -1632,21 +1631,10 @@ table tr.disabled td b {
 	color: #666;
 }
 
-
 /* Logged out specific styles */
-body#index {
+body#index, body#resetpassword {
 	background: #f9f9f9;
-}
-
-#index .header,
-#resetpassword .header,
-#setup .header,
-#install .header,
-#setup .gslogo,
-#install .gslogo,
-#index .gslogo,
-#resetpassword .gslogo {
-	display: none;
+	padding-top: calc(var(--gap) * 2);
 }
 
 #index #maincontent,
@@ -1656,8 +1644,6 @@ body#index {
 	width: 100%;
 }
 
-#index #maincontent .main,
-#resetpassword #maincontent .main,
 #setup #maincontent .main,
 #install #maincontent .main {
 	margin: 50px auto 0 auto;
@@ -1665,25 +1651,21 @@ body#index {
 	text-align: left;
 	border-radius: 5px;
 	box-shadow: rgba(0,0,0, 0.05) 0px 0px 10px;
-	background: #FFF;
-	width: 645px;
+	background: #fff;
+}
+
+:is(#index, #resetpassword) .wrapper {
+	width: 480px;
 }
 
 :is(#setup, #index, #resetpassword) #maincontent .main {
-	width: 50%;
+	width: 100%;
 	border-bottom: 1px solid #999;
 	border-right: 1px solid #999;
 	text-shadow: 1px 1px 0 #fff;
-	background: #FFF;
+	background: #fff;
 		background: -moz-linear-gradient(top, #f9f9f9 5%, #eeeeee 100%);	/* firefox */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#f9f9f9), color-stop(100%,#eeeeee));	/* webkit */
-}
-
-#resetpassword form input.text,
-#index form input.text {
-	font-size: 18px;
-	padding: 5px;
-	margin-top: 2px;
 }
 
 #index p.cta,
@@ -1696,7 +1678,7 @@ body#index {
 
 #index form p,
 #resetpassword form p {
-	margin-bottom: 15px;
+	margin-bottom: var(--gap);
 }
 
 #index p.cta a,
@@ -1707,27 +1689,17 @@ body#index {
 #setup .error,
 #setup .updated,
 #install .error,
-#install .updated,
-#index .error,
-#index .updated,
-#resetpassword .error,
-#resetpassword .updated {
+#install .updated {
 	margin: 25px auto -23px auto;
-	width: 290px;
 	line-height: 18px;
 	padding: 5px 10px;
 }
 
-#setup #footer,#install #footer,#index #footer, #resetpassword #footer {
+#setup #footer,#install #footer {
 	width: 270px;
 	border-top: none;
 	margin: 0 auto 20px auto;
 	text-align: center;
-}
-
-#index .footer-left,#resetpassword .footer-left  {
-	float: none;
-	width: 100%;
 }
 
 .desc {
