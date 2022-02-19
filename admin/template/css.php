@@ -810,7 +810,7 @@ table td a {
 
 sup {
 	color: #666;
-	font-weight: 100 !important;
+	font-weight: normal !important;
 	vertical-align: baseline;
 	font-size: 0.8em;
 	position: relative;
@@ -1315,7 +1315,7 @@ table td.delete a {
 
 a.cancel:link,
 a.cancel:visited {
-	font-weight: 100;
+	font-weight: normal;
 	color: var(--clr-secondary-lightest) !important;
 	text-decoration: underline;
 	padding: 1px 3px;
@@ -1325,7 +1325,7 @@ a.cancel:visited {
 }
 
 a.cancel:hover {
-	font-weight: 100;
+	font-weight: normal;
 	background: var(--clr-secondary-lightest) !important;
 	color: #fff !important;
 	text-decoration: none !important;
@@ -1406,12 +1406,12 @@ table.simple td.title {
 
 #footer a:link,
 #footer a:visited {
-	font-weight: 100;
+	font-weight: normal;
 	color: #888;
 }
 
 #footer a:focus, #footer a:hover {
-	font-weight: 100;
+	font-weight: normal;
 	color: #333;
 }
 
@@ -1504,7 +1504,7 @@ table.simple td.title {
 	margin-left: 13px;
 	color: #FFF;
 	background: var(--clr-primary-darker);
-	font-weight: 100;
+	font-weight: normal;
 }
 
 .uploadifyButton {
@@ -1701,7 +1701,7 @@ body#index {
 
 #index p.cta a,
 #resetpassword p.cta a {
-	font-weight: 100;
+	font-weight: normal;
 }
 
 #setup .error,
@@ -1750,7 +1750,7 @@ body#index {
 }
 
 #createfolder {
-	font-weight: 100;
+	font-weight: normal;
 	font-size: 11px;
 	text-decoration: underline !important;
 }
@@ -1795,7 +1795,7 @@ h5 .crumbs, div.h5 .crumbs {
 	font-size: 11px;
 	color: #777;
 	margin-bottom: 5px;
-	font-weight: 100;
+	font-weight: normal;
 	padding-right: 15px;
 	display: inline-block;
 	background: transparent url('images/utick.png') right center no-repeat;
@@ -1837,7 +1837,7 @@ h5 .crumbs, div.h5 .crumbs {
 #edit #dropdown li a:link,
 #edit #dropdown li a:visited,
 #edit #dropdown li a:hover {
-	font-weight: 100;
+	font-weight: normal;
 	color: #666;
 	text-decoration: none;
 	display: block;
