@@ -80,16 +80,16 @@ if ($id) {
 	$attributes['revision-number'] = (string)$data_edit->attributes()->revisionNumber ?: '0';
 } else {
 	// prefill fields is provided
-	$title = filter_var(trim(xss_clean(filter_input(INPUT_GET, 'title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$title = filter_var(trim(xss_clean(filter_input(INPUT_GET, 'title') ?: '')), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$template =  filter_input(INPUT_GET, 'template', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$parent = filter_input(INPUT_GET, 'parent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$menu = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'menu')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$menu = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'menu') ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$private  =  isset($_GET['private']) ? var_out($_GET['private']) : '';
 	$menuStatus =  isset($_GET['menuStatus']) ? var_out($_GET['menuStatus']) : '';
 	$menuOrder = filter_input(INPUT_GET, 'menuOrder', FILTER_SANITIZE_NUMBER_INT);
-	$lang = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'lang')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$permalink = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'permalink', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$image = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'image', FILTER_SANITIZE_URL)))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$lang = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'lang') ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$permalink = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'permalink', FILTER_SANITIZE_URL) ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$image = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'image', FILTER_SANITIZE_URL) ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$pageType = (int)filter_input(INPUT_GET, 'pageType', FILTER_SANITIZE_NUMBER_INT);
 	$buttonname = i18n_r('BTN_SAVEPAGE');
 	$attributes['auto-open-metadata'] = filter_input(INPUT_GET, 'autoOpenMetadata', FILTER_VALIDATE_BOOLEAN);
