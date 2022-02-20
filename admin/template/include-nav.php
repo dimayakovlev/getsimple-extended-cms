@@ -27,6 +27,7 @@ $plugin_class = get_filename_id() == 'load' ? $plugin_info[$plugin_id]['page_typ
 			<li id="nav_pages"><a class="pages" href="pages.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_PAGES'));?>"><?php i18n('TAB_PAGES');?></a></li>
 			<li id="nav_upload"><a class="files" href="upload.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_FILES'));?>"><?php i18n('TAB_FILES');?></a></li>
 			<li id="nav_theme"><a class="theme" href="theme.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_THEME'));?>"><?php i18n('TAB_THEME');?></a></li>
+			<li id="nav_components"><a class="components" href="components.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_COMPONENTS'));?>"><?php i18n('TAB_COMPONENTS');?></a></li>
 			<li id="nav_backups"><a class="backups" href="backups.php" accesskey="<?php echo find_accesskey(i18n_r('TAB_BACKUPS'));?>"><?php i18n('TAB_BACKUPS');?></a></li>
 			<li id="nav_plugins"><a class="plugins" href="plugins.php" accesskey="<?php echo find_accesskey(i18n_r('PLUGINS_NAV'));?>"><?php i18n('PLUGINS_NAV');?></a></li>
 			<?php exec_action('nav-tab'); ?>

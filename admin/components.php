@@ -134,7 +134,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('COMPONENTS'));
 	</div>
 
 	<div id="sidebar">
-		<?php include('template/sidebar-theme.php'); ?>
+		<?php include('template/sidebar-components.php'); ?>
 		<?php if ($listc != '') { echo '<div class="compdivlist">' . $listc . '</div>'; } ?>
 	</div>
 

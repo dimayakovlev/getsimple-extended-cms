@@ -308,6 +308,7 @@ $i18n = array(
 */
 "WELCOME"						=>	"Welcome", // used as 'Welcome USERNAME!'
 "TAB_PAGES"					=>	"<em>P</em>ages",
+"TAB_COMPONENTS"		=>	"<em>C</em>omponents",
 "TAB_FILES"					=>	"F<em>i</em>les",
 "TAB_THEME"					=>	"<em>T</em>heme",
 "TAB_BACKUPS"				=>	"<em>B</em>ackups",
@@ -335,7 +336,6 @@ $i18n = array(
 */
 "SIDE_VIEW_SITEMAP"	=>	"<em>V</em>iew Sitemap",
 "SIDE_GEN_SITEMAP"	=>	"Generate Site<em>m</em>ap",
-"SIDE_COMPONENTS"		=>	"<em>E</em>dit Components",
 "SIDE_EDIT_THEME"		=>	"Edit T<em>h</em>eme",
 "SIDE_CHOOSE_THEME"	=>	"Choose <em>T</em>heme",
 

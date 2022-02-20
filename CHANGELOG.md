@@ -59,6 +59,8 @@
     * Added option to have close button for notifications
     * New built-in styles for Administration panel available via `GSSTYLE` constant: "lighter", "middle", "dark", "darker", "flat", "flat light", "flat middle", "flat dark", "flat darker", "flat darkest"
     * Added the ability to clone a page from the list of pages on **Page Management**
+    * Added function `isInstallPage()` to check is current page is one of the installation pages
+    * Menu **Components** accessible from main navigation to quick access to work with components
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`
