@@ -27,7 +27,7 @@ ob_end_flush();
 			<h3><?php echo cl($SITENAME); ?></h3>
 			<?php exec_action('index-login'); ?>
 			<form class="login" action="<?php echo myself(false) . '?' . (isset($_SERVER['QUERY_STRING']) ? htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES) : ''); ?>" method="post">
-				<p><label for="userid"><?php i18n('USERNAME'); ?>:</label><input type="text" id="userid" name="userid"></p>
+				<p><label for="userid"><?php i18n('USERNAME'); ?>:</label><input type="text" id="userid" name="userid" autofocus></p>
 				<p><label for="pwd"><?php i18n('PASSWORD'); ?>:</label><input type="password" id="pwd" name="pwd"></p>
 				<p><input type="submit" name="submitted" class="submit" value="<?php i18n('LOGIN'); ?>"></p>
 			</form>
