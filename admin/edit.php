@@ -165,15 +165,16 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 			<input id="auto-open-metadata" name="auto-open-metadata" type="hidden" value="<?php echo (string)$attributes['auto-open-metadata']; ?>">
 			<input id="revision-number" name="revision-number" type="hidden" value="<?php echo $attributes['revision-number']; ?>">
 			<!-- page title toggle screen -->
-			<p id="edit_window">
+			<p class="widesec">
 				<label for="post-title" style="display: none;"><?php i18n('PAGE_TITLE'); ?></label>
-				<input class="text title" id="post-title" name="post-title" type="text" value="<?php echo $title; ?>" placeholder="<?php i18n('PAGE_TITLE'); ?>">
+				<input class="text title" id="post-title" name="post-title" type="text" value="<?php echo $title; ?>" placeholder="<?php i18n('PAGE_TITLE'); ?>" required>
 			</p>
 			<!-- metadata toggle screen -->
 			<div style="display: <?php echo ($attributes['auto-open-metadata'] == true) ? 'block' : 'none' ?>;" id="metadata_window">
-			<div class="leftopt">
+			<div class="wrapper">
+			<div class="leftsec">
 				<p id="post-private-wrap">
-					<label for="post-private"<?php if ($private) echo ' class="is-private"'; ?>><?php i18n('KEEP_PRIVATE'); ?>: &nbsp; </label>
+					<label for="post-private"<?php if ($private) echo ' class="is-private"'; ?>><?php i18n('KEEP_PRIVATE'); ?>:</label>
 					<select id="post-private" name="post-private">
 						<option value=""><?php i18n('NORMAL'); ?></option>
 						<option value="1"<?php if ($private == 'Y' || $private == '1') echo ' selected'; ?>><?php echo ucwords(i18n_r('PRIVATE_SUBTITLE')); ?></option>
@@ -207,10 +208,10 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 					<label for="post-template"><?php i18n('TEMPLATE'); ?>:</label>
 					<select id="post-template" name="post-template"><?php echo $theme_templates; ?></select>
 				</p>
-				<p class="inline clearfix<?php echo !$editorEnabled ? ' disabled' : ''; ?>"><?php if (!$editorEnabled) { ?><input id="disable-editor" name="disable-editor" type="hidden" value="<?php echo (string)$attributes['disable-editor']; ?>"><?php } ?>
+				<p class="inline<?php echo !$editorEnabled ? ' disabled' : ''; ?>"><?php if (!$editorEnabled) { ?><input id="disable-editor" name="disable-editor" type="hidden" value="<?php echo (string)$attributes['disable-editor']; ?>"><?php } ?>
 					<input type="checkbox" id="disable-editor<?php echo !$editorEnabled ? '-1' : ''; ?>" name="disable-editor<?php echo !$editorEnabled ? '-1' : ''; ?>" value="1"<?php echo $attributes['disable-editor'] ? ' checked="checked"' : ''; echo !$editorEnabled ? ' disabled="disabled"' : ''; ?>> <label for="disable-editor"><?php ($pageType == 1) ? i18n('PAGE_DISABLE_CODE_EDITOR') : i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
 				</p>
-				<p class="inline post-menu clearfix">
+				<p class="inline post-menu">
 					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="1" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
 				</p>
 				<div id="menu-items">
@@ -231,38 +232,36 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 					</div>
 				</div>
 			</div>
-
-			<div class="rightopt">
+			<div class="rightsec">
 				<p>
 					<label for="post-id"><?php i18n('SLUG_URL'); ?>:</label>
-					<input class="text short" type="text" id="post-id" name="post-id" value="<?php echo $url; ?>" <?php echo ($url=='index' ? 'readonly="readonly"' : ''); ?>>
+					<input type="text" id="post-id" name="post-id" value="<?php echo $url; ?>" <?php echo ($url=='index' ? 'readonly="readonly"' : ''); ?>>
 				</p>
 				<p>
 					<label for="post-permalink"><?php i18n('PERMALINK'); ?>:</label>
-					<input class="text short" type="text" id="post-permalink" name="post-permalink" value="<?php echo $permalink; ?>" placeholder="<?php echo $PERMALINK ? htmlspecialchars($PERMALINK, ENT_QUOTES) : '%parent%/%slug%/'; ?>">
+					<input type="text" id="post-permalink" name="post-permalink" value="<?php echo $permalink; ?>" placeholder="<?php echo $PERMALINK ? htmlspecialchars($PERMALINK, ENT_QUOTES) : '%parent%/%slug%/'; ?>">
 				</p>
 				<p>
 					<label for="post-image"><?php i18n('LABEL_IMAGE'); ?>:<?php if ($image) { ?> <span class="right"><a href="<?php echo $image;?>" rel="facybox_i" target="_blank"><?php i18n('PREVIEW'); ?></a></span><?php } ?></label>
-					<input class="text short" id="post-image" name="post-image" type="text" value="<?php echo $image; ?>">
+					<input id="post-image" name="post-image" type="text" value="<?php echo $image; ?>">
 				</p>
 				<p>
-					<label for="post-lang"><?php i18n('LABEL_PAGELANG'); ?>:</label>
-					<input class="text short" id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ($dataw->lang != '') { echo $dataw->lang; } else { echo substr($LANG, 0, 2); } ?>">
+					<label for="post-lang"><?php i18n('LABEL_CONTENTLANG'); ?>:</label>
+					<input id="post-lang" name="post-lang" type="text" value="<?php echo $lang; ?>" placeholder="<?php if ((string)$dataw->lang != '') { echo $dataw->lang; } else { echo substr($LANG, 0, 2); } ?>" pattern="[a-zA-Z]{2}">
+					<?php if ($lang !='' && preg_match('/^[a-zA-Z]{2}$/', $lang) != 1) echo '<span class="attention">' . i18n_r('WARN_LANGINVALID') .'</span>'; ?>
 				</p>
 				<p>
 					<label for="post-metak"><?php i18n('TAG_KEYWORDS'); ?>:</label>
-					<input class="text short" id="post-metak" name="post-metak" type="text" value="<?php echo $metak; ?>" />
+					<input id="post-metak" name="post-metak" type="text" value="<?php echo $metak; ?>" />
 				</p>
 				<p>
 					<label for="post-metad" class="clearfix"><?php i18n('META_DESC'); ?>: <span id="countdownwrap" class="right"><span id="countdown"></span> <?php i18n('REMAINING'); ?></span></label>
 					<textarea class="text" id="post-metad" name="post-metad"><?php echo $metad; ?></textarea>
 				</p>
 				
-
 			</div>
-			<div class="clear"></div>
 			<?php exec_action('edit-extras'); ?>
-
+			</div>
 			</div><!-- / metadata toggle screen -->
 			<!-- page body -->
 			<p>

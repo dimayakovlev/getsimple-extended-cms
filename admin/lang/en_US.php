@@ -35,7 +35,7 @@ $i18n = array(
 "LABEL_WEBSITE"			=>	"Website Name",
 "LABEL_WEBSITEDESCRIPTION" => "Website Description",
 "LABEL_BASEURL"			=>	"Website URL",
-"LABEL_SUGGESTION"	=>	"Our suggestion is",
+"LABEL_SUGGESTION"	=>	"<b>Our suggestion is:</b>",
 "LABEL_USERNAME"		=>	"Username",
 "LABEL_DISPNAME"		=>	"Display Name",
 "LABEL_EMAIL"				=>	"Email Address",
@@ -229,8 +229,8 @@ $i18n = array(
 "LANGUAGE"					=>	"Language",
 "USE_PRETTY_URLS"		=>	"Use Pretty URLs - <b style=\"font-weight:100\">Requires that your host has <code>mod_rewrite</code> enabled</b>",
 "ENABLE_HTML_ED"		=>	"Enable the HTML Editor - <b style=\"font-weight:100\">Adds WYSIWYG, code highlights and other features to page content editor</b>",
-"WARN_EMAILINVALID"	=>	"WARNING: This email address does not look valid!",
-"ONLY_NEW_PASSWORD"	=>	"Only provide a password below if you want to change your current one",
+"WARN_EMAILINVALID"	=>	"<b>Warning:</b> This email address does not look valid!",
+"ONLY_NEW_PASSWORD"	=>	"<b>Only provide a password below if you want to change your current one</b>",
 "NEW_PASSWORD"			=>	"New Password",
 "CONFIRM_PASSWORD"	=>	"Confirm Password",
 "PASSWORD_NO_MATCH"	=>	"Passwords do not match",
@@ -386,7 +386,7 @@ $i18n = array(
 "ER_COMPONENT_SAVE"	=>	"Components have been saved",
 "ER_COMPONENT_REST"	=>	"Components have been restored",
 "ER_CANCELLED_FAIL"	=>	"<b>Cancelled:</b> This update has been cancelled",
-"ER_COMPONENT_ACTION" => "<strong>Enabled use of components with actions!</strong> Each enabled component named like <strong>action_action-name</strong> will be executed on call corresponding action.",
+"ER_COMPONENT_ACTION" => "<b>Enabled use of components with actions!</b> Each enabled component named like <b>action_action-name</b> will be executed on call corresponding action.",
 
 /*
  * For: changedata.php
@@ -424,7 +424,7 @@ $i18n = array(
  * For: support.php
 */
 "WELCOME_MSG"				=>	"Thank you for choosing <strong>GetSimple Extended CMS</strong> as your content management system!",
-"WELCOME_P"					=>	"<strong>GetSimple Extended CMS</strong> makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><strong>Some first steps that might be useful:</strong></p>",
+"WELCOME_P"					=>	"<strong>GetSimple Extended CMS</strong> makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><b>Some first steps that might be useful:</b></p>",
 "GETTING_STARTED"		=>	"Getting Started",
 
 /*
@@ -538,7 +538,7 @@ $i18n = array(
 "ADDITIONAL_ACTIONS" => "Other Actions", //edit.php
 "ITEMS" => "items", //upload.php
 "SAVE_MENU_ORDER" => "Save Menu Order", //menu-manager.php
-"MENU_MANAGER_DESC" => "Drag-and-drop the menu items around until you have the order you want, then click the <strong>'Save Menu Order'</strong> button.", //menu-manager.php
+"MENU_MANAGER_DESC" => "Drag-and-drop the menu items around until you have the order you want, then click the <b>'Save Menu Order'</b> button.", //menu-manager.php
 "MENU_MANAGER_SUCCESS" => "The new menu order has been saved", //menu-manager.php
 'MENU_MANAGER_ERROR' => 'The new menu order has not been saved',
 
@@ -621,10 +621,10 @@ $i18n = array(
 "ENABLE_CODE_ED"		=>	"Enable the Code Editor - <b style=\"font-weight:100\">Highlights code syntax and improves usability of editors for components and theme files</b>", // settings.php
 "MAINTENANCE_MODE" => "MAINTENANCE MODE",
 "ALLOW_ACCESS_IN_MAINTENANCE" => "Access to website in Maintenance Mode - <b style=\"font-weight:100\">Allow access to website while Maintenance Mode is enabled</b>",
-"LABEL_WEBSITELANG" => "Website Content Language",
-"DISPLAY_WEBSITELANG" => "The code of the default language of the website content (en, de, fr, it, ru, be, ua, etc.). Set per page code language in the field of the page editor",
-"LABEL_PAGELANG"  => "Page Content Language",
+"LABEL_CONTENTLANG" => "Content Language",
+"DISPLAY_WEBSITELANG" => "Two letters code of the default website content language. Set per page language in the field of the page editor",
 "LABEL_IMAGE" => "Image",
 "PREVIEW" => "Preview",
 "CLOSE" => "Close",
+"WARN_LANGINVALID"	=>	"<b>Warning:</b> This language code does not look valid!",
 );

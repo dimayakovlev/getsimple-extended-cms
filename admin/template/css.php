@@ -202,7 +202,7 @@ input[type="submit"], input[type="reset"], input[type="button"], button, .button
 }
 .largeform .rightsec {
 	margin-left: auto;
-	margin-rignt: 0;
+	margin-right: 0;
 }
 .largeform .widesec, .largeform > *:not(:where(.leftsec, .rightsec, .backuplink)) {
 	flex: 0 0 100%;
@@ -922,18 +922,10 @@ label span.right a:hover {
 	text-shadow: 1px 1px 0 rgba(255,255,255,.3);
 }
 
-#metadata_window .rightopt {
-	float: right;
-	width: 50%;
-}
-
-#metadata_window .leftopt {
-	float: left;
-	width: 50%;
-}
-
-#metadata_window .wideopt {
-	clear:both;
+#metadata_window .wrapper {
+	display: flex;
+	gap: calc(var(--gap) / 2);
+	flex-wrap: wrap;
 	width: 100%;
 }
 
@@ -945,7 +937,7 @@ label span.right a:hover {
 #metadata_window select,
 #metadata_window textarea {
 	font-size: 11px;
-	margin: 0 !important;
+	margin: 0;
 }
 
 #metadata_window input[type="checkbox"] {
@@ -1911,7 +1903,3 @@ a.disabled:visited {
 	width: 380px;
 }
 
-#suggested-url {
-	color: var(--clr-secondary-lightest);
-	margin-top: -15px;
-}
