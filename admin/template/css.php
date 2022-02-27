@@ -1055,10 +1055,6 @@ input[type="submit"], input[type="reset"], input[type="button"], button, .button
 	box-shadow: rgba(0,0,0, 0.15) 0px 0px 4px;
 }
 
-.button {
-	padding: 3px 7px;
-}
-
 :is(input[type="submit"], input[type="submit"]:hover, input[type="submit"]:focus).warning {
 	border-color: var(--clr-secondary-lightest);
 }
