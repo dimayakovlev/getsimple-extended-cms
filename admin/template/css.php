@@ -9,10 +9,6 @@
 /** GLOBAL RESETS **/
 *, *::before, *::after { box-sizing: border-box; }
 
-:link,:visited {
-	text-decoration: none;
-}
-
 h1,h2,h3,h4,h5,h6,pre,code {
 	font-size: 1em;
 	font-weight: 400;
@@ -154,7 +150,41 @@ textarea {
 input:focus::placeholder {
 	color: transparent;
 }
+/* form submit button style */
+input[type="submit"], input[type="reset"], input[type="button"], button, .button {
+	font-size: 13px;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 7px 15px;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	transition: all .218s;
+	color: #333;
+	background: var(--bg-btn);
+	border: solid 1px #acacac;
+	border-radius: 2px;
+	cursor: pointer;
+	box-shadow: rgba(0,0,0, 0.06) 0px 0px 3px;
+}
+
+:is(input[type="submit"], input[type="reset"], input[type="button"], button, .button):focus,
+:is(input[type="submit"], input[type="reset"], input[type="button"], button, .button):hover {
+	color: #111;
+	background: var(--bg-btn-hover);
+	border: solid 1px #aaa;
+	box-shadow: rgba(0,0,0, 0.15) 0px 0px 4px;
+}
+
+:is(input[type="submit"], input[type="submit"]:hover, input[type="submit"]:focus).warning {
+	border-color: var(--clr-secondary-lightest);
+}
 /** End FORMS DEFAULTS **/
+#submit_line .button {
+	font-weight: bold;
+	color: #333;
+}
+#submit_line .button:focus, #submit_line .button:hover {
+	color: #111;
+}
 /* .largeforms styles. */
 .largeform {
 	display: flex;
@@ -431,13 +461,11 @@ a img,
 .wrapper a:link,
 .wrapper a:visited {
 	color: var(--clr-primary-middle);
-	text-decoration: underline;
 	font-weight: bold;
 }
 
 .wrapper a:hover {
 	color: #333;
-	text-decoration: underline;
 	font-weight: bold;
 }
 
@@ -1031,34 +1059,6 @@ p.backuplink a {
 	font-style: italic;
 }
 
-/* form submit button style */
-input[type="submit"], input[type="reset"], input[type="button"], button, .button {
-	font-size: 13px;
-	font-weight: bold;
-	text-decoration: none !important;
-	padding: 7px 15px;
-	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-	transition: all .218s;
-	color: #333333 !important;
-	background: var(--bg-btn);
-	border: solid 1px #acacac;
-	border-radius: 2px;
-	cursor: pointer;
-	box-shadow: rgba(0,0,0, 0.06) 0px 0px 3px;
-}
-
-:is(input[type="submit"], input[type="reset"], input[type="button"], button, .button):focus,
-:is(input[type="submit"], input[type="reset"], input[type="button"], button, .button):hover {
-	color: #111111;
-	background: var(--bg-btn-hover);
-	border: solid 1px #aaaaaa;
-	box-shadow: rgba(0,0,0, 0.15) 0px 0px 4px;
-}
-
-:is(input[type="submit"], input[type="submit"]:hover, input[type="submit"]:focus).warning {
-	border-color: var(--clr-secondary-lightest);
-}
-
 :is(.leftsec, .rightsec, .widesec) textarea {
 	height: 62px;
 }
@@ -1194,13 +1194,15 @@ table.comptable input[name$="[enabled]"] + label {
 	line-height: 22px;
 }
 
-.notify .close, .notification .close {
+.notify button.close, .notification button.close {
 	border: none;
 	background: none;
 	color: inherit;
-	font-weight: bold;
 	cursor: pointer;
-	font-size: 14px;
+	font-size: 16px;
+	padding: 1px;
+	text-shadow: none;
+	box-shadow: none;
 }
 
 .notify.error, .notification.error {
