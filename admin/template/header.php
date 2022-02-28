@@ -9,7 +9,7 @@ global $SITENAME, $SITEURL, $site_full_name;
 
 $bodyclass = getDef('GSSTYLE') ? ' class="' . GSSTYLE . '"' : '';
 
-if (get_filename_id() != 'index') exec_action('admin-pre-header');
+if (!isAuthPage() && !isInstallPage()) exec_action('admin-pre-header');
 
 ?><!DOCTYPE html>
 <html lang="<?php echo get_admin_lang(true); ?>">
@@ -57,4 +57,3 @@ if (get_filename_id() != 'index') exec_action('admin-pre-header');
 	echo '<header class="header" id="header"><div class="wrapper">';
 	exec_action('header-body');
 }
-
