@@ -185,8 +185,6 @@ jQuery(document).ready(function() {
 	});
 
 	//autofocus index.php & resetpassword.php fields on pageload
-	$("#index input#userid").focus();
-	$("#resetpassword input[name='username']").focus();
 	var options = {
 		caps_lock_on: function() {
 			$(this).addClass('capslock');
