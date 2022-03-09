@@ -20,20 +20,20 @@ $bodyclass = getDef('GSSTYLE') ? ' class="' . GSSTYLE . '"' : '';
 $filesSorted = array();
 $dirsSorted = array();
 
-$subPath = filter_input(INPUT_GET, 'path');
+$subPath = (string)filter_input(INPUT_GET, 'path', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $path = '../data/uploads/' . $subPath;
 
 if (!path_is_safe($path, GSDATAUPLOADPATH)) die();
 
-$returnid = isset($_GET['returnid']) ? var_out($_GET['returnid']) : "";
-$func = (isset($_GET['func'])) ? var_out($_GET['func']) : "";
+$returnid = (string)filter_input(INPUT_GET, 'returnid', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$func = (string)filter_input(INPUT_GET, 'func', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $path = tsl($path);
 // check if host uses Linux (used for displaying permissions
 $isUnixHost = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? false : true);
-$CKEditorFuncNum = isset($_GET['CKEditorFuncNum']) ? var_out($_GET['CKEditorFuncNum']) : '';
+$CKEditorFuncNum = (string)filter_input(INPUT_GET, 'CKEditorFuncNum', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $sitepath = suggest_site_path();
-$fullPath = $sitepath . "data/uploads/";
-$type = isset($_GET['type']) ? var_out($_GET['type']) : '';
+$fullPath = $sitepath . 'data/uploads/';
+$type = (string)filter_input(INPUT_GET, 'type', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 global $LANG;
 $LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);
@@ -48,13 +48,13 @@ $LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);
 	<style>.wrapper, #maincontent, #imageTable { width: 100% }</style>
 	<script type='text/javascript'>
 	function submitLink($funcNum, $url) {
-<?php if (isset($_GET['returnid'])) { ?>
+<?php if ($returnid != '') { ?>
 		if (window.opener) {
 			window.opener.document.getElementById('<?php echo $returnid; ?>').focus();
 			window.opener.document.getElementById('<?php echo $returnid; ?>').value = $url;
 		}
 <?php
-			if (isset($_GET['func'])) {
+			if ($func != '') {
 ?>
 				if (window.opener) {
 					if (typeof window.opener.<?php echo $func; ?> == 'function') {
@@ -130,7 +130,7 @@ $LANG_header = preg_replace('/(?:(?<=([a-z]{2}))).*/', '', $LANG);
 			$adm = substr($path . $upload['name'], 16);
 			$returnlink = $returnid ? '&returnid=' . $returnid : '';
 			$funct = $func ? '&func=' . $func : '';
-			echo '<img src="template/images/folder.png" width="11"> <a href="filebrowser.php?path='.$adm.'&amp;CKEditorFuncNum='.$CKEditorFuncNum.'&amp;type='.$type.$returnlink.'&amp;'.$funct.'" title="'. $upload['name'] .'"  ><strong>'.$upload['name'].'</strong></a>';
+			echo '<img src="template/images/folder.png" width="11"><a href="filebrowser.php?path=' . $adm . '&amp;CKEditorFuncNum=' . $CKEditorFuncNum . '&amp;type=' . $type . $returnlink . '&amp;' . $funct . '" title="' . $upload['name'] . '"><strong>' . $upload['name'] . '</strong></a>';
 			echo '</td></tr>';
 			$foldercount++;
 		}
