@@ -69,7 +69,7 @@ function get_page_content() {
 	global $content;
 	global $data_index;
 	exec_action('content-top');
-	$content_e = exec_filter('content', ($data_index->type == '1') ? $content : strip_decode($content));
+	$content_e = exec_filter('content', strip_decode($content));
 	if (getDef('GSCONTENTSTRIP', true)) $content_e = strip_content($content_e);
 	echo $content_e;
 	exec_action('content-bottom');

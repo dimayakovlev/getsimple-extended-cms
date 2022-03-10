@@ -31,12 +31,6 @@ function getPageContent(string $page, $filter = false) {
 	$thisfile = file_get_contents(GSDATAPAGESPATH . $page . '.xml');
 	$data = simplexml_load_string($thisfile);
 	$content = stripslashes(htmlspecialchars_decode($data->content, ENT_QUOTES));
-	if ($data->type == '1') {
-		ob_start();
-		eval('?>' . $content . '<?php ');
-		$content = ob_get_contents();
-		ob_end_clean();
-	}
 	if ($filter == true) $content = exec_filter('content', $content);
 	echo $content;
 }
@@ -96,12 +90,6 @@ function returnPageContent(string $page, $filter = false, $raw = false) {
 	$content = $data->content;
 	if ($raw == true) return $content;
 	$content = stripslashes(htmlspecialchars_decode($content, ENT_QUOTES));
-	if ($data->type == '1') {
-		ob_start();
-		eval('?>' . $content . '<?php ');
-		$content = ob_get_contents();
-		ob_end_clean();
-	}
 	if ($filter == true) $content = exec_filter('content', $content);
 	return $content;
 }

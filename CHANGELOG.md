@@ -35,8 +35,7 @@
     * Added automatic execution of enabled Components named like `action_action-name` on call corresponding actions
     * Added actions `page-clone`, `page-clone-success`, `page-clone-error`
     * Added new page visibility status **Not Published**
-    * Added new pages type **Dynamic**
-    * Added option to disable HTML and Code Editors on page level
+    * Added option to disable the HTML Editor on page level
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

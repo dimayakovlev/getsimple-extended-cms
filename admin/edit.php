@@ -24,19 +24,18 @@ $ptype = filter_input(INPUT_GET, 'type');
 $nonce = filter_input(INPUT_GET, 'nonce');
 $path  = GSDATAPAGESPATH;
 
+$HTMLEDITOR = (string)$datau->enableHTMLEditor;
+
 // Page variables reset
 $theme_templates = '';
-$parents_list = ''; 
+$parents_list = '';
 $keytags = '';
 $parent = '';
 $template = '';
 $menuStatus = '';
-$private = ''; 
-$menu = ''; 
+$private = '';
+$menu = '';
 $content = '';
-$component = '';
-$componentEnabled = '';
-$componentContent = '';
 $author = $USR;
 $publisher = '';
 $title = '';
@@ -58,9 +57,6 @@ if ($id) {
 	$metad = stripslashes($data_edit->metad);
 	$url = (string)$data_edit->url;
 	$content = stripslashes($data_edit->content);
-	$component = stripslashes($data_edit->component);
-	$componentEnabled = stripslashes($data_edit->componentEnabled);
-	$componentContent = stripslashes($data_edit->componentContent);
 	$template = (string)$data_edit->template;
 	$parent = (string)$data_edit->parent;
 	$author = (string)$data_edit->author;
@@ -74,7 +70,6 @@ if ($id) {
 	$publisher = (string)$data_edit->publisher ?: $author;
 	$permalink = (string)$data_edit->permalink;
 	$image = (string)$data_edit->image;
-	$pageType = (int)($data_edit->type ?: 0);
 	$attributes['auto-open-metadata'] = ($data_edit->attributes()->autoOpenMetadata == '1');
 	$attributes['disable-editor'] = ($data_edit->attributes()->disableEditor == '1');
 	$attributes['revision-number'] = (string)$data_edit->attributes()->revisionNumber ?: '0';
@@ -90,7 +85,6 @@ if ($id) {
 	$lang = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'lang') ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$permalink = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'permalink', FILTER_SANITIZE_URL) ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$image = filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_GET, 'image', FILTER_SANITIZE_URL) ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$pageType = (int)filter_input(INPUT_GET, 'pageType', FILTER_SANITIZE_NUMBER_INT);
 	$buttonname = i18n_r('BTN_SAVEPAGE');
 	$attributes['auto-open-metadata'] = filter_input(INPUT_GET, 'autoOpenMetadata', FILTER_VALIDATE_BOOLEAN);
 	$attributes['disable-editor'] = filter_input(INPUT_GET, 'disableEditor', FILTER_VALIDATE_BOOLEAN);
@@ -102,6 +96,7 @@ if ($template == '') $template = 'template.php';
 
 $themes_path = GSTHEMESPATH . $TEMPLATE;
 $themes_handle = opendir($themes_path) or die('Unable to open ' . GSTHEMESPATH);
+$templates = array();
 while ($file = readdir($themes_handle)) {
 	if (isFile($file, $themes_path, 'php')) {
 		if ($file != 'functions.php' && substr(strtolower($file), -8) != '.inc.php' && substr($file, 0, 1) !== '.') $templates[] = $file;
@@ -120,24 +115,9 @@ foreach ($templates as $file) {
 $sel_m = ($menuStatus != '') ? 'checked' : '';
 if ($menu == '') $menu = $title;
 
-# check if html or code editor is enabled or disabled by user settings
-$editorEnabled = (($datau->enableCodeEditor == '1' && $pageType == 1) || ($HTMLEDITOR == '1' && $pageType != 1));
-
-# register and queue CodeMirror files
-if ($editorEnabled && $attributes['disable-editor'] == false) {
-	register_script('codemirror', $SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror-compressed.js', '0.2.0', FALSE);
-	register_style('codemirror-css',$SITEURL.$GSADMIN.'/template/js/codemirror/lib/codemirror.css','screen',FALSE);
-	register_style('codemirror-theme',$SITEURL.$GSADMIN.'/template/js/codemirror/theme/default.css','screen',FALSE);
-	queue_script('codemirror', GSBACK);
-	queue_style('codemirror-css', GSBACK);
-	queue_style('codemirror-theme', GSBACK);
-}
-
 get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $title);
 
 ?>
-
-<noscript><style>#metadata_window {display: block !important}</style></noscript>
 
 <?php include('template/include-nav.php'); ?>
 
@@ -151,7 +131,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 		<!-- pill edit navigation -->
 		<div class="edit-nav">
 			<?php
-				if (isset($id)) echo '<a href="', find_url($url) ,'" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
+				if (isset($id)) echo '<a href="', find_url($url), '" target="_blank" accesskey="', find_accesskey(i18n_r('VIEW')), '">', i18n_r('VIEW'), '</a>';
 			?>
 			<a href="#" id="metadata_toggle" accesskey="<?php echo find_accesskey(i18n_r('PAGE_OPTIONS'));?>" class="<?php if ($attributes['auto-open-metadata'] == true) { echo 'current'; } ?>"><?php i18n('PAGE_OPTIONS'); ?></a>
 		</div>
@@ -208,8 +188,8 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 					<label for="post-template"><?php i18n('TEMPLATE'); ?>:</label>
 					<select id="post-template" name="post-template"><?php echo $theme_templates; ?></select>
 				</p>
-				<p class="inline<?php echo !$editorEnabled ? ' disabled' : ''; ?>"><?php if (!$editorEnabled) { ?><input id="disable-editor" name="disable-editor" type="hidden" value="<?php echo (string)$attributes['disable-editor']; ?>"><?php } ?>
-					<input type="checkbox" id="disable-editor<?php echo !$editorEnabled ? '-1' : ''; ?>" name="disable-editor<?php echo !$editorEnabled ? '-1' : ''; ?>" value="1"<?php echo $attributes['disable-editor'] ? ' checked="checked"' : ''; echo !$editorEnabled ? ' disabled="disabled"' : ''; ?>> <label for="disable-editor"><?php ($pageType == 1) ? i18n('PAGE_DISABLE_CODE_EDITOR') : i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
+				<p class="inline<?php echo $HTMLEDITOR != '1' ? ' disabled' : ''; ?>"><?php if ($HTMLEDITOR != '1') { ?><input id="disable-editor" name="disable-editor" type="hidden" value="<?php echo (string)$attributes['disable-editor']; ?>"><?php } ?>
+					<input type="checkbox" id="disable-editor<?php echo $HTMLEDITOR != '1' ? '-1' : ''; ?>" name="disable-editor<?php echo $HTMLEDITOR != '1' ? '-1' : ''; ?>" value="1"<?php echo $attributes['disable-editor'] ? ' checked="checked"' : ''; echo $HTMLEDITOR != '1' ? ' disabled="disabled"' : ''; ?>> <label for="disable-editor"><?php i18n('PAGE_DISABLE_HTML_EDITOR'); ?></label>
 				</p>
 				<p class="inline post-menu">
 					<input type="checkbox" id="post-menu-enable" name="post-menu-enable" value="1" <?php echo $sel_m; ?>> <label for="post-menu-enable"><?php i18n('ADD_TO_MENU'); ?></label><a href="navigation.php" class="viewlink" rel="facybox"><img src="template/images/search.png" id="tick" alt="<?php echo strip_tags(i18n_r('VIEW')); ?>"></a>
@@ -309,7 +289,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 			$toolbar = isset($EDTOOL) ? ', toolbar: ' . trim($EDTOOL, ',') : '';
 			$options = isset($EDOPTIONS) ? ',' . trim($EDOPTIONS, ',') : '';
 		?>
-		<?php if ($pageType != 1 && $HTMLEDITOR == '1' && $attributes['disable-editor'] == false) { ?>
+		<?php if ($HTMLEDITOR == '1' && $attributes['disable-editor'] !== true) { ?>
 		<script type="text/javascript" src="template/js/ckeditor/ckeditor.js<?php echo getDef('GSCKETSTAMP', true) ? '?t=' . getDef('GSCKETSTAMP') : ''; ?>"></script>
 		<script type="text/javascript">
 			<?php if (getDef('GSCKETSTAMP', true)) echo "CKEDITOR.timestamp = '" . getDef("GSCKETSTAMP") . "';\n"; ?>
@@ -475,20 +455,6 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 					}
 
 			});
-		</script>
-		<?php
-			# register CodeMirror
-			if ($pageType == 1 && $datau->enableCodeEditor == '1' && $attributes['disable-editor'] == false) {
-		?>
-		<style>
-			.CodeMirror, .CodeMirror-scroll { height: <?php echo $EDHEIGHT; ?>; }
-		</style>
-		<script>
-			var cm = addCodeMirror(document.getElementById('post-content'), { mode: 'application/x-httpd-php' });
-		</script>
-		<?php
-			}
-		?>
 		</script>
 	</div>
 	</div><!-- end maincontent -->

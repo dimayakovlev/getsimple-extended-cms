@@ -53,7 +53,6 @@ $i18n = array(
 "HOMEPAGE_SUBTITLE"	=>	"homepage",
 "PRIVATE_SUBTITLE"	=>	"private",
 "NOT_PUBLISHED_SUBTITLE"	=>	"not published",
-"PAGE_TYPE_DYNAMIC_SUBTITLE" => "dynamic content",
 "PERMALINK_SUBTITLE" => 'permalink',
 "EDITPAGE_TITLE"		=>	"Edit Page",
 "VIEWPAGE_TITLE"		=>	"View Page",
@@ -99,7 +98,6 @@ $i18n = array(
 "SAVE_AND_CLOSE"		=> "Save &amp; Close",
 "PAGE_UNSAVED"			=>	"Page has unsaved changes",
 "PAGE_DISABLE_HTML_EDITOR" => 'Disable the HTML Editor for this page',
-"PAGE_DISABLE_CODE_EDITOR" => 'Disable the Code Editor for this page',
 
 /*
  * For: upload.php
@@ -343,7 +341,6 @@ $i18n = array(
  * For: sidebar-pages.php
 */
 "SIDE_CREATE_NEW"		=>	"Create Ne<em>w</em> Page",
-"SIDE_CREATE_NEW_DYNAMIC"		=>	"Create New <em>D</em>ynamic Page",
 "SIDE_VIEW_PAGES"		=>	"View All <em>P</em>ages",
 
 /*

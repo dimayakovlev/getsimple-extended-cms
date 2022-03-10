@@ -144,7 +144,6 @@ if ($referer == 'edit.php' && $action == 'save') {
 		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('pubDate', date('r'));
 		$xml->addChild('creDate', filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: date('r'));
-		$xml->addChild('type', filter_input(INPUT_POST, 'post-type', FILTER_SANITIZE_NUMBER_INT) ?: 0);
 		$xml->addChild('title')->addCData(filter_var(trim(xss_clean(filter_input(INPUT_POST, 'post-title') ?: '')), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 		$xml->addChild('url', $url);
 		$xml->addChild('meta')->addCData(filter_var(trim(strip_tags(xss_clean(filter_input(INPUT_POST, 'post-metak') ?: ''))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));

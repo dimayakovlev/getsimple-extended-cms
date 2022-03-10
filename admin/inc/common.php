@@ -160,7 +160,6 @@ if (isset($_COOKIE['GS_ADMIN_USERNAME'])) {
 	if (file_exists(GSUSERSPATH . $cookie_user_id . '.xml')) {
 		$datau = getXML(GSUSERSPATH . $cookie_user_id . '.xml');
 		$USR = stripslashes($datau->user);
-		$HTMLEDITOR = (string)$datau->enableHTMLEditor;
 		$TIMEZONE = (string)$datau->timezone;
 		$LANG = (string)$datau->lang;
 	} else {
