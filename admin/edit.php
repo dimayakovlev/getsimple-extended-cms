@@ -141,7 +141,6 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 			<input id="author" name="post-author" type="hidden" value="<?php echo $author; ?>">
 			<input id="creDate" name="post-creDate" type="hidden" value="<?php echo $creDate; ?>">
 			<input id="action" name="action" type="hidden" value="save">
-			<input id="type" name="post-type" type="hidden" value="<?php echo $pageType; ?>">
 			<input id="auto-open-metadata" name="auto-open-metadata" type="hidden" value="<?php echo (string)$attributes['auto-open-metadata']; ?>">
 			<input id="revision-number" name="revision-number" type="hidden" value="<?php echo $attributes['revision-number']; ?>">
 			<!-- page title toggle screen -->
