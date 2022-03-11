@@ -447,6 +447,27 @@ a img,
 	text-align: left;
 }
 
+body.wide .wrapper {
+	width: 1140px;
+}
+
+#maincontent {
+	width: 710px;
+}
+
+body.wide #maincontent {
+	width: 890px;
+}
+
+@media (min-width: 1200px) {
+	body.adaptive .wrapper {
+		width: 1140px;
+	}
+	body.adaptive #maincontent {
+		width: 890px;
+	}
+}
+
 .wrapper p {
 	line-height: 18px;
 	margin: 0 0 var(--gap) 0;
@@ -548,10 +569,6 @@ h5:hover img {
 .bodycontent ul p,
 .bodycontent ol p {
 	margin: 0 0 10px 0;
-}
-
-#maincontent {
-	width: 710px;
 }
 
 #sidebar {
