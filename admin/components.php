@@ -40,7 +40,7 @@ if (count($components) != 0) {
 	foreach ($components as $component) {
 		$checked = (isset($component->enabled) && $component->enabled == '1') ? ' checked ' : '';
 		$table .= '<div class="compdiv" id="section-' . $count . '"><table class="comptable"><tr><td><input type="checkbox" title="' . i18n_r('ENABLE_COMPONENT') . '" name="components[' . $count . '][enabled]" value="1"' . $checked . '><label for="components[' . $count . '][enabled]">' . i18n_r('ENABLE_COMPONENT') . '</label></td><td><b title="' . i18n_r('DOUBLE_CLICK_EDIT').'" class="editable">' . stripslashes($component->title) . '</b></td>';
-		$table .= '<td style="text-align:right;"><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
+		$table .= '<td class="code"><code>&lt;?php get_component(<span class="compslugcode">\'' . $component->slug . '\'</span>); ?&gt;</code></td><td class="delete" >';
 		$table .= '<a href="#" title="' . i18n_r('DELETE_COMPONENT') . ': ' . cl($component->title) . '?" class="delcomponent" rel="' . $count . '" data-action="component-delete">&times;</a></td></tr></table>';
 		$table .= '<label for="components[' . $count . '][value]" style="display: none;">' . i18n_r('COMPONENT_CODE') . ':</label><textarea class="text" id="components[' . $count . '][value]" name="components[' . $count . '][value]">' . stripslashes($component->value) . '</textarea>';
 		$table .= '<input type="hidden" class="compslug" name="components[' . $count . '][slug]" value="' . $component->slug . '">';

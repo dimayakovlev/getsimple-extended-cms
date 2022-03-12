@@ -8,6 +8,8 @@
  * @subpackage Support
  */
 
+declare(strict_types=1);
+
 // Setup inclusions
 $load['plugin'] = true;
 
@@ -28,7 +30,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raqu
 		<div class="main">
 			<h3><?php echo $site_full_name; ?></h3>
 			<table class="highlight healthcheck">
-				<tr><td style="width:445px;"><?php echo $site_full_name; ?> <?php i18n('VERSION');?></td><td><span><strong><?php echo $site_version_no; ?></strong></span></td></tr>
+				<tr><td class="name"><?php echo $site_full_name; ?> <?php i18n('VERSION');?></td><td><span><strong><?php echo $site_version_no; ?></strong></span></td></tr>
 			<?php
 				if (defined('GSADMIN') && GSADMIN != 'admin') echo '<tr><td>GSADMIN</td><td><span class="hint">' . GSADMIN . '</span></td></tr>';
 				if (defined('GSLOGINSALT') && GSLOGINSALT != '') echo '<tr><td>GSLOGINSALT</td><td><span class="hint">' . i18n_r('YES') . '</span></td></tr>';
@@ -39,7 +41,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raqu
 			</table>
 			<h3><?php i18n('SERVER_SETUP');?></h3>
 			<table class="highlight healthcheck">
-				<tr><td style="width:445px;">
+				<tr><td class="name">
 				<?php
 
 					if (version_compare(PHP_VERSION, "5.3", "<")) {
@@ -102,7 +104,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raqu
 				$data = getFiles($path);
 				sort($data);
 				foreach ($data as $file) {
-					if (isFile($file, $path)) echo '<tr><td style="width:445px;">/data/pages/' . $file . '</td><td>' . valid_xml($path . $file) . '</td></tr>';
+					if (isFile($file, $path)) echo '<tr><td class="name">/data/pages/' . $file . '</td><td>' . valid_xml($path . $file) . '</td></tr>';
 				}
 
 				$path = GSDATAOTHERPATH;
@@ -131,7 +133,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raqu
 			<h3><?php i18n('DIR_PERMISSIONS');?></h3>
 			<table class="highlight healthcheck">
 				<?php $me = check_perms(GSDATAOTHERPATH.'plugins.xml'); ?><tr><td><?php i18n('FILE_NAME'); ?>: /data/other/plugins.xml</td><td><?php if( $me >= '0644' ) { echo '<span class="OKmsg">'. $me .' ' . i18n_r('WRITABLE') . ' - ' . i18n_r('OK') . '</span>'; } else { echo '<span class="ERRmsg">'. $me .' ' . i18n_r('NOT_WRITABLE') . ' - ' . i18n_r('ERROR') . '!</span>'; } ?></td></tr>
-				<?php $me = check_perms(GSDATAPAGESPATH); ?><tr><td style="width:445px;">/data/pages/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg">'. $me .' ' . i18n_r('WRITABLE') . ' - ' . i18n_r('OK') . '</span>'; } else { echo '<span class="ERRmsg">'. $me .' ' . i18n_r('NOT_WRITABLE') . ' - ' . i18n_r('ERROR') . '!</span>'; } ?></td></tr>
+				<?php $me = check_perms(GSDATAPAGESPATH); ?><tr><td class="name">/data/pages/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg">'. $me .' ' . i18n_r('WRITABLE') . ' - ' . i18n_r('OK') . '</span>'; } else { echo '<span class="ERRmsg">'. $me .' ' . i18n_r('NOT_WRITABLE') . ' - ' . i18n_r('ERROR') . '!</span>'; } ?></td></tr>
 				<?php $me = check_perms(GSDATAOTHERPATH); ?><tr><td>/data/other/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg">'. $me .' ' . i18n_r('WRITABLE') . ' - ' . i18n_r('OK') . '</span>'; } else { echo '<span class="ERRmsg">'. $me .' ' . i18n_r('NOT_WRITABLE') . ' - ' . i18n_r('ERROR') . '!</span>'; } ?></td></tr>
 				<?php $me = check_perms(GSDATAOTHERPATH.'logs/'); ?><tr><td>/data/other/logs/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg">'. $me .' ' . i18n_r('WRITABLE') . ' - ' . i18n_r('OK') . '</span>'; } else { echo '<span class="ERRmsg">'. $me .' ' . i18n_r('NOT_WRITABLE') . ' - ' . i18n_r('ERROR') . '!</span>'; } ?></td></tr>
 				<?php $me = check_perms(GSTHUMBNAILPATH); ?><tr><td>/data/thumbs/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg">'. $me .' ' . i18n_r('WRITABLE') . ' - ' . i18n_r('OK') . '</span>'; } else { echo '<span class="ERRmsg">'. $me .' ' . i18n_r('NOT_WRITABLE') . ' - ' . i18n_r('ERROR') . '!</span>'; } ?></td></tr>
@@ -146,7 +148,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raqu
 
 			<h3><?php echo sprintf(i18n_r('EXISTANCE'), '.htaccess');?></h3>
 			<table class="highlight healthcheck">
-				<tr><td style="width:445px;">/data/</td><td>
+				<tr><td class="name">/data/</td><td>
 				<?php
 					$file = GSDATAPATH . '.htaccess';
 					if (!file_exists($file)) copy(GSADMININCPATH . 'tmp/tmp.deny.htaccess', $file);
@@ -316,9 +318,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raqu
 
 	</div>
 
-	<div id="sidebar">
-		<?php include('template/sidebar-support.php'); ?>
-	</div>
+	<div id="sidebar"><?php include('template/sidebar-support.php'); ?></div>
 
 </div>
 <?php get_template('footer'); ?>

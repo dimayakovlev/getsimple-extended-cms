@@ -1301,6 +1301,10 @@ td.delete a {
 	width: 450px;
 }
 
+.comptable td.code {
+	text-align: right;
+}
+
 .view {
 	width: 48px;
 	text-align: center;

@@ -776,7 +776,7 @@ function get_pages_menu($parent, $menu, $level) {
 			if ($page['url'] == 'index') { $homepage = ' <sup>[' . i18n_r('HOMEPAGE_SUBTITLE') . ']</sup>'; } else { $homepage = ''; }
 			if (isset($page['permalink']) && $page['permalink'] != '') { $page['permalink'] = ' <sup>[' . i18n_r('PERMALINK_SUBTITLE') . ']</sup>'; } else { $page['permalink'] = ''; }
 			$menu .= '<td class="pagetitle">' . $dash .'<a title="' . i18n_r('EDITPAGE_TITLE') . ': '. var_out($page['title']) . '" href="edit.php?id=' . $page['url'] . '">' . var_out($page['title']) . '</a><span data-role="page-url" class="url toggle"> [' . $pageURL . ']</span><span data-role="page-status" class="status toggle">' . $homepage . $page['private'] . $page['menuStatus'] . $page['permalink'] . '</span></td>';
-			$menu .= '<td style="width:80px;text-align:right;" ><span>' . shtDate($page['pubDate']) . '</span></td>';
+			$menu .= '<td class="date"><span>' . shtDate($page['pubDate']) . '</span></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CREATE_NEW_SUBPAGE') . '" href="edit.php?parent=' . $page['url'] . '" data-action="create-subpage">&#43;</a></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CLONEPAGE_TITLE') . ': ' . var_out($page['title']) . '" href="pages.php?id=' . $page['url'] . '&amp;action=clone&amp;nonce=' . get_nonce('clone', 'pages.php') .'" data-action="clone-page">&#10697;</a></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . $pageURL . '">#</a></td>';

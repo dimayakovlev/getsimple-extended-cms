@@ -8,6 +8,8 @@
  * @subpackage Page-Edit
  */
 
+declare(strict_types=1);
+
 // Setup inclusions
 $load['plugin'] = true;
 
@@ -16,30 +18,32 @@ include('inc/common.php');
 
 // Variable settings
 login_cookie_check();
-$id = filter_input(INPUT_GET, 'id');
-$ptype = filter_input(INPUT_GET, 'type');
+$id = (string)filter_input(INPUT_GET, 'id');
+$action = (string)filter_input(INPUT_GET, 'action');
+$ptype = (string)filter_input(INPUT_GET, 'type');
 $path = GSDATAPAGESPATH;
 $counter = '0';
 $table = '';
 
 # clone attempt happening
-if (isset($_GET['action']) && isset($_GET['id']) && $_GET['action'] == 'clone') {
+if ($id != '' && $action == 'clone') {
 	// check for csrf
 	if (!defined('GSNOCSRF') || (GSNOCSRF == false)) {
-		if (!check_nonce($_GET['nonce'], 'clone', 'pages.php')) die('CSRF detected!');
+		$nonce = (string)filter_input(INPUT_GET, 'nonce');
+		if (!check_nonce($nonce, 'clone', 'pages.php')) die('CSRF detected!');
 	}
 	# check to not overwrite
 	$count = 1;
-	$newfile = GSDATAPAGESPATH . $_GET['id'] . '-' . $count . '.xml';
+	$newfile = GSDATAPAGESPATH . $id . '-' . $count . '.xml';
 	if (file_exists($newfile)) {
 		while (file_exists($newfile)) {
 			$count++;
-			$newfile = GSDATAPAGESPATH . $_GET['id'] . '-' . $count . '.xml';
+			$newfile = GSDATAPAGESPATH . $id . '-' . $count . '.xml';
 		}
 	}
-	$newurl = $_GET['id'] . '-' . $count;
+	$newurl = $id . '-' . $count;
 	# do the copy
-	$status = copy($path . $_GET['id'] . '.xml', $path . $newurl . '.xml');
+	$status = copy($path . $id . '.xml', $path . $newurl . '.xml');
 	if ($status) {
 		$newxml = getXML($path . $newurl . '.xml');
 		$newxml->url = $newurl;
@@ -62,7 +66,7 @@ if (isset($_GET['action']) && isset($_GET['id']) && $_GET['action'] == 'clone') 
 	}
 	if (!$status) {
 		exec_action('page-clone-error');
-		header('Location: pages.php?error=' . sprintf(i18n_r('CLONE_ERROR'), $_GET['id']));
+		header('Location: pages.php?error=' . sprintf(i18n_r('CLONE_ERROR'), $id));
 	}
 }
 
@@ -103,15 +107,13 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('PAGE_MANAGEMENT'));
 				<form><input type="text" autocomplete="off" class="text" id="q" placeholder="<?php echo strip_tags(lowercase(i18n_r('FILTER'))); ?>..."> &nbsp; <a href="pages.php" class="cancel"><?php i18n('CANCEL'); ?></a></form>
 			</div>
 			<table id="editpages" class="edittable highlight paginate">
-				<tr><th><?php i18n('PAGE_TITLE'); ?></th><th style="text-align:right;"><?php i18n('DATE'); ?></th><th></th><th></th><th></th><th></th></tr>
+				<tr><th class="pagetitle"><?php i18n('PAGE_TITLE'); ?></th><th class="date"><?php i18n('DATE'); ?></th><th></th><th></th><th></th><th></th></tr>
 				<?php echo $table; ?>
 			</table>
 			<p><em><?php i18n('TOTAL_PAGES'); ?>: <strong><span id="pg_counter"><?php echo $count; ?></span></strong></em></p>
 			
 		</div>
 	</div><!-- end maincontent -->
-	<div id="sidebar">
-		<?php include('template/sidebar-pages.php'); ?>
-	</div>
+	<div id="sidebar"><?php include('template/sidebar-pages.php'); ?></div>
 </div>
 <?php get_template('footer'); ?>
