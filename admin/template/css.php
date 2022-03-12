@@ -769,13 +769,13 @@ h5:hover img {
 }
 
 /* basic default table style */
-.wrapper table {
+table {
 	border-collapse: collapse;
 	margin: 0 0 20px 0;
 	width: 100%;
 }
 
-.wrapper table td {
+table td {
 	vertical-align: top;
 	padding: 4px;
 	border-bottom: 1px solid #eee;
@@ -784,7 +784,7 @@ h5:hover img {
 	box-sizing: content-box;
 }
 
-.wrapper table th {
+table th {
 	background: #FFF !important;
 	padding: 2px 4px;
 	font-size: 11px;
@@ -796,36 +796,36 @@ h5:hover img {
 	text-align: left;
 }
 
-.wrapper table tr.head {
+table tr.head {
 }
 
-.wrapper table td span {
+table td span {
 	font-size: 12px;
 	color: #777;
 }
 
-.wrapper table.highlight {
+table.highlight {
 	text-shadow: 1px 1px 0 #fff;
 }
 
-.wrapper table.highlight tr:nth-child(odd) {
+table.highlight tr:nth-child(odd) {
 	 background: #f7f7f7;
 }
 
-.wrapper table tr#tr-index a {
+table tr#tr-index a {
 	 font-weight: bold !important;
 }
 
-.wrapper table.highlight tr:hover {
+table.highlight tr:hover {
 	background: #FFFFD5 !important;
 	text-shadow: none;
 }
 
-.wrapper table tr.currentpage{
+table tr.currentpage{
 	 background: #FFFFD1;
 }
 
-.wrapper table tr {
+table tr {
 	border-bottom: 1px solid #eee;
 	border-top: 1px solid #eee;
 	transition: background-color .1s ease-in-out;
@@ -835,7 +835,7 @@ table td a {
 	font-weight: normal !important;
 }
 
-.wrapper table.healthcheck tr td {
+table.healthcheck tr td {
 	font-size: 12px;
 }
 
@@ -1272,14 +1272,33 @@ table.comptable input[name$="[enabled]"] + label {
 	font-size: 12px;
 }
 
-table td.delete {
+td.delete {
 	width: 20px;
 	text-align: center;
 }
 
-table td.delete a {
+td.delete a {
 	font-size: 18px !important;
 	line-height: 16px;
+}
+
+:is(td, th):is(.date, .size, .perms) {
+	width: 85px;
+	text-align: right;
+}
+
+.plugins :is(td, th).status {
+	width: 60px;
+	text-align: right;
+}
+
+.plugins :is(td, th).name {
+	width: 160px;
+	font-weight: bold;
+}
+
+.healthcheck :is(td, th).name {
+	width: 450px;
 }
 
 .view {
@@ -1345,15 +1364,15 @@ a.cancel em {
 	font-style: normal;
 }
 
-.wrapper .secondarylink {
+.secondarylink {
 	width: 20px;
 	text-align: center;
 	font-size: 12px;
 	line-height: 14px;
 }
 
-.wrapper .secondarylink a:link,
-.wrapper .secondarylink a:visited {
+.secondarylink a:link,
+.secondarylink a:visited {
 	color: #aaa;
 	text-decoration: none;
 	font-weight: normal;
@@ -1363,7 +1382,7 @@ a.cancel em {
 	transition: all .15s ease-in-out;
 }
 
-.wrapper .secondarylink a:hover {
+.secondarylink a:hover {
 	background: var(--clr-primary-middle);
 	color: #FFF;
 	text-decoration: none;
@@ -1373,7 +1392,7 @@ a.cancel em {
 	line-height: 16px;
 }
 
-.delete a:link, .delete a:visited, .wrapper .secondarylink a:link, .wrapper .secondarylink a:visited, a.cancel:link, a.updatelink:link{
+.delete a:link, .delete a:visited, .secondarylink a:link, .secondarylink a:visited, a.cancel:link, a.updatelink:link{
 	border-radius:3px;
 }
 
@@ -1392,11 +1411,10 @@ table.simple {
 }
 
 table.simple td.title {
-	width: 125px;
+	width: 200px;
 	color: #222;
 	font-weight: bold;
 }
-
 
 /* footer */
 #footer {
