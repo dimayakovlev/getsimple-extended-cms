@@ -11,6 +11,18 @@
 /*
  * GetSimple js file
  */
+/*
+ * Add Question Mark
+ *
+ * Add question mark to the end of the given string if needed
+ *
+ * @param {string} str String to add question mark
+ * @return {string} String ended with question mark
+*/
+function addQuestionMark(str) {
+	return (str.charAt(str.length - 1) == '?') ? str : str + '?';
+}
+
 function updateCoords(c) {
 	$('#handw').show();
 	$('#x').val(c.x);
@@ -216,7 +228,7 @@ jQuery(document).ready(function() {
 					break;
 				case 'component-delete':
 					loadingAjaxIndicator.show();
-					if (confirm(element.getAttribute('title'))) {
+					if (confirm(addQuestionMark(element.getAttribute('title')))) {
 						let btn = document.getElementById('divlist-' + element.getAttribute('rel'));
 						if (btn) btn.remove();
 						element.closest('.compdiv').remove();
@@ -277,7 +289,7 @@ jQuery(document).ready(function() {
 		}));
 		document.querySelectorAll('[data-action="clone-page"]').forEach(element => element.addEventListener('click', function (event) {
 			loadingAjaxIndicator.show();
-			let answer = window.confirm(element.getAttribute('title') + '?');
+			let answer = window.confirm(addQuestionMark(element.getAttribute('title')));
 			if (!answer) {
 				loadingAjaxIndicator.fadeOut(500);
 				event.preventDefault();
@@ -298,7 +310,7 @@ jQuery(document).ready(function() {
 	$(".confirmation").live("click", function($e) {
 		loadingAjaxIndicator.show();
 		var message = $(this).attr("title");
-		var answer = confirm(message);
+		var answer = confirm(addQuestionMark(message));
 		if (!answer) {
 			loadingAjaxIndicator.fadeOut(500);
 			return false;
@@ -310,7 +322,7 @@ jQuery(document).ready(function() {
 		var dlink = $(this).attr("href");
 		var mytr = $(this).parents("tr");
 		mytr.css("font-style", "italic");
-		var answer = confirm(message);
+		var answer = confirm(addQuestionMark(message));
 		if (answer) {
 			if (!$(this).hasClass('noajax')) {
 				loadingAjaxIndicator.show();
