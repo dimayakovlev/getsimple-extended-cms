@@ -36,6 +36,8 @@
     * Added actions `page-clone`, `page-clone-success`, `page-clone-error`
     * Added new page visibility status **Not Published**
     * Added option to disable the HTML Editor on page level
+    * Added new administrative panel page for edit system pages **403**, **404**, **503**
+    * Added actions `changedata-savesystempage` and `changedata-aftersavesystempage`
 
 1. [](#improved)
     * Updated theme function `get_navigation()` to add `aria-role="page"` to current page in menu

@@ -25,6 +25,7 @@ $dirsArray = array(
 	GSDATAPATH,
 	GSCACHEPATH,
 	GSDATAOTHERPATH,
+	GSDATAOTHERPATH . 'autosave/',
 	GSDATAOTHERPATH . 'logs/',
 	GSDATAPAGESPATH,
 	GSDATAUPLOADPATH,
@@ -182,13 +183,13 @@ get_template('header', $site_full_name . ' &raquo; ' . i18n_r('INSTALLATION'));
 		</table>
 		<p class="hint"><?php echo sprintf(i18n_r('REQS_MORE_INFO'), "https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Server-Requirements-and-Apache-Modules"); ?></p>
 		<?php if ($kill != '') { ?>
-		<p><?php i18n('KILL_CANT_CONTINUE');?> <a href="./" ><?php i18n('REFRESH');?></a></p>
-		<?php } else {?>
-		<form action="setup.php" method="post" accept-charset="utf-8" >
+		<p><?php i18n('KILL_CANT_CONTINUE');?> <a href="./"><?php i18n('REFRESH');?></a></p>
+		<?php } else { ?>
+		<form action="setup.php" method="post" accept-charset="utf-8">
 			<div>
 				<p>
 					<?php echo $langs; ?><a href="https://github.com/dimayakovlev/getsimple-extended-cms/wiki/Languages" target="_blank" ><?php i18n('DOWNLOAD_LANG');?></a>
-					<noscript><a href="install.php?lang=" id="refreshlanguage" ><?php i18n('REFRESH');?></a> &nbsp;|&nbsp;</noscript> 
+					<noscript><a href="install.php?lang=" id="refreshlanguage"><?php i18n('REFRESH');?></a> &nbsp;|&nbsp;</noscript>
 				</p>
 			</div>
 			<p><input class="submit" type="submit" name="continue" value="<?php i18n('CONTINUE_SETUP');?> &raquo;"></p>

@@ -274,7 +274,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 			<?php if ($url != '') { ?>
 				<p class="backuplink"><?php
 					if (isset($pubDate)) echo sprintf(i18n_r('LAST_SAVED'), '<em>' . ($publisher ?: '-') . '</em>', lngDate($pubDate));
-					if (exists_bak($url)) echo ' &bull; <a href="backup-edit.php?p=view&amp;id=' . $url . '" target="_blank">' . i18n_r('BACKUP_AVAILABLE') . '</a>';
+					if (exists_bak($url)) echo ' &bull; <a href="backup-edit.php?p=view&amp;id=' . $url . '">' . i18n_r('BACKUP_AVAILABLE') . '</a>';
 				?></p>
 			<?php } ?>
 

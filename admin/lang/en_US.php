@@ -624,4 +624,7 @@ $i18n = array(
 "PREVIEW" => "Preview",
 "CLOSE" => "Close",
 "WARN_LANGINVALID"	=>	"<b>Warning:</b> This language code does not look valid!",
+"AUTOSAVE_FAILED" => 'Page autosave failed at', //edit.php, edit-system.php
+"PAGE_SYSTEM_BACKUPS" => 'System Page Backups',
+"BACKUP_OF_SYSTEM_PAGE" => "Backup of system page", // backup-edit.php
 );
