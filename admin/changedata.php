@@ -28,6 +28,7 @@ $referer = basename(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));
 
 $actions = array(
 	'edit.php' => array('save'), // Save page
+	'edit-system.php' => array('save'), // Save system page
 	'menu-manager.php' => array('save'), // Save menu order
 	'components.php' => array('save'), // Save components
 	'settings.php' => array('save', 'undo', 'flushcache'), // Save, undo website settings, flush cache
@@ -41,9 +42,9 @@ if (!isset($actions[$referer])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$action = filter_input(INPUT_POST, 'action');
+	$action = (string)filter_input(INPUT_POST, 'action');
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	$action = filter_input(INPUT_GET, 'action');
+	$action = (string)filter_input(INPUT_GET, 'action');
 } else {
 	$action = '';
 }
@@ -57,9 +58,9 @@ if ($action == '' || !in_array($action, $actions[$referer])) {
 // Create nonce in forms: get_nonce('action-name', pathinfo(__FILE__, PATHINFO_BASENAME));
 if (!defined('GSNOCSRF') || GSNOCSRF == false) {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		$nonce = filter_input(INPUT_POST, 'nonce');
+		$nonce = (string)filter_input(INPUT_POST, 'nonce');
 	} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-		$nonce = filter_input(INPUT_GET, 'nonce');
+		$nonce = (string)filter_input(INPUT_GET, 'nonce');
 	} else {
 		$nonce = '';
 	}
@@ -194,6 +195,81 @@ if ($referer == 'edit.php' && $action == 'save') {
 			}
 		}
 	}
+} elseif ($referer == 'edit-system.php' && $action == 'save') {
+	// Save system page data
+	$id = (string)filter_input(INPUT_POST, 'post-id');
+
+	// Check if autosave enabled
+	$autosave = (bool)filter_input(INPUT_POST, 'autosave', FILTER_VALIDATE_BOOLEAN);
+
+	if ($autosave) header('Content-Type: application/json; charset=utf-8');
+
+	// Check if submitted wrong system page ID
+	if ($id == '' || !in_array($id, getSystemPagesSlugs())) {
+		if ($autosave) {
+			$response = array(
+				'message' => 'WRONG REQUEST ID',
+				'date' => date(i18n_r('DATE_AND_TIME_FORMAT'))
+			);
+			echo(json_encode($response));
+		} else {
+			redirect ('pages.php?error');
+		}
+	}
+	// Check if autosave directory exists
+	if ($autosave && !is_dir(GSDATAOTHERPATH . 'autosave')) {
+		if (mkdir(GSDATAOTHERPATH . 'autosave') === false) {
+			$response = array(
+				'message' => 'CANNOT CREATE AUTOSAVE DIRECTORY',
+				'date' => date(i18n_r('DATE_AND_TIME_FORMAT'))
+			);
+			echo(json_encode($response));
+		}
+	}
+
+	$file = GSDATAOTHERPATH . ($autosave ? 'autosave/' : '') . $id . '.xml';
+
+	if (!$autosave && file_exists($file)) {
+		createBak($id . '.xml', GSDATAOTHERPATH, GSBACKUPSPATH . 'other/');
+	}
+
+	$data = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
+	$data->addChild('pubDate', date('r'));
+	$data->addChild('creDate', (string)filter_input(INPUT_POST, 'post-creDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: date('r'));
+	$data->addChild('title')->addCData(filter_var(trim(xss_clean((string)filter_input(INPUT_POST, 'post-title'))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+	$data->addChild('url', $id);
+	$data->addChild('template', (string)filter_input(INPUT_POST, 'post-template', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+	$data->addChild('content')->addCData((string)filter_input(INPUT_POST, 'post-content', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+	$data->addChild('author', (string)filter_input(INPUT_POST, 'post-author', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: $USR);
+	$data->addChild('publisher', $USR);
+	$data->addChild('lang')->addCData(filter_var(trim(strip_tags(xss_clean((string)filter_input(INPUT_POST, 'post-lang')))), FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+	$data->addAttribute('autoOpenMetadata', (string)filter_input(INPUT_POST, 'auto-open-metadata', FILTER_VALIDATE_BOOLEAN));
+	$data->addAttribute('disableEditor', (string)filter_input(INPUT_POST, 'disable-editor', FILTER_VALIDATE_BOOLEAN));
+	$data->addAttribute('revisionNumber', (int)filter_input(INPUT_POST, 'revision-number', FILTER_SANITIZE_NUMBER_INT) + ($autosave ? 0 : 1));
+	$data->addAttribute('appName', $site_full_name);
+	$data->addAttribute('appVersion', $site_version_no);
+
+	exec_action('changedata-savesystempage');
+
+	$status = XMLsave($data, $file);
+
+	exec_action('changedata-aftersavesystempage');
+
+	if ($autosave) {
+		$response = array(
+			'message' => ($status ? 'OK' : 'ERROR'),
+			'date' => date(i18n_r('DATE_AND_TIME_FORMAT'))
+		);
+		echo(json_encode($response));
+	} else {
+		if ($status) {
+			redirect($referer . '?id=' . $id . '&upd=edit-success&type=edit-system');
+		} else {
+			// @todo Add error notification
+			redirect($referer . '?id=' . $id . '&upd=edit-error&type=edit');
+		}
+	}
+
 } elseif ($referer == 'menu-manager.php' && $action == 'save') {
 	// Save page priority order
 	if (isset($_POST['menuOrder'])) {

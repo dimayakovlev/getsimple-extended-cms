@@ -16,12 +16,50 @@ include('inc/common.php');
 $userid = login_cookie_check();
 
 $id = (string)filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+$p = (string)filter_input(INPUT_GET, 'p');
 
-# get page url to display
-if ($id != '') {
+if ($id == '' || $p == '') redirect('backups.php?upd=bak-err');
+// check if $id is allowed system page ID to process
+if (($p == 'delete-system' || $p == 'restore-system' || $p == 'view-system') && !in_array($id, getSystemPagesSlugs())) redirect('backups.php?upd=bak-err');
+// check for csrf
+if (!defined('GSNOCSRF') || (GSNOCSRF == false)) {
+	if ($p == 'delete' || $p == 'delete-system' || $p == 'restore' || $p == 'restore-system') {
+		$nonce = (string)filter_input(INPUT_GET, 'nonce');
+		if (!check_nonce($nonce, $p, 'backup-edit.php')) die('CSRF detected!');
+	}
+}
+if ($p == 'delete' || $p == 'delete-system') {
+	$result = ($p == 'delete') ? delete_bak($id) : delete_system_bak($id);
+	if ($result) {
+		redirect('backups.php?upd=bak-success&id=' . $id);
+	} else {
+		redirect('backups.php?upd=bak-err&id=' . $id);
+	}
+} elseif ($p == 'restore') {
+	if (isset($_GET['new'])) {
+		updateSlugs($_GET['new'], $id);
+		restore_bak($id);
+		$existing = GSDATAPAGESPATH . $_GET['new'] . '.xml';
+		$bakfile = GSBACKUPSPATH . 'pages/' . $_GET['new'] . '.bak.xml';
+		if (!filepath_is_safe($existing, GSDATAPAGESPATH)) die();
+		copy($existing, $bakfile);
+		unlink($existing);
+		redirect('edit.php?id=' . $id . '&old=' . $_GET['new'] . '&upd=edit-success&type=restore');
+	} else {
+		restore_bak($id);
+		redirect('edit.php?id=' . $id . '&upd=edit-success&type=restore');
+	}
+} elseif ($p == 'restore-system') {
+	if (restore_system_bak($id)) {
+		redirect('edit-system.php?id=' . $id . '&upd=edit-success&type=restore');
+	} else {
+		redirect('backups.php?upd=bak-err&id=' . $id);
+	}
+} elseif ($p == 'view') {
+	# get page url to display
 	$file = $id . '.bak.xml';
 	$path = GSBACKUPSPATH . 'pages/';
-	if(!filepath_is_safe($path.$file,$path)) die();
+	if (!filepath_is_safe($path . $file, $path)) die();
 	$data = getXML($path . $file);
 	$title = stripslashes((string)$data->title);
 	$pubDate = (string)$data->pubDate;
@@ -36,44 +74,21 @@ if ($id != '') {
 	$menuStatus = (string)$data->menuStatus;
 	$menuOrder = $data->menuOrder;
 	$link = find_url($url);
+	$menuStatus = ($menuStatus == 'Y' || $menuStatus == '1') ? i18n_r('YES') : i18n_r('NO');
+	$backupAction = array('delete' => 'delete', 'restore' => 'restore');
+} elseif ($p == 'view-system') {
+	$file = $id . '.xml.bak';
+	$path = GSBACKUPSPATH . 'other/';
+	if (!filepath_is_safe($path . $file, $path)) die();
+	$data = getXML($path . $file);
+	$title = stripslashes((string)$data->title);
+	$pubDate = (string)$data->pubDate;
+	$url = (string)$data->url;
+	$template = (string)$data->template;
+	$content = stripslashes((string)$data->content);
+	$backupAction = array('delete' => 'delete-system', 'restore' => 'restore-system');
 } else {
 	redirect('backups.php?upd=bak-err');
-}
-
-$menuStatus = ($menuStatus == 'Y' || $menuStatus == '1') ? i18n_r('YES') : i18n_r('NO');
-
-// are we going to do anything with this backup?
-$p = (string)filter_input(INPUT_GET, 'p');
-
-if ($p == '') redirect('backups.php?upd=bak-err');
-
-if ($p == 'delete') {
-	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == false)) {
-		$nonce = (string)filter_input(INPUT_GET, 'nonce');
-		if (!check_nonce($nonce, 'delete', 'backup-edit.php')) die('CSRF detected!');
-	}
-	delete_bak($id);
-	redirect('backups.php?upd=bak-success&id=' . $id);
-} elseif ($p == 'restore') {
-	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == false) ) {
-		$nonce = (string)filter_input(INPUT_GET, 'nonce');
-		if (!check_nonce($nonce, 'restore', 'backup-edit.php')) die('CSRF detected!');
-	}
-	if (isset($_GET['new'])) {
-		updateSlugs($_GET['new'], $id);
-		restore_bak($id);
-		$existing = GSDATAPAGESPATH . $_GET['new'] . '.xml';
-		$bakfile = GSBACKUPSPATH . 'pages/' . $_GET['new'] . '.bak.xml';
-		if (!filepath_is_safe($existing, GSDATAPAGESPATH)) die();
-		copy($existing, $bakfile);
-		unlink($existing);
-		redirect('edit.php?id=' . $id . '&old=' . $_GET['new'] . '&upd=edit-success&type=restore');
-	} else {
-		restore_bak($id);
-		redirect('edit.php?id=' . $id . '&upd=edit-success&type=restore');
-	}
 }
 
 get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . ' &raquo; ' . i18n_r('VIEWPAGE_TITLE'));
@@ -86,11 +101,11 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . 
 
 	<div id="maincontent">
 		<div class="main">
-		<h3><?php i18n('BACKUP_OF');?> &lsquo;<em><?php echo $url; ?></em>&rsquo;</h3>
+		<h3><?php echo ($p == 'view-system') ? i18n_r('BACKUP_OF_SYSTEM_PAGE') : i18n_r('BACKUP_OF'); ?> &lsquo;<em><?php echo $url; ?></em>&rsquo;</h3>
 		<div class="edit-nav">
-			<a href="backup-edit.php?p=restore&amp;id=<?php echo var_out($id); ?>&amp;nonce=<?php echo get_nonce('restore', 'backup-edit.php'); ?>" 
+			<a href="backup-edit.php?p=<?php echo $backupAction['restore']; ?>&amp;id=<?php echo var_out($id); ?>&amp;nonce=<?php echo get_nonce($backupAction['restore'], 'backup-edit.php'); ?>" 
 				accesskey="<?php echo find_accesskey(i18n_r('ASK_RESTORE'));?>"><?php i18n('ASK_RESTORE');?></a>
-			<a href="backup-edit.php?p=delete&amp;id=<?php echo var_out($id); ?>&amp;nonce=<?php echo get_nonce('delete', 'backup-edit.php'); ?>" 
+			<a href="backup-edit.php?p=<?php echo $backupAction['delete']; ?>&amp;id=<?php echo var_out($id); ?>&amp;nonce=<?php echo get_nonce($backupAction['delete'], 'backup-edit.php'); ?>" 
 				title="<?php i18n('DELETEPAGE_TITLE'); ?>: <?php echo var_out($title); ?>?" 
 				id="delback" 
 				accesskey="<?php echo find_accesskey(i18n_r('ASK_DELETE'));?>" 
@@ -98,20 +113,23 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('BAK_MANAGEMENT') . 
 		</div>
 
 		<table class="simple highlight">
-			<tr><td class="title"><?php i18n('PAGE_TITLE');?>:</td><td><strong><?php echo cl($title); ?></strong><?php if ($private) echo ' <span class="is-private">(' . (($private == '2') ? i18n_r('NOT_PUBLISHED_SUBTITLE') : i18n_r('PRIVATE_SUBTITLE')) . ')</span>'; ?></td></tr>
+			<tr><td class="title"><?php i18n('PAGE_TITLE');?>:</td><td><strong><?php echo cl($title); ?></strong><?php if (isset($private) && $private) echo ' <span class="is-private">(' . (($private == '2') ? i18n_r('NOT_PUBLISHED_SUBTITLE') : i18n_r('PRIVATE_SUBTITLE')) . ')</span>'; ?></td></tr>
+<?php if ($p == 'view') { ?>
 			<tr><td class="title"><?php i18n('BACKUP_OF');?>:</td><td><a target="_blank" href="<?php echo $link; ?>"><?php echo $link; ?></a></td></tr>
 			<tr><td class="title"><?php i18n('DATE');?>:</td><td><?php echo lngDate($pubDate); ?></td></tr>
 			<tr><td class="title"><?php i18n('PARENT_PAGE'); ?>:</td><td><?php echo $parent; ?></td></tr>
 			<tr><td class="title"><?php i18n('TEMPLATE'); ?>:</td><td><?php echo $template; ?></td></tr>
-			<tr><td class="title"><?php i18n('TAG_KEYWORDS');?>:</td><td><em><?php echo $metak; ?></em></td></tr>
-			<tr><td class="title"><?php i18n('META_DESC');?>:</td><td><em><?php echo $metad; ?></em></td></tr>
+			<tr><td class="title"><?php i18n('TAG_KEYWORDS');?>:</td><td><?php echo $metak; ?></td></tr>
+			<tr><td class="title"><?php i18n('META_DESC');?>:</td><td><?php echo $metad; ?></td></tr>
 			<tr><td class="title"><?php i18n('ADD_TO_MENU');?>:</td><td><?php echo $menuStatus; ?></td></tr>
 			<tr><td class="title"><?php i18n('MENU_TEXT');?>:</td><td><?php echo $menu; ?></td></tr>
 			<tr><td class="title"><?php i18n('PRIORITY');?>:</td><td><?php echo $menuOrder; ?></td></tr>
+<?php } else { ?>
+			<tr><td class="title"><?php i18n('DATE');?>:</td><td><?php echo lngDate($pubDate); ?></td></tr>
+			<tr><td class="title"><?php i18n('TEMPLATE'); ?>:</td><td><?php echo $template; ?></td></tr>
+<?php }; ?>
 		</table>
-
 		<textarea id="codetext" readonly><?php echo $content; ?></textarea>
-
 		</div>
 
 		<?php if ((string)$datau->enableHTMLEditor == '1') { ?>

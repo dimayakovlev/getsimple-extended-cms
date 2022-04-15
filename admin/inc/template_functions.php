@@ -169,16 +169,33 @@ function delete_cache() {
 }
 
 /**
- * Check if backup of page data file exists
- * 
+ * Check Page Backup
+ *
+ * Check if backup file for the requested page exists
+ *
  * @since 3.5.0
  * @uses GSBACKUPSPATH
- * 
+ *
  * @param string $id Page ID to check
- * @return bool Returns true if backup of page data file exists or false
+ * @return bool Returns true if backup file exists or false
  */
 function exists_bak($id) {
 	return file_exists(GSBACKUPSPATH . 'pages' . DIRECTORY_SEPARATOR . $id . '.bak.xml');
+}
+
+/**
+ * Check System Page Backup
+ *
+ * Check if backup file for the requested system page exists
+ *
+ * @since 3.5.0
+ * @uses GSBACKUPSPATH
+ *
+ * @param string $id Page ID to check
+ * @return bool Returns true if backup file exists or false
+ */
+function exists_system_bak($id) {
+	return file_exists(GSBACKUPSPATH . 'other' . DIRECTORY_SEPARATOR . $id . '.xml.bak');
 }
 
 /**
@@ -189,10 +206,25 @@ function exists_bak($id) {
  * @uses GSBACKUPSPATH
  *
  * @param string $id File ID to delete
- * @return bool Returns result of page data backup file deletion
+ * @return bool Returns result of deleting file
  */
 function delete_bak($id) {
 	return unlink(GSBACKUPSPATH . 'pages' . DIRECTORY_SEPARATOR . $id . '.bak.xml');
+}
+
+/**
+ * Delete System Page Backup
+ *
+ * Delete backup file for the requested system page
+ *
+ * @since 3.5.0
+ * @uses GSBACKUPSPATH
+ *
+ * @param string $id Sytem Page ID to delete
+ * @return bool Return result of deletion backup file of system page
+ */
+function delete_system_bak($id) {
+	return unlink(GSBACKUPSPATH . 'other' . DIRECTORY_SEPARATOR . $id . '.xml.bak');
 }
 
 /**
@@ -219,6 +251,35 @@ function restore_bak($id) {
 	}
 	exec_action('page-restored');
 	generate_sitemap();
+}
+
+/**
+ * Restore System Page Backup
+ *
+ * Restore backup file for the requested system page
+ *
+ * @since 3.5.0
+ * @uses GSBACKUPSPATH
+ * @uses GSDATAOTHERPATH
+ *
+ * @param string $id System Page ID to restore
+ * @return bool Return result of restoring backup file of system page
+ */
+function restore_system_bak($id) {
+	$file = GSBACKUPSPATH . 'other' . DIRECTORY_SEPARATOR . $id . '.xml.bak';
+	$filePage = GSDATAOTHERPATH . $id . '.xml';
+	$result = false;
+	if (is_file($filePage)) {
+		$fileTMP = GSBACKUPSPATH . 'other' . DIRECTORY_SEPARATOR . $id . '.xml.tmp';
+		$result = copy($file, $filePage);
+		if ($result) $result = copy($filePage, $file);
+		if ($result) $result = copy($fileTMP, $filePage);
+		if ($result) $result = unlink($filePage);
+	} else {
+		$result = copy($file, $filePage);
+		if ($result) $result = unlink($file);
+	}
+	return $result;
 }
 
 /**
@@ -781,7 +842,7 @@ function get_pages_menu($parent, $menu, $level) {
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('CLONEPAGE_TITLE') . ': ' . var_out($page['title']) . '" href="pages.php?id=' . $page['url'] . '&amp;action=clone&amp;nonce=' . get_nonce('clone', 'pages.php') .'" data-action="clone-page">&#10697;</a></td>';
 			$menu .= '<td class="secondarylink"><a title="' . i18n_r('VIEWPAGE_TITLE') . ': ' . var_out($page['title']) . '" target="_blank" href="' . $pageURL . '">#</a></td>';
 			if ($page['url'] != 'index') {
-				$menu .= '<td class="delete"><a class="delconfirm" href="deletefile.php?id=' . $page['url'] . '&amp;nonce=' . get_nonce("delete", "deletefile.php") . '" title="' . i18n_r('DELETEPAGE_TITLE') . ': ' . var_out($page['title']) . '">&times;</a></td>';
+				$menu .= '<td class="delete"><a class="delconfirm" href="deletefile.php?id=' . $page['url'] . '&amp;nonce=' . get_nonce('delete', 'deletefile.php') . '" title="' . i18n_r('DELETEPAGE_TITLE') . ': ' . var_out($page['title']) . '?">&times;</a></td>';
 			} else {
 				$menu .= '<td class="delete"></td>';
 			}
@@ -1271,4 +1332,14 @@ function create_notification($text, $type = 'error', $close = false, $echo = tru
 function getReservedSlugs() {
 	global $GSADMIN;
 	return array($GSADMIN, 'data', 'theme', 'plugins', 'backups');
+}
+
+/**
+ * Get system pages slugs
+ *
+ * @since 3.5.0
+ * @return array Array of system pages slugs
+ */
+function getSystemPagesSlugs() {
+	return array('403', '404', '503');
 }

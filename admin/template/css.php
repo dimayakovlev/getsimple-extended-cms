@@ -352,6 +352,7 @@ a img,
 }
 
 #edit .wrapper .nav li a.pages,
+#edit-system .wrapper .nav li a.pages,
 #pages .wrapper .nav li a.pages,
 #menu-manager .wrapper .nav li a.pages,
 #plugins .wrapper .nav li a.plugins,
@@ -607,12 +608,20 @@ h5:hover img {
 	margin: 0;
 }
 
-#sidebar .snav li {
+#sidebar li {
 	margin: 0 0 3px 0;
 }
 
 #sidebar .snav li ul li {
 	margin: 0 0 3px 0;
+}
+
+#sidebar #sb_edit_system_403 {
+	margin-top: 1em;
+}
+
+#sidebar #sb_edit_system_503:not(:last-child) {
+	margin-bottom: 1em;
 }
 
 #submit_line {
@@ -1766,13 +1775,13 @@ h5 .crumbs, div.h5 .crumbs {
 	padding: 3px;
 }
 
-#edit #dropdown {
+:is(#edit, #edit-system) #dropdown {
 	display: inline-block;
 	padding: 3px 15px;
 	position: relative;
 }
 
-#edit #dropdown h6 {
+:is(#edit, #edit-system) #dropdown h6 {
 	font-weight: bold;
 	font-size: 11px;
 	color: #777;
@@ -1783,11 +1792,11 @@ h5 .crumbs, div.h5 .crumbs {
 	background: transparent url('images/utick.png') right center no-repeat;
 }
 
-#edit #dropdown:hover h6 {
+:is(#edit, #edit-system) #dropdown:hover h6 {
 	visibility: hidden;
 }
 
-#edit #dropdown ul {
+:is(#edit, #edit-system) #dropdown ul {
 	display: none;
 	text-shadow: 1px 1px 0 #fff;
 	list-style: none;
@@ -1806,43 +1815,41 @@ h5 .crumbs, div.h5 .crumbs {
 	overflow: hidden;
 }
 
-#edit #dropdown li {
+:is(#edit, #edit-system) #dropdown li {
 	line-height: 22px;
 	border-bottom: #eee 1px solid;
 	padding: 0 8px;
 }
 
-#edit #dropdown li:last-child {
+:is(#edit, #edit-system) #dropdown li:last-child {
 	border: none;
 }
 
-#edit #dropdown li a:link,
-#edit #dropdown li a:visited,
-#edit #dropdown li a:hover {
+:is(#edit, #edit-system) :is(#dropdown li a):is(:link, :visited, :hover) {
 	font-weight: normal;
 	color: #666;
 	text-decoration: none;
 	display: block;
 }
 
-#edit #dropdown li:hover {
+:is(#edit, #edit-system) #dropdown li:hover {
 	background: #fff;
 }
 
-#edit #dropdown li:hover a {
+:is(#edit, #edit-system) #dropdown li:hover a {
 	color: var(--clr-secondary-lightest);
 }
 
-#edit #dropdown li.alertme:hover {
+:is(#edit, #edit-system) #dropdown li.alertme:hover {
 	background: var(--clr-secondary-lightest);
 }
 
-#edit #dropdown li.alertme:hover a {
+:is(#edit, #edit-system) #dropdown li.alertme:hover a {
 	color: #FFF;
 	text-shadow: none;
 }
 
-#edit #dropdown:hover ul {
+:is(#edit, #edit-system) #dropdown:hover ul {
 	display: block;
 	opacity: 1;
 }
@@ -1942,3 +1949,11 @@ a.disabled:visited {
 	width: 380px;
 }
 
+#backups #system {
+	position: relative;
+}
+
+#backups #system > .edit-nav {
+	top: 0;
+	right: 0;
+}
