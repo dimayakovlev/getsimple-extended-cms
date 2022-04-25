@@ -4,6 +4,7 @@
 *.sublime-*
 .vscode
 lib/*
+*.kdev4
 
 thumbs.db
 admin/settings-old.php
