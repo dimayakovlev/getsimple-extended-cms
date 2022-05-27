@@ -61,6 +61,7 @@
     * Added function `isInstallPage()` to check is current page is one of the installation pages
     * Menu **Components** accessible from main navigation to quick access to work with components
     * Call action `admin-pre-header` only on inner administration panel pages
+    * Delete autosave copy when deleting page
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`

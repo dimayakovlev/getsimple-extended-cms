@@ -70,12 +70,13 @@ function get_filename_id() {
 /**
  * Delete Pages File
  *
- * Deletes pages data file afer making backup
+ * Deletes page data file and autosaved copy after making backup
  *
  * @since 1.0
- * @since 3.5.0 Returns boolean value
+ * @since 3.5.0 Returns boolean value. Delete autosaved copy of the page
  * @uses GSBACKUPSPATH
  * @uses GSDATAPAGESPATH
+ * @uses GSAUTOSAVEPATH
  *
  * @param string $id File ID to delete
  * @return boolean Returns true on success page data file creating backup and deletion else return false
@@ -87,6 +88,10 @@ function delete_file($id) {
 	if (filepath_is_safe($file, GSDATAPAGESPATH)) {
 		$successbak = copy($file, $bakfile);
 		$successdel = unlink($file);
+		if ($successdel) {
+			$fileAutoSave = GSAUTOSAVEPATH . $id . '.xml';
+			if (is_file($fileAutoSave)) unlink($fileAutoSave);
+		}
 		if ($successdel && $successbak) return true;
 	}
 	return false;
