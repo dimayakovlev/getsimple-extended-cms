@@ -1195,7 +1195,7 @@ table.comptable input[name$="[enabled]"] + label {
  */
 
 .notify, .notification {
-	border: 1px solid #E6DB55;
+	border: 1px solid currentColor;
 	border-radius: 2px;
 	background: var(--bg-notification);
 	line-height: 22px;
@@ -1207,12 +1207,12 @@ table.comptable input[name$="[enabled]"] + label {
 	column-gap: calc(var(--gap) / 2);
 }
 
-.notify p, .notification p {
+:is(.notify, .notification) p {
 	margin: 0;
 	line-height: 22px;
 }
 
-.notify button.close, .notification button.close {
+:is(.notify, .notification) button.close {
 	border: none;
 	background: none;
 	color: inherit;
@@ -1223,46 +1223,34 @@ table.comptable input[name$="[enabled]"] + label {
 	box-shadow: none;
 }
 
-.notify.error, .notification.error {
+:is(.notify, .notification).error {
 	color: #990000;
-	border-color: #990000;
 	background: var(--bg-notification-error);
 }
 
-.notify.ok, .notification.ok {
-	border-color: #258815;
+:is(.notify, .notification):is(.ok, .updated) {
 	color: #258815;
 	background: var(--bg-notification-ok);
 }
 
-.notify.info, .notification.info {
-	border-color: #2850C1;
+:is(.notify, .notification).info {
 	color: #2850C1;
 	background: var(--bg-notification-info);
 }
 
-.notify.warning, .notification.warning {
-	border-color: #878314;
+:is(.notify, .notification).warning {
 	color: #878314;
 	background: var(--bg-notification-warning);
 }
 
-.deletedrow {
-	background-color: #FFB19B;
-}
-
-.notify code, .notification code {
-	color: #990000;
+:is(.notify, .notification) code {
 	font-size: 11px;
 	font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-	line-height: 14px;
-	background: #fff;
 	opacity: .8;
-	padding: 1px;
 }
 
-.notify.updated, .notification.updated, #temp_good_flash {
-	color: #308000;
+.deletedrow {
+	background-color: #FFB19B;
 }
 
 .hint {
