@@ -68,7 +68,7 @@ $theme_templates = '';
 foreach ($templates as $file) {
 	$sel = ($template == $file) ? 'selected' : '';
 	$templatename = ($file == 'template.php') ? i18n_r('DEFAULT_TEMPLATE') : $file;
-	$theme_templates .= '<option ' . $sel.' value="' . $file . '">' . $templatename . '</option>';
+	$theme_templates .= '<option ' . $sel . ' value="' . $file . '">' . $templatename . '</option>';
 }
 
 get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $title);
@@ -82,7 +82,7 @@ get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('EDIT') . ' ' . $tit
 	<div id="maincontent">
 		<div class="main">
 
-		<h3><?php i18n('PAGE_EDIT_MODE'); ?></h3>
+		<h3><?php echo i18n_r('PAGE_EDIT_MODE'), ' ', $id; ?></h3>
 
 		<!-- pill edit navigation -->
 		<div class="edit-nav">
