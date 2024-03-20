@@ -830,9 +830,8 @@ function get_pages_menu($parent, $menu, $level) {
 	if (!empty($items)) {
 		foreach ($items as $page) {
 			$dash = '';
-			if ($page['parent'] != '') $page['parent'] .= '/';
 			for ($i = 0; $i <= $level - 1; $i++) {
-				$dash .= ($i != $level - 1) ? '<span>&nbsp;&nbsp;</span>' : '<span>&nbsp;&nbsp;&ndash;&nbsp;</span>';
+				$dash .= ($i != $level - 1) ? '<span>&nbsp;&nbsp;</span>' : '<span>&rdsh;&nbsp;</span>';
 			}
 			$menu .= '<tr id="tr-' . $page['url'] . '">';
 			$pageURL = find_url($page['url']);
@@ -890,7 +889,7 @@ function get_pages_menu_dropdown($parentitem, $menu, $level) {
 		foreach ($items as $page) {
 			$dash = '';
 			for ($i = 0; $i <= $level - 1; $i++) {
-				$dash .= ($i != $level - 1) ? '<span>&nbsp;&nbsp;</span>' : '<span>&ndash;&nbsp;</span>';
+				$dash .= ($i != $level - 1) ? '<span>&nbsp;&nbsp;</span>' : '<span>&rdsh;&nbsp;</span>';
 			}
 			$sel = ($parent == (string)$page['url']) ? ' selected' : '';
 			$menu .= '<option' . $sel . ' value="' . $page['url'] . '">' . $dash . $page['url'] . '</option>';
