@@ -64,6 +64,7 @@
     * Menu **Components** accessible from main navigation to quick access to work with components
     * Call action `admin-pre-header` only on inner administration panel pages
     * Delete autosave copy when deleting page
+    * Query parameters are preserved on canonical redirect
 
 1. [](#bugfix)
     * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`

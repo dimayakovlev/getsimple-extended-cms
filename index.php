@@ -109,7 +109,13 @@ exec_action('index-post-dataindex');
 
 # check for correctly formed url
 if ($GSCANONICAL == true) {
-	if (strpos($_SERVER['REQUEST_URI'], find_url($url, false)) !== 0) redirect(find_url($url, true));
+	if (strpos($_SERVER['REQUEST_URI'], find_url($url, false)) !== 0) {
+		$query = $_GET;
+		unset($query['id']);
+		header($_SERVER['SERVER_PROTOCOL'] . ' 301 Moved');
+		header('Cache-Control: no-cache');
+		header('Location: ' . find_url($url, true, $query));
+	}
 }
 
 # include the functions.php page if it exists within the theme
