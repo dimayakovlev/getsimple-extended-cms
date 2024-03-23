@@ -715,39 +715,29 @@ function get_component($id, $check = true) {
  * @uses exec_filter
  *
  * @param string $currentpage This is the ID of the current page the visitor is on
- * @param string $classPrefix Prefix that gets added to the parent and slug classnames
- * @return string 
+ * @param string $prefix Prefix that gets added to the parent and slug classnames
+ * @param bool $echo Optional, default is true. False will 'return' value
+ * @return null|string Echos or returns based on param $echo
  */	
-function get_navigation($currentpage = "",$classPrefix = "") {
-
+function get_navigation($currentpage = '', $prefix = '', $echo = true) {
+	global $pagesArray, $id;
+	if ($currentpage == '') $currentpage = $id;
+	$pagesSorted = subval_sort($pagesArray, 'menuOrder');
 	$menu = '';
-
-	global $pagesArray,$id;
-	if(empty($currentpage)) $currentpage = $id;
-	
-	$pagesSorted = subval_sort($pagesArray,'menuOrder');
-	if (count($pagesSorted) != 0) { 
+	if (count($pagesSorted) > 0) {
 		foreach ($pagesSorted as $page) {
-			$sel = ''; $classes = '';
-			$url_nav = $page['url'];
-			
-			if ($page['menuStatus'] != '') {
-				$parentClass = !empty($page['parent']) ? $classPrefix.$page['parent'] . " " : "";
-				$classes = trim( $parentClass.$classPrefix.$url_nav);
-        $ariaRole = '';
-				if ($currentpage == $url_nav) {
-          $classes .= " current active";
-          $ariaRole = ' aria-current="page"';
-        }
-				if ($page['menu'] == '') { $page['menu'] = $page['title']; }
-				if ($page['title'] == '') { $page['title'] = $page['menu']; }
-				$menu .= '<li class="'. $classes .'"><a'.$ariaRole.' href="'. find_url($page['url']) . '" title="'. encode_quotes(cl($page['title'])) .'">'.strip_decode($page['menu']).'</a></li>'."\n";
+			if ($page['menuStatus'] == '') continue;
+			$class = (($page['parent'] != '') ? $prefix . $page['parent'] . ' ' : '') . $prefix . $page['url'];
+			$ariaRole = '';
+			if ($currentpage == $page['url']) {
+				$class .= ' current active';
+				$ariaRole = ' aria-current="page"';
 			}
+			$menu .= '<li class="' . $class . '"><a' . $ariaRole . ' href="' . find_url($page['url']) . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu'] ?: $page['title']) . '</a></li>';
 		}
-		
 	}
-	
-	echo exec_filter('menuitems',$menu);
+	if (!$echo) return exec_filter('menuitems', $menu);
+	echo exec_filter('menuitems', $menu);
 }
 
 /**
