@@ -726,7 +726,7 @@ function get_navigation($currentpage = '', $prefix = '', $echo = true) {
 	$menu = '';
 	if (count($pagesSorted) > 0) {
 		foreach ($pagesSorted as $page) {
-			if ($page['menuStatus'] == '') continue;
+			if ($page['menuStatus'] == '' || $page['private'] == '2') continue;
 			$class = (($page['parent'] != '') ? $prefix . $page['parent'] . ' ' : '') . $prefix . $page['url'];
 			$ariaRole = '';
 			if ($currentpage == $page['url']) {
