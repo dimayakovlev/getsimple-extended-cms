@@ -1412,12 +1412,12 @@ function doTransliteration($str){
 }
 
 /**
- * get transliteration set as defined in i18n
+ * Get transliteration set as defined in i18n
  * @since 3.3.11
- * @return str
+ * @return array
  */
 function getTransliteration(){
-	return i18n_r("TRANSLITERATION");
+	return (array) i18n_r('TRANSLITERATION');
 }
 
 ?>
