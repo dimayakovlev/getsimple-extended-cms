@@ -1197,19 +1197,22 @@ function get_site_lang($short=false) {
 /**
  * Convert to Bytes
  *
+ * Convert M/G/K byte string to bytes
+ *
  * @since 3.0
  *
- * @param $str string
- * @return string
+ * @param string $str
+ * @return integer
  */
-function toBytes($str){
-	$val = trim($str);
-	$last = strtolower($str[strlen($str)-1]);
-		switch($last) {
-			case 'g': $val *= 1024;
-			case 'm': $val *= 1024;
-			case 'k': $val *= 1024;
-		}
+function toBytes($str) {
+	$str = trim($str);
+	$val = intval($str);
+	$last = strtolower(substr($str, -1));
+	switch ($last) {
+		case 'g': $val *= 1024;
+		case 'm': $val *= 1024;
+		case 'k': $val *= 1024;
+	}
 	return $val;
 }
 
