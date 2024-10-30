@@ -1405,8 +1405,10 @@ function strip_content($str, $pattern = '/[({]%.*?%[})]/'){
  * @return str      str after transliteration replacement array ran on it
  */
 function doTransliteration($str){
-	if (getTransliteration() && is_array($translit=getTransliteration()) && count($translit>0)) {
-		$str = str_replace(array_keys($translit),array_values($translit),$str);
+	$str = (string) $str;
+	$translit = getTransliteration();
+	if (!empty($translit)) {
+		$str = str_replace(array_keys($translit), array_values($translit), $str);
 	}
 	return $str;
 }
