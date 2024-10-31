@@ -689,7 +689,7 @@ function i18n_merge_impl($plugin, $lang, &$globali18n) {
  * @return string
  */
 function safe_slash_html($text) {
-	if (get_magic_quotes_gpc()==0) {
+	if (version_compare(PHP_VERSION, '7.4.0', '<') && get_magic_quotes_gpc() == false) {
 		$text = addslashes(htmlspecialchars($text, ENT_QUOTES, 'UTF-8'));
 	} else {
 		$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
@@ -752,7 +752,7 @@ function getRegexUnicode($id = null){
  * @return string
  */
 function safe_strip_decode($text) {
-	if (get_magic_quotes_gpc()==0) {
+	if (version_compare(PHP_VERSION, '7.4.0', '<') && get_magic_quotes_gpc() == false) {
 		$text = htmlspecialchars_decode($text, ENT_QUOTES);
 	} else {
 		$text = stripslashes(htmlspecialchars_decode($text, ENT_QUOTES));
