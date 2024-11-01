@@ -43,37 +43,26 @@ if (isset($_POST['submitted'])) {
 	if ( trim($_POST['post-title']) == '' )	{
 		redirect("edit.php?upd=edit-error&type=".urlencode(i18n_r('CANNOT_SAVE_EMPTY')));
 	}	else {
-		
+
 		$url="";$title="";$metad=""; $metak="";	$cont="";
-		
+
 		// is a slug provided?
-		if ($_POST['post-id']) { 
-			$url = trim($_POST['post-id']);
-			if (isset($i18n['TRANSLITERATION']) && is_array($translit=$i18n['TRANSLITERATION']) && count($translit>0)) {
-				$url = str_replace(array_keys($translit),array_values($translit),$url);
-			}
-			$url = to7bit($url, "UTF-8");
-			$url = clean_url($url); //old way
-		} else {
-			if ($_POST['post-title'])	{ 
-				$url = trim($_POST['post-title']);
-				if (isset($i18n['TRANSLITERATION']) && is_array($translit=$i18n['TRANSLITERATION']) && count($translit>0)) {
-					$url = str_replace(array_keys($translit),array_values($translit),$url);
-				}
-				$url = to7bit($url, "UTF-8");
-				$url = clean_url($url); //old way
-			} else {
-				$url = "temp";
-			}
+		if (isset($_POST['post-id']) && trim($_POST['post-id']) != '') {
+			$url = $_POST['post-id'];
+		} elseif (isset($_POST['post-title']) && trim($_POST['post-title']) != '') {
+			$url = $_POST['post-title'];
 		}
-	
-	
+		if ($url != '') {
+			$url = trim($url);
+			$url = doTransliteration($url);
+			$url = to7bit($url, 'UTF-8');
+			$url = clean_url($url); //old way
+		}
 		//check again to see if the URL is empty
-		if ( trim($url) == '' )	{
+		if (trim($url) == '' ) {
 			$url = 'temp';
 		}
-		
-		
+
 		// was the slug changed on an existing page?
 		if ( isset($existingurl) ) {
 			if ($_POST['post-id'] != $existingurl){
