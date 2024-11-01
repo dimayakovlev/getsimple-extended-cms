@@ -2,7 +2,7 @@
 /**
  * Components
  *
- * Displays and creates static components 	
+ * Displays and creates static components
  *
  * @package GetSimple
  * @subpackage Components
@@ -22,35 +22,35 @@ $update 	= ''; $table = ''; $list='';
 
 # check to see if form was submitted
 if (isset($_POST['submitted'])){
-	$value = $_POST['val'];
-	$slug = $_POST['slug'];
-	$title = $_POST['title'];
-	$ids = $_POST['id'];
-	
 	// check for csrf
-	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
-		$nonce = $_POST['nonce'];	
-		if(!check_nonce($nonce, "modify_components")) {
-			die("CSRF detected!");
+	if (!defined('GSNOCSRF') || (GSNOCSRF == false)) {
+		$nonce = isset($_POST['nonce']) ? isset($_POST['nonce'] : '');
+		if (!check_nonce($nonce, 'modify_components')) {
+			die('CSRF detected!');
 		}
 	}
 
-	# create backup file for undo           
+	$value = isset($_POST['val']) && is_array($_POST['val']) ? $_POST['val'] : array();
+	$slug = isset($_POST['slug']) && is_array($_POST['slug']) ? $_POST['slug'] : array();
+	$title = isset($_POST['title']) && is_array($_POST['title']) ? $_POST['title'] : array();
+	$ids = isset($_POST['id']) && is_array($_POST['id']) ? $_POST['id'] : array();
+
+	# create backup file for undo
 	createBak($file, $path, $bakpath);
-	
+
 	# start creation of top of components.xml file
 	$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><channel></channel>');
-	if (count($ids) != 0) { 
-		
+	if (!empty($ids)){
+
 		$ct = 0; $coArray = array();
-		foreach ($ids as $id)		{
+		foreach ($ids as $id){
 			if ($title[$ct] != null) {
-				if ( $slug[$ct] == null )	{
+				if ($slug[$ct] == null){
 					$slug_tmp = to7bit($title[$ct], 'UTF-8');
-					$slug[$ct] = clean_url($slug_tmp); 
+					$slug[$ct] = clean_url($slug_tmp);
 					$slug_tmp = '';
 				}
-				
+
 				$coArray[$ct]['id'] = $ids[$ct];
 				$coArray[$ct]['slug'] = $slug[$ct];
 				$coArray[$ct]['title'] = safe_slash_html($title[$ct]);
@@ -61,9 +61,9 @@ if (isset($_POST['submitted'])){
 		}
 		
 		$ids = subval_sort($coArray,'title');
-		
+
 		$count = 0;
-		foreach ($ids as $comp)	{
+		foreach ($ids as $comp){
 			# create the body of components.xml file
 			$components = $xml->addChild('item');
 			$c_note = $components->addChild('title');
@@ -80,14 +80,14 @@ if (isset($_POST['submitted'])){
 }
 
 # if undo was invoked
-if (isset($_GET['undo'])) { 
-	
+if (isset($_GET['undo'])){
+
 	# check for csrf
-	$nonce = $_GET['nonce'];	
-	if(!check_nonce($nonce, "undo")) {
+	$nonce = $_GET['nonce'];
+	if (!check_nonce($nonce, "undo")){
 		die("CSRF detected!");
 	}
-	
+
 	# perform the undo
 	undo($file, $path, $bakpath);
 	redirect('components.php?upd=comp-restored');
