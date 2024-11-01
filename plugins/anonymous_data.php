@@ -83,8 +83,8 @@ function gs_anonymousdata() {
 			}
 		}
 		$lastModified = @filemtime(GSDATAOTHERPATH .'.htaccess');
-		if($lastModified == NULL)
-		    $lastModified = filemtime(utf8_decode(GSDATAOTHERPATH .'.htaccess'));
+		/* if($lastModified == NULL)
+		    $lastModified = filemtime(utf8_decode(GSDATAOTHERPATH .'.htaccess')); */
 		$preview_data = @new SimpleXMLExtended('<data></data>');
 		$preview_data->addChild('submission_date', date('c'));
 		$preview_data->addChild('getsimple_version', get_site_version(false));
