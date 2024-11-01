@@ -241,38 +241,33 @@ function server_is_apache() {
 }
 
 /**
- * Performs filtering on variable, falls back to htmlentities
+ * Performs filtering on variable
  *
  * @since 3.3.0
  * @param  string $var    var to filter
  * @param  string $filter filter type
  * @return string         return filtered string
  */
-function var_out($var,$filter = "special"){
-	$var = (string)$var;
-
-	// php 5.2 shim
-	if(!defined('FILTER_SANITIZE_FULL_SPECIAL_CHARS')){
-		define('FILTER_SANITIZE_FULL_SPECIAL_CHARS',522);
-		if($filter == "full") return htmlspecialchars($var, ENT_QUOTES);
+function var_out($var, $filter = 'special'){
+	$var = (string) $var;
+	if ($var == '') return '';
+	$filter = strtolower((string) $filter);
+	if ($filter == 'full') return htmlspecialchars($var, ENT_QUOTES);
+	if ($filter == 'string') {
+		if (version_compare(PHP_VERSION, '8.1.0', '>=')) {
+			#return htmlspecialchars($var);
+			$var = preg_replace('/\x00|<[^>]*>?/', '', $var);
+			return str_replace(["'", '"'], ['&#39;', '&#34;'], $var);
+		} else {
+			return filter_var($var, FILTER_SANITIZE_STRING);
+		}
 	}
-
-	if(function_exists( "filter_var") ){
-		$aryFilter = array(
-			"string"  => FILTER_SANITIZE_STRING,
-			"int"     => FILTER_SANITIZE_NUMBER_INT,
-			"float"   => FILTER_SANITIZE_NUMBER_FLOAT,
-			"url"     => FILTER_SANITIZE_URL,
-			"email"   => FILTER_SANITIZE_EMAIL,
-			"special" => FILTER_SANITIZE_SPECIAL_CHARS,
-			"full"    => FILTER_SANITIZE_FULL_SPECIAL_CHARS
-		);
-		if(isset($aryFilter[$filter])) return filter_var( $var, $aryFilter[$filter]);
-		return filter_var( $var, FILTER_SANITIZE_SPECIAL_CHARS);
-	}
-	else {
-		return htmlentities($var);
-	}
+	if ($filter == 'int') return filter_var($var, FILTER_SANITIZE_NUMBER_INT);
+	if ($filter == 'float') return filter_var($var, FILTER_SANITIZE_NUMBER_FLOAT);
+	if ($filter == 'url') return filter_var($var, FILTER_SANITIZE_URL);
+	if ($filter == 'email') return filter_var($var, FILTER_SANITIZE_EMAIL);
+	# Return by default
+	return filter_var($var, FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 function validImageFilename($file){
