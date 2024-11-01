@@ -60,18 +60,17 @@ function clean_img_name($text)  {
  * @param string $from_enc
  * @return string 
  */
-function to7bit($text,$from_enc="UTF-8") {
-	if (function_exists('mb_convert_encoding')) {
-   		$text = mb_convert_encoding($text,'HTML-ENTITIES',$from_enc);
-    } else {
-		$text = htmlspecialchars_decode(utf8_decode(htmlentities($text, ENT_COMPAT, 'utf-8', false)));
-	}
-    $text = preg_replace(
-        array('/&szlig;/','/&(..)lig;/',
-             '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
-        array('ss',"$1","$1".'e',"$1"),
-        $text);
-    return $text;
+function to7bit($text, $from_enc = 'UTF-8'){
+	$text = (string) $text;
+	if ($text != '') {
+		if (version_compare(PHP_VERSION, '8.3.0', '<')) {
+			$text = htmlspecialchars_decode(utf8_decode(htmlentities($text, ENT_COMPAT, $from_enc, false)));
+		} else {
+			$text = htmlspecialchars_decode(htmlentities($text));
+		}
+		$text = preg_replace(array('/&szlig;/', '/&(..)lig;/', '/&([aouAOU])uml;/', '/&(.)[^;]*;/'), array('ss', "$1", "$1".'e', "$1"), $text);
+		}
+	return $text;
 }
 
 
