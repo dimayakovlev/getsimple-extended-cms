@@ -24,7 +24,7 @@ $update 	= ''; $table = ''; $list='';
 if (isset($_POST['submitted'])){
 	// check for csrf
 	if (!defined('GSNOCSRF') || (GSNOCSRF == false)) {
-		$nonce = isset($_POST['nonce']) ? isset($_POST['nonce']) : '';
+		$nonce = isset($_POST['nonce']) ? $_POST['nonce'] : '';
 		if (!check_nonce($nonce, 'modify_components')) {
 			die('CSRF detected!');
 		}
