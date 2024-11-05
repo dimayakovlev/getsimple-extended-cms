@@ -2,12 +2,12 @@
 /**
  * All Plugins
  *
- * Displays all installed plugins 
+ * Displays all installed plugins
  *
- * @package GetSimple
+ * @package GetSimple Legacy
  * @subpackage Plugins
  */
- 
+
 // Setup inclusions
 $load['plugin'] = true;
 
@@ -87,35 +87,28 @@ exec_action('plugin-hook');
 get_template('header', cl($SITENAME).' &raquo; '.i18n_r('PLUGINS_MANAGEMENT')); 
 
 ?>
-	
+
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent clearfix">
-	
+
 	<div id="maincontent">
 		<div class="main" >
 		<h3><?php i18n('PLUGINS_MANAGEMENT'); ?></h3>
-		
+
 		<?php if ($counter > 0) { ?>
 			<table class="edittable highlight">
 				<tr><th><?php i18n('PLUGIN_NAME'); ?></th><th><?php i18n('PLUGIN_DESC'); ?></th><th><?php i18n('STATUS'); ?></th></tr>
 				<?php echo $table; ?>
 			</table>
-		<?php  } ?>
-		
-		
-		<p><em><b><span id="pg_counter"><?php echo $counter; ?></span></b> <?php i18n('PLUGINS_INSTALLED'); ?>
-		<?php 
-		if ($counter == 0) { 
-			echo ' - <a href="http://get-simple.info/extend/" target="_blank" >'. str_replace(array('<em>','</em>'), '', i18n_r('GET_PLUGINS_LINK')) .'</a>';
-		}
-		?>	
-		</em></p>
-		
+		<?php } ?>
+
+		<p><em><b><span id="pg_counter"><?php echo $counter; ?></span></b> <?php i18n('PLUGINS_INSTALLED'); ?></em></p>
+
 		</div>
 	</div>
-	
-	<div id="sidebar" >
+
+	<div id="sidebar">
 		<?php include('template/sidebar-plugins.php'); ?>
 	</div>
 
