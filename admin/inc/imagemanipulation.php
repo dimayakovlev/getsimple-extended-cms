@@ -129,7 +129,7 @@ class ImageManipulation {
      *
      * @param string $imgFile The image filename.
      */
-	public function ImageManipulation($imgfile)
+	public function __construct($imgfile)
 	{
 		//detect image format
 		$this->image["format"] = preg_replace("/.*\.(.*)$/", "\\1", $imgfile);
