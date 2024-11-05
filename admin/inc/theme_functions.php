@@ -1,12 +1,12 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if(!defined('IN_GS')) { die('you cannot load this page directly.'); }
 /**
  * Theme Functions
  *
- * These functions are used within the front-end of a GetSimple installation
+ * These functions are used within the front-end of a GetSimple Legacy installation
  *
  * @link http://get-simple.info/docs/theme-codex/
  *
- * @package GetSimple
+ * @package GetSimple Legacy
  * @subpackage Theme-Functions
  */
 
@@ -411,23 +411,26 @@ function get_site_email($echo=true) {
 /**
  * Get Site Credits
  *
- * This will return HTML that displays 'Powered by GetSimple X.XX'
+ * This will return HTML that displays 'Powered by GetSimple Legacy XXXX.XX'
  * It will always be nice if developers left this in their templates 
- * to help promote GetSimple. 
+ * to help promote GetSimple Legacy.
  *
  * @since 1.0
  * @uses $site_link_back_url from configuration.php
  * @uses $site_full_name from configuration.php
  * @uses GSVERSION
  * @uses GSADMININCPATH
- *
+ * 
+ * @since 2024.11
+ * @uses GSNAME
+ * 
  * @param string $text Optional, default is 'Powered by'
  * @return string 
  */
-function get_site_credits($text ='Powered by ') {
-	include(GSADMININCPATH.'configuration.php');
-	
-	$site_credit_link = '<a href="'.$site_link_back_url.'" target="_blank" >'.$text.' '.$site_full_name.'</a>';
+function get_site_credits($text = 'Powered by ') {
+	$text = (string) $text;
+	include(GSADMININCPATH . 'configuration.php');
+	$site_credit_link = '<a href="' . $site_link_back_url . '" target="_blank" >' . htmlspecialchars($text) . GSNAME . '</a>';
 	echo stripslashes($site_credit_link);
 }
 
