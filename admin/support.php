@@ -23,17 +23,11 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT') );
 		<div class="main">
 	
 			<h3><?php i18n('GETTING_STARTED');?></h3>
-			
+			<p><?php i18n('WELCOME_MSG'); ?></p>
+			<p><?php i18n('WELCOME_P'); ?></p>
 			<ul>
-				<li><a href="http://get-simple.info/docs/" target="_blank" ><?php i18n('SIDE_DOCUMENTATION'); ?></a></li>
-				<li><a href="http://get-simple.info/forum/" target="_blank" ><?php i18n('SUPPORT_FORUM'); ?></a></li>
-				<li><a href="http://get-simple.info/extend/" target="_blank" ><?php echo str_replace(array('<em>','</em>'), '', i18n_r('GET_PLUGINS_LINK')); ?></a></li>
-				<li><a href="share.php?term=<?php i18n('SHARE'); ?>" rel="facybox" ><?php i18n('SHARE'); ?> GetSimple</a></li>
-				<li><a href="https://github.com/GetSimpleCMS" target="_blank">Github SVN</a></li>
+				<li><a href="<?php echo var_out($site_link_back_url, 'url'); ?>" target="_blank"><?php echo var_out($site_full_name); ?> GitHub</a></li>
 			</ul>
-			
-			<p><?php i18n('WELCOME_MSG'); ?> <?php i18n('WELCOME_P'); ?></p>
-			
 			<ul>
 				<li><a href="health-check.php"><?php i18n('WEB_HEALTH_CHECK'); ?></a></li>
 				<li><a href="edit.php"><?php i18n('CREATE_NEW_PAGE'); ?></a></li>
