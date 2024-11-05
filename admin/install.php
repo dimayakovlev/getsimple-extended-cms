@@ -76,6 +76,7 @@ $filenames = getFiles(GSLANGPATH);
 
 if ($LANG == '') { $LANG = 'en_US'; }
 
+$lang_array = array();
 foreach ($filenames as $lfile) {
 	if( is_file(GSLANGPATH . $lfile) && $lfile != "." && $lfile != ".." ) {
 		$lang_array[] = basename($lfile, ".php");
@@ -98,7 +99,8 @@ if (count($lang_array) == 1) {
 	}
 	$langs .= '</select><br />';
 } else {
-	$langs = '<b>'.i18n_r('LANGUAGE').'</b>: &nbsp;<code style="color:red;">'.i18n_r('NONE').'</code> &nbsp;&nbsp;';
+	//$langs = '<b>'.i18n_r('LANGUAGE').'</b>: &nbsp;<code style="color:red;">'.i18n_r('NONE').'</code> &nbsp;&nbsp;';
+	die('Language file not found. Try to reupload files on your server');
 }
 
 # salt value generation
