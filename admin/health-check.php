@@ -44,11 +44,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 			<table class="highlight healthcheck">
 				<tr><td style="width:445px;" >
 				<?php
-					
-					if (version_compare(PHP_VERSION, "5.2", "<")) {
-						echo 'PHP '.i18n_r('VERSION').'</td><td><span class="ERRmsg" ><b>'. PHP_VERSION.'</b> - PHP 5.2 '.i18n_r('OR_GREATER_REQ').' - '.i18n_r('ERROR').'</span></td></tr>';
+					if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+						echo 'PHP ' . i18n_r('VERSION') . '</td><td><span class="ERRmsg" ><b>' . PHP_VERSION . '</b> - PHP 5.3.0 ' . i18n_r('OR_GREATER_REQ') . ' - ' . i18n_r('ERROR') . '</span></td></tr>';
 					} else {
-						echo 'PHP '.i18n_r('VERSION').'</td><td><span class="OKmsg" ><b>'. PHP_VERSION.'</b> - '.i18n_r('OK').'</span></td></tr>';
+						echo 'PHP ' . i18n_r('VERSION') . '</td><td><span class="OKmsg" ><b>' . PHP_VERSION . '</b> - ' . i18n_r('OK') . '</span></td></tr>';
 					}
 
 					if  (in_arrayi('curl', $php_modules) && function_exists('curl_init') && function_exists('curl_exec')) {
