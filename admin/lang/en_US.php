@@ -5,9 +5,13 @@
  * Date:			6 December 2011
  * Revision:		Dec 2013
  * Version:			GetSimple 3.3.0
- * Traductors: 		Chris Cagle 
+ * Traductors: 		Chris Cagle
  *
- * @package GetSimple
+ * Revision: Nov 2024
+ * Version: GetSimple Legacy 2024.11
+ * Traductors: Dmitry Yakovlev
+ * 
+ * @package GetSimple Legacy
  * @subpackage Language
  */
 
@@ -17,7 +21,7 @@ $i18n = array(
 /* 
  * For: install.php
 */
-"PHPVER_ERROR"			=>	"<b>Unable to continue:</b> PHP 5.1.3 or greater is required, you have ",
+"PHPVER_ERROR"			=>	"<b>Unable to continue:</b> PHP 5.3.0 or greater is required, you have ",
 "SIMPLEXML_ERROR"		=>	"<b>Unable to continue:</b> <em>SimpleXML</em> is not installed",
 "CURL_WARNING"			=>	"<b>Warning:</b> <em>cURL</em> Not Installed",
 "TZ_WARNING"				=>	"<b>Warning:</b> <em>date_default_timezone_set</em> is missing",
@@ -396,8 +400,8 @@ $i18n = array(
 /* 
  * For: support.php
 */
-"WELCOME_MSG"				=>	"Thank you for choosing GetSimple as your content management system!",
-"WELCOME_P"					=>	"GetSimple makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><strong>Some first steps that might be useful:</strong></p>",
+"WELCOME_MSG"				=>	"Thank you for choosing <strong>GetSimple Legacy</strong> as your content management system!",
+"WELCOME_P"					=>	"<strong>GetSimple Legacy</strong> makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><strong>Some first steps that might be useful:</strong>",
 "GETTING_STARTED"		=>	"Getting Started",
 
 /* 
@@ -574,7 +578,6 @@ $i18n = array(
   "о"=>"o","п"=>"p","р"=>"r","с"=>"s","т"=>"t",
   "у"=>"u","ф"=>"f","х"=>"h","ц"=>"c","ч"=>"ch",
   "ш"=>"sh","щ"=>"shh","ъ"=>"","ы"=>"y","ь"=>"",
-  
   "э"=>"e","ю"=>"yu","я"=>"ya"
 ),
 
@@ -587,5 +590,3 @@ $i18n = array(
 "DEBUG_CONSOLE" => 'Debug Console'
 
 );
-
-?>
