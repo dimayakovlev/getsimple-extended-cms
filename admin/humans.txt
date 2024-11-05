@@ -1,4 +1,4 @@
-/* TEAM */
+/* TEAM of GetSimple */
   Founder & Developer: Chris Cagle
   Forum Handle: ccagle8
   Site: http://chriscagle.me/
@@ -29,3 +29,9 @@
   Mike Henken (MikeH)
   Martijn van der Ven (Zegnåt)
   ...and the countless others on the forums and SVN that help us make this amazing product possible.
+
+/* TEAM of GetSimple Legacy */
+  Founder & Developer: Dmitry Yakovlev
+  Site: http://dimayakovlev.ru/
+  Telegram: https://t.me/dimayakovlev
+  Location: Saint Petersburg, Russia
