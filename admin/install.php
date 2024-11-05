@@ -4,7 +4,7 @@
  *
  * Initial step of installation. Redirects to setup.php if everything checks out OK
  *
- * @package GetSimple
+ * @package GetSimple Legacy
  * @subpackage Installation
  */
 
@@ -78,8 +78,8 @@ if ($LANG == '') { $LANG = 'en_US'; }
 
 $lang_array = array();
 foreach ($filenames as $lfile) {
-	if( is_file(GSLANGPATH . $lfile) && $lfile != "." && $lfile != ".." ) {
-		$lang_array[] = basename($lfile, ".php");
+	if (is_file(GSLANGPATH . $lfile) && $lfile != '.' && $lfile != '..') {
+		$lang_array[] = basename($lfile, '.php');
 	}
 }
 
@@ -151,8 +151,8 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION') );
 			<tr><td style="width:380px;"><?php echo $site_full_name; ?> <?php i18n_r('VERSION'); ?></td><td><span class="OKmsg" ><b><?php echo $site_version_no; ?></b> - <?php i18n('OK'); ?></span></td></tr>
 			<tr><td>
 			<?php
-				if (version_compare(PHP_VERSION, "5.3.0", "<")) {
-					echo 'PHP '. i18n_r('VERSION') . '</td><td><span class="ERRmsg" ><b>' . PHP_VERSION . '</b> - PHP 5.3.0 ' . i18n_r('OR_GREATER_REQ') . ' - ' . i18n_r('ERROR') . '</span></td></tr>';
+				if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+					echo 'PHP ' . i18n_r('VERSION') . '</td><td><span class="ERRmsg" ><b>' . PHP_VERSION . '</b> - PHP 5.3.0 ' . i18n_r('OR_GREATER_REQ') . ' - ' . i18n_r('ERROR') . '</span></td></tr>';
 				} else {
 					echo 'PHP ' . i18n_r('VERSION') . '</td><td><span class="OKmsg" ><b>' . PHP_VERSION . '</b> - ' . i18n_r('OK') . '</span></td></tr>';
 				}
@@ -206,21 +206,19 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION') );
 
 			?>
 			</table>
-			<p class="hint"><?php echo sprintf(i18n_r('REQS_MORE_INFO'), "http://get-simple.info/docs/requirements"); ?></p>
 			<?php if ($kill != '') { ?>
-				<p><?php i18n('KILL_CANT_CONTINUE');?> <a href="./" ><?php i18n('REFRESH');?></a></p>
-			<?php } else {?>
-			<form action="setup.php" method="post" accept-charset="utf-8" >
+				<p><?php i18n('KILL_CANT_CONTINUE');?> <a href="./"><?php i18n('REFRESH'); ?></a></p>
+			<?php } else { ?>
+			<form action="setup.php" method="post" accept-charset="utf-8">
 				<div class="leftsec">
-					<p>			
-						<?php echo $langs; ?><a href="http://get-simple.info/docs/languages" target="_blank" ><?php i18n('DOWNLOAD_LANG');?></a>
-						<noscript><a href="install.php?lang=" id="refreshlanguage" ><?php i18n('REFRESH');?></a> &nbsp;|&nbsp;</noscript> 
+					<p>
+						<?php echo $langs; ?>
+						<noscript><a href="install.php?lang=" id="refreshlanguage"><?php i18n('REFRESH'); ?></a></noscript>
 					</p>
 				</div>
 				<div class="clear"></div>
 				<p><input class="submit" type="submit" name="continue" value="<?php i18n('CONTINUE_SETUP');?> &raquo;" /></p>
 			</form>
-			
 			<small class="hint"></small>
 			<?php } ?>
 	</div>
