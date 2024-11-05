@@ -15,7 +15,7 @@
 	  		}
       		
       		if(!isAuthPage()){ ?>
-	      		<p>&copy; <a href="<?php echo var_out($site_link_back_url, 'url'); ?>" target="_blank" ><?php echo var_out($site_full_name); ?></a>
+	      		<p><?php i18n('POWERED_BY'); ?> <a href="<?php echo var_out($site_link_back_url, 'url'); ?>" target="_blank" ><?php echo var_out($site_full_name); ?></a>
 	      		<?php echo '&ndash; '. i18n_r('VERSION') .' '. $site_version_no;  ?>
 	      		</p> 
       		</div> <!-- end .footer-left -->
