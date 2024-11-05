@@ -151,10 +151,10 @@ get_template('header', $site_full_name.' &raquo; '. i18n_r('INSTALLATION') );
 			<tr><td style="width:380px;"><?php echo $site_full_name; ?> <?php i18n_r('VERSION'); ?></td><td><span class="OKmsg" ><b><?php echo $site_version_no; ?></b> - <?php i18n('OK'); ?></span></td></tr>
 			<tr><td>
 			<?php
-				if (version_compare(PHP_VERSION, "5.2", "<")) {
-					echo 'PHP '.i18n_r('VERSION') .'</td><td><span class="ERRmsg" ><b>'. PHP_VERSION.'</b> - PHP 5.2 '.i18n_r('OR_GREATER_REQ') .' - '.i18n_r('ERROR') .'</span></td></tr>';
+				if (version_compare(PHP_VERSION, "5.3.0", "<")) {
+					echo 'PHP '. i18n_r('VERSION') . '</td><td><span class="ERRmsg" ><b>' . PHP_VERSION . '</b> - PHP 5.3.0 ' . i18n_r('OR_GREATER_REQ') . ' - ' . i18n_r('ERROR') . '</span></td></tr>';
 				} else {
-					echo 'PHP '.i18n_r('VERSION') .'</td><td><span class="OKmsg" ><b>'. PHP_VERSION.'</b> - '.i18n_r('OK') .'</span></td></tr>';
+					echo 'PHP ' . i18n_r('VERSION') . '</td><td><span class="OKmsg" ><b>' . PHP_VERSION . '</b> - ' . i18n_r('OK') . '</span></td></tr>';
 				}
 				
 				if ($kill == '') {
