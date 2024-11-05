@@ -2,9 +2,9 @@
 /**
  * Settings
  *
- * Displays and changes website settings 
+ * Displays and changes website settings
  *
- * @package GetSimple
+ * @package GetSimple Legacy
  * @subpackage Settings
  */
 
@@ -35,7 +35,7 @@ if (isset($_GET['flushcache'])) {
 }
 
 # if the undo command was invoked
-if (isset($_GET['undo'])) { 
+if (isset($_GET['undo'])) {
 	
 	# first check for csrf
 	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
@@ -54,7 +54,7 @@ if (isset($_GET['undo'])) {
 }
 
 # was this page restored?
-if (isset($_GET['restored'])) { 
+if (isset($_GET['restored'])) {
 	$restored = 'true'; 
 } else {
 	$restored = 'false';
@@ -67,10 +67,10 @@ if(isset($_POST['submitted'])) {
 	if (!defined('GSNOCSRF') || (GSNOCSRF == FALSE) ) {
 		$nonce = $_POST['nonce'];
 		if(!check_nonce($nonce, "save_settings")) {
-			die("CSRF detected!");	
+			die("CSRF detected!");
 		}
 	}
-	
+
 	# website-specific fields
 	if(isset($_POST['sitename'])) { 
 		$SITENAME = htmlentities($_POST['sitename'], ENT_QUOTES, 'UTF-8'); 
@@ -89,7 +89,7 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$PRETTYURLS = '';
 	}
-   
+
 	# user-specific fields
 	if(isset($_POST['user'])) { 
 		$USR = strtolower($_POST['user']); 
@@ -111,27 +111,26 @@ if(isset($_POST['submitted'])) {
 	} else {
 		$HTMLEDITOR = '';
 	}
-	
-	
+
 	# check to see if passwords are changing
 	if(isset($_POST['sitepwd'])) { $pwd1 = $_POST['sitepwd']; }
 	if(isset($_POST['sitepwd_confirm'])) { $pwd2 = $_POST['sitepwd_confirm']; }
-	if ($pwd1 != $pwd2 && $pwd2 != '')	{
+	if ($pwd1 != $pwd2 && $pwd2 != '') {
 		#passwords do not match 
 		$error = i18n_r('PASSWORD_NO_MATCH');
 	} else {
 		# password cannot be null
-		if ( $pwd1 != '' && $pwd2 != '') { 
+		if ($pwd1 != '' && $pwd2 != '') { 
 			$PASSWD = passhash($pwd1); 
-		}	
-		
+		}
+
 		// check valid lang files
 		if(!in_array($LANG.'.php', $lang_array) and !in_array($LANG.'.PHP', $lang_array)) die(); 
 
 		# create user xml file
 		createBak($file, GSUSERSPATH, GSBACKUSERSPATH);
-		if (file_exists(GSUSERSPATH . _id($USR).'.xml.reset')) { unlink(GSUSERSPATH . _id($USR).'.xml.reset'); }	
-		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');		
+		if (file_exists(GSUSERSPATH . _id($USR).'.xml.reset')) { unlink(GSUSERSPATH . _id($USR).'.xml.reset'); }
+		$xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><item></item>');
 		$xml->addChild('USR', $USR);
 		$xml->addChild('NAME', var_out($NAME));
 		$xml->addChild('PWD', $PASSWD);
@@ -187,7 +186,7 @@ if (count($lang_array) != 0) {
 	$sel = ''; $langs = '';
 	foreach ($lang_array as $lfile){
 		$lfile = basename($lfile,".php");
-		if ($LANG == $lfile)	{ $sel="selected"; }
+		if ($LANG == $lfile) { $sel="selected"; }
 		$langs .= '<option '.$sel.' value="'.$lfile.'" >'.$lfile.'</option>';
 		$sel = '';
 	}
@@ -206,7 +205,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 	<div id="maincontent">
 		<form class="largeform" action="<?php myself(); ?>" method="post" accept-charset="utf-8" >
 		<input id="nonce" name="nonce" type="hidden" value="<?php echo get_nonce("save_settings"); ?>" />
-		
+
 		<div class="main">
 		<h3><?php i18n('WEBSITE_SETTINGS');?></h3>
 		
@@ -215,22 +214,20 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		</div>
 		<div class="rightsec">
 			<p><label for="siteurl" ><?php i18n('LABEL_BASEURL');?>:</label><input class="text" id="siteurl" name="siteurl" type="url" value="<?php if(isset($SITEURL1)) { echo $SITEURL1; } else { echo $SITEURL; } ?>" /></p>
-			<?php	if ( $fullpath != $SITEURL ) {	echo '<p style="margin:-15px 0 20px 0;color:#D94136;font-size:11px;" >'.i18n_r('LABEL_SUGGESTION').': &nbsp; <code>'.$fullpath.'</code></p>';	}	?>
+			<?php if ($fullpath != $SITEURL) { echo '<p style="margin:-15px 0 20px 0;color:#D94136;font-size:11px;" >'.i18n_r('LABEL_SUGGESTION').': &nbsp; <code>'.$fullpath.'</code></p>'; } ?>
 		</div>
 		<div class="clear"></div>
-		
+
 		<p class="inline" ><input name="prettyurls" id="prettyurls" type="checkbox" value="1" <?php echo $prettychck; ?>  /> &nbsp;<label for="prettyurls" ><?php i18n('USE_FANCY_URLS');?></label></p>
-				
+
 		<div class="leftsec">
-			<p><label for="permalink"  class="clearfix"><?php i18n('PERMALINK');?>: <span class="right"><a href="http://get-simple.info/docs/pretty_urls" target="_blank" ><?php i18n('MORE');?></a></span></label><input class="text" name="permalink" id="permalink" type="text" placeholder="%parent%/%slug%/" value="<?php if(isset($PERMALINK)) { echo var_out($PERMALINK); } ?>" /></p>
+			<p><label for="permalink"  class="clearfix"><?php i18n('PERMALINK');?>:</label><input class="text" name="permalink" id="permalink" type="text" placeholder="%parent%/%slug%/" value="<?php if(isset($PERMALINK)) { echo var_out($PERMALINK); } ?>" /></p>
 		<a id="flushcache" class="button" href="?flushcache"><?php i18n('FLUSHCACHE'); ?></a>
 		</div>
 		<div class="clear"></div>
-		
 
 		<?php exec_action('settings-website-extras'); ?>
-	
-		
+
 		<div id="profile" class="section" >
 		<h3><?php i18n('SIDE_USER_PROFILE');?></h3>
 		<div class="leftsec">
@@ -247,8 +244,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 			<p><label for="name" ><?php i18n('LABEL_DISPNAME');?>:</label>
 			<span style="margin:0px 0 5px 0;font-size:12px;color:#999;" ><?php i18n('DISPLAY_NAME');?></span>			
 			<input class="text" id="name" name="name" type="text" value="<?php if(isset($NAME1)) { echo $NAME1; } else { echo var_out($NAME); } ?>" /></p>
-		</div>		
-		<div class="clear"></div>		
+		</div>
+		<div class="clear"></div>
 		<div class="leftsec">
 			<p><label for="timezone" ><?php i18n('LOCAL_TIMEZONE');?>:</label>
 			<!-- <?php if( (isset($_POST['timezone'])) ) { $TIMEZONE = $_POST['timezone']; } ?> -->
@@ -260,7 +257,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 			</p>
 		</div>
 		<div class="rightsec">
-			<p><label for="lang" ><?php i18n('LANGUAGE');?>: <span class="right"><a href="http://get-simple.info/docs/languages" target="_blank" ><?php i18n('MORE');?></a></span></label>
+			<p><label for="lang" ><?php i18n('LANGUAGE');?>:</label>
 			<select name="lang" id="lang" class="text">
 				<?php echo $langs; ?>
 			</select>
@@ -268,7 +265,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 		</div>
 		<div class="clear"></div>
 		<p class="inline" ><input name="show_htmleditor" id="show_htmleditor" type="checkbox" value="1" <?php echo $editorchck; ?> /> &nbsp;<label for="show_htmleditor" ><?php i18n('ENABLE_HTML_ED');?></label></p>
-		
+
 		<?php exec_action('settings-user-extras'); ?>
 		
 		<p style="margin:0px 0 5px 0;font-size:12px;color:#999;" ><?php i18n('ONLY_NEW_PASSWORD');?>:</p>
@@ -279,19 +276,19 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('GENERAL_SETTINGS'));
 			<p><label for="sitepwd_confirm" ><?php i18n('CONFIRM_PASSWORD');?>:</label><input autocomplete="off" class="text" id="sitepwd_confirm" name="sitepwd_confirm" type="password" value="" /></p>
 		</div>
 		<div class="clear"></div>
-		
-		<p id="submit_line" >
+
+		<p id="submit_line">
 			<span><input class="submit" type="submit" name="submitted" value="<?php i18n('BTN_SAVESETTINGS');?>" /></span> &nbsp;&nbsp;<?php i18n('OR'); ?>&nbsp;&nbsp; <a class="cancel" href="settings.php?cancel"><?php i18n('CANCEL'); ?></a>
 		</p>
 
 		</div><!-- /section -->
 		</div><!-- /main -->
 	</form>
-	
+
 	</div>
-	
+
 	<div id="sidebar" >
-		<?php include('template/sidebar-settings.php'); ?>		
+		<?php include('template/sidebar-settings.php'); ?>
 	</div>
 
 </div>
