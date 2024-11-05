@@ -2,9 +2,9 @@
 /**
  * Health Check
  *
- * Displays the status and health check of your installation	
+ * Displays the status and health check of your installation
  *
- * @package GetSimple
+ * @package GetSimple Legacy
  * @subpackage Support
  */
 
@@ -16,14 +16,14 @@ include('inc/common.php');
 login_cookie_check();
 $php_modules = get_loaded_extensions();
 
-get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i18n_r('WEB_HEALTH_CHECK')); 
+get_template('header', cl($SITENAME) . ' &raquo; ' . i18n_r('SUPPORT') . ' &raquo; ' . i18n_r('WEB_HEALTH_CHECK'));
 
 ?>
-	
+
 <?php include('template/include-nav.php'); ?>
 
 <div class="bodycontent clearfix">
-	
+
 	<div id="maincontent">
 		<div class="main">
 			<h3><?php echo $site_full_name; ?></h3>
@@ -36,11 +36,11 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
                 else echo '<tr><td>GSLOGINSALT</td><td><span class="hint">'. i18n_r('NO').'</span></td></tr>'; 
                 
                 if(defined('GSUSECUSTOMSALT') && GSUSECUSTOMSALT!='') echo '<tr><td>GSUSECUSTOMSALT</td><td><span class="hint">'. i18n_r('YES').'</span></td></tr>'; 
-				else echo '<tr><td>GSUSECUSTOMSALT</td><td><span class="hint">'. i18n_r('NO').'</span></td></tr>';                 
+				else echo '<tr><td>GSUSECUSTOMSALT</td><td><span class="hint">'. i18n_r('NO').'</span></td></tr>';
                 ?>
 			</table>
-			
-			<h3><?php i18n('SERVER_SETUP');?></h3>
+
+			<h3><?php i18n('SERVER_SETUP'); ?></h3>
 			<table class="highlight healthcheck">
 				<tr><td style="width:445px;" >
 				<?php
@@ -97,9 +97,8 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
                 if(!empty($disabled_funcs)) echo '<tr><td colspan=2>PHP disable_functions<span class="hint"> ' . $disabled_funcs . '</span></td></tr>';
 	?>
 			</table>
-			<p class="hint"><?php echo sprintf(i18n_r('REQS_MORE_INFO'), "http://get-simple.info/docs/requirements"); ?></p>
-			
-			<h3><?php i18n('DATA_FILE_CHECK');?></h3>
+
+			<h3><?php i18n('DATA_FILE_CHECK'); ?></h3>
 			<table class="highlight healthcheck">
 				<?php 
 						$path = GSDATAPAGESPATH;
@@ -108,7 +107,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 						foreach($data as $file) {
 							if( isFile($file, $path) ) {
 								echo '<tr><td style="width:445px;" >/data/pages/' . $file .'</td><td>' . valid_xml($path . $file) .'</td></tr>';
-							}							
+							}
 						}
 
 						$path = GSDATAOTHERPATH;
@@ -139,10 +138,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 						}
 				?>
 			</table>
-			
-			<h3><?php i18n('DIR_PERMISSIONS');?></h3>
+
+			<h3><?php i18n('DIR_PERMISSIONS'); ?></h3>
 			<table class="highlight healthcheck">
-				<?php $me = check_perms(GSDATAOTHERPATH.'plugins.xml'); ?><tr><td><?php i18n('FILE_NAME'); ?>: /data/other/plugins.xml</td><td><?php if( $me >= '0644' ) { echo '<span class="OKmsg" >'. $me .' '.i18n_r('WRITABLE').' - '.i18n_r('OK').'</span>'; } else { echo '<span class="ERRmsg" >'. $me .' '.i18n_r('NOT_WRITABLE').' - '.i18n_r('ERROR').'!</span>'; } ?></td></tr>			
+				<?php $me = check_perms(GSDATAOTHERPATH.'plugins.xml'); ?><tr><td><?php i18n('FILE_NAME'); ?>: /data/other/plugins.xml</td><td><?php if( $me >= '0644' ) { echo '<span class="OKmsg" >'. $me .' '.i18n_r('WRITABLE').' - '.i18n_r('OK').'</span>'; } else { echo '<span class="ERRmsg" >'. $me .' '.i18n_r('NOT_WRITABLE').' - '.i18n_r('ERROR').'!</span>'; } ?></td></tr>
 				<?php $me = check_perms(GSDATAPAGESPATH); ?><tr><td style="width:445px;" >/data/pages/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg" >'. $me .' '.i18n_r('WRITABLE').' - '.i18n_r('OK').'</span>'; } else { echo '<span class="ERRmsg" >'. $me .' '.i18n_r('NOT_WRITABLE').' - '.i18n_r('ERROR').'!</span>'; } ?></td></tr>
 				<?php $me = check_perms(GSDATAOTHERPATH); ?><tr><td>/data/other/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg" >'. $me .' '.i18n_r('WRITABLE').' - '.i18n_r('OK').'</span>'; } else { echo '<span class="ERRmsg" >'. $me .' '.i18n_r('NOT_WRITABLE').' - '.i18n_r('ERROR').'!</span>'; } ?></td></tr>
 				<?php $me = check_perms(GSDATAOTHERPATH.'logs/'); ?><tr><td>/data/other/logs/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg" >'. $me .' '.i18n_r('WRITABLE').' - '.i18n_r('OK').'</span>'; } else { echo '<span class="ERRmsg" >'. $me .' '.i18n_r('NOT_WRITABLE').' - '.i18n_r('ERROR').'!</span>'; } ?></td></tr>
@@ -156,15 +155,14 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 				<?php $me = check_perms(GSBACKUSERSPATH); ?><tr><td>/backups/users/</td><td><?php if( $me >= '0755' ) { echo '<span class="OKmsg" >'. $me .' '.i18n_r('WRITABLE').' - '.i18n_r('OK').'</span>'; } else { echo '<span class="ERRmsg" >'. $me .' '.i18n_r('NOT_WRITABLE').' - '.i18n_r('ERROR').'!</span>'; } ?></td></tr>
 			</table>
 
-			
-			<h3><?php echo sprintf(i18n_r('EXISTANCE'), '.htaccess');?></h3>
+			<h3><?php echo sprintf(i18n_r('EXISTANCE'), '.htaccess'); ?></h3>
 			<table class="highlight healthcheck">
-				<tr><td style="width:445px;" >/data/</td><td> 
-				<?php	
+				<tr><td style="width:445px;" >/data/</td><td>
+				<?php
 					$file = GSDATAPATH.".htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.deny.htaccess', $file);
-					} 
+					}
 					if (! file_exists($file)) {
 						echo '<span class="WARNmsg" >'.i18n_r('MISSING_FILE').' - '.i18n_r('WARNING').'</span>';
 					} else {
@@ -176,10 +174,10 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 						}
 					}
 				?>
-			</td></tr>
+				</td></tr>
 
 				<tr><td>/data/uploads/</td><td>
-				<?php	
+				<?php
 					$file = GSDATAUPLOADPATH.".htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.allow.htaccess', $file);
@@ -196,9 +194,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 					}
 				?>
 				</td></tr>
-				
+
 				<tr><td>/data/users/</td><td>
-				<?php	
+				<?php
 					$file = GSUSERSPATH.".htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.deny.htaccess', $file);
@@ -215,9 +213,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 					}
 				?>
 				</td></tr>
-				
+
 				<tr><td>/data/cache/</td><td>
-				<?php	
+				<?php
 					$file = GSCACHEPATH.".htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.deny.htaccess', $file);
@@ -234,9 +232,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 					}
 				?>
 				</td></tr>
-				
+
 				<tr><td>/data/thumbs/</td><td> 
-				<?php	
+				<?php
 					$file = GSTHUMBNAILPATH.".htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.allow.htaccess', $file);
@@ -253,9 +251,9 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 					}
 				?>
 				</td></tr>
-				
+
 				<tr><td>/data/pages/</td><td>
-				<?php	
+				<?php
 					$file = GSDATAPAGESPATH.".htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.deny.htaccess', $file);
@@ -272,7 +270,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 					}
 				?>
 				</td></tr>
-				
+
 				<tr><td>/plugins/</td><td>
 				<?php	
 					$file = GSPLUGINPATH.".htaccess";
@@ -312,7 +310,7 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 				</td></tr>
 
 				<tr><td>/data/other/logs/</td><td>
-				<?php	
+				<?php
 					$file = GSDATAOTHERPATH."logs/.htaccess";
 					if (! file_exists($file)) {
 						copy (GSADMININCPATH.'tmp/tmp.deny.htaccess', $file);
@@ -331,11 +329,11 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 				</td></tr>
 				
 				<tr><td>/theme/</td><td>
-				<?php	
+				<?php
 					$file = GSTHEMESPATH.".htaccess";
 					if (file_exists($file)) {
 						unlink($file);
-					} 
+					}
 					if (file_exists($file)) {
 						echo ' <span class="ERRmsg" >'.i18n_r('CANNOT_DEL_FILE').' - '.i18n_r('ERROR').'</span>';
 					} else {
@@ -346,12 +344,12 @@ get_template('header', cl($SITENAME).' &raquo; '.i18n_r('SUPPORT').' &raquo; '.i
 			</table>
 			<?php exec_action('healthcheck-extras'); ?>
 	</div>
-		
+
 	</div>
-	
+
 	<div id="sidebar" >
 		<?php include('template/sidebar-support.php'); ?>
-	</div>	
+	</div>
 
 </div>
 <?php get_template('footer'); ?>
