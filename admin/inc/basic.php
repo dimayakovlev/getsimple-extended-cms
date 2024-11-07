@@ -1,10 +1,10 @@
-<?php if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
+<?php if (!defined('IN_GS')){ die('you cannot load this page directly.'); }
 /**
- * Basic Functions 
+ * Basic Functions
  *
- * These functions are used throughout the installation of GetSimple.
+ * These functions are used throughout the installation of GetSimple Legacy
  *
- * @package GetSimple
+ * @package GetSimple Legacy
  * @subpackage Basic-Functions
  */
 
@@ -58,18 +58,49 @@ function clean_img_name($text)  {
  *
  * @param string $text
  * @param string $from_enc
- * @return string 
+ *
+ * @since 2024.11 Use polyfill for deprecated function utf8_decode()
+ *
+ * @return string
  */
 function to7bit($text, $from_enc = 'UTF-8'){
 	$text = (string) $text;
-	if ($text != '') {
-		if (version_compare(PHP_VERSION, '8.3.0', '<')) {
-			$text = htmlspecialchars_decode(utf8_decode(htmlentities($text, ENT_COMPAT, $from_enc, false)));
-		} else {
-			$text = htmlspecialchars_decode(htmlentities($text));
-		}
-		$text = preg_replace(array('/&szlig;/', '/&(..)lig;/', '/&([aouAOU])uml;/', '/&(.)[^;]*;/'), array('ss', "$1", "$1".'e', "$1"), $text);
-		}
+	$text = htmlentities($text, ENT_COMPAT, $from_enc, false);
+	if (version_compare(PHP_VERSION, '8.2.0', '<')) {
+		$text = utf8_decode($text);
+	} else {
+		$utf8_decode = function($s){
+			// $s = (string) $s;
+			$len = strlen($s);
+
+			for ($i = 0, $j = 0; $i < $len; ++$i, ++$j) {
+				switch ($s[$i] & "\xF0") {
+					case "\xC0":
+					case "\xD0":
+						$c = (\ord($s[$i] & "\x1F") << 6) | \ord($s[++$i] & "\x3F");
+						$s[$j] = $c < 256 ? \chr($c) : '?';
+						break;
+
+					case "\xF0":
+						++$i;
+						// no break
+
+					case "\xE0":
+						$s[$j] = '?';
+						$i += 2;
+						break;
+
+					default:
+						$s[$j] = $s[$i];
+				}
+			}
+
+			return substr($s, 0, $j);
+		};
+		$text = $utf8_decode($text);
+	}
+	$text = htmlspecialchars_decode($text);
+	$text = preg_replace(array('/&szlig;/', '/&(..)lig;/', '/&([aouAOU])uml;/', '/&(.)[^;]*;/'), array('ss', "$1", "$1".'e', "$1"), $text);
 	return $text;
 }
 
