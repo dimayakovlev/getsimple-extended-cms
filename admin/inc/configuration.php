@@ -27,4 +27,5 @@ $api_url            = 'http://get-simple.info/api/start/v3.php';
 
 $cookie_redirect = 'pages.php';
 
+if (!defined('GSNAME')) define('GSNAME', $site_full_name);
 if (!defined('GSVERSION')) define('GSVERSION', $site_version_no);
