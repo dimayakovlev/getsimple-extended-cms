@@ -1,75 +1,29 @@
-GetSimple Legacy Content Management System
-=========================================
+# GetSimple Legacy Content Management System
 
-DESCRIPTION:
------------------------------------
+**GetSimple Legacy** is a **simple**, **fast**, **efficient** and **flexible** flat-file content managment system.
 
-**GetSimple Legacy CMS** based on **GetSimple CMS**.
+It's independent fork of well known [**GetSimple**](https://github.com/GetSimpleCMS/GetSimpleCMS), based on stable version *3.3.16*.
 
-**GetSimple CMS** is a flatfile CMS that works fast and efficient and has 
-the best UI around.
+The main goal of the development of **GetSimple Legacy** is to provide users with all the features and convenience of the familiar **GetSimple**, while ensuring stable operation on the latest supported versions of PHP.
 
-Official Website - http://get-simple.info/
+In the development of **GetSimple Legacy** attention was paid to the need to maintain compatibility with plug-ins and design themes created for the original **GetSimple**, keeping system requirements to a minimum, simplicity and flexibility of use.
 
-**GetSimple CMS** was developed by Chris Cagle [ http://chriscagle.me ] and 
-is now passionately supported and developed by a loving community.
+An important aspect is the possibility to transfer to **GetSimple Legacy** the accumulated practical user and development experience gained during work with the original **GetSimple**.
 
-The main goal of developing **GetSimple Legacy CMS** is to provide users with the opportunity to use a familiar content management system on modern versions of PHP.
+All this makes it possible to consider and successfully use **GetSimple Legacy** as a content management system for creating new websites and updating existing ones.
 
-**GetSimple Legacy CMS** supported and developed by Dmitry Yakovlev [ http://dimayakovlev.ru ]
+## Requirements
 
-LICENSE:
------------------------------------
+- PHP 5.3.0 or higher. [SimpleXML](https://www.php.net/manual/en/book.simplexml.php) module required;
+- Apache. To use Fancy URLs [mod_rewrite](https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html) required;
+- Browser with enabled JavaScript.
 
-This software package is licensed under the GNU GENERAL PUBLIC LICENSE v3. 
-LICENSE.txt is located within this download's zip file
+## License
 
-It would be great if you would link back to get-simple.info if you use it.
+**GetSimple Legacy** is licensed under the GNU GENERAL PUBLIC LICENSE v3. See [LICENSE](LICENSE.txt).
 
+## Contributing
 
-REQUIREMENTS: 
------------------------------------
+**GetSimple Legacy** supported and developed by [Dmitry Yakovlev](http://dimayakovlev.ru).
 
-http://get-simple.info/docs/requirements
-
-### Build Requirements ###
-
-PHP 5.3+
-
-### Module Requirements ###
-
-SimpleXML
-
-### Browser Requirements ###
-
-Javascript Enabled
-
-### Server ###
-*Apache ( required for out of the box security using .htaccess )
-
-*If not using Apache you will get a non-apache warning, 
-this warning is to alert you that your data files will not be secure 
-and you must take proper precautions to secure your site.
-To disable this warning see gsconfig definition GSNOAPACHECHECK
-
-
-INSTALLATION:
------------------------------------
-
-Please see: http://get-simple.info/docs/installation
-
-
-UPGRADING
------------------------------------
-
-Please see: http://get-simple.info/docs/upgrading
-
-
-DISCLAIMER:
------------------------------------
-
-While **GetSimple Legacy CMS** as original **GetSimple CMS** strives to be a secure and stable application, we simply cannot be held liable for any information loss, corruption or anything else that may happen to your site while it is using the our software. If you find a bug or security hole, please contact someone in the forums at http://get-simple.info/forum or create issue on GitHub.
-
-
-______________________________________________
-Original GetSimple CMS - http://get-simple.info/
+I appreciate any contribution to **GetSimple Legacy**, whether it is related to bugs, grammar, or simply a suggestion or improvement!
