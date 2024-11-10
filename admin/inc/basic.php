@@ -59,7 +59,7 @@ function clean_img_name($text)  {
  * @param string $text
  * @param string $from_enc
  *
- * @since 2024.11 Use polyfill for deprecated function utf8_decode()
+ * @since 2024.1 Use polyfill for deprecated function utf8_decode()
  *
  * @return string
  */

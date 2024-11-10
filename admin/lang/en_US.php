@@ -8,7 +8,7 @@
  * Traductors: 		Chris Cagle
  *
  * Revision: Nov 2024
- * Version: GetSimple Legacy 2024.11
+ * Version: GetSimple Legacy 2024.1
  * Traductors: Dmitry Yakovlev
  * 
  * @package GetSimple Legacy
