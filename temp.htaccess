@@ -1,5 +1,5 @@
 #
-# GetSimple CMS htaccess ROOT file
+# GetSimple Legacy CMS htaccess ROOT file
 # apache 2.4 
 #
 
@@ -30,7 +30,7 @@ DirectoryIndex index.php
 		<IfModule !mod_access_compat.c>
 			Require all denied
 		</IfModule>
-	</IfModule>	
+	</IfModule>
 </Files>
 
 <Files sitemap.xml>
@@ -44,7 +44,7 @@ DirectoryIndex index.php
 		<IfModule !mod_access_compat.c>
 			Require all granted
 		</IfModule>
-	</IfModule>	
+	</IfModule>
 </Files>
 
 # handle rewrites for fancy urls

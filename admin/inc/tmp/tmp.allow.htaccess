@@ -1,5 +1,5 @@
 #
-# GetSimple CMS htaccess ALLOW file
+# GetSimple Legacy CMS htaccess ALLOW file
 #
 
 # prevent breaking plugin htaccess, prefer compat,  since require is not overridable by order
@@ -21,4 +21,4 @@
 		Require all granted
 	</IfModule>
 
-</IfModule>	
+</IfModule>

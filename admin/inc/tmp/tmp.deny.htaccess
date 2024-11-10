@@ -1,5 +1,5 @@
 #
-# GetSimple CMS htaccess DENY file
+# GetSimple Legacy CMS htaccess DENY file
 #
 
 # prevent breaking plugin htaccess, prefer compat,  since require is not overridable by order
