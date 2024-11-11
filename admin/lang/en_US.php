@@ -400,8 +400,8 @@ $i18n = array(
 /* 
  * For: support.php
 */
-"WELCOME_MSG"				=>	"Thank you for choosing <strong>GetSimple Legacy</strong> as your content management system!",
-"WELCOME_P"					=>	"<strong>GetSimple Legacy</strong> makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><strong>Some first steps that might be useful:</strong>",
+"WELCOME_MSG"				=>	"Thank you for choosing <strong>GetSimple Legacy CMS</strong> as your content management system!",
+"WELCOME_P"					=>	"<strong>GetSimple Legacy CMS</strong> makes managing a website as simple as possible with its best-in-class user interface. We strive to keep the system easy enough for anyone to use, yet powerful enough for a developer to enable all the features that are needed.</p><p><strong>Some first steps that might be useful:</strong>",
 "GETTING_STARTED"		=>	"Getting Started",
 
 /* 

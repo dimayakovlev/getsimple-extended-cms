@@ -6,7 +6,7 @@
  * @subpackage Config
  */
 
-$site_full_name     = 'GetSimple Legacy';
+$site_full_name     = 'GetSimple Legacy CMS';
 $site_version_no    = '2024.1';
 $name_url_clean     = lowercase(str_replace(' ', '-', $site_full_name));
 $ver_no_clean       = str_replace('.', '', $site_version_no);
