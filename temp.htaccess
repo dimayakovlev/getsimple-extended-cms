@@ -12,6 +12,9 @@ AddDefaultCharset UTF-8
 # prevent directory listings
 Options -Indexes
 
+# prevent replacement of index page sub-pages with index page
+Options -MultiViews
+
 # Follow symbolink links, This is required for rewrites on some hosts
 Options +FollowSymLinks
 

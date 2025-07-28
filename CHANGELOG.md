@@ -68,5 +68,6 @@
     * Signature of function `get_navigation()` changed. Added parameter to return code of the menu as string. Pages with visibility status **Not Published** are excluded from menu
 
 1. [](#bugfix)
-    * `index` page now processed with **Prerry URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`
+    * `index` page now processed with **Pretty URLs** as other pages. To preserve compatibility user can set custom permalink structure on `index` page to `/`
     * **Theme Edit** now work with theme files with not only lowercase extensions
+    * Disable Apache option `MultiViews` to prevent index page sub-pages from being replaced by the index page when using **Pretty URLs**.
