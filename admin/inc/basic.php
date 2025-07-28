@@ -1168,7 +1168,9 @@ function getDef($id, $isbool = false) {
 
 /**
  * Alias for checking for debug constant
+ *
  * @since 3.2.1
+ * @uses getDef()
  * @return null|bool Return null if GSDEBUG not defined, else return boolean. True if debug enabled
  */
 function isDebug() {
@@ -1178,21 +1180,26 @@ function isDebug() {
 /**
  * Check version is Alpha
  *
- * @since  3.5.0
+ * @since 3.5.0
+ * @uses get_site_version()
  * @return boolean True if alpha release
  */
 function isAlpha() {
-	return strpos(get_site_version(false), 'a') === false ? false : true;
+	$version = strtok(get_site_version(false), '+');
+	return (bool) preg_match('/[.-_]?(alpha|a)\.*\d*$/i', $version);
 }
 
 /**
  * Check version is Beta
  *
- * @since  3.3.0
+ * @since 3.3.0
+ * @uses get_site_version()
+ * @sinde 3.5.0 Use functions strtok() and preg_match()
  * @return boolean True if beta release
  */
 function isBeta() {
-	return strpos(get_site_version(false), 'b') === false ? false : true;
+	$version = strtok(get_site_version(false), '+');
+	return (bool) preg_match('/[.-_]?(beta|b)\.*\d*$/i', $version);
 }
 
 /**
